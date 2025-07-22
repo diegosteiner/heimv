@@ -352,7 +352,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_065453) do
     t.index ["type"], name: "index_invoices_on_type"
   end
 
-  create_table "journal_entries", force: :cascade do |t|
+  create_table "journal_entry_batches", force: :cascade do |t|
     t.bigint "invoice_id"
     t.date "date", null: false
     t.string "currency", null: false
@@ -365,9 +365,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_065453) do
     t.datetime "processed_at"
     t.jsonb "fragments"
     t.string "text"
-    t.index ["booking_id"], name: "index_journal_entries_on_booking_id"
-    t.index ["invoice_id"], name: "index_journal_entries_on_invoice_id"
-    t.index ["payment_id"], name: "index_journal_entries_on_payment_id"
+    t.jsonb "entries"
+    t.string "type"
+    t.index ["booking_id"], name: "index_journal_entry_batches_on_booking_id"
+    t.index ["invoice_id"], name: "index_journal_entry_batches_on_invoice_id"
+    t.index ["payment_id"], name: "index_journal_entry_batches_on_payment_id"
   end
 
   create_table "key_sequences", force: :cascade do |t|
@@ -862,7 +864,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_065453) do
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
   add_foreign_key "invoices", "notifications", column: "sent_with_notification_id"
-  add_foreign_key "journal_entries", "invoices"
+  add_foreign_key "journal_entry_batches", "invoices"
   add_foreign_key "key_sequences", "organisations"
   add_foreign_key "mail_template_designated_documents", "designated_documents"
   add_foreign_key "mail_template_designated_documents", "rich_text_templates", column: "mail_template_id"

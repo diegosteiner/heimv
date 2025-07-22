@@ -56,7 +56,15 @@ de:
         homes: Hauptmietobjekte
         issued_at_after: Rechnungsdatum ab
         issued_at_before: Rechnungsdatum bis
-      journal_entry/filter:
+      journal_entry_batch/entry:
+        amount: Betrag
+        cost_center: Kostenstelle
+        haben_account: Haben Konto
+        invoice_part_id: Rechnungsposition
+        soll_account: Soll Konto
+        text: Text
+        vat_amount: Steuerbetrag (inkl.)
+      journal_entry_batch/filter:
         date_after: Buchungsdatum ab
         date_before: Buchungsdatum bis
         processed: Verbucht
@@ -150,6 +158,9 @@ de:
         other:
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen
+      journal_entry_batch/entry:
+        one: Buchungssatz
+        other: Buchungssätze
       occupancy_calendar:
         one: Belegungsplan
         other: Belegungspläne
@@ -314,25 +325,16 @@ de:
         type: Art der Rechnungsposition
         vat: inkl. MwSt. in Prozent
         vat_category_id: MwSt. Kategorie
-      journal_entry:
-        account_nr: Konto
+      journal_entry_batch:
         amount: Betrag
-        book_type: Typ
         booking_id: Buchung
         date: Datum
-        haben_account: Haben Konto
-        haben_amount: Haben Betrag
         invoice_id: Rechnung
-        invoice_part_id: Rechnungsposition
         payment_id: Zahlung
         processed_at: Verbucht am
         ref: Beleg
-        side: Seite
-        soll_account: Soll Konto
-        soll_amount: Soll Betrag
         text: Text
         trigger: Auslöser
-        vat_category_id: MwSt. Kategorie
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -583,22 +585,17 @@ de:
         paid:
           only_paid: Nur beglichene
           only_unpaid: Nur offene
-      journal_entry:
-        book_types:
-          cost: Kostenstellen
-          main: Hauptbuch
-          vat: Steuern
-        side:
-          haben: Haben
-          soll: Soll
+      journal_entry_batch:
         triggers:
           invoice_created: Rechnung erstellt
           invoice_discarded: Rechnung gelöscht
+          invoice_reverted: Rechnung zurückgebucht
           invoice_updated: Rechnung geändert
           payment_created: Zahlung erstellt
           payment_discarded: Zahlung gelöscht
+          payment_reverted: Zahlung zurückgebucht
           payment_updated: Zahlung geändert
-      journal_entry/filter:
+      journal_entry_batch/filter:
         processed:
           only_processed: Nur verbuchte
           only_unprocessed: Nur unverbuchte
@@ -788,9 +785,9 @@ de:
       invoices/offer:
         one: Offerte
         other: Offerten
-      journal_entry:
-        one: Buchungssatz
-        other: Buchungssätze
+      journal_entry_batch:
+        one: Buchungssatzgruppe
+        other: Buchungssatzgruppen
       mail_template:
         one: Mailvorlage
         other: Mailvorlagen
@@ -1553,7 +1550,7 @@ de:
       form:
         payment_not_required_warning: Ohne diesen Haken wird die Belegung kann die Belegung automatisch in den nächsten Status wechseln, wenn sonst alle Bedingungen erfüllt sind.
         suggested_invoice_parts: Vorgeschlagene Positionen
-    journal_entries:
+    journal_entry_batches:
       index:
         process_all: Alle unverbuchten verbuchen
         processed_at: verbucht %{at}

@@ -7,7 +7,8 @@ module Export
 
       def initialize(children = [], &)
         @children = children
-        @children += Builder.build(&) if block_given?
+        @children = Array.wrap(children)
+        @children += Array.wrap(yield(self)).flatten.compact if block_given?
       end
 
       def serialize(indent_with: '  ', separate_with: "\n")

@@ -181,8 +181,17 @@ cat data.csv | bin/rails r Import::Csv::TarifImporter.new(home).read
 ## Backup & Restore
 
 ```bash
-cat ./path/to/backup.dump | docker exec -i $(docker ps -q --filter name=heimv-db-)  pg_restore -U postgres --dbname heimv_development --host=localhost --no-privileges --no-owner --no-acl --clean --create --verbose
+docker cp ./path/to/backup.dump $(docker ps -q --filter name=heimv-db-):/tmp/resore.dump
+docker exec -i $(docker ps -q --filter name=heimv-db-)  pg_restore -U postgres --dbname heimv_development --host=localhost --no-privileges --no-owner --no-acl --clean --create --verbose < /tmp/restore.dump
 ```
+
+Additionally you might need to run these commands:
+
+1. Drop existing database `postgres=# DROP DATABASE heimv_development;`
+1. Recreate database `postgres=# CREATE DATABASE heimv_development;`
+1. Connect to database `postgres=# \c heimv_development`
+1. Enable pgcrypt extension `heimv_development=#  CREATE EXTENSION pgcrypto WITH SCHEMA public;`
+1. Rerun `pgrestore` without `--create`
 
 ## Copyright & License
 

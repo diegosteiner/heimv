@@ -65,7 +65,7 @@ Rails.application.routes.draw do
       resources :booking_agents
       resources :booking_categories, except: :show
       resources :vat_categories, except: :show
-      resources :journal_entries, only: %i[index update destroy] do
+      resources :journal_entry_batches, only: %i[index update destroy] do
         post :process_all, on: :collection
       end
       resources :notifications, only: %i[index]

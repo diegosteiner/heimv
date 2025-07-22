@@ -56,7 +56,7 @@ it:
         homes: Oggetti principali di affitto
         issued_at_after: Data di fatturazione dopo
         issued_at_before: Data di fatturazione precedente
-      journal_entry/filter:
+      journal_entry_batch/filter:
         date_after:
         date_before:
         processed:
@@ -310,25 +310,16 @@ it:
         type: Tipo di voce della fattura
         vat:
         vat_category_id:
-      journal_entry:
-        account_nr:
+      journal_entry_batch:
         amount: Importo
-        book_type: Tipo
         booking_id: Prenotazione
         date:
-        haben_account:
-        haben_amount:
         invoice_id: Fattura
-        invoice_part_id:
         payment_id: Pagamento
         processed_at:
         ref:
-        side:
-        soll_account:
-        soll_amount:
         text: Testo
         trigger:
-        vat_category_id:
       meter_reading_period:
         begins_at: Inizio
         end_value: Lettura del contatore nuovo
@@ -579,14 +570,7 @@ it:
         paid:
           only_paid: Solo pagate
           only_unpaid: Solo non pagate
-      journal_entry:
-        book_types:
-          cost:
-          main:
-          vat:
-        side:
-          haben:
-          soll:
+      journal_entry_batch:
         triggers:
           invoice_created:
           invoice_discarded:
@@ -594,7 +578,7 @@ it:
           payment_created:
           payment_discarded:
           payment_updated:
-      journal_entry/filter:
+      journal_entry_batch/filter:
         processed:
           only_processed:
           only_unprocessed:
@@ -736,9 +720,6 @@ it:
       data_digest_templates/invoice_part:
         one: Voci di fattura (estratto)
         other: Estratti di voci di fattura
-      data_digest_templates/journal_entry:
-        one:
-        other:
       data_digest_templates/meter_reading_period:
         one:
         other:
@@ -784,7 +765,7 @@ it:
       invoices/offer:
         one: Offerta
         other: Offerte
-      journal_entry:
+      journal_entry_batch:
         one:
         other:
       mail_template:
@@ -1417,7 +1398,7 @@ it:
       form:
         payment_not_required_warning:
         suggested_invoice_parts: Posizioni consigliate
-    journal_entries:
+    journal_entry_batches:
       index:
         process_all:
         processed_at:

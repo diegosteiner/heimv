@@ -1,0 +1,52 @@
+
+h1.mt-0.mb-5= JournalEntryBatch.model_name.human(count: 2)
+
+.my-3.d-flex.gap-3
+  button.btn.btn-outline-primary.bg-body[type="button" data-bs-toggle="modal" data-bs-target="#filter"]
+    i.fa.fa-filter<>
+    = t(:filter)
+  
+  = button_to process_all_manage_journal_entry_batches_path, method: :post, class: 'btn btn-primary', data: { confirm: t(:confirm) }
+    = t('.process_all')
+
+#filter.modal.fade
+  .modal-dialog.modal-lg
+    .modal-content 
+      = form_with(model: @filter, url: manage_journal_entry_batches_path, scope: 'filter', method: :get, local: true) do |f|
+        = hidden_field_tag :locale, I18n.locale
+        .modal-body
+          = render partial: @filter.to_partial_path('filter_fields'), locals: { f: f }
+        .modal-footer
+          = f.submit t(:filter), class: 'btn btn-primary'
+
+.table-responsive
+  table.table.table-hover.align-middle
+    thead 
+      tr 
+        th=
+        th=JournalEntryBatch.human_attribute_name(:date)
+        th=JournalEntryBatch.human_attribute_name(:soll_account)
+        th=JournalEntryBatch.human_attribute_name(:haben_account)
+        th=JournalEntryBatch.human_attribute_name(:amount)
+        th=JournalEntryBatch.human_attribute_name(:text)
+        th=Booking.model_name.human
+
+    tbody.shadow-sm
+      - @journal_entry_batches.each do |journal_entry_batch|
+        - journal_entry_batch.entries.each do |entry|
+          tr
+            / td= journal_entry_batch.id
+            td.p-1
+              - if journal_entry_batch.processed? 
+                = button_to manage_journal_entry_batch_path(journal_entry_batch), method: :patch, params: { journal_entry_batch: { processed: false } }, class: 'btn btn-default'
+                  span.fa.fa-check-circle.text-success[title=t('.processed_at', at: l(journal_entry_batch.processed_at))]
+              - else
+                = button_to manage_journal_entry_batch_path(journal_entry_batch), method: :patch, params: { journal_entry_batch: { processed: true } }, class: 'btn btn-default'
+                  span.fa.fa-circle.text-muted[title=t('.unprocessed')]
+            td= l(journal_entry_batch.date, format: :default)
+            td= entry.soll_account
+            td= entry.haben_account
+            td= number_to_currency(entry.amount, unit: journal_entry_batch.currency)
+            td= entry.text
+            td= link_to journal_entry_batch.booking.ref, manage_booking_path(journal_entry_batch.booking)
+

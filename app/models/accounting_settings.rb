@@ -9,6 +9,5 @@ class AccountingSettings
   attribute :rental_yield_vat_category_id
   attribute :vat_account_nr, :string
   attribute :payment_account_nr
-  attribute :payment_account_nr
   attribute :liable_for_vat, :boolean, default: false
 end

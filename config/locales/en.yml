@@ -51,7 +51,7 @@ en:
         homes: Hauptmietobjekte
         issued_at_after: Rechnungsdatum ab
         issued_at_before: Rechnungsdatum bis
-      journal_entry/filter:
+      journal_entry_batch/filter:
         date_after: Buchungsdatum ab
         date_before: Buchungsdatum bis
         processed: Verbucht
@@ -262,25 +262,16 @@ en:
         type: Art der Rechnungsposition
         vat: inkl. MwSt. in Prozent
         vat_category_id: MwSt. Kategorie
-      journal_entry:
-        account_nr: Konto
+      journal_entry_batch:
         amount: Betrag
-        book_type: Typ
         booking_id: Buchung
         date: Datum
-        haben_account: Haben Konto
-        haben_amount: Haben Betrag
         invoice_id: Rechnung
-        invoice_part_id: Rechnungsposition
         payment_id: Zahlung
         processed_at: Verbucht am
         ref: Beleg
-        side: Seite
-        soll_account: Soll Konto
-        soll_amount: Soll Betrag
         text: Text
         trigger: Auslöser
-        vat_category_id: MwSt. Kategorie
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -528,14 +519,7 @@ en:
         paid:
           only_paid: Nur beglichene
           only_unpaid: Nur offene
-      journal_entry:
-        book_types:
-          cost: Kostenstellen
-          main: Hauptbuch
-          vat: Steuern
-        side:
-          haben: Haben
-          soll: Soll
+      journal_entry_batch:
         triggers:
           invoice_created: Rechnung erstellt
           invoice_discarded: Rechnung gelöscht
@@ -543,7 +527,7 @@ en:
           payment_created: Zahlung erstellt
           payment_discarded: Zahlung gelöscht
           payment_updated: Zahlung geändert
-      journal_entry/filter:
+      journal_entry_batch/filter:
         processed:
           only_processed: Nur verbuchte
           only_unprocessed: Nur unverbuchte
@@ -685,9 +669,6 @@ en:
       data_digest_templates/invoice_part:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
-      data_digest_templates/journal_entry:
-        one: Buchungssätze Auszug
-        other: Buchungssätze Auszüge
       data_digest_templates/meter_reading_period:
         one: Zählerstand Auszug
         other: Zählerstände Auszüge
@@ -733,7 +714,7 @@ en:
       invoices/offer:
         one: Offerte
         other: Offerten
-      journal_entry:
+      journal_entry_batch:
         one: Buchungssatz
         other: Buchungssätze
       mail_template:
@@ -1476,7 +1457,7 @@ en:
       form:
         payment_not_required_warning: Ohne diesen Haken wird die Belegung kann die Belegung automatisch in den nächsten Status wechseln, wenn sonst alle Bedingungen erfüllt sind.
         suggested_invoice_parts: Vorgeschlagene Positionen
-    journal_entries:
+    journal_entry_batches:
       index:
         process_all: Alle unverbuchten verbuchen
         processed_at: verbucht %{at}
