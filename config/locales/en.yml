@@ -669,9 +669,6 @@ en:
       data_digest_templates/invoice_part:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
-      data_digest_templates/journal_entry_batch:
-        one: Buchungssätze Auszug
-        other: Buchungssätze Auszüge
       data_digest_templates/meter_reading_period:
         one: Zählerstand Auszug
         other: Zählerstände Auszüge

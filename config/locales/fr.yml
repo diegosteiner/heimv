@@ -720,9 +720,6 @@ fr:
       data_digest_templates/invoice_part:
         one: Extrait des postes de la facture
         other: Extraits des postes de facturation
-      data_digest_templates/journal_entry_batch:
-        one:
-        other:
       data_digest_templates/meter_reading_period:
         one: Relevé du compteur (Début)
         other: Relevés de compteurs (Fin)

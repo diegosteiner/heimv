@@ -311,7 +311,6 @@ it:
         vat:
         vat_category_id:
       journal_entry_batch:
-        account_nr:
         amount: Importo
         booking_id: Prenotazione
         date:
@@ -721,9 +720,6 @@ it:
       data_digest_templates/invoice_part:
         one: Voci di fattura (estratto)
         other: Estratti di voci di fattura
-      data_digest_templates/journal_entry_batch:
-        one:
-        other:
       data_digest_templates/meter_reading_period:
         one:
         other:
