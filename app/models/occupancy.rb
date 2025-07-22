@@ -36,7 +36,6 @@ class Occupancy < ApplicationRecord
   scope :occupancy_calendar, lambda {
     where.not(occupancy_type: :free)
          .or(where(occupancy_type: :free, booking: nil))
-         .left_outer_joins(:booking).where(booking: { concluded: [false, nil] })
   }
 
   before_validation :update_from_booking
