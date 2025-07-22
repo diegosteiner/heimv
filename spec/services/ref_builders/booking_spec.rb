@@ -31,7 +31,7 @@ RSpec.describe RefBuilders::Booking, type: :model do
     context 'with date ref_parts' do
       before { create(:booking, organisation:, begins_at:, ends_at:) }
 
-      let(:template) { 'X%<year>04d%<month>02d-%02<day>d%<same_day_alpha>s' }
+      let(:template) { 'X%<year>04d%<month>02d-%02<day>d%<same_ref_alpha>s' }
 
       it { is_expected.to eq('X203010-15a') }
     end

@@ -46,7 +46,7 @@
       "type": "BookingQuestions::Integer"
     }
   ],
-  "booking_ref_template": "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s",
+  "booking_ref_template": "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_ref_alpha>s",
   "booking_state_settings": {
     "default_manage_transition_to_state": "provisional_request",
     "occupied_booking_states": [

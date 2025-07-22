@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_19_145028) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_22_065453) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -533,7 +533,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_19_145028) do
     t.string "esr_ref_prefix"
     t.string "default_payment_info_type"
     t.string "invoice_payment_ref_template", default: ""
-    t.string "booking_ref_template", default: ""
+    t.string "booking_ref_template", default: "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_ref_alpha>s"
     t.jsonb "settings", default: {}
     t.text "creditor_address"
     t.string "country_code", default: "CH", null: false

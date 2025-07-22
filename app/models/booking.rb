@@ -97,6 +97,8 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :approximate_headcount, :purpose_description, presence: true, on: :public_update
   validates :category, presence: true, on: %i[public_update agent_update]
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
+  validates :sequence_number, uniqueness: { scope: %i[organisation_id sequence_year] } # rubocop:disable Rails/UniqueValidationWithoutIndex
+  validates :ref, uniqueness: { scope: :organisation_id } # rubocop:disable Rails/UniqueValidationWithoutIndex
   validates :locale, inclusion: { in: ->(booking) { booking.organisation.locales } }, on: :public_update
   validate do
     errors.add(:occupiable_ids, :blank) if occupancies.none?
@@ -127,8 +129,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
-  before_validation :update_occupancies, :assert_tenant!
-  before_save :sequence_number
+  before_validation :assert_tenant!, :sequence_number, :update_occupancies
   before_create :generate_ref
   after_save :apply_transitions
   after_touch :apply_transitions
