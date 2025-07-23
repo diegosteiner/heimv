@@ -88,3 +88,4 @@ services:
 
 networks:
   selenium:
+  default:
