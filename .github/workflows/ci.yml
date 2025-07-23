@@ -16,6 +16,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: update version
         run: |
           if [ "${GITHUB_REF_TYPE}" == "tag" ]; then
@@ -27,9 +30,8 @@ jobs:
           fi
 
       - name: docker build
-        run: | 
-          docker pull ghcr.io/diegosteiner/heimv:develop
-          docker compose --file docker-compose.ci.yml build
+        run: |
+          docker buildx bake -f docker-compose.ci.yml e2e_test e2e_target --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
           docker save -o e2e_test.tar heimv-e2e_test
           docker save -o e2e_target.tar heimv-e2e_target
 

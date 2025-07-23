@@ -207,6 +207,7 @@ describe 'Booking by tenant', :devise do
   def finalize_booking
     find_all('[name="action"][value="postpone_deadline"]').first.click
     visit manage_booking_invoices_path(@booking, org:)
+    visit manage_booking_invoices_path(@booking, org:) # capybara issue
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
     find_all('[type="submit"]').last.click
   end

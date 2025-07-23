@@ -17,6 +17,7 @@ describe 'Data Digests', :devise do
   it 'can create new data digest' do
     label = 'Test Data Digest 123'
     visit new_manage_data_digest_template_path(type: DataDigestTemplates::Booking, org: organisation)
+    visit new_manage_data_digest_template_path(type: DataDigestTemplates::Booking, org: organisation) # capybara issue
     fill_in :data_digest_template_label, with: label
     submit_form
 
