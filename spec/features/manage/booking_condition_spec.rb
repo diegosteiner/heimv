@@ -43,8 +43,10 @@ describe 'BookingCondition', :devise do
         manipulate_conditions
       end
       submit_form
-      page.scroll_to '#enabling_conditions'
       expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Tarif.model_name.human)
+
+      page.scroll_to '#enabling_conditions'
+      visit edit_manage_tarif_path(tarif, org:)
       check_conditions(tarif.reload.enabling_conditions)
     end
   end
