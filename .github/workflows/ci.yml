@@ -31,7 +31,7 @@ jobs:
 
       - name: docker build
         run: |
-          docker buildx bake -f docker-compose.ci.yml e2e_test e2e_target --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
+          docker buildx bake -f docker-compose.ci.yml e2e_test e2e_target --load --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
           docker save -o e2e_test.tar heimv-e2e_test
           docker save -o e2e_target.tar heimv-e2e_target
 
