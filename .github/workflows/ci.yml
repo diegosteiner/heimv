@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       COMPOSE_PROJECT_NAME: heimv
+      IMAGE_TAG: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
     steps:
       - name: checkout
         uses: actions/checkout@v4
