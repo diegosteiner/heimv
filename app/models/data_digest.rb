@@ -54,14 +54,16 @@ class DataDigest < ApplicationRecord
   end
 
   def period_from=(value)
-    value = Date.parse(value) if value.is_a?(String) && value.length <= 10
+    value = value.presence
+    value = Date.parse(value) rescue value if value.is_a?(String) && value.length <= 10 # rubocop:disable Style/RescueModifier
     value = Time.zone.parse(value) if value.is_a?(String)
     value = value.beginning_of_day if value.is_a?(Date)
     super
   end
 
   def period_to=(value)
-    value = Date.parse(value) if value.is_a?(String) && value.length <= 10
+    value = value.presence
+    value = Date.parse(value) rescue value if value.is_a?(String) && value.length <= 10 # rubocop:disable Style/RescueModifier
     value = Time.zone.parse(value) if value.is_a?(String)
     value = value.end_of_day if value.is_a?(Date)
     super

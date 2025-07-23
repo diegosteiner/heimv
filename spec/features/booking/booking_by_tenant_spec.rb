@@ -170,7 +170,7 @@ describe 'Booking by tenant', :devise do
 
   def bide_booking
     visit manage_booking_path(@booking, org:)
-    visit manage_booking_path(@booking, org:)
+    visit manage_booking_path(@booking, org:) # capybara issue
     click_on :allowed_transitions
     click_on :upcoming_soon
     click_on :allowed_transitions
@@ -191,7 +191,7 @@ describe 'Booking by tenant', :devise do
 
   def create_invoice
     visit manage_booking_path(@booking, org:)
-    visit manage_booking_path(@booking, org:)
+    visit manage_booking_path(@booking, org:) # capybara issue
 
     find('.checklist li:nth-child(2) a').click
     submit_form
