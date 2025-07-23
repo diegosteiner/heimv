@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      COMPOSE_PROJECT_NAME: heimv
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -34,37 +36,37 @@ jobs:
           docker buildx bake -f docker-compose.ci.yml e2e_test --set e2e_test.output=type=tar,dest=e2e_test.tar --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
           docker buildx bake -f docker-compose.ci.yml e2e_target --set e2e_target.output=type=tar,dest=e2e_target.tar --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
 
-      - name: upload image test 
-        uses: actions/upload-artifact@v4
-        with:
-          name: e2e_test
-          path: e2e_test.tar
+  #     - name: upload image test 
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: e2e_test
+  #         path: e2e_test.tar
 
-      - name: upload image target 
-        uses: actions/upload-artifact@v4
-        with:
-          name: e2e_target
-          path: e2e_target.tar
+  #     - name: upload image target 
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: e2e_target
+  #         path: e2e_target.tar
     
-  check:
-    runs-on: ubuntu-latest
-    needs: 
-      - build
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # check:
+  #   runs-on: ubuntu-latest
+  #   needs: 
+  #     - build
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: download images
-        uses: actions/download-artifact@v4
-        with:
-          name: e2e_target
+  #     - name: download images
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: e2e_target
 
-      - name: download images
-        uses: actions/download-artifact@v4
-        with:
-          name: e2e_test
+  #     - name: download images
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: e2e_test
 
       - name: load images
         run: |
@@ -101,40 +103,52 @@ jobs:
       - name: stop target
         run: docker compose --file docker-compose.ci.yml down --remove-orphans
 
-  push:
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
-    needs: 
-      - build
-      - check
-    env:
-      IMAGE_TAG: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # push:
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name != 'pull_request'
+  #   needs: 
+  #     - build
+  #     - check
+  #   env:
+  #     IMAGE_TAG: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: buildx
-        uses: docker/setup-buildx-action@master
+  #     - name: buildx
+  #       uses: docker/setup-buildx-action@master
 
-      - name: docker login
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: docker login
+  #       uses: docker/login-action@v3
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: download images
-        uses: actions/download-artifact@v4
-        with:
-          name: e2e_target
+  #     - name: download images
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: e2e_target
 
-      - name: load images
-        run: |
-          docker load -i e2e_target.tar
+  #     - name: load images
+  #       run: |
+  #         docker load -i e2e_target.tar
 
       - name: push image
         run: |
           docker tag heimv-e2e_target $IMAGE_TAG
           docker push $IMAGE_TAG
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: e2e_target
+
+  #     - name: load images
+  #       run: |
+  #         docker load -i e2e_target.tar
+
+      # - name: push image
+      #   run: |
+      #     docker tag heimv-e2e_target $IMAGE_TAG
+      #     docker push $IMAGE_TAG
