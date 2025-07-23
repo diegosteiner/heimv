@@ -71,7 +71,7 @@ describe 'Booking by tenant', :devise do
     create_contract
     create_deposit
     confirm_booking
-    perform_booking
+    bide_booking
     set_usages
     create_invoice
     send_invoice
@@ -148,25 +148,28 @@ describe 'Booking by tenant', :devise do
     find('.checklist a[aria-label="contract_created"]').click
     visit new_manage_booking_contract_path(@booking, org:)
     submit_form
-    find('table tbody tr:nth-child(1) td:nth-child(1) a').click
+    # find('table tbody tr:nth-child(1) td:nth-child(1) a').click
   end
 
   def create_deposit
     visit manage_booking_path(@booking, org:)
     find('.checklist a[aria-label="deposit_created"]').click
     submit_form
+    expect(page).to have_content(I18n.t('flash.actions.create.notice',
+                                        resource_name: Invoices::Deposit.model_name.human))
   end
 
   def confirm_booking
     visit manage_booking_path(@booking, org:)
-    click_on BookingActions::EmailContract.translate(:label_with_invoice)
+    click_button BookingActions::EmailContract.translate(:label_with_invoice)
     click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
     click_on BookingActions::MarkContractSigned.label
     click_on BookingActions::MarkContractSigned.label # confirm
   end
 
-  def perform_booking
+  def bide_booking
+    visit manage_booking_path(@booking, org:)
     visit manage_booking_path(@booking, org:)
     click_on :allowed_transitions
     click_on :upcoming_soon
@@ -188,6 +191,8 @@ describe 'Booking by tenant', :devise do
 
   def create_invoice
     visit manage_booking_path(@booking, org:)
+    visit manage_booking_path(@booking, org:)
+
     find('.checklist li:nth-child(2) a').click
     submit_form
   end

@@ -6,7 +6,7 @@ describe 'Session', :devise do
 
   describe 'Sign in' do
     it 'user cannot sign in if not registered' do
-      signin('test@heimv.test', 'please123')
+      signin('test@heimv.test', 'please123', verify: false)
       expect(page).to have_content I18n.t 'devise.failure.not_found_in_database',
                                           authentication_keys: User.human_attribute_name(:email)
     end

@@ -67,7 +67,7 @@ export default function OccupiableSelect({
           id="booking_home_id"
           disabled={disabled}
           required={required}
-          value={homeId}
+          value={homeId || ""}
           onChange={(event) => setHomeId(Number.parseInt(event.target.value))}
         >
           <option />
