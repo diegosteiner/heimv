@@ -33,6 +33,8 @@ describe 'Data Digests', :devise do
     select I18n.t('activerecord.enums.data_digest.periods.ever'), from: :data_digest_period
     # click_button I18n.t('helpers.submit.create')
     submit_form
+    sleep 0.5
+
     click_on data_digest_template.label
     bookings.each { |booking| expect(page).to have_content booking.ref }
     click_on 'CSV'
