@@ -70,10 +70,10 @@ jobs:
   #       with:
   #         name: e2e_test
 
-      - name: load images
-        run: |
-          docker load -i e2e_test.tar
-          docker load -i e2e_target.tar
+      # - name: load images
+      #   run: |
+      #     docker load -i e2e_test.tar
+      #     docker load -i e2e_target.tar
 
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/check_ci
