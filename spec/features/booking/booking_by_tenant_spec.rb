@@ -165,7 +165,8 @@ describe 'Booking by tenant', :devise do
     click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
     click_on BookingActions::MarkContractSigned.label
-    click_on BookingActions::MarkContractSigned.label # confirm
+    sleep 0.5
+    click_button BookingActions::MarkContractSigned.label # confirm
   end
 
   def bide_booking
@@ -182,7 +183,6 @@ describe 'Booking by tenant', :devise do
   def set_usages
     visit manage_booking_path(@booking, org:)
     find('.checklist li:nth-child(1) a').click
-    # page.driver.browser.navigate.refresh
     find_all('input[inputmode="numeric"]').each do |usage_field|
       usage_field.fill_in with: 22
     end

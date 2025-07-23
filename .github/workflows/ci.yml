@@ -77,7 +77,7 @@ jobs:
       #     docker load -i e2e_target.tar
 
       - name: run specs
-        run: docker compose --file docker-compose.ci.yml run e2e_test bin/check_ci
+        run: docker compose --file docker-compose.ci.yml run --rm e2e_test bin/check_ci
       
       - name: prepare e2e specs
         run: |
@@ -94,7 +94,7 @@ jobs:
         run: | 
           mkdir -p artifacts
           docker compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
-          docker cp $(docker compose --file docker-compose.ci.yml ps -qa e2e_test | head -n1):/rails/tmp/capybara ./artifacts/
+          docker cp $(docker compose --file docker-compose.ci.yml ps -qa e2e_test | tail -n1):/rails/tmp/capybara ./artifacts/
 
       - if: failure()
         name: upload artifacts
