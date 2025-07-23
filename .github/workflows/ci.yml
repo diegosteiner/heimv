@@ -31,10 +31,12 @@ jobs:
             echo " ${ref}@${sha}" >> VERSION
           fi
 
+        # docker buildx bake -f docker-compose.ci.yml e2e_test --set e2e_test.output=type=tar,dest=e2e_test.tar --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
+        # docker buildx bake -f docker-compose.ci.yml e2e_target --set e2e_target.output=type=tar,dest=e2e_target.tar --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
       - name: docker build and export
         run: |
-          docker buildx bake -f docker-compose.ci.yml e2e_test --set e2e_test.output=type=tar,dest=e2e_test.tar --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
-          docker buildx bake -f docker-compose.ci.yml e2e_target --set e2e_target.output=type=tar,dest=e2e_target.tar --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
+          docker buildx bake -f docker-compose.ci.yml e2e_test --load --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
+          docker buildx bake -f docker-compose.ci.yml e2e_target --load --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
 
   #     - name: upload image test 
   #       uses: actions/upload-artifact@v4
@@ -102,6 +104,11 @@ jobs:
 
       - name: stop target
         run: docker compose --file docker-compose.ci.yml down --remove-orphans
+      
+      - name: push image
+        run: |
+          docker tag heimv-e2e_target $IMAGE_TAG
+          docker push $IMAGE_TAG
 
   # push:
   #   runs-on: ubuntu-latest
