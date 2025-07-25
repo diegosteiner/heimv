@@ -1,4 +1,8 @@
 = react_component('DataDigestColumnsConfigForm', { \ 
     name: "data_digest_template[columns_config]", \
-    columnsConfig: (data_digest_template.columns_config.presence || data_digest_template.class::DEFAULT_COLUMN_CONFIG) \
+    columnsConfig: (data_digest_template.columns_config.presence || data_digest_template.class::DEFAULT_COLUMN_CONFIG), \
+    options: { \
+      tarifs: current_organisation.tarifs.ordered.kept.to_h { [it.to_param, it.to_s] }, \
+      bookingQuestions:  current_organisation.booking_questions.ordered.to_h { [it.to_param, it.to_s] } \
+    } \
   }) 

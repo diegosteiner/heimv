@@ -12,6 +12,11 @@ enum ColumnConfigType {
   BookingQuestionResponse = "booking_question_response",
 }
 
+export type ColumnConfigOptionsType = {
+  tarifs: Record<string, string>;
+  bookingQuestions: Record<string, string>;
+};
+
 type BaseColumnConfig = {
   id: string;
   header: string;
@@ -42,9 +47,10 @@ function toJson(columnsConfigs: ColumnConfig[]): string {
 type Props = {
   columnsConfig: (ColumnConfig & { id: string | undefined })[];
   name: string;
+  options: ColumnConfigOptionsType;
 };
 
-export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig, name }: Props) {
+export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig, name, options }: Props) {
   const { t } = useTranslation();
   const [columnsConfig, setColumnsConfig] = useState<ColumnConfig[]>(
     initialColumnsConfig.map((columnConfig) => ({
@@ -74,7 +80,7 @@ export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig,
       >
         {columnsConfig.map((config) => (
           <li key={config.id} className="list-group-item">
-            <ColumnConfigForm config={config} onRemove={handleRemove} onUpdate={handleUpdate} />
+            <ColumnConfigForm config={config} onRemove={handleRemove} onUpdate={handleUpdate} options={options} />
           </li>
         ))}
       </ReactSortable>
@@ -100,30 +106,45 @@ type ColumnConfigFormProps = {
   onUpdate: (config: ColumnConfig) => void;
   onRemove: (config: ColumnConfig) => void;
   additionalFields?: string[];
+  options?: ColumnConfigOptionsType;
 };
 
-function ColumnConfigForm({ config, onUpdate, onRemove }: ColumnConfigFormProps) {
+function ColumnConfigForm({ config, onUpdate, onRemove, options }: ColumnConfigFormProps) {
   const typeSpecificComponents: Record<ColumnConfigType, (config: ColumnConfig) => React.ReactElement> = {
     [ColumnConfigType.Default]: (_config) => <></>,
     [ColumnConfigType.Costs]: (_config) => <></>,
     [ColumnConfigType.Usage]: (config) => (
       <FloatingLabel label="Tarif ID">
-        <Form.Control
-          type="text"
+        <Form.Select
           defaultValue={(config as UsageColumnConfig).tarif_id}
           onChange={(event) => onUpdate({ ...(config as UsageColumnConfig), tarif_id: event.target.value })}
-        />
+        >
+          <option />
+          {options?.tarifs &&
+            Object.entries(options.tarifs).map(([id, label]) => (
+              <option key={id} value={id}>
+                {label}
+              </option>
+            ))}
+        </Form.Select>
       </FloatingLabel>
     ),
     [ColumnConfigType.BookingQuestionResponse]: (config) => (
       <FloatingLabel label="Booking Question ID">
-        <Form.Control
-          type="text"
+        <Form.Select
           defaultValue={(config as BookingQuestionResponseColumnConfig).booking_question_id}
           onChange={(event) =>
             onUpdate({ ...(config as BookingQuestionResponseColumnConfig), booking_question_id: event.target.value })
           }
-        />
+        >
+          <option />
+          {options?.tarifs &&
+            Object.entries(options.tarifs).map(([id, label]) => (
+              <option key={id} value={id}>
+                {label}
+              </option>
+            ))}
+        </Form.Select>
       </FloatingLabel>
     ),
   };

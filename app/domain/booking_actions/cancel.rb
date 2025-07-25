@@ -4,7 +4,7 @@ module BookingActions
   class Cancel < Base
     def invoke!(current_user: nil)
       booking.errors.clear
-      booking.cancellation_reason ||= I18n.t('.cancellation_reason')
+      booking.cancellation_reason ||= t('.cancellation_reason')
       booking.transition_to = transition_to
 
       Result.new success: booking.save

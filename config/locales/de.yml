@@ -866,6 +866,7 @@ de:
     accept:
       label: Anfrage akzeptieren
     cancel:
+      cancellation_reason: Anfrage zurückgezogen
       description: Bist du sicher?
       label: Anfrage zurückziehen / stornieren
       label_committed: Stornieren
