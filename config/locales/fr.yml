@@ -56,7 +56,7 @@ fr:
         homes: Chalets
         issued_at_after: Date de facturation à partir du
         issued_at_before: Date de facturation jusqu'au
-      journal_entry/filter:
+      journal_entry_batch/filter:
         date_after: Date de réservation à partir du
         date_before: Date de réservation jusqu'au
         processed: Comptabilisé
@@ -310,25 +310,16 @@ fr:
         type: Type de poste de facturation
         vat: TVA incluse en pourcentage
         vat_category_id:
-      journal_entry:
-        account_nr: Compte
+      journal_entry_batch:
         amount: Montant
-        book_type: Type
         booking_id: Réservation
         date: Date
-        haben_account:
-        haben_amount:
         invoice_id: Facture
-        invoice_part_id:
         payment_id: Paiement
         processed_at:
         ref:
-        side:
-        soll_account:
-        soll_amount:
         text: Texte
         trigger:
-        vat_category_id:
       meter_reading_period:
         begins_at: Début
         end_value: Nouvelle valeur du compteur
@@ -579,14 +570,7 @@ fr:
         paid:
           only_paid: Uniquement les factures réglées
           only_unpaid: Seulement ouvert
-      journal_entry:
-        book_types:
-          cost:
-          main:
-          vat:
-        side:
-          haben:
-          soll:
+      journal_entry_batch:
         triggers:
           invoice_created:
           invoice_discarded:
@@ -594,7 +578,7 @@ fr:
           payment_created:
           payment_discarded:
           payment_updated:
-      journal_entry/filter:
+      journal_entry_batch/filter:
         processed:
           only_processed:
           only_unprocessed:
@@ -736,9 +720,6 @@ fr:
       data_digest_templates/invoice_part:
         one: Extrait des postes de la facture
         other: Extraits des postes de facturation
-      data_digest_templates/journal_entry:
-        one:
-        other:
       data_digest_templates/meter_reading_period:
         one: Relevé du compteur (Début)
         other: Relevés de compteurs (Fin)
@@ -784,7 +765,7 @@ fr:
       invoices/offer:
         one: Offre
         other: Offres
-      journal_entry:
+      journal_entry_batch:
         one:
         other:
       mail_template:
@@ -878,8 +859,8 @@ fr:
     email_contract:
       confirm:
       label: Envoyer le contrat
-      label_with_deposit:
-      label_without_deposit:
+      label_with_invoice: Envoyer le contrat avec facture
+      label_without_invoice: Envoyer le contrat sans facture
     email_invoice:
       label: Envoyer une facture
       label_with_ref:
@@ -1452,7 +1433,7 @@ fr:
       form:
         payment_not_required_warning:
         suggested_invoice_parts: Positions proposées
-    journal_entries:
+    journal_entry_batches:
       index:
         process_all:
         processed_at:
@@ -1899,4 +1880,5 @@ fr:
     application: HeimV %{organisation}
   too_many_records:
   unauthorized: Tu n'as pas l'autorisation d'accéder à cette page.
+  unsupported:
   until: jusqu'à

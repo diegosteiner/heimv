@@ -62,13 +62,12 @@ export default function OccupiableSelect({
   return (
     <>
       <Form.Group className={cx({ "mb-3": true, "d-none": hideHomeSelect })}>
-        {/** biome-ignore lint/nursery/useUniqueElementIds: needed for rails compatibilty */}
         <Form.Select
           name={`${namePrefix}[home_id]`}
           id="booking_home_id"
           disabled={disabled}
           required={required}
-          value={homeId}
+          value={homeId || ""}
           onChange={(event) => setHomeId(Number.parseInt(event.target.value))}
         >
           <option />

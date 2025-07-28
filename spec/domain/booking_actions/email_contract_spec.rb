@@ -40,12 +40,12 @@ describe BookingActions::EmailContract do
   describe '#invokable_with' do
     subject(:invokable_with) { action.invokable_with(current_user: nil) }
 
-    it { expect(invokable_with[:label]).to eq(I18n.t('booking_actions.email_contract.label_without_deposit')) }
+    it { expect(invokable_with[:label]).to eq(I18n.t('booking_actions.email_contract.label_without_invoice')) }
 
     context 'with deposit' do
       before { Invoice::Factory.new(booking).build(type: Invoices::Deposit.to_s).tap(&:save) }
 
-      it { expect(invokable_with[:label]).to eq(I18n.t('booking_actions.email_contract.label_with_deposit')) }
+      it { expect(invokable_with[:label]).to eq(I18n.t('booking_actions.email_contract.label_with_invoice')) }
     end
   end
 end

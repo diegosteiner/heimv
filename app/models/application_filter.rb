@@ -16,7 +16,7 @@ class ApplicationFilter
     return base_relation.none unless valid?
     return base_relation.where(id: cached_ids(base_relation, cached_for: cached)) if cached
 
-    self.class.filters.values.inject(base_relation) do |relation, filter_block|
+    self.class.filters.values.reduce(base_relation) do |relation, filter_block|
       instance_exec(relation, &filter_block) || relation
     end
   end

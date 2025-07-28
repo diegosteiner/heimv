@@ -150,10 +150,7 @@ describe 'Booking by agent', :devise do
     end
 
     context 'with waitlist_enabled' do
-      before do
-        organisation.booking_state_settings.enable_waitlist = true
-        organisation.save!
-      end
+      before { allow(organisation.booking_state_settings).to receive(:enable_waitlist).and_return(true) }
 
       it 'returns no error' do
         visit new_booking_path

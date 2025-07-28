@@ -36,20 +36,18 @@ class Occupancy < ApplicationRecord
   scope :occupancy_calendar, lambda {
     where.not(occupancy_type: :free)
          .or(where(occupancy_type: :free, booking: nil))
-         .left_outer_joins(:booking).where(booking: { concluded: [false, nil] })
   }
 
   before_validation :update_from_booking
   validates :occupancy_type, presence: true
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
-  validate on: %i[public_create public_update agent_booking manage_create manage_update] do
+  validate if: ->(occupancy) { occupancy.validation_context != :ignore_conflicting } do
     errors.add(:base, :occupancy_conflict) if !ignore_conflicting && conflicting?
   end
   validate on: %i[manage_create manage_update] do
     errors.add(:begins_at, :invalid) if linked && begins_at != booking&.begins_at
     errors.add(:ends_at, :invalid) if linked && ends_at != booking&.ends_at
   end
-
   validate do
     errors.add(:occupiable_id, :invalid) if booking && organisation && !organisation == booking.organisation
     errors.add(:linked, :invalid) if linked && booking.blank?
@@ -59,22 +57,11 @@ class Occupancy < ApplicationRecord
     conflicting(...)&.exists?
   end
 
-  def to_s
-    booking_string = booking.present? ? "[#{booking.ref}] " : ''
-    occupiable_string = "@#{occupiable}: "
-    range_string = "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)} "
-    occupancy_type_string = occupancy_type
-
-    [booking_string, occupiable_string, range_string, occupancy_type_string].join
-  rescue StandardError
-    super
-  end
-
   def conflicting(conflicting_occupancy_types = %i[occupied closed], margin: occupiable&.settings&.booking_margin || 0)
-    return unless valid?
+    return unless begins_at.present? && ends_at.present? && occupiable.present?
 
-    occupiable.occupancies.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
-              .where(occupancy_type: conflicting_occupancy_types).where.not(id:)
+    occupiable.occupancies.at(from: begins_at - margin - 1, to: ends_at + margin + 1).where.not(id:)
+              .where(occupancy_type: conflicting_occupancy_types, ignore_conflicting: [false, nil])
   end
 
   def color=(value)
@@ -91,5 +78,16 @@ class Occupancy < ApplicationRecord
 
     assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,
                       occupancy_type: booking.occupancy_type, ignore_conflicting: booking.ignore_conflicting)
+  end
+
+  def to_s
+    booking_string = booking.present? ? "[#{booking.ref}] " : ''
+    occupiable_string = "#{id || super}@#{occupiable}: "
+    range_string = "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)} "
+    occupancy_type_string = occupancy_type
+
+    [booking_string, occupiable_string, range_string, occupancy_type_string].join
+  rescue StandardError
+    super
   end
 end

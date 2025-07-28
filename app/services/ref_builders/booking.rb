@@ -2,7 +2,7 @@
 
 module RefBuilders
   class Booking < RefBuilder
-    DEFAULT_TEMPLATE = '%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s'
+    DEFAULT_TEMPLATE = '%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_ref_alpha>s'
 
     def initialize(booking)
       super(booking.organisation)
@@ -32,19 +32,30 @@ module RefBuilders
     #   @booking.organisation.@bookings.begins_at(after: day.beginning_of_year, before: day.end_of_year).count
     # end)
 
-    ref_part same_day_alpha: (proc do
-      day = @booking.begins_at
-      count = @booking.organisation.bookings.begins_at(after: day.beginning_of_day, before: day.end_of_day).count
+    # ref_part same_ref_alpha: (proc do
+    #   day = @booking.begins_at
+    #   count = @booking.organisation.bookings.begins_at(after: day.beginning_of_day, before: day.end_of_day).count
 
-      next '' if count < 2
-      next count if count > 25
+    #   next '' if count < 2
+    #   next count if count > 25
 
-      # CHAR_START = 96
-      (count + 95).chr
-    end)
+    #   # CHAR_START = 96
+    #   (count + 95).chr
+    # end)
+    #
 
     def generate(template_string = @organisation.booking_ref_template)
-      generate_lazy(template_string)
+      same_ref_alpha = ''
+      retries = 0
+      loop do
+        ref = generate_lazy(template_string, same_ref_alpha:)
+
+        return ref unless @organisation.bookings.where(ref:).where.not(id: @booking.id).exists?
+        return nil if retries > 25
+
+        retries += 1
+        same_ref_alpha = (retries + 96).chr
+      end
     end
   end
 end

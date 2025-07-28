@@ -73,7 +73,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :operator_responsibilities, inverse_of: :booking, dependent: :destroy
   has_many :logs, inverse_of: :booking, dependent: :destroy
   has_many :occupancies, inverse_of: :booking, dependent: :destroy, autosave: true
-  has_many :occupiables, through: :occupancies
+  has_many :occupiables, through: :occupancies, validate: false
   has_many :booking_question_responses, -> { ordered }, dependent: :destroy, autosave: true, inverse_of: :booking
   has_many :booking_questions, through: :booking_question_responses
 
@@ -97,6 +97,8 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :approximate_headcount, :purpose_description, presence: true, on: :public_update
   validates :category, presence: true, on: %i[public_update agent_update]
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
+  validates :sequence_number, uniqueness: { scope: %i[organisation_id sequence_year] } # rubocop:disable Rails/UniqueValidationWithoutIndex
+  validates :ref, uniqueness: { scope: :organisation_id } # rubocop:disable Rails/UniqueValidationWithoutIndex
   validates :locale, inclusion: { in: ->(booking) { booking.organisation.locales } }, on: :public_update
   validate do
     errors.add(:occupiable_ids, :blank) if occupancies.none?
@@ -105,12 +107,16 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
       validation.booking_valid?(self, validation_context:) || errors.add(:base, validation.error_message)
     end
   end
-  validate on: %i[agent_create agent_update] do
-    errors.add(:occupiable_ids, :occupancy_conflict) if conflicting?(%i[occupied tentative closed])
-  end
-  validate on: %i[public_create public_update] do
-    next if organisation.booking_state_settings.enable_waitlist && !conflicting?
-    next if !organisation.booking_state_settings.enable_waitlist && !conflicting?(%i[occupied tentative closed])
+  validate do
+    next if ignore_conflicting
+    # TODO: remove when backwards compatibilty is no longer needed
+    next if validation_context == :manage_update
+
+    if agent_booking || !organisation.booking_state_settings.enable_waitlist
+      next unless conflicting?(%i[occupied tentative closed])
+    else
+      next unless conflicting?(%i[occupied closed])
+    end
 
     errors.add(:occupiable_ids, :occupancy_conflict)
   end
@@ -123,10 +129,9 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
-  before_validation :update_occupancies, :assert_tenant!
-  before_save :sequence_number
+  before_validation :assert_tenant!, :sequence_number, :update_occupancies
   before_create :generate_ref
-  after_save :apply_transitions, :touch_conflicting
+  after_save :apply_transitions
   after_touch :apply_transitions
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -238,8 +243,8 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     occupancies.any? { it.conflicting(conflicting_occupancy_types)&.exists? }
   end
 
-  def touch_conflicting
-    occupancies.flat_map { it.conflicting&.map(&:booking) }.compact.each(&:touch)
+  def conflicting_bookings
+    occupancies.flat_map { it.conflicting(%i[occupied tentative closed])&.map(&:booking) }.compact
   end
 
   def booking_flow_class

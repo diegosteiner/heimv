@@ -132,7 +132,7 @@ export function OccupancyIntervalFormControl({
           </Col>
           <Col sm={3}>
             <Form.Select
-              value={beginsAt.time}
+              value={beginsAt.time || ""}
               id={"booking_begins_at_time"}
               required={required}
               disabled={disabled}
@@ -190,7 +190,7 @@ export function OccupancyIntervalFormControl({
           </Col>
           <Col sm={3}>
             <Form.Select
-              value={endsAt.time}
+              value={endsAt.time || ""}
               id={"booking_ends_at_time"}
               required={required}
               disabled={disabled}

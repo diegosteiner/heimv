@@ -56,8 +56,7 @@ describe 'Booking by tenant', :devise do
   end
 
   def create_booking
-    visit manage_bookings_path(org:)
-    click_link(Booking.model_name.human)
+    visit new_manage_booking_path(org:)
     fill_request_form(email: booking.email, begins_at: booking.begins_at, ends_at: booking.ends_at, home: booking.home)
     fill_tenant_form(tenant)
     uncheck 'booking_notifications_enabled'

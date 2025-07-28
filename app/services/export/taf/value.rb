@@ -21,8 +21,8 @@ module Export
       }.freeze
 
       def self.cast(value, as: nil)
-        return value if value.is_a?(Value)
         return nil if value.blank?
+        return value if value.is_a?(Value)
 
         as = CAST_CLASSES.find { |_key, klasses| klasses.any? { |klass| value.is_a?(klass) } }&.first if as.nil?
         value = CAST_BLOCKS.fetch(as).call(value)

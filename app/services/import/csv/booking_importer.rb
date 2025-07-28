@@ -53,8 +53,8 @@ module Import
       def parse_datetime(value, formats: options[:datetime_format])
         Array.wrap(formats).each do |format|
           return Time.zone.strptime(value, format)
-        rescue ArgumentError => e
-          Rails.logger.warn(e.message)
+        rescue ArgumentError
+          nil
         end
         nil
       end

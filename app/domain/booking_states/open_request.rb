@@ -27,6 +27,8 @@ module BookingStates
       else
         MailTemplate.use(:open_request_notification, booking, to: :tenant, &:autodeliver!)
       end
+
+      booking.conflicting_bookings.each(&:apply_transitions)
     end
 
     guard_transition do |booking|

@@ -32,7 +32,7 @@ export default function BookingConditionForm({ optionsForSelect, condition, onRe
             <Form.Select
               required
               disabled={disabled}
-              value={condition.compare_attribute}
+              value={condition.compare_attribute || ""}
               onChange={(event) => handleChange({ compare_attribute: event.target.value })}
               isInvalid={(condition.errors?.compare_attribute?.length && true) || false}
             >
@@ -53,7 +53,7 @@ export default function BookingConditionForm({ optionsForSelect, condition, onRe
             <Form.Select
               required
               disabled={disabled}
-              value={condition.compare_operator}
+              value={condition.compare_operator || ""}
               onChange={(event) => handleChange({ compare_operator: event.target.value })}
               isInvalid={(condition.errors?.compare_operator?.length && true) || false}
             >
@@ -74,7 +74,7 @@ export default function BookingConditionForm({ optionsForSelect, condition, onRe
             <Form.Select
               required
               disabled={disabled}
-              value={condition.compare_value}
+              value={condition.compare_value || ""}
               onChange={(event) => handleChange({ compare_value: event.target.value })}
               isInvalid={(condition.errors?.compare_value?.length && true) || false}
             >

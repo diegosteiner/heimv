@@ -10,7 +10,7 @@
 #  address                      :text
 #  bcc                          :string
 #  booking_flow_type            :string
-#  booking_ref_template         :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
+#  booking_ref_template         :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_ref_alpha>s")
 #  booking_state_settings       :jsonb
 #  cors_origins                 :text
 #  country_code                 :string           default("CH"), not null
@@ -58,7 +58,7 @@ class Organisation < ApplicationRecord
   has_many :booking_questions, dependent: :destroy, inverse_of: :organisation
   has_many :payments, through: :bookings
   has_many :invoices, through: :bookings
-  has_many :journal_entries, through: :invoices
+  has_many :journal_entry_batches, through: :invoices
   has_many :notifications, through: :bookings
   has_many :organisation_users, dependent: :destroy
   has_many :occupiables, dependent: :destroy
@@ -138,21 +138,21 @@ class Organisation < ApplicationRecord
   end
 
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-  def initialize_copy(origin)
+  def initialize_copy(original)
     super
-    self.rich_text_templates = origin.rich_text_templates.map(&:dup)
-    self.booking_agents = origin.booking_agents.map(&:dup)
-    self.booking_categories = origin.booking_categories.map(&:dup)
-    self.tarifs = origin.tarifs.map(&:dup)
-    self.booking_questions = origin.booking_questions.map(&:dup)
-    self.designated_documents = origin.designated_documents.map(&:dup)
-    self.data_digest_templates = origin.data_digest_templates.map(&:dup)
+    self.rich_text_templates = original.rich_text_templates.map(&:dup)
+    self.booking_agents = original.booking_agents.map(&:dup)
+    self.booking_categories = original.booking_categories.map(&:dup)
+    self.tarifs = original.tarifs.map(&:dup)
+    self.booking_questions = original.booking_questions.map(&:dup)
+    self.designated_documents = original.designated_documents.map(&:dup)
+    self.data_digest_templates = original.data_digest_templates.map(&:dup)
 
-    return if origin.logo.blank?
+    return if original.logo.blank?
 
-    file.attach(io: StringIO.new(origin.logo.download),
-                filename: origin.logo.filename,
-                content_type: origin.logo.content_type)
+    file.attach(io: StringIO.new(original.logo.download),
+                filename: original.logo.filename,
+                content_type: original.logo.content_type)
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 end

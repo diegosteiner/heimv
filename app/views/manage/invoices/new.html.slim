@@ -7,6 +7,11 @@
         p.m-0
           = t('manage.bookings.not_committed_yet')
 
+    - if @invoice.is_a?(Invoices::LateNotice)
+      .alert.alert-warning[role="alert"]
+        p.m-0
+          = t('unsupported')
+
     .card.shadow-sm
       .card-body
         == render 'form'

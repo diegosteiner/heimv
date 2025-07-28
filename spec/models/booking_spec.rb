@@ -159,4 +159,40 @@ describe Booking do
       expect(booking.booking_state.to_s).to eq(target_state.to_s)
     end
   end
+
+  describe '#conflicting?' do
+    let(:booking) { build(:booking, home:, tenant:, organisation:, initial_state: :definitive_request) }
+    let(:begins_at) { booking.begins_at }
+    let(:ends_at) { booking.ends_at }
+    let(:conflicting_occupancy) do
+      create(:occupancy, occupancy_type: :occupied, organisation:, begins_at:, ends_at:, occupiable: home)
+    end
+
+    context 'with conflicting occupancy' do
+      it 'fails validation with :occupancy_conflict' do
+        conflicting_occupancy
+        expect(booking).not_to be_valid
+        expect(booking.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+      end
+    end
+
+    context 'with non-conflicting occupancy' do
+      it 'fails validation with :occupancy_conflict' do
+        conflicting_occupancy.free!
+        expect(booking).to be_valid
+      end
+    end
+
+    context 'with waitlist_enabled' do
+      before { allow(organisation.booking_state_settings).to receive(:enable_waitlist).and_return(true) }
+
+      it 'fails validation with :occupancy_conflict' do
+        conflicting_occupancy
+        expect(booking).not_to be_valid
+        expect(booking.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+        conflicting_occupancy.tentative!
+        expect(booking).to be_valid
+      end
+    end
+  end
 end

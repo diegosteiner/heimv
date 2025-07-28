@@ -92,7 +92,7 @@ export function BookingConditionElement({
   onRemove,
   onChange,
 }: BookingConditionElementProps) {
-  if (!Object.values(BookingConditionType).includes(condition.type)) return <></>;
+  if (!Object.values(BookingConditionType).includes(condition.type)) return;
 
   if (isCompositionCondition(condition))
     return (
