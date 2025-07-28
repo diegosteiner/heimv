@@ -57,10 +57,11 @@ class Occupancy < ApplicationRecord
     conflicting(...)&.exists?
   end
 
-  def conflicting(conflicting_occupancy_types = %i[occupied closed], margin: occupiable&.settings&.booking_margin || 0)
+  def conflicting(conflicting_occupancy_types = %i[occupied closed], margin: occupiable&.settings&.booking_margin || 0) # rubocop:disable Metrics/AbcSize
     return unless begins_at.present? && ends_at.present? && occupiable.present?
 
-    occupiable.occupancies.at(from: begins_at - margin - 1, to: ends_at + margin + 1).where.not(id:)
+    occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin)
+              .where.not(id:).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
               .where(occupancy_type: conflicting_occupancy_types, ignore_conflicting: [false, nil])
   end
 

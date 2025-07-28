@@ -29,11 +29,10 @@ describe 'Data Digests', :devise do
   it 'can see a booking' do
     visit manage_data_digest_templates_path(org: organisation)
     click_on data_digest_template.label
-    bookings = create_list(:booking, 3, organisation:, home:)
+    create_list(:booking, 3, organisation:, home:)
     select I18n.t('activerecord.enums.data_digest.periods.ever'), from: :data_digest_period
     submit_form
     expect(page).to have_content(data_digest_template.label)
-
 
     # background jobs need to run
     # sleep 1

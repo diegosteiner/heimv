@@ -20,20 +20,21 @@ class OnboardingService
     new(origin.dup)
   end
 
-  def add_or_invite_user!(...)
-    add_or_invite_user(...).save!
+  def add_or_invite_user(...)
+    organisation_user = add_or_invite_user!(...)
+  rescue ActiveRecord::RecordInvalid
+    organisation_user
   end
 
-  def add_or_invite_user(email: organisation.email, role: :manager, invited_by: nil, password: nil)
-    user = User.find_or_initialize_by(email:)
-
-    if user.new_record?
-      user.update!(password: password || SecureRandom.base64(32))
-      user.invite!(invited_by) if password.blank?
-    end
-
-    user.organisation_users.create(organisation:, role:).tap do
-      user.update(default_organisation: organisation) if user.default_organisation.blank?
+  def add_or_invite_user!(email: organisation.email, role: :manager, invited_by: nil, password: nil)
+    User.find_or_initialize_by(email:).tap do |user|
+      if user.new_record?
+        user.update!(password: password || SecureRandom.base64(32))
+        user.invite!(invited_by) if password.blank?
+      end
+      user.organisation_users.create!(organisation:, role:).tap do
+        user.update!(default_organisation: organisation) if user.default_organisation.blank?
+      end
     end
   end
 
