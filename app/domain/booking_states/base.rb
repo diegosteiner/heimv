@@ -5,6 +5,7 @@ module BookingStates
     extend RichTextTemplate::Definition
     extend Translatable
     include Translatable
+
     attr_reader :booking
 
     delegate :to_s, to: :to_sym

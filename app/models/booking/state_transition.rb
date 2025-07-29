@@ -18,6 +18,7 @@
 class Booking
   class StateTransition < ApplicationRecord
     include Translatable
+
     # include Statesman::Adapters::ActiveRecordTransition does not support JSON column
     class_attribute :updated_timestamp_column
     self.updated_timestamp_column = :updated_at

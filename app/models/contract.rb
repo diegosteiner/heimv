@@ -19,6 +19,7 @@
 
 class Contract < ApplicationRecord
   extend RichTextTemplate::Definition
+
   use_template(:contract_text, context: %i[booking])
 
   locale_enum

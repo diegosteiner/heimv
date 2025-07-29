@@ -8,6 +8,7 @@ module BookingActions
     include TemplateRenderable
     extend Translatable
     extend RichTextTemplate::Definition
+
     attr_reader :booking, :key
 
     delegate :label, to: :class

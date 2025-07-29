@@ -19,6 +19,7 @@
 
 class Notification < ApplicationRecord
   extend RichTextTemplate::Definition
+
   use_template(:notification_footer, context: %i[booking])
   ArbitraryTo = Struct.new(:email, :locale)
 

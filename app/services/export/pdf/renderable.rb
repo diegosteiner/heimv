@@ -4,6 +4,7 @@ module Export
   module Pdf
     class Renderable
       include Prawn::View
+
       attr_reader :document
 
       def initialize(&block)

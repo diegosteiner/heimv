@@ -49,7 +49,7 @@ module Export
       end
 
       to_render do
-        special_tokens = { TARIFS: -> { Renderables::Invoice::InvoicePartsTable.new(invoice) } }
+        special_tokens = { TARIFS: -> { render Renderables::Invoice::InvoicePartsTable.new(invoice) } }
         slices = Renderables::RichText.split(invoice.text, special_tokens)
         slices.each { render it }
       end

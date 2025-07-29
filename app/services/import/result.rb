@@ -4,6 +4,7 @@ module Import
   class Result
     extend ActiveModel::Translation
     extend ActiveModel::Naming
+
     attr_reader :records, :errors
 
     def initialize

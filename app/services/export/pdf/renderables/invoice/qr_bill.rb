@@ -6,6 +6,7 @@ module Export
       module Invoice
         class QrBill < Renderable
           include Translatable
+
           HEIGHT = 297
           WIDTH = 495 + 100
           PADDING = 15
