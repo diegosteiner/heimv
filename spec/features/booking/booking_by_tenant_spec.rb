@@ -196,9 +196,10 @@ describe 'Booking by tenant', :devise do
     find('.checklist li:nth-child(2) a').click
     submit_form
 
-    # deposit = @booking.invoices.reload.last
-    # click_on deposit.ref
-    # deposit.invoice_parts.each { expect(page).to have_content(it.label) }
+    deposit = @booking.invoices.reload.last
+    visit manage_invoice_path(deposit, org:, format: :pdf)
+    # pdf = page_to_pdf
+    # deposit.invoice_parts.each { expect(pdf).to have_content(it.label) }
   end
 
   def send_invoice

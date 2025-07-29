@@ -89,5 +89,6 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
+  # gem 'pdf-reader'
   gem 'selenium-webdriver'
 end

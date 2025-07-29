@@ -29,6 +29,14 @@ module SpecHelpers
       find_by_id('user-menu')
       click_on destroy_user_session_path
     end
+
+    # def page_to_pdf
+    #   text = Tempfile.open('pdf') do |pdf|
+    #     pdf << page.source.force_encoding('UTF-8')
+    #     PDF::Reader.new(pdf).pages.map(&:text)
+    #   end
+    #   page.driver.response.instance_variable_set(:@body, text)
+    # end
   end
 end
 
