@@ -33,6 +33,7 @@ class Invoice < ApplicationRecord
   extend RichTextTemplate::Definition
   include Subtypeable
   include Discard::Model
+  include StoreModel::NestedAttributes
 
   locale_enum default: I18n.locale
   delegate :currency, to: :organisation
@@ -41,7 +42,6 @@ class Invoice < ApplicationRecord
   belongs_to :supersede_invoice, class_name: :Invoice, optional: true, inverse_of: :superseded_by_invoices
   belongs_to :sent_with_notification, class_name: 'Notification', optional: true
 
-  has_many :invoice_parts, -> { ordered }, inverse_of: :invoice, dependent: :destroy
   has_many :superseded_by_invoices, class_name: :Invoice, dependent: :nullify,
                                     foreign_key: :supersede_invoice_id, inverse_of: :supersede_invoice
   has_many :payments, dependent: :nullify
@@ -51,6 +51,8 @@ class Invoice < ApplicationRecord
   has_one_attached :pdf
 
   attr_accessor :skip_generate_pdf, :skip_journal_entry_batches
+
+  attribute :invoice_parts, InvoicePart.to_array_type, default: -> { [] }
 
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :not_offer, -> { where.not(type: 'Invoices::Offer') }
