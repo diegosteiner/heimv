@@ -213,7 +213,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def sequence_year
-    self[:sequence_year] ||= begins_at.year
+    self[:sequence_year] ||= begins_at&.year
   end
 
   def generate_ref(force: false)

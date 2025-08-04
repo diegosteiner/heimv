@@ -8,15 +8,15 @@ module BookingConditions
     attribute :group
 
     EQUALITY_OPERATORS = {
-      '=': ->(actual_value:, compare_value:) { actual_value == compare_value },
-      '!=': ->(actual_value:, compare_value:) { actual_value != compare_value }
+      '=': ->(actual_value:, compare_value:) { actual_value&.==(compare_value) },
+      '!=': ->(actual_value:, compare_value:) { actual_value&.!=(compare_value) }
     }.freeze
 
     NUMERIC_OPERATORS = {
-      '>': ->(actual_value:, compare_value:) { actual_value > compare_value },
-      '>=': ->(actual_value:, compare_value:) { actual_value >= compare_value },
-      '<': ->(actual_value:, compare_value:) { actual_value < compare_value },
-      '<=': ->(actual_value:, compare_value:) { actual_value <= compare_value }
+      '>': ->(actual_value:, compare_value:) { actual_value&.>(compare_value) },
+      '>=': ->(actual_value:, compare_value:) { actual_value&.>=(compare_value) },
+      '<': ->(actual_value:, compare_value:) { actual_value&.<(compare_value) },
+      '<=': ->(actual_value:, compare_value:) { actual_value&.<=(compare_value) }
     }.reverse_merge(EQUALITY_OPERATORS).freeze
 
     delegate :compare_operators_for_select, to: :class

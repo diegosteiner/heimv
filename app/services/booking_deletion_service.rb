@@ -10,7 +10,7 @@ class BookingDeletionService
 
     booking.assign_attributes(notifications_enabled: false, skip_infer_transitions: true)
     delete_dependent!(booking)
-    booking.destroy!
+    booking.reload.destroy!
   end
 
   def delete_all!
