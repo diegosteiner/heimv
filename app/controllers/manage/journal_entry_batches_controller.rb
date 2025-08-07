@@ -66,7 +66,8 @@ module Manage
     end
 
     def journal_entry_batch_filter_params
-      params[:filter]&.permit(%w[date_after date_before processed processed_before processed_after triggers])
+      params[:filter]&.permit(%w[date_after date_before processed processed_before processed_after] +
+        [{ triggers: [] }])
     end
   end
 end

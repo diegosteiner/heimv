@@ -29,6 +29,10 @@ module DataDigestTemplates
         body: '{{ journal_entry.journal_entry_batch_id }}'
       },
       {
+        header: ::JournalEntryBatch.human_attribute_name(:trigger),
+        body: '{{ journal_entry.journal_entry_batch.trigger }}'
+      },
+      {
         header: ::JournalEntryBatch.human_attribute_name(:text),
         body: '{{ journal_entry.text }}'
       },
