@@ -199,7 +199,7 @@ describe 'Booking by tenant', :devise do
     deposit = @booking.invoices.reload.last
     visit manage_invoice_path(deposit, org:, format: :pdf)
     # pdf = page_to_pdf
-    # deposit.invoice_parts.each { expect(pdf).to have_content(it.label) }
+    # deposit.items.each { expect(pdf).to have_content(it.label) }
   end
 
   def send_invoice

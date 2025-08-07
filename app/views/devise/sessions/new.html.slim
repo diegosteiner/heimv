@@ -14,7 +14,7 @@
             = f.check_box :remember_me if devise_mapping.rememberable?
 
           .form-actions.pt-4.mt-3
-            = f.submit t(".sign_in")
+            = f.submit t(".sign_in"), class: 'btn btn-primary'
 
     br
     = render 'devise/shared/links'

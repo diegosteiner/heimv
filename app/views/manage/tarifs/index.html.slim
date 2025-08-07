@@ -11,7 +11,7 @@ section.mt-4
 section#import.mt-4.collapse
   = form_with(url: import_manage_tarifs_path, method: :POST) do |f|
     = f.file_field :file
-    = f.submit
+    = f.submit class: 'btn btn-primary'
 
 
 

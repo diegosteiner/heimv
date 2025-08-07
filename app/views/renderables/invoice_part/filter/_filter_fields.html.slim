@@ -1,6 +1,0 @@
-.row
-  .col
-    = f.collection_select :homes, current_organisation.homes, :id, :to_s, include_blank: true
-  .col
-    = f.date_field :issued_at_after, include_blank: true
-    = f.date_field :issued_at_before, include_blank: true

@@ -2,7 +2,7 @@
 
 module Manage
   class JournalEntrySerializer < ApplicationSerializer
-    fields :amount, :soll_account, :haben_account, :text, :invoice_part_id, :vat_category_id, :vat_amount,
+    fields :amount, :soll_account, :haben_account, :text, :item_id, :vat_category_id, :vat_amount,
            :cost_center
 
     field(:journal_entry_batch_id) { it.journal_entry_batch.id }

@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: invoice_parts
+# Table name: items
 #
 #  id                        :bigint           not null, primary key
 #  accounting_account_nr     :string
@@ -19,16 +19,12 @@
 #  vat_category_id           :bigint
 #
 
-module InvoiceParts
-  class Text < InvoicePart
-    InvoicePart.register_subtype self
-
-    def calculated_amount
-      nil
-    end
-
-    def to_sum(sum)
-      sum
-    end
+FactoryBot.define do
+  factory :item, class: Invoice::Items::Add.to_s do
+    usage { nil }
+    invoice
+    amount { usage&.price || rand(50.0..1000.0) }
+    label { 'MyText' }
+    breakdown { 'MyText' }
   end
 end

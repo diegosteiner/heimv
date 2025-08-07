@@ -9,4 +9,4 @@
     = f.check_box :signed_at, { checked: @contract.signed_at.present? }, @contract.signed_at.nil? ? DateTime.now : @contract.signed_at
 
   .form-actions.pt-4.mt-3
-    = f.submit class: 'btn btn-primary'
+    = f.submit class: 'btn btn-primary', class: 'btn btn-primary'

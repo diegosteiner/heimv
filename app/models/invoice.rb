@@ -9,6 +9,7 @@
 #  amount_open               :decimal(, )
 #  discarded_at              :datetime
 #  issued_at                 :datetime
+#  items                     :jsonb
 #  locale                    :string
 #  payable_until             :datetime
 #  payment_info_type         :string
@@ -33,6 +34,7 @@ class Invoice < ApplicationRecord
   extend RichTextTemplate::Definition
   include Subtypeable
   include Discard::Model
+  include StoreModel::NestedAttributes
 
   locale_enum default: I18n.locale
   delegate :currency, to: :organisation
@@ -41,7 +43,6 @@ class Invoice < ApplicationRecord
   belongs_to :supersede_invoice, class_name: :Invoice, optional: true, inverse_of: :superseded_by_invoices
   belongs_to :sent_with_notification, class_name: 'Notification', optional: true
 
-  has_many :invoice_parts, -> { ordered }, inverse_of: :invoice, dependent: :destroy
   has_many :superseded_by_invoices, class_name: :Invoice, dependent: :nullify,
                                     foreign_key: :supersede_invoice_id, inverse_of: :supersede_invoice
   has_many :payments, dependent: :nullify
@@ -51,6 +52,8 @@ class Invoice < ApplicationRecord
   has_one_attached :pdf
 
   attr_accessor :skip_generate_pdf, :skip_journal_entry_batches
+
+  attribute :items, Invoice::Item.one_of.to_array_type
 
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :not_offer, -> { where.not(type: 'Invoices::Offer') }
@@ -62,9 +65,9 @@ class Invoice < ApplicationRecord
   scope :unsent,    -> { kept.where(sent_at: nil) }
   scope :overdue,   ->(at = Time.zone.today) { kept.not_offer.where(arel_table[:payable_until].lteq(at)) }
   scope :of,        ->(booking) { where(booking:) }
-  scope :with_default_includes, -> { includes(%i[invoice_parts payments organisation]) }
+  scope :with_default_includes, -> { includes(%i[payments organisation]) }
 
-  accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :items, reject_if: :all_blank, allow_destroy: true
 
   before_save :sequence_number, :generate_ref, :generate_payment_ref, :recalculate
   before_save :generate_pdf, if: :generate_pdf?
@@ -75,6 +78,10 @@ class Invoice < ApplicationRecord
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
   validate do
     errors.add(:supersede_invoice_id, :invalid) if supersede_invoice && supersede_invoice.organisation != organisation
+  end
+
+  def items
+    super || []
   end
 
   def generate_pdf?
@@ -141,7 +148,7 @@ class Invoice < ApplicationRecord
   end
 
   def recalculate
-    self.amount = invoice_parts.reduce(0) { |sum, invoice_part| invoice_part.to_sum(sum) }
+    self.amount = items.reduce(0) { |sum, item| item.to_sum(sum) } || 0
     self.amount_open = amount - amount_paid
   end
 
@@ -178,8 +185,8 @@ class Invoice < ApplicationRecord
     @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
   end
 
-  def suggested_invoice_parts
-    ::InvoicePart::Factory.new(self).build
+  def suggested_items
+    Invoice::ItemFactory.new(self).build
   end
 
   def invoice_address
@@ -191,6 +198,6 @@ class Invoice < ApplicationRecord
   end
 
   def vat_breakdown
-    invoice_parts.group_by(&:vat_category).except(nil).transform_values { it.sum(&:calculated_amount) }
+    items.group_by(&:vat_category).except(nil).transform_values { it.sum(&:calculated_amount) } || {}
   end
 end

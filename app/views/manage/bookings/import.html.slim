@@ -14,4 +14,4 @@
     = f.text_field :headers, label: t('.headers')
     = f.select :initial_state, current_organisation.booking_flow_class.successors['initial'], selected: 'open_request'
     hr.my-4
-    = f.submit t(:import)
+    = f.submit t(:import), class: 'btn btn-primary'

@@ -160,7 +160,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
 
       before do
         invoice.journal_entry_batches.reload.update_all(processed_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
-        invoice.invoice_parts.last.update(amount: 1440.0)
+        invoice.items.last.assign_attributes(amount: 1440.0)
         invoice.recalculate
         invoice.save!
       end

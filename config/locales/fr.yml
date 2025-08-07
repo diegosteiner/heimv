@@ -52,7 +52,7 @@ fr:
         paid: Statut de paiement
         payable_until_after: Payable au plus tard le
         payable_until_before: Payable jusqu'au
-      invoice_part/filter:
+      item/filter:
         homes: Chalets
         issued_at_after: Date de facturation à partir du
         issued_at_before: Date de facturation jusqu'au
@@ -288,7 +288,7 @@ fr:
         amount_paid: Montant payé
         booking_id: Réservation
         esr_number: Numéro de BVR
-        invoice_parts: Postes de la facture
+        items: Postes de la facture
         issued_at: Créé le
         locale: Langue
         payable_until: Payable jusqu'au
@@ -299,7 +299,7 @@ fr:
         sent_at: Date de la facture
         text: Texte
         type: Type de facture
-      invoice_part:
+      item:
         accounting_account_nr: zugewiesenes Buchhaltungskonto
         accounting_cost_center_nr:
         amount: Montant
@@ -717,7 +717,7 @@ fr:
       data_digest_templates/invoice:
         one: Extrait de facture
         other: Extraits de facture
-      data_digest_templates/invoice_part:
+      data_digest_templates/item:
         one: Extrait des postes de la facture
         other: Extraits des postes de facturation
       data_digest_templates/meter_reading_period:
@@ -741,16 +741,16 @@ fr:
       invoice:
         one: Facture
         other: Factures
-      invoice_part:
+      item:
         one: Poste de facturation
         other: Postes de facturation
-      invoice_parts/add:
+      items/add:
         one: Poste de facturation normal
         other: Postes de facturation normaux
-      invoice_parts/deposit:
+      items/deposit:
         one:
         other:
-      invoice_parts/percentage:
+      items/percentage:
         one: Réduction
         other: Réduction
       invoices/deposit:
@@ -1346,7 +1346,7 @@ fr:
         Ÿ: "Y"
   import: Importer
   import_records: Importer %{model_name}
-  invoice_parts:
+  items:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
@@ -1432,7 +1432,7 @@ fr:
     invoices:
       form:
         payment_not_required_warning:
-        suggested_invoice_parts: Positions proposées
+        suggested_items: Positions proposées
     journal_entry_batches:
       index:
         process_all:

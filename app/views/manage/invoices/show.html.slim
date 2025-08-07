@@ -10,16 +10,16 @@
       dd= link_to @invoice.booking.ref, manage_booking_path(@invoice.booking)
 
     == @invoice.text
-    - @invoice.invoice_parts.each do |invoice_part|
+    - @invoice.items.each do |item|
       .row
         .col-4
-          = invoice_part.label
+          = item.label
         .col-4
-          = invoice_part.breakdown
+          = item.breakdown
         .col-2.text-end
-          = number_to_currency(invoice_part.calculated_amount)
+          = number_to_currency(item.calculated_amount)
         .col-1
-          = link_to edit_manage_invoice_invoice_part_path(invoice_part.invoice, invoice_part)
+          = link_to edit_manage_invoice_item_path(item.invoice, item)
             i.fa.fa-pencil
 
     hr
