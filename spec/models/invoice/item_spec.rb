@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: invoice_parts
+# Table name: items
 #
 #  id                        :bigint           not null, primary key
 #  accounting_account_nr     :string
@@ -19,22 +19,8 @@
 #  vat_category_id           :bigint
 #
 
-module InvoiceParts
-  class Deposit < Add
-    InvoicePart.register_subtype self
+require 'rails_helper'
 
-    attr_accessor :reassign_payments
-
-    after_save :reassign_payments!
-
-    def vat_category_required?
-      false
-    end
-
-    def reassign_payments!(payments = reassign_payments)
-      return unless valid? && apply
-
-      payments&.each { |payment| payment&.update!(invoice:) }
-    end
-  end
+RSpec.describe Invoice::Item do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

@@ -23,6 +23,6 @@ FactoryBot.define do
     type { DataDigestTemplates::Booking }
     factory :booking_data_digest_template, class: 'DataDigestTemplates::Booking'
     factory :payment_data_digest_template, class: 'DataDigestTemplates::Payment'
-    factory :invoice_part_data_digest_template, class: 'DataDigestTemplates::InvoicePart'
+    factory :item_data_digest_template, class: 'DataDigestTemplates::Invoice::Item'
   end
 end

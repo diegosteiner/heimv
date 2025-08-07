@@ -8,21 +8,16 @@
 
   .row
     .col-1.py-2
-      = f.check_box :_destroy, { checked: invoice_part.apply, hide_label: true, wrapper: { style: 'margin-bottom: 0 !important;' } }, '0', '1'
+      = f.check_box :_destroy, { checked: item.apply, hide_label: true, wrapper: { style: 'margin-bottom: 0 !important;' } }, '0', '1'
     .col-4
       = f.text_field :label, hide_label: true, wrapper: { class: 'mb-0' }
     .col-4
       = f.text_field :breakdown, hide_label: true, wrapper: { class: 'mb-0' }
     .col-2
       = f.text_field :amount, hide_label: true, class: 'text-end', inputmode: "numeric" , wrapper: { class: 'mb-0' }
-    .col-1.text-end.align-middle
-      - unless invoice_part.new_record? || invoice_part.invoice.blank?
-        .btn-group
-          = link_to edit_manage_invoice_invoice_part_path(invoice_part.invoice, invoice_part), class: "btn btn-default border-0 p-1"
-            i.fa.fa-pencil
 
-  - if invoice_part.errors.any?
+  - if item.errors.any?
     .row
       .col-1
       .col
-        .invalid-feedback.d-block= invoice_part.errors.full_messages.to_sentence
+        .invalid-feedback.d-block= item.errors.full_messages.to_sentence

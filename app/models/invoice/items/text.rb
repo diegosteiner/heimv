@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: invoice_parts
+# Table name: items
 #
 #  id                        :bigint           not null, primary key
 #  accounting_account_nr     :string
@@ -19,17 +19,18 @@
 #  vat_category_id           :bigint
 #
 
-module InvoiceParts
-  class Percentage < InvoicePart
-    InvoicePart.register_subtype self
+class Invoice
+  module Items
+    class Text < ::Invoice::Item
+      Invoice::Item.register_subtype self
 
-    def calculated_amount
-      sum_of_predecessors * amount / 100
-    end
+      def calculated_amount
+        nil
+      end
 
-    def breakdown
-      self[:breakdown].presence ||
-        ActiveSupport::NumberHelper.number_to_percentage(amount, precision: 0)
+      def to_sum(sum)
+        sum
+      end
     end
   end
 end

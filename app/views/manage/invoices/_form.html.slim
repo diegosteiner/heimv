@@ -24,20 +24,21 @@
       p.payment_not_required_warning.mb-0.text-warning.small= t(".payment_not_required_warning")
 
 
-    - if @invoice.invoice_parts.any?
-      h5.mt-4= InvoicePart.model_name.human(count: 2)
-      = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
-        = render partial: ipf.object.to_partial_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
-
-    - if @invoice.suggested_invoice_parts.any?
-      h5.mt-4= t('.suggested_invoice_parts')
-      = f.fields_for :invoice_parts, @invoice.suggested_invoice_parts do |ipf|
-        = render partial: ipf.object.to_partial_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
-
-    div
-      - unless @invoice.new_record?
-        = link_to new_manage_invoice_invoice_part_path(@invoice), class: 'btn btn-outline-primary' do
-          = t(:add_record, model_name: InvoicePart.model_name.human)
+    - if @invoice.items.any?
+      h5.mt-4= ::Invoice::Item.model_name.human(count: 2)
+      = react_component('InvoiceItemsContainer', { \ 
+        value: Manage::InvoiceItemSerializer.render_as_hash(@invoice.items || []), \
+        name: f.field_name(:items) \
+      }) 
+      / = f.fields_for :items, @invoice.items do |ipf|
+        / = render partial: ipf.object.to_partial_path('form_fields'), locals: { f: ipf, item: ipf.object }
+          / optionsForSelect: BookingCondition.subtypes.transform_values { it.options_for_select(current_organisation) } \
+    - elsif @invoice.suggested_items.any?
+      h5.mt-4= t('.suggested_items')
+      = react_component('InvoiceItemsContainer', { \ 
+        value: Manage::InvoiceItemSerializer.render_as_hash(@invoice.suggested_items || []), \
+        name: f.field_name(:items) \
+      }) 
 
   .form-actions.pt-4.mt-3
-    = f.submit
+    = f.submit class: 'btn btn-primary'

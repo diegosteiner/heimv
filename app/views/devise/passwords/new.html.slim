@@ -6,7 +6,7 @@
       .card-body
         = form_with(model: resource, scope: resource_name, url: password_path(resource_name), method: :post, local: true) do |f|
           = f.email_field :email, autofocus: true
-          = f.submit t(".send_me_reset_password_instructions")
+          = f.submit t(".send_me_reset_password_instructions"), class: 'btn btn-primary'
 
     br
     = render "devise/shared/links"

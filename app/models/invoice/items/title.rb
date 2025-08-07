@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: invoice_parts
+# Table name: items
 #
 #  id                        :bigint           not null, primary key
 #  accounting_account_nr     :string
@@ -19,8 +19,10 @@
 #  vat_category_id           :bigint
 #
 
-require 'rails_helper'
-
-RSpec.describe InvoicePart do
-  pending "add some examples to (or delete) #{__FILE__}"
+class Invoice
+  module Items
+    class Title < Text
+      Invoice::Item.register_subtype self
+    end
+  end
 end

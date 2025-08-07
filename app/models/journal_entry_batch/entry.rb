@@ -8,7 +8,7 @@ class JournalEntryBatch
     attribute :soll_account, :string
     attribute :haben_account, :string
     attribute :text, :string
-    attribute :invoice_part_id, :integer
+    attribute :item_id, :integer
     attribute :vat_category_id, :integer
     attribute :vat_amount, :decimal
     attribute :cost_center
@@ -30,8 +30,8 @@ class JournalEntryBatch
       "#{soll_account} => #{haben_account} #{formatted_amount}: #{text}"
     end
 
-    def invoice_part
-      @invoice_part ||= parent&.invoice&.invoice_parts&.find(invoice_part_id) if invoice_part_id.present?
+    def item
+      @item ||= parent&.invoice&.items&.find(item_id) if item_id.present?
     end
 
     def vat_category

@@ -9,6 +9,7 @@
 #  amount_open               :decimal(, )
 #  discarded_at              :datetime
 #  issued_at                 :datetime
+#  items                     :jsonb
 #  locale                    :string
 #  payable_until             :datetime
 #  payment_info_type         :string
@@ -61,7 +62,7 @@ RSpec.describe Invoice do
     let(:predecessor) do
       create(:invoice, type: Invoices::Invoice).tap do |invoice|
         invoice.payments = build_list(:payment, 1, amount: 100.0)
-        invoice.invoice_parts = build_list(:invoice_part, 2, amount: 100.0)
+        invoice.items = build_list(:item, 2, amount: 100.0)
       end
     end
 
@@ -72,7 +73,7 @@ RSpec.describe Invoice do
       expect(successor.payment_ref).to eq(predecessor.payment_ref)
     end
 
-    it 'migrates payments and invoice_parts' do
+    it 'migrates payments and items' do
       successor.save
       expect(predecessor.payments.reload).to be_blank
       expect(successor.payments.count).to eq(1)

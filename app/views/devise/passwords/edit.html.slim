@@ -9,7 +9,7 @@
           = f.password_field :password, label: t(".new_password"), autofocus: true
           = f.password_field :password_confirmation, label: t(".confirm_new_password")
 
-          = f.submit t(".change_my_password")
+          = f.submit t(".change_my_password"), class: 'btn btn-primary'
 
     br
     = render "devise/shared/links"

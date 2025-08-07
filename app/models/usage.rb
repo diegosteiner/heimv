@@ -20,7 +20,6 @@
 class Usage < ApplicationRecord
   belongs_to :tarif, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages, touch: true
-  has_many :invoice_parts, dependent: :nullify
   has_one :organisation, through: :booking
 
   attribute :apply, default: true
@@ -95,6 +94,12 @@ class Usage < ApplicationRecord
   def round_cents(amount, round_to: 5)
     multiplier = 100.0 / round_to
     (amount * multiplier).floor / multiplier
+  end
+
+  def items
+    @items ||= booking.invoices.filter_map do |invoice|
+      invoice.items.filter { it.usage_id == id }
+    end.flatten
   end
 
   # TODO: decouple

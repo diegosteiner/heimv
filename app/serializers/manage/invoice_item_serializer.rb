@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Manage
-  class InvoicePartSerializer < ApplicationSerializer
+  class InvoiceItemSerializer < ApplicationSerializer
     identifier :id
 
     association :tarif, blueprint: Manage::TarifSerializer
@@ -11,12 +11,16 @@ module Manage
     fields :amount, :label, :breakdown, :usage_id,
            :accounting_account_nr, :accounting_cost_center_nr, :vat_breakdown
 
-    field :tarif_id do |invoice_part|
-      invoice_part.tarif&.id
+    field :type do |item|
+      item.type
     end
 
-    field :booking_id do |invoice_part|
-      invoice_part.booking&.id
+    field :tarif_id do |item|
+      item.usage&.tarif_id
+    end
+
+    field :booking_id do |item|
+      item.booking&.id
     end
   end
 end

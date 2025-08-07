@@ -47,7 +47,7 @@ en:
         paid: Beglichen / Bezahlt
         payable_until_after: Zahlbar bis nach
         payable_until_before: Zahlbar bis vor
-      invoice_part/filter:
+      item/filter:
         homes: Hauptmietobjekte
         issued_at_after: Rechnungsdatum ab
         issued_at_before: Rechnungsdatum bis
@@ -240,7 +240,7 @@ en:
         amount_paid: bezahlter Betrag
         booking_id: Buchung
         esr_number: ESR Nummer
-        invoice_parts: Rechnungspositionen
+        items: Rechnungspositionen
         issued_at: Ausgestellt am
         locale: Sprache
         payable_until: Zahlbar bis
@@ -251,7 +251,7 @@ en:
         sent_at: Rechnungsdatum
         text: Text
         type: Rechnungsart
-      invoice_part:
+      item:
         accounting_account_nr: Buchhaltungskonto
         accounting_cost_center_nr: Kostenstelle
         amount: Betrag
@@ -666,7 +666,7 @@ en:
       data_digest_templates/invoice:
         one: Rechnungen Auszug
         other: Rechnungen Auszüge
-      data_digest_templates/invoice_part:
+      data_digest_templates/item:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
       data_digest_templates/meter_reading_period:
@@ -690,16 +690,16 @@ en:
       invoice:
         one: Rechnung
         other: Rechnungen
-      invoice_part:
+      item:
         one: Rechungsposition
         other: Rechungspositionen
-      invoice_parts/add:
+      items/add:
         one: Normale Rechungsposition
         other: Normale Rechnungspositionen
-      invoice_parts/deposit:
+      items/deposit:
         one: Akontorechnung Rechungsposition
         other: Akontorechnung Rechnungspositionen
-      invoice_parts/percentage:
+      items/percentage:
         one: Rabatt
         other: Rabatt
       invoices/deposit:
@@ -1370,7 +1370,7 @@ en:
       update: Speichern
   import: Import
   import_records: "%{model_name} importieren"
-  invoice_parts:
+  items:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
@@ -1456,7 +1456,7 @@ en:
     invoices:
       form:
         payment_not_required_warning: Ohne diesen Haken wird die Belegung kann die Belegung automatisch in den nächsten Status wechseln, wenn sonst alle Bedingungen erfüllt sind.
-        suggested_invoice_parts: Vorgeschlagene Positionen
+        suggested_items: Vorgeschlagene Positionen
     journal_entry_batches:
       index:
         process_all: Alle unverbuchten verbuchen

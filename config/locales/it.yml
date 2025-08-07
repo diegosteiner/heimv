@@ -52,7 +52,7 @@ it:
         paid: Stato del pagamento
         payable_until_after: Pagabile fino a dopo
         payable_until_before: Pagabile fino a prima di
-      invoice_part/filter:
+      item/filter:
         homes: Oggetti principali di affitto
         issued_at_after: Data di fatturazione dopo
         issued_at_before: Data di fatturazione precedente
@@ -288,7 +288,7 @@ it:
         amount_paid: Importo pagato
         booking_id: Prenotazione
         esr_number: Numero del PVR
-        invoice_parts: Voci della fattura
+        items: Voci della fattura
         issued_at: Rilasciato il
         locale: Lingua
         payable_until: Pagabile fino a
@@ -299,7 +299,7 @@ it:
         sent_at: Data della fattura
         text: Testo
         type: Tipo di fattura
-      invoice_part:
+      item:
         accounting_account_nr: Conto contabile
         accounting_cost_center_nr:
         amount: Importo
@@ -717,7 +717,7 @@ it:
       data_digest_templates/invoice:
         one: Fatture (estratto)
         other: Estratti di fatture
-      data_digest_templates/invoice_part:
+      data_digest_templates/item:
         one: Voci di fattura (estratto)
         other: Estratti di voci di fattura
       data_digest_templates/meter_reading_period:
@@ -741,16 +741,16 @@ it:
       invoice:
         one: Fattura
         other: Fatture
-      invoice_part:
+      item:
         one: Voce di fattura
         other: Voci di fattura
-      invoice_parts/add:
+      items/add:
         one: Voce di fattura normale
         other: Voci di fattura normali
-      invoice_parts/deposit:
+      items/deposit:
         one:
         other:
-      invoice_parts/percentage:
+      items/percentage:
         one: Sconto
         other: Sconto
       invoices/deposit:
@@ -1311,7 +1311,7 @@ it:
       update: Aggiorna %{model}
   import: Importazione
   import_records: importa %{model_name}.
-  invoice_parts:
+  items:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
@@ -1397,7 +1397,7 @@ it:
     invoices:
       form:
         payment_not_required_warning:
-        suggested_invoice_parts: Posizioni consigliate
+        suggested_items: Posizioni consigliate
     journal_entry_batches:
       index:
         process_all:
