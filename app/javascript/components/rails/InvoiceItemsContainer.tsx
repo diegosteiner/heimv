@@ -1,11 +1,11 @@
 import * as React from "react";
-import type { Props as InvoiceItemFormProps } from "../invoice_items/InvoiceItemForm";
-import InvoiceItemForm from "../invoice_items/InvoiceItemForm";
+import type { Props as InvoiceItemsProps } from "../invoice_items/InvoiceItems";
+import InvoiceItems from "../invoice_items/InvoiceItems";
 
 export default function InvoiceItemContainer(props: unknown) {
   return (
     <React.StrictMode>
-      <InvoiceItemForm {...(props as InvoiceItemFormProps)} />
+      <InvoiceItems {...(props as InvoiceItemsProps)} />
     </React.StrictMode>
   );
 }

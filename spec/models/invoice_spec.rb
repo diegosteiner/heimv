@@ -62,7 +62,7 @@ RSpec.describe Invoice do
     let(:predecessor) do
       create(:invoice, type: Invoices::Invoice).tap do |invoice|
         invoice.payments = build_list(:payment, 1, amount: 100.0)
-        invoice.items = build_list(:item, 2, amount: 100.0)
+        invoice.items = build_list(:invoice_item, 2, amount: 100.0)
       end
     end
 

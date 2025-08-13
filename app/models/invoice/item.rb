@@ -5,11 +5,13 @@ class Invoice
     include StoreModel::Model
     include ActiveModel::Validations::Callbacks
     include Subtypeable
+    extend ActiveModel::Translation
     extend TemplateRenderable
     include TemplateRenderable
 
+    attr_accessor :suggested, :apply
+
     attribute :id
-    attribute :apply, :boolean, default: true
     attribute :accounting_account_nr
     attribute :accounting_cost_center_nr
     attribute :amount, :decimal
@@ -40,7 +42,7 @@ class Invoice
     end
 
     def usage
-      @usage ||= invoice&.booking&.usages&.find(usage_id) if usage_id.present?
+      @usage ||= invoice&.booking&.usages&.find_by(id: usage_id) if usage_id.present?
     end
 
     def tarif
@@ -56,7 +58,7 @@ class Invoice
     end
 
     def vat_category
-      @vat_category ||= invoice&.organisation&.vat_categories&.find(vat_category_id) if vat_category_id.present?
+      @vat_category ||= invoice&.organisation&.vat_categories&.find_by(id: vat_category_id) if vat_category_id.present?
     end
 
     def calculated_amount

@@ -8,7 +8,7 @@ module Manage
     association :usage, blueprint: Manage::UsageSerializer
     association :vat_category, blueprint: Public::VatCategorySerializer
 
-    fields :amount, :label, :breakdown, :usage_id,
+    fields :amount, :label, :breakdown, :usage_id, :suggested, :apply, :vat_category_id,
            :accounting_account_nr, :accounting_cost_center_nr, :vat_breakdown
 
     field :type do |item|
