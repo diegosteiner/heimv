@@ -52,6 +52,16 @@ fr:
         paid: Statut de paiement
         payable_until_after: Payable au plus tard le
         payable_until_before: Payable jusqu'au
+      invoice/item:
+        accounting_account_nr: zugewiesenes Buchhaltungskonto
+        accounting_cost_center_nr:
+        amount: Montant
+        apply: Employer
+        breakdown: Ventilation
+        label: Texte
+        type: Type de poste de facturation
+        vat: TVA incluse en pourcentage
+        vat_category_id:
       item/filter:
         homes: Chalets
         issued_at_after: Date de facturation à partir du
@@ -101,6 +111,16 @@ fr:
         paid_at_before: Paiement jusqu'au
         ref: Référence de paiement
         sort: Triage
+    model:
+      invoice/items/add:
+        one: Poste de facturation normal
+        other: Postes de facturation normaux
+      invoice/items/deposit:
+        one:
+        other:
+      invoice/items/percentage:
+        one: Réduction
+        other: Réduction
     models:
       accounting_settings: Paramètres de comptabilité
       booking_condition:
@@ -146,6 +166,9 @@ fr:
         other:
       booking_state_settings: Paramètres du processus de réservation
       deadline_settings: Réglages des délais
+      invoice/item:
+        one: Poste de facturation
+        other: Postes de facturation
       occupancy_calendar:
         one: Plan de locations
         other: Plans de locations
@@ -288,8 +311,8 @@ fr:
         amount_paid: Montant payé
         booking_id: Réservation
         esr_number: Numéro de BVR
-        items: Postes de la facture
         issued_at: Créé le
+        items: Postes de la facture
         locale: Langue
         payable_until: Payable jusqu'au
         payment_info_type: Section paiement
@@ -299,17 +322,6 @@ fr:
         sent_at: Date de la facture
         text: Texte
         type: Type de facture
-      item:
-        accounting_account_nr: zugewiesenes Buchhaltungskonto
-        accounting_cost_center_nr:
-        amount: Montant
-        apply: Employer
-        breakdown: Ventilation
-        label: Texte
-        ordinal_position: Numéro d'ordre
-        type: Type de poste de facturation
-        vat: TVA incluse en pourcentage
-        vat_category_id:
       journal_entry_batch:
         amount: Montant
         booking_id: Réservation
@@ -741,18 +753,6 @@ fr:
       invoice:
         one: Facture
         other: Factures
-      item:
-        one: Poste de facturation
-        other: Postes de facturation
-      items/add:
-        one: Poste de facturation normal
-        other: Postes de facturation normaux
-      items/deposit:
-        one:
-        other:
-      items/percentage:
-        one: Réduction
-        other: Réduction
       invoices/deposit:
         one: Acompte
         other: Acomptes
@@ -1346,6 +1346,9 @@ fr:
         Ÿ: "Y"
   import: Importer
   import_records: Importer %{model_name}
+  invoices:
+    total: Total
+    vat_title: TVA incluse dans les prix
   items:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
@@ -1353,9 +1356,6 @@ fr:
       minimum: Montant minimum %{minimum}
     deposited_amount: Avoir à partir d'un acompte
     unassigned_payments_amount:
-  invoices:
-    total: Total
-    vat_title: TVA incluse dans les prix
   layouts:
     footer:
       legal:

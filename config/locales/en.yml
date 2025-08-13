@@ -47,6 +47,16 @@ en:
         paid: Beglichen / Bezahlt
         payable_until_after: Zahlbar bis nach
         payable_until_before: Zahlbar bis vor
+      invoice/item:
+        accounting_account_nr: Buchhaltungskonto
+        accounting_cost_center_nr: Kostenstelle
+        amount: Betrag
+        apply: Anwenden
+        breakdown: Aufschlüsselung
+        label: Text
+        type: Art der Rechnungsposition
+        vat: inkl. MwSt. in Prozent
+        vat_category_id: MwSt. Kategorie
       item/filter:
         homes: Hauptmietobjekte
         issued_at_after: Rechnungsdatum ab
@@ -94,10 +104,23 @@ en:
         paid_at_before: Zahlung bis
         ref: Zahlungsreferenz
         sort: Sortierung
+    model:
+      invoice/items/add:
+        one: Normale Rechungsposition
+        other: Normale Rechnungspositionen
+      invoice/items/deposit:
+        one: Akontorechnung Rechungsposition
+        other: Akontorechnung Rechnungspositionen
+      invoice/items/percentage:
+        one: Rabatt
+        other: Rabatt
     models:
       accounting_settings: Buchhaltungseinstellungen
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen
+      invoice/item:
+        one: Rechungsposition
+        other: Rechungspositionen
       occupancy_calendar:
         one: Belegungsplan
         other: Belegungspläne
@@ -240,8 +263,8 @@ en:
         amount_paid: bezahlter Betrag
         booking_id: Buchung
         esr_number: ESR Nummer
-        items: Rechnungspositionen
         issued_at: Ausgestellt am
+        items: Rechnungspositionen
         locale: Sprache
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
@@ -251,17 +274,6 @@ en:
         sent_at: Rechnungsdatum
         text: Text
         type: Rechnungsart
-      item:
-        accounting_account_nr: Buchhaltungskonto
-        accounting_cost_center_nr: Kostenstelle
-        amount: Betrag
-        apply: Anwenden
-        breakdown: Aufschlüsselung
-        label: Text
-        ordinal_position: Ordnungsnummer
-        type: Art der Rechnungsposition
-        vat: inkl. MwSt. in Prozent
-        vat_category_id: MwSt. Kategorie
       journal_entry_batch:
         amount: Betrag
         booking_id: Buchung
@@ -690,18 +702,6 @@ en:
       invoice:
         one: Rechnung
         other: Rechnungen
-      item:
-        one: Rechungsposition
-        other: Rechungspositionen
-      items/add:
-        one: Normale Rechungsposition
-        other: Normale Rechnungspositionen
-      items/deposit:
-        one: Akontorechnung Rechungsposition
-        other: Akontorechnung Rechnungspositionen
-      items/percentage:
-        one: Rabatt
-        other: Rabatt
       invoices/deposit:
         one: Akontorechnung
         other: Akontorechnungen
@@ -1370,6 +1370,9 @@ en:
       update: Speichern
   import: Import
   import_records: "%{model_name} importieren"
+  invoices:
+    total: Total
+    vat_title: in den Preisen enhaltene MwSt.
   items:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
@@ -1377,9 +1380,6 @@ en:
       minimum: Mindestbetrag %{minimum_price}
     deposited_amount: Gutschrift aus Akontorechnung
     unassigned_payments_amount: Saldo aus bereits geleisteten Zahlungen
-  invoices:
-    total: Total
-    vat_title: in den Preisen enhaltene MwSt.
   layouts:
     footer:
       legal:

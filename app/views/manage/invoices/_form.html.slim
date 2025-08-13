@@ -2,43 +2,27 @@
   = f.hidden_field :supersede_invoice_id
 
   fieldset[v-pre]
-    = f.select :type, subtype_options_for_select(Invoice.subtypes), { include_blank: true }, readonly: true
-    = f.label :booking_id
-    .row
-      .col
-        = f.hidden_field :booking_id, id: ''
-        = f.collection_select :booking_id, [@invoice.booking, @invoice.organisation.bookings.where(concluded: false).order(ref: :ASC)].flatten, :id, :to_s, { hide_label: true }, disabled: true
-      .col-1.d-grid
-        input.btn-check[type="checkbox" id="toggle_invoice_booking_id" data-bs-toggle="disable" data-bs-target="#invoice_booking_id"]
-        label.btn.btn-default.mb-3 for="toggle_invoice_booking_id" 
-          i.fa.fa-unlock
+    = f.hidden_field :booking_id
+    = f.select :type, subtype_options_for_select(Invoice.subtypes), { include_blank: true, wrapper: { class: 'col-lg-6 mb-3' } }, readonly: true
 
     = f.text_area :text, class: 'rich-text-area'
-    = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
-    = f.date_field :payable_until, lang: I18n.locale
+    = f.date_field :issued_at, lang: I18n.locale, help: t('optional'), wrapper: { class: 'col-lg-6 mb-3' }
+    = f.date_field :payable_until, lang: I18n.locale, wrapper: { class: 'col-lg-6 mb-3' }
     / = f.text_field :respite_days, inputmode: "numeric"
 
-    = f.select :payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
+    = f.select :payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true , wrapper: { class: 'col-lg-6 mb-3' }
     = f.check_box :payment_required do 
       p.mb-1= Invoice.human_attribute_name(:payment_required)
       p.payment_not_required_warning.mb-0.text-warning.small= t(".payment_not_required_warning")
 
-
-    - if @invoice.items.any?
-      h5.mt-4= ::Invoice::Item.model_name.human(count: 2)
-      = react_component('InvoiceItemsContainer', { \ 
-        value: Manage::InvoiceItemSerializer.render_as_hash(@invoice.items || []), \
-        name: f.field_name(:items) \
-      }) 
-      / = f.fields_for :items, @invoice.items do |ipf|
-        / = render partial: ipf.object.to_partial_path('form_fields'), locals: { f: ipf, item: ipf.object }
-          / optionsForSelect: BookingCondition.subtypes.transform_values { it.options_for_select(current_organisation) } \
-    - elsif @invoice.suggested_items.any?
-      h5.mt-4= t('.suggested_items')
-      = react_component('InvoiceItemsContainer', { \ 
-        value: Manage::InvoiceItemSerializer.render_as_hash(@invoice.suggested_items || []), \
-        name: f.field_name(:items) \
-      }) 
+    label.mb-2= ::Invoice::Item.model_name.human(count: 2)
+    = react_component('InvoiceItemsContainer', { \ 
+      value: Manage::InvoiceItemSerializer.render_as_hash(@invoice.items || []), \
+      name: f.field_name(:items_attributes), \
+      optionsForSelect: {  \
+        vatCategories: Public::VatCategorySerializer.render_as_hash(current_organisation.vat_categories) \
+        } \
+    }) 
 
   .form-actions.pt-4.mt-3
     = f.submit class: 'btn btn-primary'

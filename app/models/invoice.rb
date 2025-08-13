@@ -71,6 +71,9 @@ class Invoice < ApplicationRecord
 
   before_save :sequence_number, :generate_ref, :generate_payment_ref, :recalculate
   before_save :generate_pdf, if: :generate_pdf?
+  before_save do
+    self.items = items&.filter { it.present? && (!it.suggested || it.apply) }
+  end
   after_create :supersede!
   after_save :recalculate!, :update_payments
   after_save :update_journal_entry_batches, unless: :skip_journal_entry_batches
@@ -183,10 +186,6 @@ class Invoice < ApplicationRecord
 
   def payment_info
     @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
-  end
-
-  def suggested_items
-    Invoice::ItemFactory.new(self).build
   end
 
   def invoice_address

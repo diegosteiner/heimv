@@ -33,7 +33,7 @@ class Invoice
       end.flatten
     end
 
-    def from_unassigned_payments # rubocop:disable Metrics/MethodLength
+    def from_unassigned_payments # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
       unassigned_payments = booking.payments.where(invoice: nil, write_off: false)
       payed_amount = unassigned_payments.sum(:amount)
       return [] unless payed_amount.positive? && invoice.new_record?
@@ -45,7 +45,7 @@ class Invoice
                                       amount: - payed_amount, reassign_payments: unassigned_payments,
                                       vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
                                       accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr,
-                                      accounting_cost_center_nr: :home, parent: invoice)
+                                      accounting_cost_center_nr: :home, parent: invoice, suggested: true)
       ]
     end
 
@@ -57,11 +57,11 @@ class Invoice
 
       apply = invoice.items.none?
 
-      [::Invoice::Items::Title.new(apply:, label: Invoices::Deposit.model_name.human, parent: invoice),
+      [::Invoice::Items::Title.new(apply:, label: Invoices::Deposit.model_name.human, parent: invoice, suggested: true),
        ::Invoice::Items::Deposit.new(apply:, label: I18n.t('items.deposited_amount'), amount: - deposited_amount,
                                      vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
                                      accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr,
-                                     accounting_cost_center_nr: :home, parent: invoice)]
+                                     accounting_cost_center_nr: :home, parent: invoice, suggested: true)]
     end
 
     def from_supersede_invoice
@@ -81,7 +81,7 @@ class Invoice
       end.compact
     end
 
-    def overnight_stay_usage_to_item(usage)
+    def overnight_stay_usage_to_item(usage) # rubocop:disable Metrics/MethodLength
       breakdown = usage.booking.dates.filter_map do |date|
         amount = usage.details&.fetch(date.iso8601, nil)
         next if amount.blank?
@@ -94,21 +94,22 @@ class Invoice
 
       apply = usage.booking.organisation.settings.invoice_show_usage_details
       [default_usage_to_item(usage),
-       (::Invoice::Items::Text.new(label: '', apply:, breakdown:, parent: invoice) if breakdown)]
+       (::Invoice::Items::Text.new(label: '', apply:, breakdown:, parent: invoice, suggested: true) if breakdown)]
     end
 
     def default_usage_to_item(usage)
       apply = invoice.items.none? && usage.tarif.apply_usage_to_invoice?(usage, invoice)
       tarif = usage.tarif
       ::Invoice::Items::Add.new(usage: usage, apply:, label: tarif.label, vat_category: tarif.vat_category,
-                                breakdown: usage.remarks.presence || usage.breakdown,
-                                amount: usage.price, accounting_account_nr: tarif.accounting_account_nr,
-                                accounting_cost_center_nr: tarif.accounting_cost_center_nr, parent: invoice)
+                                breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price,
+                                accounting_account_nr: tarif.accounting_account_nr,
+                                accounting_cost_center_nr: tarif.accounting_cost_center_nr,
+                                parent: invoice, suggested: true)
     end
 
     def usage_group_to_item(group, group_usages)
       apply = group.present? && group_usages.any?(&:apply)
-      ::Invoice::Items::Title.new(label: group, apply:)
+      ::Invoice::Items::Title.new(label: group, apply:, parent: invoice, suggested: true)
     end
   end
 end

@@ -20,9 +20,9 @@
 #
 
 FactoryBot.define do
-  factory :item, class: Invoice::Items::Add.to_s do
+  factory :invoice_item, class: Invoice::Items::Add.to_s do
     usage { nil }
-    invoice
+    # parent { association :invoice }
     amount { usage&.price || rand(50.0..1000.0) }
     label { 'MyText' }
     breakdown { 'MyText' }
