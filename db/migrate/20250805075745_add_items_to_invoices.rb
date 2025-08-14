@@ -6,6 +6,7 @@ class AddItemsToInvoices < ActiveRecord::Migration[8.0]
     reversible do |direction|
       direction.up do
         migrate_invoice_parts
+        migrate_journal_entries
       end
     end
   end
@@ -21,6 +22,18 @@ class AddItemsToInvoices < ActiveRecord::Migration[8.0]
                                               amount breakdown label type usage_id vat_category_id
                                               id])
       invoice.reload.save!
+    end
+  end
+
+  def migrate_journal_entries
+    JournalEntryBatch.find_each do |journal_entry_batch|
+      entry_hashes = JSON.parse(journal_entry_batch.entries_before_type_cast)
+      entry_hashes = Array.wrap(entry_hashes).map do
+        it['invoice_item_id'] = it['invoice_part_id']
+        it
+      end
+      journal_entry_batch.entries = JSON.generate(entry_hashes)
+      journal_entry_batch.save!
     end
   end
 end

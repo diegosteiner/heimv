@@ -72,7 +72,7 @@ de:
         amount: Betrag
         cost_center: Kostenstelle
         haben_account: Haben Konto
-        item_id: Rechnungsposition
+        invoice_item_id: Rechnungsposition
         soll_account: Soll Konto
         text: Text
         vat_amount: Steuerbetrag (inkl.)
@@ -754,7 +754,7 @@ de:
       data_digest_templates/invoice:
         one: Rechnungen Auszug
         other: Rechnungen Auszüge
-      data_digest_templates/item:
+      data_digest_templates/invoice_item:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
       data_digest_templates/journal_entry:
@@ -1558,7 +1558,6 @@ de:
     invoices:
       form:
         payment_not_required_warning: Ohne diesen Haken wird die Belegung kann die Belegung automatisch in den nächsten Status wechseln, wenn sonst alle Bedingungen erfüllt sind.
-        suggested_items: Vorgeschlagene Positionen
     journal_entry_batches:
       index:
         process_all: Alle unverbuchten verbuchen

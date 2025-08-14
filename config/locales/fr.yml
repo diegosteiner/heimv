@@ -1432,7 +1432,6 @@ fr:
     invoices:
       form:
         payment_not_required_warning:
-        suggested_items: Positions proposées
     journal_entry_batches:
       index:
         process_all:
