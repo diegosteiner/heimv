@@ -91,7 +91,7 @@ module JournalEntryBatches
         batch.entry(soll_account: organisation.accounting_settings&.debitor_account_nr || 0,
                     haben_account: accounting_account_nr ||
                         organisation.accounting_settings&.rental_yield_account_nr.presence || 0,
-                    text:, item_id: id, amount:, vat_amount: vat_breakdown[:vat], vat_category_id:,
+                    text:, invoice_item_id: id, amount:, vat_amount: vat_breakdown[:vat], vat_category_id:,
                     cost_center: accounting_cost_center_nr.presence)
       end
     end

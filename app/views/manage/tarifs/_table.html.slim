@@ -29,7 +29,7 @@
           = f.fields_for tarif.id.to_s, tarif do |tf|
             tr.bg-white[class=('disabled' if tarif.discarded?) data-id=tarif.to_param]
               td
-                small.text-secondary= tarif.ordinal
+                small.text-muted= tarif.ordinal
               td
                 = tf.hidden_field :id
               td
@@ -43,7 +43,7 @@
                 = tf.text_field :price_per_unit, skip_label: true, wrapper: false, disabled: tarif.discarded?, inputmode: "numeric" 
               td
                 = tarif.unit
-                small.d-block.text-secondary= tarif.class.model_name.human
+                small.d-block.text-muted= tarif.class.model_name.human
               td.text-end
                 .btn-group
                   - unless tarif.discarded?

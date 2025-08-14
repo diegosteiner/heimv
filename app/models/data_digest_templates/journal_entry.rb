@@ -69,7 +69,7 @@ module DataDigestTemplates
     column_type :default do
       body do |journal_entry, template_context_cache|
         booking = journal_entry.parent.booking
-        context = template_context_cache[cache_key(journal_entry)] ||=
+        context = template_context_cache[cache_key(journal_entry.journal_entry_batch, journal_entry.hash)] ||=
           TemplateContext.new(booking:, organisation: booking.organisation, journal_entry:).to_h
         @templates[:body]&.render!(context)
       end

@@ -73,8 +73,15 @@ export default function InvoiceItemElement({
         {item.errors && Object.keys(item.errors).length > 0 && (
           <span className="fa fa-exclamation-circle text-danger fs-5 ms-3" />
         )}
+        {item.suggested && (
+          <span
+            title={t("activemodel.attributes.invoice/item.suggested")}
+            className="fa fa-lightbulb-o ms-3 text-warning fs-4"
+          />
+        )}
         <input type="hidden" name={`${namePrefix}[id]`} value={item.id} />
         <input type="hidden" name={`${namePrefix}[type]`} value={item.type} />
+        <input type="hidden" name={`${namePrefix}[usage_id]`} value={item.usage_id} />
         <input type="hidden" name={`${namePrefix}[accounting_account_nr]`} value={item.accounting_account_nr || ""} />
         <input
           type="hidden"
@@ -138,47 +145,28 @@ export default function InvoiceItemElement({
         )}
       </Form.Group>
       <div className="col-lg-1 col-md-2 d-flex justify-content-end align-items-center">
-        {item.suggested ? (
-          <>
-            <span
-              title={t("activemodel.attributes.invoice/item.suggested")}
-              className="fa fa-lightbulb-o me-2 text-warning fs-4"
-            />
-            <Form.Check
-              inline
-              type="checkbox"
-              className="my-3"
-              label={false}
-              title={t("activemodel.attributes.invoice/item.apply")}
-              checked={item.apply}
-              name={`${namePrefix}[apply]`}
-              onChange={(event) => handleChange({ apply: event.target.checked })}
-            />
-          </>
-        ) : (
-          <div className="btn-group">
-            {[InvoiceItemType.Add, InvoiceItemType.Deposit].includes(item.type) && (
-              <button
-                disabled={disabled}
-                type="button"
-                className="btn btn-default text-primary"
-                title={t("edit")}
-                onClick={handleEdit}
-              >
-                <span className="fa fa-pencil" />
-              </button>
-            )}
+        <div className="btn-group">
+          {[InvoiceItemType.Add, InvoiceItemType.Deposit].includes(item.type) && (
             <button
               disabled={disabled}
               type="button"
-              className="btn btn-default text-primary"
-              title={t("destroy")}
-              onClick={() => onRemove?.(item)}
+              className="btn btn-default"
+              title={t("edit")}
+              onClick={handleEdit}
             >
-              <span className="fa fa-trash" />
+              <span className="fa fa-pencil" />
             </button>
-          </div>
-        )}
+          )}
+          <button
+            disabled={disabled}
+            type="button"
+            className="btn btn-default"
+            title={t("destroy")}
+            onClick={() => onRemove?.(item)}
+          >
+            <span className="fa fa-trash" />
+          </button>
+        </div>
       </div>
       <Modal show={editing} onHide={() => setEditing(false)}>
         <Modal.Body>
