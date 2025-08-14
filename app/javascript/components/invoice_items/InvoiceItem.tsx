@@ -27,6 +27,11 @@ export type InvoiceItem = {
   label?: string;
   usage_id?: string | undefined;
   vat_category_id?: string | undefined;
+  errors?: {
+    label?: string[];
+    vat_category_id?: string[];
+    accounting_account_nr?: string[];
+  };
 };
 
 export function initializeInvoiceItem(item: Partial<InvoiceItem> & Pick<InvoiceItem, "type">): InvoiceItem {
@@ -65,11 +70,18 @@ export default function InvoiceItemElement({
     <Row>
       <Col md={1} className="sortable-handle align-items-center d-flex">
         <span className="fa fa-bars" />
+        {item.errors && Object.keys(item.errors).length > 0 && (
+          <span className="fa fa-exclamation-circle text-danger fs-5 ms-3" />
+        )}
         <input type="hidden" name={`${namePrefix}[id]`} value={item.id} />
         <input type="hidden" name={`${namePrefix}[type]`} value={item.type} />
-        <input type="hidden" name={`${namePrefix}[accounting_account_nr]`} value={item.accounting_account_nr} />
-        <input type="hidden" name={`${namePrefix}[accounting_cost_center_nr]`} value={item.accounting_cost_center_nr} />
-        <input type="hidden" name={`${namePrefix}[vat_category_id]`} value={item.vat_category_id} />
+        <input type="hidden" name={`${namePrefix}[accounting_account_nr]`} value={item.accounting_account_nr || ""} />
+        <input
+          type="hidden"
+          name={`${namePrefix}[accounting_cost_center_nr]`}
+          value={item.accounting_cost_center_nr || ""}
+        />
+        <input type="hidden" name={`${namePrefix}[vat_category_id]`} value={item.vat_category_id || ""} />
         {item.suggested && <input type="hidden" name={`${namePrefix}[suggested]`} value="1" />}
       </Col>
       <Form.Group className="col-md-3 py-1">
@@ -176,7 +188,11 @@ export default function InvoiceItemElement({
               type="text"
               value={item.accounting_account_nr}
               onChange={(event) => handleChange({ accounting_account_nr: event.target.value })}
+              isInvalid={!!item.errors?.accounting_account_nr}
             />
+            <Form.Control.Feedback type="invalid">
+              {Array.from(item.errors?.accounting_account_nr || []).join(",")}
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>{t("activemodel.attributes.invoice/item.accounting_cost_center_nr")}</Form.Label>
@@ -191,6 +207,7 @@ export default function InvoiceItemElement({
             <Form.Select
               value={item.vat_category_id}
               onChange={(event) => handleChange({ vat_category_id: event.target.value })}
+              isInvalid={!!item.errors?.vat_category_id}
             >
               <option />
               {Array.from(optionsForSelect.vatCategories).map(({ id, label, percentage }) => (
@@ -199,6 +216,9 @@ export default function InvoiceItemElement({
                 </option>
               ))}
             </Form.Select>
+            <Form.Control.Feedback type="invalid">
+              {Array.from(item.errors?.vat_category_id || []).join(",")}
+            </Form.Control.Feedback>
           </Form.Group>
           <Button variant="primary" type="button" onClick={() => setEditing(false)}>
             {t("helpers.submit.update")}

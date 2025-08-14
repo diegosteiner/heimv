@@ -10,6 +10,7 @@ export type Props = {
   value?: InvoiceItem[];
   name: string;
   disabled: boolean;
+  errors?: string[];
   optionsForSelect: {
     vatCategories: VatCategory[];
   };

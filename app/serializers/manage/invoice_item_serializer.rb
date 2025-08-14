@@ -22,5 +22,10 @@ module Manage
     field :booking_id do |item|
       item.booking&.id
     end
+
+    view :with_errors do
+      include_view :default
+      field :errors
+    end
   end
 end

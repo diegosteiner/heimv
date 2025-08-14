@@ -18,7 +18,7 @@ RSpec.describe Usage::Factory do
       expect(build).to(be_all { |actual| actual.is_a?(Usage) })
       tarif_ids = build.map(&:tarif_id)
       expect(tarif_ids).to include(*tarifs.map(&:id))
-      expect(tarif_ids).not_to include(existing_usage.id)
+      expect(tarif_ids).not_to include(existing_usage.tarif_id)
     end
   end
 end

@@ -79,6 +79,7 @@ class Invoice < ApplicationRecord
   after_save :update_journal_entry_batches, unless: :skip_journal_entry_batches
 
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
+  validates :items, store_model: true
   validate do
     errors.add(:supersede_invoice_id, :invalid) if supersede_invoice && supersede_invoice.organisation != organisation
   end

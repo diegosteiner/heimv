@@ -3,21 +3,34 @@
 
   fieldset[v-pre]
     = f.hidden_field :booking_id
-    = f.select :type, subtype_options_for_select(Invoice.subtypes), { include_blank: true, wrapper: { class: 'col-lg-6 mb-3' } }, readonly: true
+    .row
+      .col-md-6
+        = f.select :type, subtype_options_for_select(Invoice.subtypes), include_blank: true, readonly: true
 
+    .row 
+      .col-md-6
+        = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
+      .col-md-6
+        = f.date_field :payable_until, lang: I18n.locale
+        / = f.text_field :respite_days, inputmode: "numeric"
+
+    .row 
+      .col-md-6
+        = f.select :payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true 
+      .col-md-6
+        label.form-label.pb-1 
+          | &nbsp;
+        = f.check_box :payment_required do 
+          p.mb-1= Invoice.human_attribute_name(:payment_required)
+          p.payment_not_required_warning.mb-0.text-warning.small= t(".payment_not_required_warning")
+    
     = f.text_area :text, class: 'rich-text-area'
-    = f.date_field :issued_at, lang: I18n.locale, help: t('optional'), wrapper: { class: 'col-lg-6 mb-3' }
-    = f.date_field :payable_until, lang: I18n.locale, wrapper: { class: 'col-lg-6 mb-3' }
-    / = f.text_field :respite_days, inputmode: "numeric"
-
-    = f.select :payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true , wrapper: { class: 'col-lg-6 mb-3' }
-    = f.check_box :payment_required do 
-      p.mb-1= Invoice.human_attribute_name(:payment_required)
-      p.payment_not_required_warning.mb-0.text-warning.small= t(".payment_not_required_warning")
 
     label.mb-2= ::Invoice::Item.model_name.human(count: 2)
+    - if @invoice.errors.key?(:items)
+      p.invalid-feedback.d-block= @invoice.errors.messages_for(:items).to_sentence.presence
     = react_component('InvoiceItemsContainer', { \ 
-      value: Manage::InvoiceItemSerializer.render_as_hash(@invoice.items || []), \
+      value: Manage::InvoiceItemSerializer.render_as_hash(@invoice.items || [], view: :with_errors), \
       name: f.field_name(:items_attributes), \
       optionsForSelect: {  \
         vatCategories: Public::VatCategorySerializer.render_as_hash(current_organisation.vat_categories) \
