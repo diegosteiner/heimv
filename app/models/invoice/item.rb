@@ -23,9 +23,9 @@ class Invoice
 
     delegate :booking, :organisation, to: :invoice, allow_nil: true
 
-    validates :type, :presence, inclusion: { in: ->(_) { Invoice::Item.subtypes.keys.map(&:to_s) } }
-    validates :id, :vat_category_id, presence: true, on: :create, if: :vat_category_required?
-    validates :accounting_account_nr, presence: true, on: :create, if: :accounting_account_nr_required?
+    validates :type, presence: true, inclusion: { in: ->(_) { Invoice::Item.subtypes.keys.map(&:to_s) } }
+    validates :id, :vat_category_id, presence: true, if: :vat_category_required?
+    validates :accounting_account_nr, presence: true, if: :accounting_account_nr_required?
 
     before_validation do
       self.id = id.presence || Digest::UUID.uuid_v4

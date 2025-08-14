@@ -36,9 +36,9 @@ module JournalEntryBatches
 
     def self.handle_save(invoice)
       previous_batch = existing_batches(invoice).processed.last
-      new_batch = build_with_invoice(invoice)
-
       return true if previous_batch.blank? && invoice.amount.zero?
+
+      new_batch = build_with_invoice(invoice)
       return true if new_batch.equivalent?(previous_batch)
 
       date = invoice.issued_at.to_date

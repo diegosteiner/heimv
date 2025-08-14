@@ -43,8 +43,9 @@ module Manage
     end
 
     def update
+      @booking = @invoice.booking
       @invoice.update(invoice_params) unless @invoice.discarded?
-      respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
+      respond_with :manage, @invoice, location: -> { manage_booking_invoices_path(@invoice.booking) }
     end
 
     def destroy
