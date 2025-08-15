@@ -12,7 +12,7 @@ class TransitionBookingStatesJob < ApplicationJob
       Booking::Log.log(booking, trigger: :auto, data: { transitions: })
       job_transitions[booking.id] = transitions
     rescue ActiveRecord::RecordInvalid => e
-      Rails.error.report(exception)
+      Rails.error.report(e)
       ExceptionNotifier.notify_exception(e, data: booking.attributes) if defined?(ExceptionNotifier)
     end
 
