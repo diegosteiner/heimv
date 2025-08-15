@@ -69,13 +69,10 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :items, reject_if: :all_blank, allow_destroy: true
 
-  before_save :sequence_number, :generate_ref, :generate_payment_ref, :recalculate
+  before_save :sequence_number, :generate_ref, :generate_payment_ref, :filter_unapplied_items, :recalculate
   before_save :generate_pdf, if: :generate_pdf?
-  before_save do
-    self.items = items&.filter { it.present? && (!it.suggested || it.apply) }
-  end
   after_create :supersede!
-  after_save :recalculate!, :update_payments
+  after_save :update_payments
   after_save :update_journal_entry_batches, unless: :skip_journal_entry_batches
 
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
@@ -85,11 +82,15 @@ class Invoice < ApplicationRecord
   end
 
   def items
-    super || []
+    super || self.items = []
   end
 
   def generate_pdf?
     kept? && !skip_generate_pdf && (changed? || pdf.blank?)
+  end
+
+  def filter_unapplied_items
+    self.items = items.filter { it.present? && (!it.suggested || it.apply) }
   end
 
   def supersede!
@@ -154,12 +155,6 @@ class Invoice < ApplicationRecord
   def recalculate
     self.amount = items.reduce(0) { |sum, item| item.to_sum(sum) } || 0
     self.amount_open = amount - amount_paid
-  end
-
-  # TODO: describe why this is needed
-  def recalculate!
-    recalculate
-    save! if amount_changed? || amount_open_changed?
   end
 
   def filename

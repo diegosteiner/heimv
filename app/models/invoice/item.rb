@@ -90,11 +90,13 @@ class Invoice
     end
 
     def accounting_account_nr_required?
-      !to_sum(0).zero? && organisation&.accounting_settings&.enabled
+      !to_sum(0).zero? && organisation&.accounting_settings&.enabled &&
+        (invoice.new_record? || invoice.created_at&.>(Time.zone.local(2025, 6, 1))) # TODO: remove after a year
     end
 
     def vat_category_required?
-      !to_sum(0).zero? && organisation&.accounting_settings&.liable_for_vat
+      !to_sum(0).zero? && organisation&.accounting_settings&.liable_for_vat &&
+        (invoice.new_record? || invoice.created_at&.>(Time.zone.local(2025, 6, 1))) # TODO: remove after a year
     end
 
     def self.one_of
