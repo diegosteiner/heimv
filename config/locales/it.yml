@@ -729,9 +729,6 @@ it:
       data_digest_templates/invoice:
         one: Fatture (estratto)
         other: Estratti di fatture
-      data_digest_templates/item:
-        one: Voci di fattura (estratto)
-        other: Estratti di voci di fattura
       data_digest_templates/meter_reading_period:
         one:
         other:
