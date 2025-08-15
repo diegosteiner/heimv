@@ -32,6 +32,6 @@ class SmtpSettings
   end
 
   def xoauth2_token
-    @xoauth2_token ||= parent.oauth_tokens.find_by(audience: :smtp)
+    parent.oauth_tokens.find_by(audience: :smtp)
   end
 end
