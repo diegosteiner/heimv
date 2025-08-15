@@ -118,9 +118,6 @@ it:
       invoice/items/deposit:
         one:
         other:
-      invoice/items/percentage:
-        one: Sconto
-        other: Sconto
     models:
       accounting_settings:
       booking_condition:
@@ -1316,8 +1313,6 @@ it:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
       minimum: Importo minimo %{minimum}
-    deposited_amount:
-    unassigned_payments_amount:
   layouts:
     footer:
       legal:

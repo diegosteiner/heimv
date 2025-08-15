@@ -9,7 +9,7 @@ module Manage
     association :vat_category, blueprint: Public::VatCategorySerializer
 
     fields :amount, :label, :breakdown, :usage_id, :suggested, :apply, :vat_category_id,
-           :accounting_account_nr, :accounting_cost_center_nr, :vat_breakdown
+           :accounting_account_nr, :accounting_cost_center_nr, :vat_breakdown, :deposit_id
 
     field :type do |item|
       item.type

@@ -69,7 +69,7 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :items, reject_if: :all_blank, allow_destroy: true
 
-  before_save :sequence_number, :generate_ref, :generate_payment_ref, :filter_unapplied_items, :recalculate
+  before_save :sequence_number, :generate_ref, :generate_payment_ref, :recalculate
   before_save :generate_pdf, if: :generate_pdf?
   after_create :supersede!
   after_save :update_payments
@@ -87,10 +87,6 @@ class Invoice < ApplicationRecord
 
   def generate_pdf?
     kept? && !skip_generate_pdf && (changed? || pdf.blank?)
-  end
-
-  def filter_unapplied_items
-    self.items = items.filter { it.present? && (!it.suggested || it.apply) }
   end
 
   def supersede!

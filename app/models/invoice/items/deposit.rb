@@ -24,18 +24,12 @@ class Invoice
     class Deposit < Add
       Invoice::Item.register_subtype self
 
-      attr_accessor :reassign_payments
-
-      # after_save :reassign_payments!
+      def deposit
+        invoice.booking.invoices.deposits.find_by(id: deposit_id)
+      end
 
       def vat_category_required?
         false
-      end
-
-      def reassign_payments!(payments = reassign_payments)
-        return unless valid? && apply
-
-        payments&.each { |payment| payment&.update!(invoice:) }
       end
     end
   end

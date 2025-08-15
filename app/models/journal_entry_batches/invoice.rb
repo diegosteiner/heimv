@@ -81,6 +81,8 @@ module JournalEntryBatches
       case item
       when ::Invoice::Items::Add, ::Invoice::Items::Deposit
         build_with_add_item(batch, item)
+      when ::Invoice::Items::Balance
+        # No journal entries for balance
       end
     end
 

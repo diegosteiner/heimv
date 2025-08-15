@@ -19,13 +19,13 @@ class Invoice
     attribute :label
     attribute :type
     attribute :usage_id
+    attribute :deposit_id
     attribute :vat_category_id
 
     delegate :booking, :organisation, to: :invoice, allow_nil: true
 
     validates :type, presence: true, inclusion: { in: ->(_) { Invoice::Item.subtypes.keys.map(&:to_s) } }
-    validates :id, :vat_category_id, presence: true, if: :vat_category_required?
-    validates :accounting_account_nr, presence: true, if: :accounting_account_nr_required?
+    validates :id, presence: true
 
     before_validation do
       self.id = id.presence || Digest::UUID.uuid_v4
@@ -39,6 +39,10 @@ class Invoice
 
     def invoice
       parent
+    end
+
+    def invoice=(value)
+      self.parent = value
     end
 
     def usage
@@ -87,16 +91,6 @@ class Invoice
 
     def to_sum(sum)
       sum + (calculated_amount || 0)
-    end
-
-    def accounting_account_nr_required?
-      !to_sum(0).zero? && organisation&.accounting_settings&.enabled &&
-        (invoice.new_record? || invoice.created_at&.>(Time.zone.local(2025, 6, 1))) # TODO: remove after a year
-    end
-
-    def vat_category_required?
-      !to_sum(0).zero? && organisation&.accounting_settings&.liable_for_vat &&
-        (invoice.new_record? || invoice.created_at&.>(Time.zone.local(2025, 6, 1))) # TODO: remove after a year
     end
 
     def self.one_of

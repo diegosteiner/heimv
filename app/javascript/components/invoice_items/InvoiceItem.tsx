@@ -9,16 +9,15 @@ import type { VatCategory } from "../../models/VatCategory";
 
 export enum InvoiceItemType {
   Add = "Invoice::Items::Add",
+  Balance = "Invoice::Items::Balance",
   Deposit = "Invoice::Items::Deposit",
   Text = "Invoice::Items::Text",
   Title = "Invoice::Items::Title",
-  Percentage = "Invoice::Items::Percentage",
 }
 
 export type InvoiceItem = {
   id: string;
   type: InvoiceItemType;
-  apply?: boolean;
   suggested?: boolean;
   accounting_account_nr?: string | undefined;
   accounting_cost_center_nr?: string | undefined;
@@ -26,6 +25,7 @@ export type InvoiceItem = {
   breakdown?: string;
   label?: string;
   usage_id?: string | undefined;
+  deposit_id?: string | undefined;
   vat_category_id?: string | undefined;
   errors?: {
     label?: string[];
@@ -65,7 +65,9 @@ export default function InvoiceItemElement({
     [disabled, item, onChange],
   );
   const vat_category =
-    item.vat_category_id && optionsForSelect.vatCategories.find((it) => it.id.toString() === item.vat_category_id);
+    item.vat_category_id &&
+    optionsForSelect.vatCategories.find((it) => it.id.toString() === item.vat_category_id?.toString());
+  console.log(optionsForSelect, item.vat_category_id, vat_category);
   return (
     <Row>
       <Col md={1} className="sortable-handle align-items-center d-flex">
@@ -82,6 +84,7 @@ export default function InvoiceItemElement({
         <input type="hidden" name={`${namePrefix}[id]`} value={item.id} />
         <input type="hidden" name={`${namePrefix}[type]`} value={item.type} />
         <input type="hidden" name={`${namePrefix}[usage_id]`} value={item.usage_id} />
+        <input type="hidden" name={`${namePrefix}[deposit_id]`} value={item.deposit_id} />
         <input type="hidden" name={`${namePrefix}[accounting_account_nr]`} value={item.accounting_account_nr || ""} />
         <input
           type="hidden"
@@ -103,7 +106,7 @@ export default function InvoiceItemElement({
         </FloatingLabel>
       </Form.Group>
       <Form.Group className="col-lg-5 col-md-3 py-1">
-        {[InvoiceItemType.Add, InvoiceItemType.Deposit].includes(item.type) && (
+        {[InvoiceItemType.Add, InvoiceItemType.Balance, InvoiceItemType.Deposit].includes(item.type) && (
           <FloatingLabel label={t("activemodel.attributes.invoice/item.breakdown")}>
             <Form.Control
               type="text"
@@ -116,7 +119,7 @@ export default function InvoiceItemElement({
         )}
       </Form.Group>
       <Form.Group className="col-lg-2 col-md-3 py-1">
-        {[InvoiceItemType.Add, InvoiceItemType.Deposit].includes(item.type) && (
+        {[InvoiceItemType.Add, InvoiceItemType.Balance, InvoiceItemType.Deposit].includes(item.type) && (
           <FloatingLabel
             label={
               vat_category
@@ -146,7 +149,7 @@ export default function InvoiceItemElement({
       </Form.Group>
       <div className="col-lg-1 col-md-2 d-flex justify-content-end align-items-center">
         <div className="btn-group">
-          {[InvoiceItemType.Add, InvoiceItemType.Deposit].includes(item.type) && (
+          {[InvoiceItemType.Add, InvoiceItemType.Balance, InvoiceItemType.Deposit].includes(item.type) && (
             <button
               disabled={disabled}
               type="button"

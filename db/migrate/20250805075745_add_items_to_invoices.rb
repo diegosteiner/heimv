@@ -6,7 +6,7 @@ class AddItemsToInvoices < ActiveRecord::Migration[8.0]
     'InvoiceParts::Title' => 'Invoice::Items::Title',
     'InvoiceParts::Text' => 'Invoice::Items::Text',
     'InvoiceParts::Deposit' => 'Invoice::Items::Deposit',
-    'InvoiceParts::Percentage' => 'Invoice::Items::Percentage'
+    'InvoiceParts::Percentage' => 'Invoice::Items::Add'
   }.freeze
 
   def change

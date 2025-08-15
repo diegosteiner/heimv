@@ -125,12 +125,12 @@ de:
       invoice/items/add:
         one: Normale Rechungsposition
         other: Normale Rechnungspositionen
+      invoice/items/balance:
+        one: Saldo Rechnungsposition
+        other: Saldo Rechnungspositionen
       invoice/items/deposit:
         one: Akontorechnung Rechungsposition
         other: Akontorechnung Rechnungspositionen
-      invoice/items/percentage:
-        one: Rabatt Rechnungsposition
-        other: Rabatt Rechnungspositionen
       invoice/items/text:
         one: Text Rechnungsposition
         other: Text Rechnungspositionen
@@ -1472,16 +1472,15 @@ de:
       update: Speichern
   import: Import
   import_records: "%{model_name} importieren"
-  invoices:
-    total: Total
-    vat_title: in den Preisen enhaltene MwSt.
-  items:
+  invoice_items:
+    balance_breakdown: Saldo aus Anzahlungen
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
-    deposited_amount: Gutschrift aus Akontorechnung
-    unassigned_payments_amount: Saldo aus bereits geleisteten Zahlungen
+  invoices:
+    total: Total
+    vat_title: in den Preisen enhaltene MwSt.
   layouts:
     footer:
       legal:
