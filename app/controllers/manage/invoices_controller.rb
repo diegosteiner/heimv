@@ -27,7 +27,7 @@ module Manage
     end
 
     def new
-      @invoice = Invoice::Factory.new(@booking).build(invoice_params)
+      @invoice = Invoice::Factory.new(@booking).build(suggest_items: true, **invoice_params)
       respond_with :manage, @booking, @invoice
     end
 
@@ -43,12 +43,13 @@ module Manage
     end
 
     def update
+      @booking = @invoice.booking
       @invoice.update(invoice_params) unless @invoice.discarded?
-      respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
+      respond_with :manage, @invoice, location: -> { manage_booking_invoices_path(@invoice.booking) }
     end
 
     def destroy
-      @invoice.discarded? ? @invoice.destroy : @invoice.discard!
+      @invoice.discarded? || !@invoice.sent? ? @invoice.destroy : @invoice.discard!
       respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
     end
 
@@ -56,8 +57,7 @@ module Manage
 
     def set_filter
       invoice_types = if @booking.blank?
-                        %w[Invoices::Invoice Invoices::Deposit Invoices::LateNotice
-                           Invoices::LateNotice::Invoice]
+                        %w[Invoices::Invoice Invoices::Deposit Invoices::LateNotice Invoices::LateNotice::Invoice]
                       end
       default_filter_params = { paid: false, invoice_types: }.with_indifferent_access
       @filter = Invoice::Filter.new(default_filter_params.merge(invoice_filter_params || {}))

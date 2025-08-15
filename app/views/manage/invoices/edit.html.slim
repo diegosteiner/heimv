@@ -1,7 +1,7 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :invoices, booking: @booking }
 
 .row.justify-content-center
-  .col-lg-8
+  .col-lg-10
     - if @invoice.is_a?(Invoices::LateNotice)
       .alert.alert-warning[role="alert"]
         p.m-0

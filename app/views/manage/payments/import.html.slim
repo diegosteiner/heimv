@@ -56,5 +56,5 @@
                   = pf.text_area :remarks, skip_label: true, rows: 5
               td.bg-transparent.py-2
                 = pf.check_box :confirm, label: tag.span(class: 'fa fa-envelope-o', title: Payment.human_attribute_name(:confirm))
-    = f.submit t('helpers.submit.create', model: Payment.model_name.human(count: 2))
+    = f.submit t('helpers.submit.create', model: Payment.model_name.human(count: 2)), class: 'btn btn-primary'
 

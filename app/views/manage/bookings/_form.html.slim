@@ -109,6 +109,6 @@
       = af.text_field :booking_agent_ref
 
   .form-actions.pt-4.mt-3
-    = f.submit
+    = f.submit class: 'btn btn-primary'
     - unless @booking.new_record?
       =<> link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default'

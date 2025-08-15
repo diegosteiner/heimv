@@ -22,8 +22,6 @@ class Payment
         payment.organisation = @organisation
         payment.paid_at ||= Time.zone.now
         payment.amount ||= payment.invoice&.amount_open
-        payment.accounting_account_nr = payment.accounting_account_nr.presence ||
-                                        @organisation&.accounting_settings&.payment_account_nr
       end
     end
   end

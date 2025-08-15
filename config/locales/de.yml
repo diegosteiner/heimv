@@ -52,7 +52,19 @@ de:
         paid: Zahlungstatus
         payable_until_after: Zahlbar bis ab
         payable_until_before: Zahlbar bis bis
-      invoice_part/filter:
+      invoice/item:
+        accounting_account_nr: Buchhaltungskonto
+        accounting_cost_center_nr: Kostenstelle
+        amount: Betrag
+        amount_with_vat: Betrag inkl. %{vat_percentage}% MwSt. (%{vat_label})
+        apply: Anwenden
+        breakdown: Aufschlüsselung
+        label: Text
+        suggested: Vorschlag
+        type: Art der Rechnungsposition
+        vat: inkl. MwSt. in Prozent
+        vat_category_id: MwSt. Kategorie
+      item/filter:
         homes: Hauptmietobjekte
         issued_at_after: Rechnungsdatum ab
         issued_at_before: Rechnungsdatum bis
@@ -60,7 +72,7 @@ de:
         amount: Betrag
         cost_center: Kostenstelle
         haben_account: Haben Konto
-        invoice_part_id: Rechnungsposition
+        invoice_item_id: Rechnungsposition
         soll_account: Soll Konto
         text: Text
         vat_amount: Steuerbetrag (inkl.)
@@ -109,6 +121,22 @@ de:
         paid_at_before: Zahlung bis
         ref: Zahlungsreferenz
         sort: Sortierung
+    model:
+      invoice/items/add:
+        one: Normale Rechungsposition
+        other: Normale Rechnungspositionen
+      invoice/items/deposit:
+        one: Akontorechnung Rechungsposition
+        other: Akontorechnung Rechnungspositionen
+      invoice/items/percentage:
+        one: Rabatt Rechnungsposition
+        other: Rabatt Rechnungspositionen
+      invoice/items/text:
+        one: Text Rechnungsposition
+        other: Text Rechnungspositionen
+      invoice/items/title:
+        one: Titel Rechnungsposition
+        other: Titel Rechnungspositionen
     models:
       accounting_settings: Buchhaltungseinstellungen
       booking_condition:
@@ -158,6 +186,9 @@ de:
         other:
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen
+      invoice/item:
+        one: Rechungsposition
+        other: Rechungspositionen
       journal_entry_batch/entry:
         one: Buchungssatz
         other: Buchungssätze
@@ -303,8 +334,8 @@ de:
         amount_paid: bezahlter Betrag
         booking_id: Buchung
         esr_number: ESR Nummer
-        invoice_parts: Rechnungspositionen
         issued_at: Ausgestellt am
+        items: Rechnungspositionen
         locale: Sprache
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
@@ -314,17 +345,6 @@ de:
         sent_at: Rechnungsdatum
         text: Text
         type: Rechnungsart
-      invoice_part:
-        accounting_account_nr: Buchhaltungskonto
-        accounting_cost_center_nr: Kostenstelle
-        amount: Betrag
-        apply: Anwenden
-        breakdown: Aufschlüsselung
-        label: Text
-        ordinal_position: Ordnungsnummer
-        type: Art der Rechnungsposition
-        vat: inkl. MwSt. in Prozent
-        vat_category_id: MwSt. Kategorie
       journal_entry_batch:
         amount: Betrag
         booking_id: Buchung
@@ -734,7 +754,7 @@ de:
       data_digest_templates/invoice:
         one: Rechnungen Auszug
         other: Rechnungen Auszüge
-      data_digest_templates/invoice_part:
+      data_digest_templates/invoice_item:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
       data_digest_templates/journal_entry:
@@ -761,18 +781,6 @@ de:
       invoice:
         one: Rechnung
         other: Rechnungen
-      invoice_part:
-        one: Rechungsposition
-        other: Rechungspositionen
-      invoice_parts/add:
-        one: Normale Rechungsposition
-        other: Normale Rechnungspositionen
-      invoice_parts/deposit:
-        one: Akontorechnung Rechungsposition
-        other: Akontorechnung Rechnungspositionen
-      invoice_parts/percentage:
-        one: Rabatt
-        other: Rabatt
       invoices/deposit:
         one: Akontorechnung
         other: Akontorechnungen
@@ -1464,16 +1472,16 @@ de:
       update: Speichern
   import: Import
   import_records: "%{model_name} importieren"
-  invoice_parts:
+  invoices:
+    total: Total
+    vat_title: in den Preisen enhaltene MwSt.
+  items:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
     deposited_amount: Gutschrift aus Akontorechnung
     unassigned_payments_amount: Saldo aus bereits geleisteten Zahlungen
-  invoices:
-    total: Total
-    vat_title: in den Preisen enhaltene MwSt.
   layouts:
     footer:
       legal:
@@ -1550,7 +1558,6 @@ de:
     invoices:
       form:
         payment_not_required_warning: Ohne diesen Haken wird die Belegung kann die Belegung automatisch in den nächsten Status wechseln, wenn sonst alle Bedingungen erfüllt sind.
-        suggested_invoice_parts: Vorgeschlagene Positionen
     journal_entry_batches:
       index:
         process_all: Alle unverbuchten verbuchen
