@@ -34,6 +34,7 @@ class VatCategory < ApplicationRecord
   end
 
   def breakdown(brutto, digits: 4)
+    brutto ||= 0
     vat = 0
     vat = ((brutto / (100 + percentage)) * percentage).round(digits) if percentage.present?
     { brutto:, vat:, netto: brutto - vat }

@@ -13,75 +13,80 @@ class Invoice
     def build
       I18n.with_locale(invoice.locale || I18n.locale) do
         [
-          from_unassigned_payments.presence,
-          from_deposits.presence,
-          from_supersede_invoice.presence,
-          from_usages.presence
+          build_from_deposits.presence,
+          build_from_balance.presence,
+          build_from_supersede_invoice.presence,
+          build_from_usage_groups.presence
         ].flatten.compact
       end
     end
 
     protected
 
-    def from_usages(usages = booking.usages.ordered.where.not(id: invoice.items.map(&:usage_id)))
-      usages.group_by(&:tarif_group).filter_map do |group, grouped_usages|
-        items_group = usages_to_items(grouped_usages)
-        next unless items_group.any?
+    def build_from_usage_groups(usages = booking.usages.ordered.where.not(id: invoice.items.map(&:usage_id)))
+      usages.group_by(&:tarif_group).filter_map do |label, grouped_usages|
+        usage_group_items = grouped_usages.map { build_from_usage(it) }.compact
+        next unless usage_group_items.any?
 
-        title = usage_group_to_item(group, items_group)
-        [title, items_group]
+        [build_title(label:), usage_group_items]
       end.flatten
     end
 
-    def from_unassigned_payments # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
-      unassigned_payments = booking.payments.where(invoice: nil, write_off: false)
-      payed_amount = unassigned_payments.sum(:amount)
-      return [] unless payed_amount.positive? && invoice.new_record?
+    def build_from_balance
+      unassigned_payments_amount = booking.payments.where(invoice: nil, write_off: false).sum(:amount) || 0
+      deposit_balance = deposits.sum(&:amount_open) || 0
+      amount = deposit_balance - unassigned_payments_amount
+      return if amount.zero?
 
-      apply = invoice.items.none?
+      build_item(class: ::Invoice::Items::Balance, label: I18n.t('invoice_items.balance_breakdown'),
+                 amount:, accounting_cost_center_nr: :home,
+                 vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
+                 accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr)
+    end
+
+    def build_item(**attributes)
+      item_class = attributes.delete(:class) || ::Invoice::Items::Add
+      item_class.new(invoice: invoice, suggested: true, **attributes)
+    end
+
+    def build_title(**attributes)
+      build_item(class: ::Invoice::Items::Title, **attributes)
+    end
+
+    def deposits
+      booking.invoices.deposits.kept.where.not(id: invoice.id)
+    end
+
+    def build_from_deposits # rubocop:disable Metrics/AbcSize
+      return unless deposits.exists?
 
       [
-        ::Invoice::Items::Deposit.new(apply:, label: I18n.t('items.unassigned_payments_amount'),
-                                      amount: - payed_amount, reassign_payments: unassigned_payments,
-                                      vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
-                                      accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr,
-                                      accounting_cost_center_nr: :home, parent: invoice, suggested: true)
+        build_item(class: ::Invoice::Items::Title, label: Invoices::Deposit.model_name.human(count: 2)),
+        deposits.map do |deposit|
+          build_item(label: "#{deposit.model_name.human} #{deposit.ref}", breakdown: I18n.l(deposit.issued_at&.to_date),
+                     amount: -deposit.amount, accounting_cost_center_nr: :home,
+                     vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
+                     accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr)
+        end
       ]
     end
 
-    def from_deposits # rubocop:disable Metrics/AbcSize
-      deposited_payments = Payment.joins(:invoice).where(invoice: { type: Invoices::Deposit.sti_name,
-                                                                    discarded_at: nil }, booking:, write_off: false)
-      deposited_amount = deposited_payments.sum(:amount)
-      return [] unless deposited_amount.positive? && invoice.new_record? && invoice.is_a?(Invoices::Invoice)
-
-      apply = invoice.items.none?
-
-      [::Invoice::Items::Title.new(apply:, label: Invoices::Deposit.model_name.human, parent: invoice, suggested: true),
-       ::Invoice::Items::Deposit.new(apply:, label: I18n.t('items.deposited_amount'), amount: - deposited_amount,
-                                     vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
-                                     accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr,
-                                     accounting_cost_center_nr: :home, parent: invoice, suggested: true)]
-    end
-
-    def from_supersede_invoice
+    def build_from_supersede_invoice
       @invoice.supersede_invoice&.items&.map(&:dup) if @invoice.new_record?
     end
 
-    def usages_to_items(usages)
-      usages.flat_map do |usage|
-        next unless usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class))
+    def build_from_usage(usage)
+      return unless usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class))
 
-        case usage.tarif
-        when Tarifs::OvernightStay
-          overnight_stay_usage_to_item(usage)
-        else
-          default_usage_to_item(usage)
-        end
-      end.compact
+      case usage.tarif
+      when Tarifs::OvernightStay
+        build_from_overnight_stay_usage(usage)
+      else
+        build_from_default_usage(usage)
+      end
     end
 
-    def overnight_stay_usage_to_item(usage) # rubocop:disable Metrics/MethodLength
+    def build_from_overnight_stay_usage(usage)
       breakdown = usage.booking.dates.filter_map do |date|
         amount = usage.details&.fetch(date.iso8601, nil)
         next if amount.blank?
@@ -92,24 +97,14 @@ class Invoice
         ].join(': ')
       end.join("\n").presence
 
-      apply = usage.booking.organisation.settings.invoice_show_usage_details
-      [default_usage_to_item(usage),
-       (::Invoice::Items::Text.new(label: '', apply:, breakdown:, parent: invoice, suggested: true) if breakdown)]
+      [build_from_default_usage(usage), (build_item(class: ::Invoice::Items::Text, label: '', breakdown:) if breakdown)]
     end
 
-    def default_usage_to_item(usage)
-      apply = invoice.items.none? && usage.tarif.apply_usage_to_invoice?(usage, invoice)
-      tarif = usage.tarif
-      ::Invoice::Items::Add.new(usage: usage, apply:, label: tarif.label, vat_category: tarif.vat_category,
-                                breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price,
-                                accounting_account_nr: tarif.accounting_account_nr,
-                                accounting_cost_center_nr: tarif.accounting_cost_center_nr,
-                                parent: invoice, suggested: true)
-    end
-
-    def usage_group_to_item(group, group_usages)
-      apply = group.present? && group_usages.any?(&:apply)
-      ::Invoice::Items::Title.new(label: group, apply:, parent: invoice, suggested: true)
+    def build_from_default_usage(usage)
+      build_item(usage:, label: usage.tarif.label, vat_category: usage.tarif.vat_category,
+                 breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price,
+                 accounting_account_nr: usage.tarif.accounting_account_nr,
+                 accounting_cost_center_nr: usage.tarif.accounting_cost_center_nr)
     end
   end
 end

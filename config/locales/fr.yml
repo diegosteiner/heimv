@@ -118,9 +118,6 @@ fr:
       invoice/items/deposit:
         one:
         other:
-      invoice/items/percentage:
-        one: Réduction
-        other: Réduction
     models:
       accounting_settings: Paramètres de comptabilité
       booking_condition:
@@ -1351,8 +1348,6 @@ fr:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum}
-    deposited_amount: Avoir à partir d'un acompte
-    unassigned_payments_amount:
   layouts:
     footer:
       legal:

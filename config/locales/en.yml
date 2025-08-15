@@ -111,9 +111,6 @@ en:
       invoice/items/deposit:
         one: Akontorechnung Rechungsposition
         other: Akontorechnung Rechnungspositionen
-      invoice/items/percentage:
-        one: Rabatt
-        other: Rabatt
     models:
       accounting_settings: Buchhaltungseinstellungen
       booking_state_settings: Buchungsprozessseinstellungen
@@ -1375,8 +1372,6 @@ en:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum_price}
-    deposited_amount: Gutschrift aus Akontorechnung
-    unassigned_payments_amount: Saldo aus bereits geleisteten Zahlungen
   layouts:
     footer:
       legal:

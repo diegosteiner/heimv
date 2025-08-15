@@ -114,7 +114,7 @@ class Tarif < ApplicationRecord
     key ||= :flat if is_a?(Tarifs::Flat)
     key ||= :minimum if usage.minimum_price? || is_a?(Tarifs::GroupMinimum)
     key ||= :default
-    I18n.t(key, scope: 'items.breakdown', **breakdown_options(usage))
+    I18n.t(key, scope: 'invoice_items.breakdown', **breakdown_options(usage))
   end
 
   def <=>(other)
