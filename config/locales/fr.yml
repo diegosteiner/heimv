@@ -46,10 +46,8 @@ fr:
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
         unconfirmed_request_deadline: Délai pour la confirmation de l'adresse e-mail
       invoice/filter:
-        invoice_type: Type de facture/facturation
         issued_at_after: Date de facturation à partir du
         issued_at_before: Date de facturation jusqu'au
-        paid: Statut de paiement
         payable_until_after: Payable au plus tard le
         payable_until_before: Payable jusqu'au
       invoice/item:
@@ -304,8 +302,8 @@ fr:
         updated_at: Dernière modification
       invoice:
         amount: Montant
-        amount_open: Montant en suspens
         amount_paid: Montant payé
+        balance: Montant en suspens
         booking_id: Réservation
         esr_number: Numéro de BVR
         issued_at: Créé le
@@ -575,10 +573,6 @@ fr:
           price_list: Liste de prix
           privacy_statement: Déclaration de confidentialité
           terms: Conditions générales d'utilisation / CGU
-      invoice/filter:
-        paid:
-          only_paid: Uniquement les factures réglées
-          only_unpaid: Seulement ouvert
       journal_entry_batch:
         triggers:
           invoice_created:

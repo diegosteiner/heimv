@@ -46,10 +46,8 @@ it:
         provisional_request_deadline: Periodo per le richieste di prenotazione provvisorie
         unconfirmed_request_deadline: Termine ultimo per la conferma dell'indirizzo e-mail
       invoice/filter:
-        invoice_type: Tipo di fattura
         issued_at_after: Data di fatturazione dopo
         issued_at_before: Data di fatturazione precedente
-        paid: Stato del pagamento
         payable_until_after: Pagabile fino a dopo
         payable_until_before: Pagabile fino a prima di
       invoice/item:
@@ -304,8 +302,8 @@ it:
         updated_at: Ultima modifica
       invoice:
         amount: Importo
-        amount_open: Importo in sospeso
         amount_paid: Importo pagato
+        balance: Importo in sospeso
         booking_id: Prenotazione
         esr_number: Numero del PVR
         issued_at: Rilasciato il
@@ -575,10 +573,6 @@ it:
           price_list: Listino prezzi
           privacy_statement: Informativa sulla privacy
           terms: Termini e condizioni
-      invoice/filter:
-        paid:
-          only_paid: Solo pagate
-          only_unpaid: Solo non pagate
       journal_entry_batch:
         triggers:
           invoice_created:

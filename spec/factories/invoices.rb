@@ -6,7 +6,7 @@
 #
 #  id                        :bigint           not null, primary key
 #  amount                    :decimal(, )      default(0.0)
-#  amount_open               :decimal(, )
+#  balance                   :decimal(, )
 #  discarded_at              :datetime
 #  issued_at                 :datetime
 #  items                     :jsonb
@@ -19,6 +19,7 @@
 #  sent_at                   :datetime
 #  sequence_number           :integer
 #  sequence_year             :integer
+#  status                    :integer
 #  text                      :text
 #  type                      :string
 #  created_at                :datetime         not null

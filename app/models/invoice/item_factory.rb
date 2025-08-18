@@ -34,7 +34,7 @@ class Invoice
 
     def build_from_balance
       unassigned_payments_amount = booking.payments.where(invoice: nil, write_off: false).sum(:amount) || 0
-      deposit_balance = deposits.sum(&:amount_open) || 0
+      deposit_balance = deposits.sum(&:balance) || 0
       amount = deposit_balance - unassigned_payments_amount
       return if amount.zero?
 
@@ -64,7 +64,7 @@ class Invoice
         build_item(class: ::Invoice::Items::Title, label: Invoices::Deposit.model_name.human(count: 2)),
         deposits.map do |deposit|
           build_item(label: "#{deposit.model_name.human} #{deposit.ref}", breakdown: I18n.l(deposit.issued_at&.to_date),
-                     amount: -deposit.amount, accounting_cost_center_nr: :home,
+                     amount: -deposit.amount, accounting_cost_center_nr: :home, deposit_id: deposit.id,
                      vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
                      accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr)
         end

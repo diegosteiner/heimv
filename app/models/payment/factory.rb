@@ -21,7 +21,7 @@ class Payment
       Payment.new(attributes).tap do |payment|
         payment.organisation = @organisation
         payment.paid_at ||= Time.zone.now
-        payment.amount ||= payment.invoice&.amount_open
+        payment.amount ||= payment.invoice&.balance
       end
     end
   end

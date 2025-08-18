@@ -46,12 +46,12 @@ de:
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
       invoice/filter:
-        invoice_type: Rechungsart
+        invoice_types: Rechungsarten
         issued_at_after: Rechnungsdatum ab
         issued_at_before: Rechnungsdatum bis
-        paid: Zahlungstatus
         payable_until_after: Zahlbar bis ab
         payable_until_before: Zahlbar bis bis
+        statuses: Status
       invoice/item:
         accounting_account_nr: Buchhaltungskonto
         accounting_cost_center_nr: Kostenstelle
@@ -330,8 +330,8 @@ de:
         updated_at: Letzte Änderung
       invoice:
         amount: Betrag
-        amount_open: offener Betrag
         amount_paid: bezahlter Betrag
+        balance: offener Betrag
         booking_id: Buchung
         esr_number: ESR Nummer
         issued_at: Ausgestellt am
@@ -339,6 +339,7 @@ de:
         locale: Sprache
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
+        payment_ref: Zahlungsreferenz
         payment_required: Zahlung für Statusübergang zwingend
         percentage_paid: "% bezahlt"
         ref: Rechnungsnummer
@@ -601,10 +602,13 @@ de:
           price_list: Preisliste
           privacy_statement: Datenschutzerklärung
           terms: Geschäftsbedingungen / AGB
-      invoice/filter:
-        paid:
-          only_paid: Nur beglichene
-          only_unpaid: Nur offene
+      invoice:
+        status:
+          draft: Entwurf
+          outstanding: Offen
+          paid: Bezahlt
+          refund: zu Erstatten
+          void: Abgelöst
       journal_entry_batch:
         triggers:
           invoice_created: Rechnung erstellt
@@ -2105,7 +2109,7 @@ de:
         <p>{{ booking.tenant.salutation }}</p>
 
         <span>{% if invoices[0] %}</span>
-        <p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Überweise bitte auch die angegebene Akontorechnung über {{ invoices[0].amount_open | currency }}.</p>
+        <p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Überweise bitte auch die angegebene Akontorechnung über {{ invoices[0].balance | currency }}.</p>
         <p>Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Akontorechnung und der unterzeichnete Vertrag bei uns eingetroffen sind.</p>
         <span>{% else %}</span>
         <p>Mit dieser Nachricht erhältst Du den Vertrag für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück.</p>

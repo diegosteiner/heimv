@@ -17,7 +17,7 @@ module BookingStates
       length = booking.organisation.deadline_settings.overdue_request_deadline
       booking.create_deadline(length:, remarks: booking.booking_state.t(:label)) unless length.negative?
 
-      invoices = booking.invoices.kept.unsettled
+      invoices = booking.invoices.kept.outstanding
       MailTemplate.use(:overdue_request_notification, booking, to: :tenant, context: { invoices: })&.tap do |mail|
         mail.attach(invoices)
         mail.autodeliver!

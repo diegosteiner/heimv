@@ -7,7 +7,7 @@ class Invoice
     attribute :payable_until_after, :datetime
     attribute :payable_until_before, :datetime
     attribute :invoice_types, default: -> { [] }
-    attribute :paid, :boolean
+    attribute :statuses
 
     filter :issued_at do |invoices|
       next unless issued_at_before.present? || issued_at_after.present?
@@ -21,10 +21,8 @@ class Invoice
       invoices.where(Invoice.arel_table[:payable_until].between(payable_until_after..payable_until_before))
     end
 
-    filter :paid do |invoices|
-      next if paid.nil?
-
-      paid ? invoices.paid : invoices.kept.unpaid
+    filter :statuses do |invoices|
+      invoices.where(status: statuses) if statuses.present?
     end
 
     filter :invoice_types do |invoices|

@@ -41,10 +41,8 @@ en:
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
       invoice/filter:
-        invoice_type: Rechungsart
         issued_at_after: Rechnungsdatum nach
         issued_at_before: Rechnungsdatum vor
-        paid: Beglichen / Bezahlt
         payable_until_after: Zahlbar bis nach
         payable_until_before: Zahlbar bis vor
       invoice/item:
@@ -256,8 +254,8 @@ en:
         updated_at: Letzte Änderung
       invoice:
         amount: Betrag
-        amount_open: offener Betrag
         amount_paid: bezahlter Betrag
+        balance: offener Betrag
         booking_id: Buchung
         esr_number: ESR Nummer
         issued_at: Ausgestellt am
@@ -524,10 +522,6 @@ en:
           price_list: Preisliste
           privacy_statement: Datenschutzerklärung
           terms: Geschäftsbedingungen / AGB
-      invoice/filter:
-        paid:
-          only_paid: Nur beglichene
-          only_unpaid: Nur offene
       journal_entry_batch:
         triggers:
           invoice_created: Rechnung erstellt
