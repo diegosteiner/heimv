@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dropdown } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { ReactSortable } from "react-sortablejs";
+import { v4 as uuidv4 } from "uuid";
 import type { VatCategory } from "../../models/VatCategory";
 import { underscorize } from "../../services/i18n";
 import InvoiceItemElement, { type InvoiceItem, InvoiceItemType, initializeInvoiceItem } from "./InvoiceItem";
@@ -18,7 +19,7 @@ export type Props = {
 
 export default function InvoiceItems({ value, name, disabled, optionsForSelect }: Props) {
   const [items, setItems] = React.useState<InvoiceItem[]>(
-    value?.map((item) => ({ ...item, id: item.id || crypto.randomUUID() })) || [],
+    value?.map((item) => ({ ...item, id: item.id || uuidv4() })) || [],
   );
 
   const { t } = useTranslation();
@@ -53,11 +54,11 @@ export default function InvoiceItems({ value, name, disabled, optionsForSelect }
           </li>
         ))}
       </ReactSortable>
-      <div className="row">
+      {/* <div className="row">
         <div className="col-lg-2 offset-lg-9 py-2 px-4 text-end border-top">
           {items.reduce((sum, item) => sum + +(item.amount || 0), 0).toFixed(2)}
         </div>
-      </div>
+      </div> */}
       <Dropdown onSelect={(eventKey) => !disabled && handleAdd(eventKey as InvoiceItemType)}>
         <Dropdown.Toggle variant="secondary">
           {t("add_record", { model_name: t("activemodel.models.invoice/item.one") })}

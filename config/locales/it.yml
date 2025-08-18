@@ -1305,14 +1305,14 @@ it:
       update: Aggiorna %{model}
   import: Importazione
   import_records: importa %{model_name}.
-  invoices:
-    total: Totale
-    vat_title:
-  items:
+  invoice_items:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
       minimum: Importo minimo %{minimum}
+  invoices:
+    total: Totale
+    vat_title:
   layouts:
     footer:
       legal:

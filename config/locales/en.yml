@@ -1364,14 +1364,14 @@ en:
       update: Speichern
   import: Import
   import_records: "%{model_name} importieren"
-  invoices:
-    total: Total
-    vat_title: in den Preisen enhaltene MwSt.
-  items:
+  invoice_items:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum_price}
+  invoices:
+    total: Total
+    vat_title: in den Preisen enhaltene MwSt.
   layouts:
     footer:
       legal:

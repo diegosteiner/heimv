@@ -55,7 +55,7 @@ export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig,
   const [columnsConfig, setColumnsConfig] = useState<ColumnConfig[]>(
     initialColumnsConfig.map((columnConfig) => ({
       ...columnConfig,
-      id: columnConfig.id ? columnConfig.id : crypto.randomUUID(),
+      id: columnConfig.id ? columnConfig.id : uuidv4(),
     })),
   );
 
