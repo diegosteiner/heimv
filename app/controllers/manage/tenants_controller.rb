@@ -33,7 +33,7 @@ module Manage
 
     def destroy
       @tenant.destroy
-      respond_with :manage, @tenant, location: manage_tenants_path
+      respond_with :manage, @tenant, location: -> { manage_tenants_path }
     end
 
     private

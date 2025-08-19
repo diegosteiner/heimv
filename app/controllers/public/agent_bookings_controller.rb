@@ -28,7 +28,7 @@ module Public
 
       if @agent_booking.save(context: :agent_create)
         write_booking_log
-        respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
+        respond_with :public, @agent_booking, location: -> { edit_public_agent_booking_path(@agent_booking.token) }
       else
         render 'new'
       end
@@ -44,7 +44,7 @@ module Public
       @agent_booking.save(context: :agent_update)
       invoke_booking_action
       write_booking_log
-      respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
+      respond_with :public, @agent_booking, location: -> { edit_public_agent_booking_path(@agent_booking.token) }
     end
 
     private

@@ -27,18 +27,18 @@ module Manage
         @organisation_user = onboarding.add_or_invite_user(email:, role: organisation_user_params[:role],
                                                            invited_by: current_user)
       end
-      respond_with :manage, @organisation_user, location: manage_organisation_users_path
+      respond_with :manage, @organisation_user, location: -> { manage_organisation_users_path }
     end
 
     def update
       @organisation_user.update(organisation_user_params)
       @organisation_user.regenerate_token if params.dig(:organisation_user, :regenerate_token).present?
-      respond_with :manage, @organisation_user, location: edit_manage_organisation_user_path(@organisation_user)
+      respond_with :manage, @organisation_user, location: -> { edit_manage_organisation_user_path(@organisation_user) }
     end
 
     def destroy
       @organisation_user.destroy unless @organisation_user == current_user
-      respond_with :manage, @organisation_user, location: manage_organisation_users_path
+      respond_with :manage, @organisation_user, location: -> { manage_organisation_users_path }
     end
 
     private

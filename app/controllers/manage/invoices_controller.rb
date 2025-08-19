@@ -39,7 +39,7 @@ module Manage
     def create
       @booking = @invoice.booking
       @invoice.save
-      respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
+      respond_with :manage, @invoice, location: -> { manage_booking_invoices_path(@invoice.booking) }
     end
 
     def update
@@ -50,7 +50,7 @@ module Manage
 
     def destroy
       @invoice.discarded? || !@invoice.sent? ? @invoice.destroy : @invoice.discard!
-      respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
+      respond_with :manage, @invoice, location: -> { manage_booking_invoices_path(@invoice.booking) }
     end
 
     private

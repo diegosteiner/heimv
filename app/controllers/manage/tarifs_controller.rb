@@ -23,7 +23,7 @@ module Manage
 
     def create
       @tarif.update(organisation: current_organisation)
-      respond_with :manage, @tarif, location: edit_manage_tarif_path(@tarif)
+      respond_with :manage, @tarif, location: -> { edit_manage_tarif_path(@tarif) }
     end
 
     def import
@@ -41,17 +41,17 @@ module Manage
           tarif.update(tarif_params)
         end
       end
-      respond_with :manage, @updated_tarifs, location: manage_tarifs_path
+      respond_with :manage, @updated_tarifs, location: -> { manage_tarifs_path }
     end
 
     def update
       @tarif.update(tarif_params)
-      respond_with :manage, @tarif, location: edit_manage_tarif_path(@tarif)
+      respond_with :manage, @tarif, location: -> { edit_manage_tarif_path(@tarif) }
     end
 
     def destroy
       @tarif.discarded? ? @tarif.destroy : @tarif.discard!
-      respond_with :manage, @tarif, location: manage_tarifs_path
+      respond_with :manage, @tarif, location: -> { manage_tarifs_path }
     end
 
     private

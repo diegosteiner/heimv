@@ -16,7 +16,7 @@ module Manage
 
     def update
       @organisation.update(organisation_params)
-      respond_with :manage, @organisation, location: edit_manage_organisation_path
+      respond_with :manage, @organisation, location: -> { edit_manage_organisation_path }
     end
 
     private

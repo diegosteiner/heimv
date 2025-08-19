@@ -26,7 +26,7 @@ module Manage
       @booking ||= @operator_responsibility.booking
       @operator_responsibility.assign_attributes(organisation: current_organisation, booking: @booking)
       @operator_responsibility.update(operator_responsibility_params)
-      respond_with :manage, @operator_responsibility, location: return_to_path
+      respond_with :manage, @operator_responsibility, location: -> { return_to_path }
     end
 
     def assign
@@ -47,13 +47,13 @@ module Manage
     def update
       @booking ||= @operator_responsibility.booking
       @operator_responsibility.update(operator_responsibility_params)
-      respond_with :manage, @operator_responsibility, location: return_to_path
+      respond_with :manage, @operator_responsibility, location: -> { return_to_path }
     end
 
     def destroy
       @booking ||= @operator_responsibility.booking
       @operator_responsibility.destroy
-      respond_with :manage, @operator_responsibility, location: return_to_path
+      respond_with :manage, @operator_responsibility, location: -> { return_to_path }
     end
 
     private

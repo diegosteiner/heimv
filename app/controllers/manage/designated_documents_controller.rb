@@ -21,17 +21,17 @@ module Manage
     def create
       @designated_document.assign_attributes(organisation: current_organisation)
       @designated_document.update(designated_document_params)
-      respond_with :manage, @designated_document, location: manage_designated_documents_path
+      respond_with :manage, @designated_document, location: -> { manage_designated_documents_path }
     end
 
     def update
       @designated_document.update(designated_document_params)
-      respond_with :manage, @designated_document, location: manage_designated_documents_path
+      respond_with :manage, @designated_document, location: -> { manage_designated_documents_path }
     end
 
     def destroy
       @designated_document.destroy
-      respond_with :manage, @designated_document, location: manage_designated_documents_path
+      respond_with :manage, @designated_document, location: -> { manage_designated_documents_path }
     end
 
     private

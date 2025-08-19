@@ -33,18 +33,18 @@ module Manage
         @contract.valid_from = Time.zone.now
         @contract.save
         Booking::Log.log(@contract.booking, trigger: :manager, user: current_user)
-        respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
+        respond_with :manage, @contract, location: -> { manage_booking_contracts_path(@booking) }
       end
 
       def update
         @contract.update(contract_params)
         Booking::Log.log(@contract.booking, trigger: :manager, user: current_user)
-        respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
+        respond_with :manage, @contract, location: -> { manage_booking_contracts_path(@booking) }
       end
 
       def destroy
         @contract.destroy
-        respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
+        respond_with :manage, @contract, location: -> { manage_booking_contracts_path(@booking) }
       end
 
       private

@@ -26,12 +26,12 @@ module Manage
     #   @journal_entry_batch.assign_attributes(journal_entry_batch_params)
     #   @journal_entry_batch.currency ||= current_organisation.currency
     #   @journal_entry_batch.save
-    #   respond_with :manage, location: manage_journal_entry_batches_path
+    #   respond_with :manage, location: -> { manage_journal_entry_batches_path }
     # end
 
     def update
       @journal_entry_batch.update(journal_entry_batch_params)
-      respond_with :manage, @journal_entry_batch, location: manage_journal_entry_batches_path
+      respond_with :manage, @journal_entry_batch, location: -> { manage_journal_entry_batches_path }
     end
 
     # def update_many
@@ -41,12 +41,12 @@ module Manage
     #       tarif.update(tarif_params)
     #     end
     #   end
-    #   respond_with :manage, @updated_tarifs, location: manage_tarifs_path
+    #   respond_with :manage, @updated_tarifs, location: -> { manage_tarifs_path }
     # end
 
     def destroy
       @journal_entry_batch.destroy
-      respond_with :manage, @journal_entry_batch, location: manage_journal_entry_batches_path
+      respond_with :manage, @journal_entry_batch, location: -> { manage_journal_entry_batches_path }
     end
 
     def process_all

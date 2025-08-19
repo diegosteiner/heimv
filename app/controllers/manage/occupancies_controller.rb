@@ -29,18 +29,18 @@ module Manage
       @occupancy.occupiable = @occupiable if @occupiable.present?
       @occupancy.linked = false # Linked occupancies are never created manually
       @occupancy.save(context: :manage_create)
-      respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupancy&.occupiable)
+      respond_with :manage, @occupancy, location: -> { manage_occupiable_occupancies_path(@occupancy&.occupiable) }
     end
 
     def update
       @occupancy.assign_attributes(occupancy_params)
       @occupancy.save(context: :manage_update)
-      respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupancy.occupiable)
+      respond_with :manage, @occupancy, location: -> { manage_occupiable_occupancies_path(@occupancy.occupiable) }
     end
 
     def destroy
       @occupancy.destroy
-      respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupancy.occupiable)
+      respond_with :manage, @occupancy, location: -> { manage_occupiable_occupancies_path(@occupancy.occupiable) }
     end
 
     private
