@@ -1,5 +1,5 @@
 .row.bg-white.border-bottom
-  .col-2.col-md-1.px-2.py-3.text-secondary.text-sm
+  .col-2.col-md-1.px-2.py-3.text-muted.text-sm
     = f.hidden_field :id
     = f.hidden_field :tarif_id
     = f.check_box :_destroy, { checked: f.object.apply, label: usage.tarif.ordinal, skip_label: usage.tarif.ordinal.blank?, wrapper: { style: 'margin-bottom: 0 !important' } }, '0', '1'
@@ -17,15 +17,15 @@
           span.fa.fa-edit
   .col-sm-6.col-md-1.p-2
     = number_to_currency(usage.price_per_unit, unit: '')
-    small.d-block.text-secondary= @booking.organisation.currency
+    small.d-block.text-muted= @booking.organisation.currency
   .col-sm-6.col-md-2.p-2
     = usage.tarif.unit
-    small.d-block.text-secondary= usage.tarif.class.model_name.human
+    small.d-block.text-muted= usage.tarif.class.model_name.human
   .col-sm-12.col-md-3.p-2
     = yield
   .col-sm-12.col-md-1.p-2.text-end
     = number_to_currency(usage.price, unit: '')
-    small.d-block.text-secondary
+    small.d-block.text-muted
       = @booking.organisation.currency
       - if usage.minimum_price?
         span.fa.fa-thermometer-full.ms-2.text-danger
