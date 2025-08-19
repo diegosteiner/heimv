@@ -3,7 +3,7 @@
   
   .row.align-items-center
     .col-md-4
-      = f.select :period, DataDigest::PERIODS.keys.map { [t(_1, scope: %i[activerecord enums data_digest periods]), _1] }, include_blank: true
+      = f.select :period, DataDigest::PERIODS.keys.map { [t(it, scope: %i[activerecord enums data_digest periods]), it] }, include_blank: true
     .col-md-2.text-center
       = t('.or')
     .col-3

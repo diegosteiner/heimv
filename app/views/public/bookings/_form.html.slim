@@ -78,7 +78,7 @@
       
       - booking_categories = [current_organisation.booking_categories.kept, @booking.category].flatten.compact_blank.uniq
       - if current_organisation.locales.many?
-        = tf.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }, {}, disabled: !@booking.editable?, default: I18n.locale
+        = tf.select :locale, current_organisation.locales.map { [it.upcase, it.downcase] }, {}, disabled: !@booking.editable?, default: I18n.locale
       - else 
         = tf.hidden_field :locale, value: current_organisation.locales.first
 

@@ -48,7 +48,7 @@ module ApplicationHelper
     #   full_name: [Tenant.human_attribute_name(:first_name), Tenant.human_attribute_name(:last_name)]
     #     .compact_blank.join(' '),
     #   last_name: Tenant.human_attribute_name(:last_name)
-    # }.transform_values { "<#{_1}>" }
+    # }.transform_values { "<#{it}>" }
     placeholders = { informal_name: '...', full_name: '...', last_name: '...' }
     values = Tenant.salutation_forms.map do |key, _value|
       [Tenant.human_enum(:salutation_forms, key, **placeholders), key]

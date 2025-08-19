@@ -9,7 +9,7 @@
           = f.text_field :name
           div[v-pre]= f.text_area :address, rows: 4
           = f.file_field :logo, help: organisation.logo.present? && organisation.logo.persisted? && image_tag(organisation.logo, width: 120)
-          = f.select :locale, organisation.locales.map { [_1.upcase, _1.downcase] }
+          = f.select :locale, organisation.locales.map { [it.upcase, it.downcase] }
           = sf.label :locales
           = sf.collection_check_boxes :locales, Organisation.locales.keys.map(&:to_s), :downcase, :upcase, inline: true, skip_label: true
     
@@ -103,7 +103,7 @@
         h3.mt-5= BookingStateSettings.model_name.human
         .card.shadow-sm 
           .card-body
-            = bsf.select :default_manage_transition_to_state, BookingStateSettings.manage_transition_to_states(@organisation).map { [_1.t(:label), _1.to_sym] }, value: booking_state_settings.default_manage_transition_to_state
+            = bsf.select :default_manage_transition_to_state, BookingStateSettings.manage_transition_to_states(@organisation).map { [it.t(:label), it.to_sym] }, value: booking_state_settings.default_manage_transition_to_state
             = bsf.collection_select :occupied_booking_states, @organisation.booking_flow_class.state_classes.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
             = bsf.collection_select :editable_booking_states, @organisation.booking_flow_class.state_classes.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
             = bsf.check_box :enable_waitlist 
@@ -135,7 +135,7 @@
             div[v-pre]= f.text_area :smtp_settings, rows: 4, value: @organisation.smtp_settings.to_json
             = f.text_field :currency
             = sf.select :predefined_salutation_form, salutation_form_options_for_select(settings.predefined_salutation_form), include_blank: true
-            = f.select :booking_flow_type, [BookingFlows::Default].map { [_1.to_s, _1.to_s] }
+            = f.select :booking_flow_type, [BookingFlows::Default].map { [it.to_s, it.to_s] }
             = f.text_field :booking_ref_template
             = f.text_field :tenant_ref_template
             = f.text_field :invoice_ref_template

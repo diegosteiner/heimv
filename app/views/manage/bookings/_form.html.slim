@@ -63,7 +63,7 @@
 
       = cf.text_field :phone, required: false
       = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true
-      = cf.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }, required: false
+      = cf.select :locale, current_organisation.locales.map { [it.upcase, it.downcase] }, required: false
     = f.text_field :tenant_organisation
     = f.text_area :invoice_address
 

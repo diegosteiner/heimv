@@ -5,7 +5,7 @@
     = f.datetime_field :begins_at
     = f.datetime_field :ends_at
     
-    = f.select :occupancy_type, Occupancy.occupancy_types.keys.map { [Occupancy.human_enum(:occupancy_type, _1), _1] }, include_blank: true
+    = f.select :occupancy_type, Occupancy.occupancy_types.keys.map { [Occupancy.human_enum(:occupancy_type, it), it] }, include_blank: true
     = f.text_area :remarks
     = f.check_box :linked, disabled: !@occupancy.linked
     = f.check_box :ignore_conflicting
