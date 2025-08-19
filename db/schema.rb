@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_18_092552) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_19_103045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -344,8 +344,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_18_092552) do
     t.integer "sequence_year"
     t.string "ref"
     t.bigint "sent_with_notification_id"
-    t.jsonb "items"
     t.integer "status"
+    t.jsonb "items"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
     t.index ["payment_ref"], name: "index_invoices_on_payment_ref"
