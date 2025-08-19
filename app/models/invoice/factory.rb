@@ -11,7 +11,7 @@ class Invoice
       @booking = booking
     end
 
-    def build(suggest_items: false, **attributes) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    def build(suggest_items: false, **attributes) # rubocop:disable Metrics/AbcSize
       ::Invoice.new(defaults.merge(attributes)).tap do |invoice|
         invoice.payment_info_type = payment_info_type(invoice)
         invoice.payable_until ||= payable_until(invoice)
@@ -19,10 +19,7 @@ class Invoice
         invoice.text ||= text_from_template(invoice)
         invoice.items ||= []
         invoice.items += suggested_items(invoice) if suggest_items
-        if invoice.supersede_invoice.present?
-          invoice.text ||=
-            prepare_to_supersede(invoice)
-        end
+        invoice.text ||= prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
       end
     end
 

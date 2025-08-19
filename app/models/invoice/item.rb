@@ -81,14 +81,6 @@ class Invoice
                                      end
     end
 
-    def sum_of_predecessors
-      invoice.items.ordered.reduce(0) do |sum, item|
-        break sum if item == self
-
-        item.to_sum(sum)
-      end
-    end
-
     def to_sum(sum)
       sum + (calculated_amount || 0)
     end
@@ -98,24 +90,5 @@ class Invoice
         subtypes[(json[:type].presence || json['type'].presence)&.to_sym] || Item
       end
     end
-
-    # class Filter < ApplicationFilter
-    #   attribute :homes, default: -> { [] }
-    #   attribute :issued_at_after, :datetime
-    #   attribute :issued_at_before, :datetime
-
-    #   filter :homes do |items|
-    #     relevant_homes = Array.wrap(homes).compact_blank
-    #     if relevant_homes.present?
-    #       items.joins(invoice: :booking).where(invoices: { bookings: { home_id: relevant_homes } })
-    #     end
-    #   end
-
-    #   filter :issued_at do |items|
-    #     next unless issued_at_before.present? || issued_at_after.present?
-
-    #     items.joins(:invoice).where(Invoice.arel_table[:issued_at].between(issued_at_after..issued_at_before))
-    #   end
-    # end
   end
 end
