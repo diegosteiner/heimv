@@ -75,7 +75,7 @@
               - elsif invoice.paid?
                 .text-success= Invoice.human_enum(:status, invoice.status)
               - elsif invoice.outstanding?
-                - if invoice.payable_until.past?
+                - if invoice.payable_until&.past?
                   .text-danger= Invoice.human_enum(:status, invoice.status)
                 - else 
                   .text-warning= Invoice.human_enum(:status, invoice.status)
