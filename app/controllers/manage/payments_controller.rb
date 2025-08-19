@@ -48,17 +48,17 @@ module Manage
     def create
       @payment.booking = @payment.booking || @booking
       @payment.save && write_booking_log
-      respond_with :manage, @payment, location: manage_booking_payments_path(@payment.booking)
+      respond_with :manage, @payment, location: -> { manage_booking_payments_path(@payment.booking) }
     end
 
     def update
       @payment.update(payment_params)
-      respond_with :manage, @payment, location: manage_payment_path(@payment)
+      respond_with :manage, @payment, location: -> { manage_payment_path(@payment) }
     end
 
     def destroy
       @payment.destroy
-      respond_with :manage, @payment, location: manage_booking_payments_path(@payment.booking)
+      respond_with :manage, @payment, location: -> { manage_booking_payments_path(@payment.booking) }
     end
 
     private
@@ -81,7 +81,7 @@ module Manage
     end
 
     def invoices_for_import
-      current_organisation.invoices.accessible_by(current_ability).kept.unsettled.order(ref: :ASC)
+      current_organisation.invoices.accessible_by(current_ability).kept.outstanding.order(ref: :ASC)
     end
 
     def payment_params

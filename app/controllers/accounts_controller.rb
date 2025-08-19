@@ -10,13 +10,13 @@ class AccountsController < ApplicationController
   def update
     authorize! :set_password, @user
     @user.update(user_params)
-    respond_with @user, location: home_path
+    respond_with @user, location: -> { home_path }
   end
 
   def destroy
     authorize! :set_password, @user
     @user.destroy
-    respond_with @user, location: home_path
+    respond_with @user, location: -> { home_path }
   end
 
   private

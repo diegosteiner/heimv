@@ -39,7 +39,7 @@
                 = pf.hidden_field :camt_instr_id
                 = pf.hidden_field :data
               td.bg-transparent.py-2
-                = pf.collection_select :invoice_id, @invoices, :id, ->{ "#{_1.ref} – #{_1.payment_info&.formatted_ref}" }, skip_label: true, include_blank: true, required: false
+                = pf.collection_select :invoice_id, @invoices, :id, -> { "#{it.ref} – #{it.payment_info&.formatted_ref}" }, skip_label: true, include_blank: true, required: false
               td.bg-transparent.py-2
                 = pf.collection_select :booking_id, @bookings, :id, :ref, skip_label: true, include_blank: true, required: false
               td.bg-transparent.py-2
@@ -56,5 +56,5 @@
                   = pf.text_area :remarks, skip_label: true, rows: 5
               td.bg-transparent.py-2
                 = pf.check_box :confirm, label: tag.span(class: 'fa fa-envelope-o', title: Payment.human_attribute_name(:confirm))
-    = f.submit t('helpers.submit.create', model: Payment.model_name.human(count: 2))
+    = f.submit t('helpers.submit.create', model: Payment.model_name.human(count: 2)), class: 'btn btn-primary'
 

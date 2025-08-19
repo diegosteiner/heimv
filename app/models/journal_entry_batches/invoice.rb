@@ -36,9 +36,9 @@ module JournalEntryBatches
 
     def self.handle_save(invoice)
       previous_batch = existing_batches(invoice).processed.last
-      new_batch = build_with_invoice(invoice)
-
       return true if previous_batch.blank? && invoice.amount.zero?
+
+      new_batch = build_with_invoice(invoice)
       return true if new_batch.equivalent?(previous_batch)
 
       date = invoice.issued_at.to_date
@@ -73,31 +73,33 @@ module JournalEntryBatches
       date = invoice.issued_at
 
       new(ref: invoice.ref, date:, invoice:, booking:, text:, **attributes).tap do |batch|
-        invoice.invoice_parts.each { build_with_invoice_part(batch, it) }
+        invoice.items.each { build_with_item(batch, it) }
       end
     end
 
-    def self.build_with_invoice_part(batch, invoice_part)
-      case invoice_part
-      when ::InvoiceParts::Add, ::InvoiceParts::Deposit
-        build_with_add_invoice_part(batch, invoice_part)
+    def self.build_with_item(batch, item)
+      case item
+      when ::Invoice::Items::Add, ::Invoice::Items::Deposit
+        build_with_add_item(batch, item)
+      when ::Invoice::Items::Balance
+        # No journal entries for balance
       end
     end
 
-    def self.build_with_add_invoice_part(batch, invoice_part)
-      text = invoice_part_text(invoice_part)
+    def self.build_with_add_item(batch, item)
+      text = item_text(item)
 
-      invoice_part.instance_exec do
+      item.instance_exec do
         batch.entry(soll_account: organisation.accounting_settings&.debitor_account_nr || 0,
                     haben_account: accounting_account_nr ||
                         organisation.accounting_settings&.rental_yield_account_nr.presence || 0,
-                    text:, invoice_part_id: id, amount:, vat_amount: vat_breakdown[:vat], vat_category_id:,
+                    text:, invoice_item_id: id, amount:, vat_amount: vat_breakdown[:vat], vat_category_id:,
                     cost_center: accounting_cost_center_nr.presence)
       end
     end
 
-    def self.invoice_part_text(invoice_part)
-      "#{invoice_text(invoice_part.invoice)}: #{invoice_part.label}"
+    def self.item_text(item)
+      "#{invoice_text(item.invoice)}: #{item.label}"
     end
 
     def self.invoice_text(invoice)

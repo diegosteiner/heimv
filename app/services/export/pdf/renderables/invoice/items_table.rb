@@ -4,10 +4,10 @@ module Export
   module Pdf
     module Renderables
       module Invoice
-        class InvoicePartsTable < Renderable
+        class ItemsTable < Renderable
           attr_reader :invoice
 
-          delegate :organisation, :invoice_parts, to: :invoice
+          delegate :organisation, :items, to: :invoice
           delegate :number_to_currency, :number_to_percentage, to: ActiveSupport::NumberHelper
 
           def initialize(invoice)
@@ -16,19 +16,19 @@ module Export
           end
 
           def render
-            render_invoice_parts_table
+            render_items_table
             render_invoice_total_table
             render_invoice_vat_table
           end
 
-          def render_invoice_parts_table
-            invoice_parts_data = invoice_parts.map { invoice_part_table_row_data(it) }
-            return if invoice_parts_data.blank?
+          def render_items_table
+            items_data = items.map { item_table_row_data(it) }
+            return if items_data.blank?
 
-            title_indexes = invoice_parts.map.with_index do |invoice_part, index|
-              index if invoice_part.is_a?(InvoiceParts::Title)
+            title_indexes = items.map.with_index do |item, index|
+              index if item.is_a?(::Invoice::Items::Title)
             end.compact
-            table invoice_parts_data, **table_options do
+            table items_data, **table_options do
               column(2).style(align: :right)
               column(3).style(align: :right)
               row(title_indexes).padding = [8, 4, 4, 0]
@@ -69,15 +69,15 @@ module Export
             }
           end
 
-          def invoice_part_table_row_data(invoice_part)
-            case invoice_part
-            when ::InvoiceParts::Title
-              [{ content: invoice_part.label, font_style: :bold, padding: [8, 4, 4, 0] }, '', '', '']
-            when ::InvoiceParts::Text
-              [{ content: invoice_part.label || '' }, { content: invoice_part.breakdown || '' }, '', '']
+          def item_table_row_data(item)
+            case item
+            when ::Invoice::Items::Title
+              [{ content: item.label, font_style: :bold, padding: [8, 4, 4, 0] }, '', '', '']
+            when ::Invoice::Items::Text
+              [{ content: item.label || '' }, { content: item.breakdown || '' }, '', '']
             else
-              [invoice_part.label, invoice_part.breakdown, organisation.currency,
-               number_to_currency(invoice_part.calculated_amount, unit: '')]
+              [item.label, item.breakdown, organisation.currency,
+               number_to_currency(item.calculated_amount, unit: '')]
             end
           end
 

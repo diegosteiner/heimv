@@ -42,7 +42,7 @@ module Public
       @booking.assign_attributes(update_params) if @booking.editable?
       @booking.save(context: :public_update)
       write_booking_log
-      respond_with :public, @booking, location: public_booking_path(@booking.token)
+      respond_with :public, @booking, location: -> { public_booking_path(@booking.token) }
     end
 
     private

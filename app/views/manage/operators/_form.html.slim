@@ -1,9 +1,9 @@
 = form_with(model: [:manage, @operator], local: true) do |f|
   = f.text_field :name
   = f.email_field :email
-  = f.select :locale, current_organisation.locales.map { [_1, _1] }
+  = f.select :locale, current_organisation.locales.map { [it, it] }
   = f.text_area :contact_info
 
   .form-actions.pt-4.mt-3
-    = f.submit
+    = f.submit class: 'btn btn-primary'
     = link_to t(:back), manage_operators_path, class: 'btn btn-default'

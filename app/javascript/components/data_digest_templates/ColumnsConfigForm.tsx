@@ -1,6 +1,6 @@
 import type * as React from "react";
 import { useState } from "react";
-import { Col, FloatingLabel, Form, Row } from "react-bootstrap";
+import { Col, Dropdown, FloatingLabel, Form, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { ReactSortable } from "react-sortablejs";
 import { v4 as uuidv4 } from "uuid";
@@ -55,7 +55,7 @@ export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig,
   const [columnsConfig, setColumnsConfig] = useState<ColumnConfig[]>(
     initialColumnsConfig.map((columnConfig) => ({
       ...columnConfig,
-      id: columnConfig.id ? columnConfig.id : crypto.randomUUID(),
+      id: columnConfig.id ? columnConfig.id : uuidv4(),
     })),
   );
 
@@ -70,10 +70,10 @@ export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig,
 
   return (
     <Form.Group className="mb-3">
-      <Form.Label>{t("activerecord.attributes.data_digest_template.columns_config")}</Form.Label>
+      <Form.Label className="mb-2">{t("activerecord.attributes.data_digest_template.columns_config")}</Form.Label>
       <ReactSortable
         tag="ol"
-        className="list-group mb-3"
+        className="list-unstyled mb-3"
         list={columnsConfig}
         setList={setColumnsConfig}
         handle=".sortable-handle"
@@ -84,18 +84,19 @@ export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig,
           </li>
         ))}
       </ReactSortable>
-      <Form.Group className="row">
-        <Col md={4}>
-          <Form.Select value="" onChange={(event) => handleAdd(event.target.value)}>
-            <option />
-            {Object.values(ColumnConfigType).map((type) => (
-              <option value={type} key={type}>
-                {type}
-              </option>
-            ))}
-          </Form.Select>
-        </Col>
-      </Form.Group>
+      <Dropdown onSelect={(eventKey) => handleAdd(eventKey as ColumnConfigType)}>
+        <Dropdown.Toggle variant="secondary">
+          {t("add_record", { model_name: t("activerecord.attributes.data_digest_template.columns_config") })}
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          {Object.values(ColumnConfigType).map((type) => (
+            <Dropdown.Item eventKey={type} key={type}>
+              {type}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+
       <Form.Control className="d-none" name={name} as="textarea" readOnly value={toJson(columnsConfig)} />
     </Form.Group>
   );

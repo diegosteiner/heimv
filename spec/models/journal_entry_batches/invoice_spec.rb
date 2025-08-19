@@ -78,7 +78,7 @@ RSpec.describe JournalEntryBatches::Invoice do
     end
 
     def change_invoice_amount(invoice, amount:)
-      invoice.invoice_parts.last.update(amount: invoice.invoice_parts.last.amount + amount)
+      invoice.items.last.assign_attributes(amount: invoice.items.last.amount + amount)
       invoice.save!
     end
   end

@@ -23,7 +23,7 @@
         
       div
         = number_to_currency(usage.price_per_unit, unit: '')
-        small.d-block.text-secondary= @booking.organisation.currency
+        small.d-block.text-muted= @booking.organisation.currency
 
       div
         | =
@@ -49,7 +49,7 @@
         
       div
         = number_to_currency(usage.price_per_unit, unit: '')
-        small.d-block.text-secondary= @booking.organisation.currency
+        small.d-block.text-muted= @booking.organisation.currency
 
       div
         | =

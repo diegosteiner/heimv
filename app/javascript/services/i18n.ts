@@ -1,3 +1,4 @@
+import { snakeCase } from "es-toolkit/string";
 import type { i18n as I18nType } from "i18next";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -35,4 +36,11 @@ export default i18n;
 export function translatedString(translations: TranslatedString, i18n: I18nType) {
   const translation = translations[i18n.language as keyof TranslatedString];
   return translation && translation.length >= 0 ? translation : translations.de;
+}
+
+export function underscorize(modelName: string) {
+  return modelName
+    .split("::")
+    .map((chunk) => snakeCase(chunk))
+    .join("/");
 }

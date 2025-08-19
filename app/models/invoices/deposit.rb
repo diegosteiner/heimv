@@ -6,9 +6,10 @@
 #
 #  id                        :bigint           not null, primary key
 #  amount                    :decimal(, )      default(0.0)
-#  amount_open               :decimal(, )
+#  balance               :decimal(, )
 #  discarded_at              :datetime
 #  issued_at                 :datetime
+#  items                     :jsonb
 #  locale                    :string
 #  payable_until             :datetime
 #  payment_info_type         :string

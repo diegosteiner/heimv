@@ -26,7 +26,7 @@ class BookingStateChecklistItem
         label_invoice = "#{invoice.class.model_name.human} #{invoice.ref}"
         BookingStateChecklistItem.new(key: :invoice_settled, context: { booking: },
                                       label: BookingStateChecklistItem.translate(label_key, invoice: label_invoice),
-                                      checked: invoice.settled?,
+                                      checked: !invoice.unsettled?,
                                       url: proc { manage_booking_invoices_path(it.booking) })
       end
     end,

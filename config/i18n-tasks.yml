@@ -121,7 +121,7 @@ ignore_unused:
   - "public.bookings.new.*"
   - "public.bookings.form.committed_request_definitive_request_help"
   - "public.bookings.form.committed_request_provisional_request_help"
-  - "invoice_parts.breakdown.*"
+  - "invoice_items.breakdown.*"
   - "booking_state_checklist_item.*"
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:

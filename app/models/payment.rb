@@ -85,6 +85,6 @@ class Payment < ApplicationRecord
     return if invoice.blank?
 
     invoice.recalculate
-    invoice.save if invoice.amount_open_changed?
+    invoice.save if invoice.balance_changed?
   end
 end

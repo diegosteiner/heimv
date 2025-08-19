@@ -15,7 +15,13 @@ type Props = {
   onChange?: (condition: BookingCondition) => void;
 };
 
-export default function BookingConditionForm({ optionsForSelect, condition, onRemove, onChange, disabled }: Props) {
+export default function BookingConditionComparable({
+  optionsForSelect,
+  condition,
+  onRemove,
+  onChange,
+  disabled,
+}: Props) {
   const { t } = useTranslation();
   const optionsForSelectedType = optionsForSelect[condition.type];
   const handleChange = (changedCondition: Partial<BookingCondition>) =>

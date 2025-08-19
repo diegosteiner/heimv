@@ -45,7 +45,7 @@ module Manage
 
     def destroy
       @rich_text_template.destroy
-      respond_with :manage, @rich_text_template, location: manage_rich_text_templates_path
+      respond_with :manage, @rich_text_template, location: -> { manage_rich_text_templates_path }
     end
 
     private
