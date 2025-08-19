@@ -39,7 +39,7 @@
                 = pf.hidden_field :camt_instr_id
                 = pf.hidden_field :data
               td.bg-transparent.py-2
-                = pf.collection_select :invoice_id, @invoices, :id, ->{ "#{it.ref} – #{it.payment_info&.formatted_ref}" }, skip_label: true, include_blank: true, required: false
+                = pf.collection_select :invoice_id, @invoices, :id, -> { "#{it.ref} – #{it.payment_info&.formatted_ref}" }, skip_label: true, include_blank: true, required: false
               td.bg-transparent.py-2
                 = pf.collection_select :booking_id, @bookings, :id, :ref, skip_label: true, include_blank: true, required: false
               td.bg-transparent.py-2

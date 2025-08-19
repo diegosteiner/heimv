@@ -59,7 +59,7 @@ module Manage
       invoice_types = if @booking.blank?
                         %w[Invoices::Invoice Invoices::Deposit Invoices::LateNotice Invoices::LateNotice::Invoice]
                       end
-      default_filter_params = { paid: false, invoice_types: }.with_indifferent_access
+      default_filter_params = { statuses: %i[outstanding refund], invoice_types: }.with_indifferent_access
       @filter = Invoice::Filter.new(default_filter_params.merge(invoice_filter_params || {}))
     end
 
