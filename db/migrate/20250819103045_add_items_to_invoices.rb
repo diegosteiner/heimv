@@ -32,6 +32,7 @@ class AddItemsToInvoices < ActiveRecord::Migration[8.0]
       invoice = Invoice.find(invoice_part[:invoice_id])
       invoice.items ||= []
       invoice.items << Invoice::Item.one_of.to_type.cast_value(item_hash)
+      invoice.skip_generate_pdf = true
       invoice.save!
     end
   end
