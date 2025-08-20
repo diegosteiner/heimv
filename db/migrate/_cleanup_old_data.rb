@@ -11,6 +11,5 @@
 #     remove_table :bookable_extras
 #     remove_table :booked_extras
 #     remove_table :invoice_parts
-#     remove_table :invoice_parts
 #   end
 # end

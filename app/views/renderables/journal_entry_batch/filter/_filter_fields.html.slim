@@ -2,7 +2,7 @@
   .col 
     = f.select :triggers, enum_options_for_select(JournalEntryBatch, :triggers, f.object.triggers), multiple: true, include_blank: true
   .col 
-    = f.select :processed, { only_processed: true, only_unprocessed: false }.map { [t(it, scope: 'activerecord.enums.journal_entry_batch/filter.processed'), _2] }, include_blank: true
+    = f.select :processed, { only_processed: true, only_unprocessed: false }.map { |key, value| [t(key, scope: 'activerecord.enums.journal_entry_batch/filter.processed'), value] }, include_blank: true
 .row
   .col
     = f.date_field :date_after, include_blank: true

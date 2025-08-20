@@ -29,21 +29,21 @@ class AddItemsToInvoices < ActiveRecord::Migration[8.0]
       batch_query = table.project(Arel.star).order(table[:invoice_id], table[:ordinal]).take(batch_size).skip(offset)
       rows = ActiveRecord::Base.connection.exec_query(batch_query.to_sql)
       offset += batch_size
-      break if rows.empty?
-
-      rows.each do |invoice_part|
-        invoice_part.symbolize_keys!
-        item_hash = invoice_part.slice(*%i[apply accounting_account_nr accounting_cost_center_nr id
-                                           amount breakdown label type usage_id vat_category_id ])
-        item_hash[:type] = MAP_TYPES[item_hash[:type]]
-        invoice = Invoice.find(invoice_part[:invoice_id])
-        invoice.items ||= []
-        invoice.items << Invoice::Item.one_of.to_type.cast_value(item_hash)
-        invoice.skip_generate_pdf = true
-        invoice.skip_journal_entry_batches = true
-        invoice.save!
-      end
+      rows.each { migrate_invoice_part(it) } unless rows.empty?
     end
+  end
+
+  def migrate_invoice_part(invoice_part)
+    invoice_part.symbolize_keys!
+    item_hash = invoice_part.slice(*%i[apply accounting_account_nr accounting_cost_center_nr id
+                                       amount breakdown label type usage_id vat_category_id ])
+    item_hash[:type] = MAP_TYPES[item_hash[:type]]
+    invoice = Invoice.find(invoice_part[:invoice_id])
+    invoice.items ||= []
+    invoice.items << Invoice::Item.one_of.to_type.cast_value(item_hash)
+    invoice.skip_generate_pdf = true
+    invoice.skip_journal_entry_batches = true
+    invoice.save
   end
 
   def migrate_journal_entries

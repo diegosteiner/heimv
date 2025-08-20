@@ -11,6 +11,7 @@ module Manage
                            .includes(:organisation, :payments).ordered.with_attached_pdf
                            .limit(Invoice::LIMIT)
       @invoices = @invoices.where(booking: @booking) if @booking.present?
+      @invoices = @invoices.kept if @booking.blank?
       @invoices = @filter.apply(@invoices, cached: false) if @filter.any? && @booking.blank?
 
       respond_with :manage, @invoices
