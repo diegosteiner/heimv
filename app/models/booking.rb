@@ -52,7 +52,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   ROLES = (%i[organisation tenant booking_agent] + OperatorResponsibility::RESPONSIBILITIES.keys).freeze
   LIMIT = ENV.fetch('RECORD_LIMIT', 250)
   DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      :category, :logs, :home,
+                      :category, :logs, :home, :quotes,
                       { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
                         agent_booking: %i[booking_agent organisation],
                         booking_question_responses: :booking_question }].freeze
@@ -64,6 +64,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
                         foreign_key: :booking_category_id
 
   has_many :invoices, dependent: :destroy
+  has_many :quotes, dependent: :destroy
   has_many :payments, dependent: :destroy
   has_many :notifications, dependent: :destroy, inverse_of: :booking, autosave: true, validate: false
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking

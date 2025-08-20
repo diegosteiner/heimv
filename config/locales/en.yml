@@ -540,7 +540,7 @@ en:
           unsent_deposits: Unversendete Akontorechnungen
           unsent_invoices: Unversendete Rechnungen
           unsent_late_notices: Unversendete Mahnungen
-          unsent_offers: Unversendete Offerte
+          unsent_quotes: Unversendete Offerte
       notification:
         to:
           administration: Verwaltung
@@ -699,9 +699,6 @@ en:
       invoices/late_notice:
         one: Mahnung
         other: Mahnungen
-      invoices/offer:
-        one: Offerte
-        other: Offerten
       journal_entry_batch:
         one: Buchungssatz
         other: Buchungssätze
@@ -738,6 +735,9 @@ en:
       plan_b_backup:
         one: Plan-B Backup
         other: Plan-B Backups
+      quote:
+        one: Offerte
+        other: Offerten
       rich_text_template:
         one: Textvorlage
         other: Textvorlagen
@@ -807,7 +807,7 @@ en:
     email_invoice:
       label: Rechnung verschicken
       label_with_ref: "%{type} %{ref} verschicken"
-    email_offer:
+    email_quote:
       label: Offerte verschicken
     mark_contract_sent:
       label: Vertrag als versendet markieren
@@ -867,7 +867,7 @@ en:
     invoice_paid: "%{invoice} bezahlt"
     invoice_refunded: "%{invoice} erstattet"
     invoices_paid: Rechnungen beglichen
-    offer_created: Offerte erstellen (optional)
+    quote_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen
     tarifs_chosen: Tarife festlegen
     usages_entered: Verbrauch erfassen
@@ -1797,7 +1797,7 @@ en:
       description: Benachrichtigung für Vertragsaustellung und Akontorechnung (Mieter)
     email_invoice_notification:
       description: Benachrichtigung für fällige Zahlung (Mieter)
-    email_offer_notification:
+    email_quote_notification:
       description: Benachrichtigung für Versand Offerte (Mieter)
     foreign_payment_info_text:
       description: Text für Zahlunginformationen für ausländische Mieter
@@ -1807,8 +1807,6 @@ en:
       description: Text für Rechnung
     invoices_late_notice_text:
       description: Text für Rechnung (Mahnung)
-    invoices_offer_text:
-      description: Text für Offerte
     manage_cancelation_pending_notification:
       description: Benachrichtigung für stornierte Reservation (Verwaltung)
     manage_cancelled_request_notification:
@@ -1851,6 +1849,8 @@ en:
       description: Benachrichtigung für überfällige Rechnung (Mieter)
     provisional_request_notification:
       description: Benachrichtigung für provisorische Mietanfrage (Mieter)
+    quote_text:
+      description: Text für Offerte
     text_payment_info_text:
       description: Text für Zahlunginformationen
     unconfirmed_request_notification:

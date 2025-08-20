@@ -52,7 +52,9 @@ class BookingCondition
   end
 
   def self.one_of
-    StoreModel.one_of { |json| subtypes[(json[:type].presence || json['type'].presence)&.to_sym] || BookingCondition }
+    StoreModel.one_of do |json|
+      subtypes[(json&.[](:type).presence || json&.[]('type').presence)&.to_sym] || BookingCondition
+    end
   end
 
   def self.options_for_select(organisation)

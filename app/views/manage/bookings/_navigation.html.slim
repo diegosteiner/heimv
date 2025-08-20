@@ -16,6 +16,9 @@
           a.nav-link[href=manage_booking_contracts_path(booking) class=('active' if active == :contracts)]
             = Contract.model_name.human(count: 2)
         li.nav-item
+          a.nav-link[href=manage_booking_quotes_path(booking) class=('active' if active == :quotes)]
+            = Quote.model_name.human(count: 2)
+        li.nav-item
           a.nav-link[href=manage_booking_invoices_path(booking) class=('active' if active == :invoices)]
             = Invoice.model_name.human(count: 2)
         li.nav-item

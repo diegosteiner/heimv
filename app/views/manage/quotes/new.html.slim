@@ -1,0 +1,7 @@
+= render partial: 'manage/bookings/navigation', locals: { active: :quotes, booking: @booking }
+
+.row.justify-content-center
+  .col-lg-8
+    .card.shadow-sm
+      .card-body
+        == render 'form'

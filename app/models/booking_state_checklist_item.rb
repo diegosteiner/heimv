@@ -70,17 +70,17 @@ class BookingStateChecklistItem
       BookingStateChecklistItem.new(key: :deposit_created, context: { booking: }, checked:, url:)
     end,
 
-    offer_created: lambda do |booking|
-      return if booking.organisation.rich_text_templates.enabled.by_key(:invoices_offer_text).blank?
+    quote_created: lambda do |booking|
+      return if booking.organisation.rich_text_templates.enabled.by_key(:quote_text).blank?
 
-      checked = Invoices::Offer.of(booking).kept.exists?
+      checked = booking.quotes.kept.exists?
       url = if checked
-              proc { manage_booking_invoices_path(it.booking) }
+              proc { manage_booking_quotes_path(it.booking) }
             else
-              proc { new_manage_booking_invoice_path(it.booking, invoice: { type: Invoices::Offer.model_name.to_s }) }
+              proc { new_manage_booking_quote_path(it.booking) }
             end
 
-      BookingStateChecklistItem.new(key: :offer_created, context: { booking: }, checked:, url:)
+      BookingStateChecklistItem.new(key: :quote_created, context: { booking: }, checked:, url:)
     end,
 
     responsibilities_assigned: lambda do |booking|

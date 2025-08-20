@@ -77,7 +77,7 @@ module Manage
 
     def rich_text_templates_by_document # rubocop:disable Metrics/MethodLength
       {
-        Invoices::Offer => @rich_text_templates.where(key: :invoices_offer_text),
+        Quote => @rich_text_templates.where(key: :quote_text),
         Invoices::Deposit => @rich_text_templates.where(key: :invoices_deposit_text),
         Invoices::Invoice => @rich_text_templates.where(key: :invoices_invoice_text),
         Invoices::LateNotice => @rich_text_templates.where(key: :invoices_late_notice_text),

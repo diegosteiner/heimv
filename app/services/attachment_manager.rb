@@ -5,7 +5,7 @@ class AttachmentManager
     unsent_deposits: ->(booking) { booking.invoices.deposit.unsent },
     unsent_invoices: ->(booking) { booking.invoices.invoice.unsent },
     unsent_late_notices: ->(booking) { booking.invoices.late_notice.unsent },
-    unsent_offers: ->(booking) { booking.invoices.offers.unsent },
+    unsent_quotes: ->(booking) { booking.quotes.unsent },
     contract: ->(booking) { booking.contract }
   }.freeze
 

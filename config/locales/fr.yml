@@ -591,7 +591,7 @@ fr:
           unsent_deposits: Acomptes non versés
           unsent_invoices: Factures non envoyées
           unsent_late_notices: Rappels non envoyés
-          unsent_offers: Offre non envoyée
+          unsent_quotes: Offre non envoyée
       notification:
         to:
           administration: Administration
@@ -750,9 +750,6 @@ fr:
       invoices/late_notice:
         one: Rappel
         other: Rappels de paiement
-      invoices/offer:
-        one: Offre
-        other: Offres
       journal_entry_batch:
         one:
         other:
@@ -789,6 +786,9 @@ fr:
       plan_b_backup:
         one: Backup
         other: Backups
+      quote:
+        one: Offre
+        other: Offres
       rich_text_template:
         one: Modèle de texte
         other: Modèles de texte
@@ -852,7 +852,7 @@ fr:
     email_invoice:
       label: Envoyer une facture
       label_with_ref:
-    email_offer:
+    email_quote:
       label: Envoyer une offre
     mark_contract_sent:
       label: Marquer le contrat comme envoyé
@@ -917,7 +917,7 @@ fr:
     invoice_paid:
     invoice_refunded:
     invoices_paid: Rechnung beglichen
-    offer_created: Offerte erstellen (optional)
+    quote_created: Offerte erstellen (optional)
     responsibilities_assigned: Attribuer des responsabilités (facultatif)
     tarifs_chosen: Tarife festlegen
     usages_entered: Saisir la consommation
@@ -1691,7 +1691,7 @@ fr:
       default_body:
       default_title:
       description:
-    email_offer_notification:
+    email_quote_notification:
       default_body:
       default_title:
       description: Notification pour l'envoi de l'offre (locataire)
@@ -1709,10 +1709,6 @@ fr:
       default_body:
       default_title: Rappel
       description: Texte pour facture de rappel
-    invoices_offer_text:
-      default_body:
-      default_title: Offre
-      description: Texte pour l'offre
     manage_cancelation_pending_notification:
       default_body:
       default_title:
@@ -1735,9 +1731,6 @@ fr:
       description: Notification de nouvelle demande de location (administration)
     notification_footer:
       description: Pied de page pour les notifications
-    offer_notification:
-      default_body:
-      default_title: Ton offre
     open_booking_agent_request_notification:
       default_body:
       default_title: Confirmation de votre demande de location
@@ -1797,6 +1790,13 @@ fr:
       default_body:
       default_title: Réservation provisoire confirmée
       description: Notification de demande de location provisoire (locataire)
+    quote_notification:
+      default_body:
+      default_title: Ton offre
+    quote_text:
+      default_body:
+      default_title: Offre
+      description: Texte pour l'offre
     text_payment_info_text:
       default_body: |
         <p><strong>Numéro de compte</strong>:

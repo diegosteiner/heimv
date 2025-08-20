@@ -1,0 +1,25 @@
+= form_with(model: [:manage, @booking, @quote], local: true, html: { novalidate: true }) do |f|
+
+  fieldset[v-pre]
+    = f.hidden_field :booking_id
+    .row 
+      .col-md-6
+        = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
+      .col-md-6
+        = f.date_field :valid_until, lang: I18n.locale
+
+    = f.text_area :text, class: 'rich-text-area'
+
+    label.mb-2= ::Invoice::Item.model_name.human(count: 2)
+    - if @quote.errors.key?(:items)
+      p.invalid-feedback.d-block= @quote.errors.messages_for(:items).to_sentence.presence
+    = react_component('InvoiceItemsContainer', { \ 
+      value: Manage::InvoiceItemSerializer.render_as_hash(@quote.items || [], view: :with_errors), \
+      name: f.field_name(:items_attributes), \
+      optionsForSelect: {  \
+        vatCategories: Public::VatCategorySerializer.render_as_hash(current_organisation.vat_categories) \
+      } \
+    }) 
+
+  .form-actions.pt-4.mt-3
+    = f.submit class: 'btn btn-primary'

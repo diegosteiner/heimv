@@ -22,7 +22,7 @@ class Invoice
     attribute :deposit_id
     attribute :vat_category_id
 
-    delegate :booking, :organisation, to: :invoice, allow_nil: true
+    delegate :booking, :organisation, to: :parent, allow_nil: true
 
     validates :type, presence: true, inclusion: { in: ->(_) { Invoice::Item.subtypes.keys.map(&:to_s) } }
     validates :id, presence: true
@@ -38,7 +38,11 @@ class Invoice
     end
 
     def invoice
-      parent
+      parent if parent.is_a?(Invoice)
+    end
+
+    def quote
+      parent if parent.is_a?(Quote)
     end
 
     def invoice=(value)
@@ -46,7 +50,7 @@ class Invoice
     end
 
     def usage
-      @usage ||= invoice&.booking&.usages&.find_by(id: usage_id) if usage_id.present?
+      @usage ||= parent&.booking&.usages&.find_by(id: usage_id) if usage_id.present?
     end
 
     def tarif
@@ -62,7 +66,7 @@ class Invoice
     end
 
     def vat_category
-      @vat_category ||= invoice&.organisation&.vat_categories&.find_by(id: vat_category_id) if vat_category_id.present?
+      @vat_category ||= parent&.organisation&.vat_categories&.find_by(id: vat_category_id) if vat_category_id.present?
     end
 
     def calculated_amount
@@ -75,7 +79,7 @@ class Invoice
 
     def accounting_cost_center_nr
       @accounting_cost_center_nr ||= if super.to_s == 'home'
-                                       invoice.booking.home&.settings&.accounting_cost_center_nr.presence
+                                       parent.booking.home&.settings&.accounting_cost_center_nr.presence
                                      else
                                        super.presence
                                      end
@@ -87,7 +91,7 @@ class Invoice
 
     def self.one_of
       StoreModel.one_of do |json|
-        subtypes[(json[:type].presence || json['type'].presence)&.to_sym] || Item
+        subtypes[(json&.[](:type).presence || json&.[]('type').presence)&.to_sym] || Item
       end
     end
   end

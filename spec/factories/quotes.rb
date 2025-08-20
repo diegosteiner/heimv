@@ -6,7 +6,7 @@
 #
 #  id                        :bigint           not null, primary key
 #  amount                    :decimal(, )      default(0.0)
-#  balance               :decimal(, )
+#  balance                   :decimal(, )
 #  discarded_at              :datetime
 #  issued_at                 :datetime
 #  items                     :jsonb
@@ -19,6 +19,7 @@
 #  sent_at                   :datetime
 #  sequence_number           :integer
 #  sequence_year             :integer
+#  status                    :integer
 #  text                      :text
 #  type                      :string
 #  created_at                :datetime         not null
@@ -28,26 +29,24 @@
 #  supersede_invoice_id      :bigint
 #
 
-module Invoices
-  class Offer < ::Invoice
-    ::Invoice.register_subtype self do
-      scope :offers, -> { where(type: Invoices::Offer.sti_name) }
+FactoryBot.define do
+  factory :quote do
+    booking
+    issued_at { 1.week.ago }
+    valid_until { 3.months.from_now }
+    text { Faker::Lorem.sentences }
+    transient do
+      skip_items { false }
     end
 
-    def balance
-      0
-    end
+    after(:build) do |invoice, evaluator|
+      next if evaluator.skip_items
 
-    def payment_info
-      nil
-    end
-
-    def payment_required
-      false
-    end
-
-    def sequence_number
-      self[:sequence_number] ||= organisation.key_sequences.key(Offer.sti_name, year: sequence_year).lease!
+      invoice.items = if evaluator.amount&.positive?
+                        build_list(:invoice_item, 1, amount: evaluator.amount)
+                      else
+                        build_list(:invoice_item, 3)
+                      end
     end
   end
 end

@@ -7,6 +7,7 @@ class TemplateContext
     Home => Manage::HomeSerializer,
     Payment => Manage::PaymentSerializer,
     Invoice => Manage::InvoiceSerializer,
+    Quote => Manage::QuoteSerializer,
     ::Invoice::Item => Manage::InvoiceItemSerializer,
     JournalEntryBatch => Manage::JournalEntryBatchSerializer,
     JournalEntryBatch::Entry => Manage::JournalEntrySerializer,
