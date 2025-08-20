@@ -1,0 +1,73 @@
+- if @booking
+  - title "#{Booking.model_name.human} #{@booking.to_s} - #{Quote.model_name.human(count: 2)}"
+  = render partial: 'manage/bookings/navigation', locals: { active: :quotes, booking: @booking }
+- else 
+  h1.my-0= Quote.model_name.human(count: 2)
+
+- if @booking&.quotes&.none?
+  p.text-center.my-5
+    = t(:no_records_yet, model_name: Quote.model_name.human(count: 2))
+    =<> link_to(t(:add_record, model_name: Quote.model_name.human), new_manage_booking_quote_path(@booking) )
+
+- else
+  .table-responsive
+    table.table.table-hover.align-middle
+      thead
+        tr
+          - unless @booking
+            th= Booking.model_name.human
+          th= Quote.model_name.human
+          th= Quote.human_attribute_name(:issued_at)
+          th= Quote.human_attribute_name(:valid_until)
+          th
+            .text-end= Quote.human_attribute_name(:amount)
+          th
+
+      tbody.shadow-sm
+        - @quotes.each do |quote|
+          tr[data-href=manage_quote_path(quote) class=('disabled' if quote.discarded?)]
+            - unless @booking
+              td= link_to quote.booking, manage_booking_path(quote.booking)
+            td.align-middle
+              - if quote.pdf.attached?
+                = link_to manage_quote_path(quote, format: :pdf), target: :_blank do
+                  = quote.ref || quote.payment_ref
+                  span.ms-2.fa.fa-print
+              - else
+                = link_to (quote.ref), manage_quote_path(quote)
+            td.align-middle
+              - if quote.issued_at.present?
+                = l(quote.issued_at, format: :date)
+              - if quote.sent?
+                span.badge.badge-pill.bg-success.ms-1
+                  span.fa.fa-envelope-open.text-white[title="#{Quote.human_attribute_name(:sent_at)}: #{l(quote.sent_at)}"]
+            td.align-middle
+              - if quote.valid_until.present?
+                - if quote.valid_until.past? && !quote.paid?
+                  .text-danger= l(quote.valid_until, format: :date)
+                  .text-danger= distance_of_time_in_words_to_now(quote.valid_until)
+                - else
+                  div=l(quote.valid_until, format: :date)
+                  div= distance_of_time_in_words_to_now(quote.valid_until)
+
+            td.align-middle
+              .text-end= number_to_currency(quote.amount)
+
+            td.py-1.text-end.align-middle
+              - if can?(:manage, quote)
+                .btn-group
+                  - unless quote.discarded?
+                    - unless quote.sent?
+                      - email_quote_action = quote.booking.booking_flow.manage_actions[:email_quote]
+                      - if email_quote_action.invokable?(quote_id: quote.id)
+                        = button_to manage_booking_invoke_action_path(quote.booking), method: :post, params: { id: email_quote_action.key, quote_id: quote.id }, class: 'btn btn-default'
+                          span.fa.fa-paper-plane-o[title= email_quote_action.label]
+                        
+                  = link_to edit_manage_quote_path(quote), class: "btn btn-default border-0 p-2" do
+                    span.fa.fa-edit
+                  = link_to manage_quote_path(quote), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                    span.fa.fa-trash
+
+- if @booking && can?(:manage, @booking)
+  = link_to new_manage_booking_quote_path(@booking), class: 'btn btn-primary'
+    = t(:add_record, model_name: Quote.model_name.human)

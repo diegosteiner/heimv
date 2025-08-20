@@ -100,16 +100,14 @@
             td.align-middle
               - unless invoice.void?
                 .text-end= number_to_currency(invoice.amount)
-
-                - unless invoice.is_a?(Invoices::Offer)
-                  .text-end= number_to_currency(-invoice.amount_paid)
-                  .text-end.border-top.mt-1
-                    - if invoice.balance.negative?
-                      .text-warning= number_to_currency(invoice.balance)
-                    - elsif invoice.balance.zero?
-                      .text-success= number_to_currency(invoice.balance)
-                    - else
-                      .text-danger= number_to_currency(invoice.balance)
+                .text-end= number_to_currency(-invoice.amount_paid)
+                .text-end.border-top.mt-1
+                  - if invoice.balance.negative?
+                    .text-warning= number_to_currency(invoice.balance)
+                  - elsif invoice.balance.zero?
+                    .text-success= number_to_currency(invoice.balance)
+                  - else
+                    .text-danger= number_to_currency(invoice.balance)
 
             td.py-1.text-end.align-middle
               - if can?(:manage, invoice)

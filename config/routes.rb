@@ -41,6 +41,7 @@ Rails.application.routes.draw do
         post :import, on: :collection
 
         resources :invoices, shallow: true
+        resources :quotes, shallow: true
         resources :payments, shallow: true
         resources :operator_responsibilities, except: %i[show] do
           post :assign, on: :collection

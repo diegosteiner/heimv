@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_19_103045) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_20_070823) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -577,6 +577,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_19_103045) do
     t.index ["organisation_id"], name: "index_plan_b_backups_on_organisation_id"
   end
 
+  create_table "quotes", force: :cascade do |t|
+    t.uuid "booking_id"
+    t.datetime "issued_at"
+    t.datetime "valid_until"
+    t.datetime "sent_at"
+    t.text "text"
+    t.decimal "amount", default: "0.0"
+    t.datetime "discarded_at"
+    t.string "locale"
+    t.integer "sequence_number"
+    t.integer "sequence_year"
+    t.string "ref"
+    t.bigint "sent_with_notification_id"
+    t.jsonb "items"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_quotes_on_booking_id"
+    t.index ["sent_with_notification_id"], name: "index_quotes_on_sent_with_notification_id"
+  end
+
   create_table "rich_text_templates", force: :cascade do |t|
     t.string "key"
     t.datetime "created_at", precision: nil, null: false
@@ -886,6 +906,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_19_103045) do
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "invoices"
   add_foreign_key "plan_b_backups", "organisations"
+  add_foreign_key "quotes", "bookings"
+  add_foreign_key "quotes", "notifications", column: "sent_with_notification_id"
   add_foreign_key "rich_text_templates", "organisations"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

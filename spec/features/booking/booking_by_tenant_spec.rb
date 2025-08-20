@@ -9,12 +9,12 @@ describe 'Booking by tenant', :devise do
   let(:tenant) { create(:tenant, organisation:) }
   let(:deposit_tarifs) do
     create(:tarif, organisation:, tarif_group: 'Akontorechnung',
-                   associated_types: %i[deposit offer contract])
+                   associated_types: %i[deposit quote contract])
   end
 
   let(:invoice_tarifs) do
     create_list(:tarif, 2, organisation:, tarif_group: 'Übernachtungen',
-                           associated_types: %i[invoice offer contract])
+                           associated_types: %i[invoice quote contract])
   end
 
   let!(:tarifs) { [deposit_tarifs, invoice_tarifs].flatten }

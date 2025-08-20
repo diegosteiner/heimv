@@ -35,19 +35,6 @@ RSpec.describe Invoice do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:invoice) { create(:invoice, organisation:) }
 
-  describe '::unsettled' do
-    subject(:unsettled) { described_class.unsettled }
-
-    let!(:offer) { create(:invoice, type: Invoices::Offer) }
-    let!(:invoice) { create(:invoice) }
-
-    it 'does not list the offer as unsettled' do
-      invoice.sent!
-      is_expected.to include(invoice)
-      is_expected.not_to include(offer)
-    end
-  end
-
   describe '#payment_info' do
     subject { invoice.payment_info }
 

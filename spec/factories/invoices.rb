@@ -51,6 +51,5 @@ FactoryBot.define do
     end
 
     factory :deposit, class: Invoices::Deposit.sti_name
-    factory :offer, class: Invoices::Offer.sti_name
   end
 end

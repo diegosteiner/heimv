@@ -35,6 +35,15 @@ describe BookingActions::EmailContract do
         expect(booking_after_invoke.invoices.find(deposit.id)).to be_sent
       end
     end
+
+    context 'with quote' do
+      let(:quote) { create(:quote, booking:) }
+
+      it do
+        expect(quote.items).to be_present
+        expect(booking_after_invoke.quotes.find(quote.id)).to be_sent
+      end
+    end
   end
 
   describe '#invokable_with' do

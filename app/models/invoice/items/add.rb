@@ -13,13 +13,18 @@ class Invoice
       end
 
       def accounting_account_nr_required?
-        !to_sum(0).zero? && organisation&.accounting_settings&.enabled &&
-          (invoice.new_record? || invoice.created_at&.>(Time.zone.local(2025, 6, 1))) # TODO: remove after a year
+        parent.is_a?(Invoice) && !to_sum(0).zero? && organisation&.accounting_settings&.enabled &&
+          !legacy_invoice?
       end
 
       def vat_category_required?
-        !to_sum(0).zero? && organisation&.accounting_settings&.liable_for_vat &&
-          (invoice.new_record? || invoice.created_at&.>(Time.zone.local(2025, 6, 1))) # TODO: remove after a year
+        parent.is_a?(Invoice) && !to_sum(0).zero? && organisation&.accounting_settings&.liable_for_vat &&
+          !legacy_invoice?
+      end
+
+      # TODO: remove after a year
+      def legacy_invoice?
+        parent.is_a?(Invoice) && (parent&.new_record? || parent&.created_at&.>(Time.zone.local(2025, 6, 1)))
       end
     end
   end

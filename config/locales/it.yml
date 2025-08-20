@@ -591,7 +591,7 @@ it:
           unsent_deposits:
           unsent_invoices:
           unsent_late_notices:
-          unsent_offers:
+          unsent_quotes:
       notification:
         to:
           administration: Verwaltung
@@ -750,9 +750,6 @@ it:
       invoices/late_notice:
         one: Promemoria
         other: Promemoria
-      invoices/offer:
-        one: Offerta
-        other: Offerte
       journal_entry_batch:
         one:
         other:
@@ -789,6 +786,9 @@ it:
       plan_b_backup:
         one:
         other:
+      quote:
+        one: Offerta
+        other: Offerte
       rich_text_template:
         one: Modello di testo
         other: Modelli di testo
@@ -852,7 +852,7 @@ it:
     email_invoice:
       label: Inviare la fattura
       label_with_ref:
-    email_offer:
+    email_quote:
       label:
     mark_contract_sent:
       label:
@@ -917,7 +917,7 @@ it:
     invoice_paid:
     invoice_refunded:
     invoices_paid:
-    offer_created: Offerte erstellen (optional)
+    quote_created: Offerte erstellen (optional)
     responsibilities_assigned: Assegnare le responsabilità (opzionale)
     tarifs_chosen: Fissare le tariffe
     usages_entered: Registrare il consumo
@@ -1771,7 +1771,7 @@ it:
       default_body:
       default_title:
       description:
-    email_offer_notification:
+    email_quote_notification:
       default_body:
       default_title:
       description:
@@ -1797,10 +1797,6 @@ it:
       default_body: "<p>{{ booking.ref }} {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | formato_data_ora }}</p><h1> Promemoria {{booking.home.name}}</h1>"
       default_title: Promemoria
       description: Testo per la fattura (promemoria)
-    invoices_offer_text:
-      default_body: <h1 id="offerte">Offerta</h1>
-      default_title: Offerta
-      description: Testo per l'offerta
     manage_cancelation_pending_notification:
       default_body:
       default_title:
@@ -1855,9 +1851,6 @@ it:
       description: Notifica di una nuova richiesta di affitto (amministrazione)
     notification_footer:
       description: Piè di pagina per le notifiche
-    offer_notification:
-      default_body:
-      default_title: La vostra offerta
     open_booking_agent_request_notification:
       default_body:
       default_title: Conferma della richiesta di affitto
@@ -2039,6 +2032,13 @@ it:
         </ul>
       default_title: Prenotazione provvisoria confermata
       description: Notifica di richiesta di affitto provvisoria (inquilino)
+    quote_notification:
+      default_body:
+      default_title: La vostra offerta
+    quote_text:
+      default_body: <h1 id="offerte">Offerta</h1>
+      default_title: Offerta
+      description: Testo per l'offerta
     text_payment_info_text:
       default_body: |
         <p><strong>Numero di conto</strong>:

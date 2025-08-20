@@ -34,7 +34,7 @@
 
 class Tarif < ApplicationRecord
   ASSOCIATED_TYPES = { deposit: Invoices::Deposit, invoice: Invoices::Invoice, late_notice: Invoices::LateNotice,
-                       offer: Invoices::Offer, contract: ::Contract }.freeze
+                       quote: Quote, contract: ::Contract }.freeze
   PREFILL_METHODS = {
     flat: -> { 1 },
     days: -> { booking.nights + 1 },

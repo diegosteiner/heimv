@@ -11,17 +11,17 @@ module Export
         PaymentInfos::TextPaymentInfo => Renderables::Invoice::TextPaymentInfo,
         PaymentInfos::OnArrival => nil
       }.freeze
-      attr_reader :invoice
+      attr_reader :parent
 
-      delegate :booking, :organisation, :payment_info, :invoice_address, to: :invoice
+      delegate :booking, :organisation, :invoice_address, to: :parent
 
-      def initialize(invoice)
+      def initialize(parent)
         super()
-        @invoice = invoice
+        @parent = parent
       end
 
       to_render do
-        render Renderables::PageHeader.new(text: invoice.ref || booking.ref, logo: organisation.logo)
+        render Renderables::PageHeader.new(text: parent.ref || booking.ref, logo: organisation.logo)
       end
 
       to_render do
@@ -36,26 +36,29 @@ module Export
       end
 
       to_render do
-        next if invoice.is_a?(Invoices::Offer)
+        next unless parent.is_a?(Invoice)
 
         font_size(9) do
-          text "#{::Invoice.human_attribute_name(:ref)}: #{invoice.ref}" if invoice.ref.present?
-          text "#{::Invoice.human_attribute_name(:sent_at)}: #{I18n.l(invoice.sent_at&.to_date || Time.zone.today)}"
-          if invoice.payable_until
-            text "#{::Invoice.human_attribute_name(:payable_until)}: #{I18n.l(invoice.payable_until.to_date)}"
+          text "#{::Invoice.human_attribute_name(:ref)}: #{parent.ref}" if parent.ref.present?
+          text "#{::Invoice.human_attribute_name(:sent_at)}: #{I18n.l(parent.sent_at&.to_date || Time.zone.today)}"
+          if parent.payable_until
+            text "#{::Invoice.human_attribute_name(:payable_until)}: #{I18n.l(parent.payable_until.to_date)}"
           end
-          text "#{::Booking.human_attribute_name(:ref)}: #{invoice.booking.ref}"
+          text "#{::Booking.human_attribute_name(:ref)}: #{parent.booking.ref}"
         end
       end
 
       to_render do
-        special_tokens = { TARIFS: -> { render Renderables::Invoice::ItemsTable.new(invoice) } }
-        slices = Renderables::RichText.split(invoice.text, special_tokens)
+        special_tokens = { TARIFS: -> { render Renderables::Invoice::ItemsTable.new(parent) } }
+        slices = Renderables::RichText.split(parent.text, special_tokens)
         slices.each { render it }
       end
 
       to_render do
-        payment_info_renerable = payment_info&.show? && PAYMENT_INFOS.fetch(payment_info.class)&.new(payment_info)
+        next unless parent.is_a?(Invoice)
+
+        payment_info_renerable = parent.payment_info&.show? &&
+                                 PAYMENT_INFOS.fetch(parent.payment_info.class)&.new(parent.payment_info)
         render payment_info_renerable if payment_info_renerable
       end
     end

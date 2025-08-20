@@ -120,7 +120,7 @@
       "id": 1,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["deposit", "offer", "contract"],
+      "associated_types": ["deposit", "quote", "contract"],
       "label": "Anzahlung (1 Nacht)",
       "label_i18n": {
         "de": "Anzahlung (1 Nacht)"
@@ -147,7 +147,7 @@
       "id": 2,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["deposit", "offer", "contract"],
+      "associated_types": ["deposit", "quote", "contract"],
       "label": "Anzahlung (2 Nächte)",
       "label_i18n": {
         "de": "Anzahlung (2 Nächte)"
@@ -174,7 +174,7 @@
       "id": 3,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["deposit", "offer", "contract"],
+      "associated_types": ["deposit", "quote", "contract"],
       "label": "Anzahlung (3 Nächte)",
       "label_i18n": {
         "de": "Anzahlung (3 Nächte)"
@@ -201,7 +201,7 @@
       "id": 4,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["deposit", "offer", "contract"],
+      "associated_types": ["deposit", "quote", "contract"],
       "label": "Anzahlung (4 Nächte)",
       "label_i18n": {
         "de": "Anzahlung (4 Nächte)"
@@ -228,7 +228,7 @@
       "id": 5,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Lagertarif (unter 25 jährig)",
       "label_i18n": {
         "de": "Lagertarif (unter 25 jährig)"
@@ -255,7 +255,7 @@
       "id": 6,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Lagertarif (über 25 jährig)",
       "label_i18n": {
         "de": "Lagertarif (über 25 jährig)"
@@ -282,7 +282,7 @@
       "id": 7,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Mindestbelegung Lagertarif",
       "label_i18n": {
         "de": "Mindestbelegung Lagertarif"
@@ -309,7 +309,7 @@
       "id": 8,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Kurtaxe (ab 12 -18jährig)",
       "label_i18n": {
         "de": "Kurtaxe (ab 12 -18jährig)"
@@ -363,7 +363,7 @@
       "id": 10,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Kurtaxe (ab 18 Jahren)",
       "label_i18n": {
         "de": "Kurtaxe (ab 18 Jahren)"
@@ -417,7 +417,7 @@
       "id": 12,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Festtarrif 0 Nächte",
       "label_i18n": {
         "de": "Festtarrif 0 Nächte"
@@ -471,7 +471,7 @@
       "id": 14,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Strom (Hochtarif)",
       "label_i18n": {
         "de": "Strom (Hochtarif)"
@@ -498,7 +498,7 @@
       "id": 15,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Reservationsgebühr",
       "label_i18n": {
         "de": "Reservationsgebühr"
@@ -525,7 +525,7 @@
       "id": 16,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Strom (Niedertarif)",
       "label_i18n": {
         "de": "Strom (Niedertarif)"
@@ -552,7 +552,7 @@
       "id": 17,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Brennholz",
       "label_i18n": {
         "de": "Brennholz"
@@ -579,7 +579,7 @@
       "id": 18,
       "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": ["invoice", "offer", "contract"],
+      "associated_types": ["invoice", "quote", "contract"],
       "label": "Abfall",
       "label_i18n": {
         "de": "Abfall"

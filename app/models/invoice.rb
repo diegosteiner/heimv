@@ -58,12 +58,11 @@ class Invoice < ApplicationRecord
   attribute :items, Invoice::Item.one_of.to_array_type
 
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
-  scope :not_offer, -> { where.not(type: 'Invoices::Offer') }
   scope :sent,      -> { where.not(sent_at: nil) }
   scope :unsent,    -> { kept.where(sent_at: nil) }
-  scope :overdue,   ->(at = Time.zone.today) { kept.not_offer.where(arel_table[:payable_until].lteq(at)) }
+  scope :overdue,   ->(at = Time.zone.today) { kept.where(arel_table[:payable_until].lteq(at)) }
   scope :of,        ->(booking) { where(booking:) }
-  scope :unsettled, -> { kept.not_offer.where(status: %i[outstanding refund]) }
+  scope :unsettled, -> { kept.where(status: %i[outstanding refund]) }
   scope :with_default_includes, -> { includes(%i[payments organisation]) }
 
   accepts_nested_attributes_for :items, reject_if: :all_blank, allow_destroy: true

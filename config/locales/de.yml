@@ -452,6 +452,16 @@ de:
       plan_b_backup:
         created_at: Erstellt am
         zip: Zip
+      quote:
+        amount: Betrag
+        booking_id: Buchung
+        issued_at: Ausgestellt am
+        items: Positionen
+        locale: Sprache
+        ref: Rechnungsnummer
+        sent_at: Rechnungsdatum
+        text: Text
+        valid_until: Gültig bis
       rich_text_template:
         autodeliver: Automatisch versenden
         body: Text
@@ -629,7 +639,7 @@ de:
           unsent_deposits: Unversendete Akontorechnungen
           unsent_invoices: Unversendete Rechnungen
           unsent_late_notices: Unversendete Mahnungen
-          unsent_offers: Unversendete Offerte
+          unsent_quotes: Unversendete Offerte
       notification:
         to:
           administration: Verwaltung
@@ -794,9 +804,6 @@ de:
       invoices/late_notice:
         one: Mahnung
         other: Mahnungen
-      invoices/offer:
-        one: Offerte
-        other: Offerten
       journal_entry_batch:
         one: Buchungssatzgruppe
         other: Buchungssatzgruppen
@@ -833,6 +840,9 @@ de:
       plan_b_backup:
         one: Plan-B Backup
         other: Plan-B Backups
+      quote:
+        one: Offerte
+        other: Offerten
       rich_text_template:
         one: Textvorlage
         other: Textvorlagen
@@ -903,7 +913,7 @@ de:
     email_invoice:
       label: Rechnung verschicken
       label_with_ref: "%{type} %{ref} verschicken"
-    email_offer:
+    email_quote:
       label: Offerte verschicken
     mark_contract_sent:
       label: Vertrag als versendet markieren
@@ -971,7 +981,7 @@ de:
     invoice_paid: "%{invoice} bezahlt"
     invoice_refunded: "%{invoice} erstattet"
     invoices_paid: Rechnungen beglichen
-    offer_created: Offerte erstellen (optional)
+    quote_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen (optional)
     tarifs_chosen: Tarife festlegen
     usages_entered: Verbrauch erfassen
@@ -2150,7 +2160,7 @@ de:
         {{ booking.organisation.payment_information }}</p>
       default_title: '{% if invoice.type == "Invoices::Deposit" %}Akontorechnung{% else %}Rechnung{% endif %} {{ invoice.ref }} für die Buchung {{ booking.ref }}'
       description: Benachrichtigung für Versand Rechnung (Mieter)
-    email_offer_notification:
+    email_quote_notification:
       default_body: |
         <p>{{ booking.tenant.salutation }}</p>
 
@@ -2192,13 +2202,6 @@ de:
         {{ TARIFS }}
       default_title: Mahnung
       description: Text für Rechnung (Mahnung)
-    invoices_offer_text:
-      default_body: |
-        <h1>Offerte</h1>
-
-        {{ TARIFS }}
-      default_title: Offerte
-      description: Text für Offerte
     manage_cancelation_pending_notification:
       default_body: |
         <p>Hallo</p>
@@ -2610,6 +2613,13 @@ de:
         </ul>
       default_title: Provisorische Reservation bestätigt
       description: Benachrichtigung für provisorische Mietanfrage (Mieter)
+    quote_text:
+      default_body: |
+        <h1>Offerte</h1>
+
+        {{ TARIFS }}
+      default_title: Offerte
+      description: Text für Offerte
     text_payment_info_text:
       default_body: |
         <p><strong>Kontonummer</strong>:

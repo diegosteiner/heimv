@@ -4,7 +4,6 @@ class Invoice
   class Factory
     RichTextTemplate.define(:invoices_deposit_text, context: %i[booking invoice])
     RichTextTemplate.define(:invoices_invoice_text, context: %i[booking invoice])
-    RichTextTemplate.define(:invoices_offer_text, context: %i[booking invoice])
     RichTextTemplate.define(:invoices_late_notice_text, context: %i[booking invoice])
 
     def initialize(booking)
@@ -44,8 +43,6 @@ class Invoice
     end
 
     def payment_info_type(invoice)
-      return if invoice.type.to_s == Invoices::Offer.to_s
-
       booking = invoice.booking
       country_code = booking.tenant&.country_code&.upcase
       return PaymentInfos::ForeignPaymentInfo if country_code && country_code != booking.organisation.country_code

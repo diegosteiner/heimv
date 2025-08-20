@@ -2,16 +2,18 @@
 
 class Invoice
   class ItemFactory
-    attr_reader :invoice
+    attr_reader :parent
 
-    delegate :booking, :organisation, to: :invoice
+    delegate :booking, :organisation, to: :parent
 
-    def initialize(invoice)
-      @invoice = invoice
+    def initialize(parent)
+      @parent = parent
     end
 
     def build
-      I18n.with_locale(invoice.locale || I18n.locale) do
+      I18n.with_locale(parent.locale || I18n.locale) do
+        next build_from_usage_groups.compact if parent.is_a?(Quote)
+
         [
           build_from_deposits.presence,
           build_from_balance.presence,
@@ -23,7 +25,7 @@ class Invoice
 
     protected
 
-    def build_from_usage_groups(usages = booking.usages.ordered.where.not(id: invoice.items.map(&:usage_id)))
+    def build_from_usage_groups(usages = booking.usages.ordered.where.not(id: parent.items.map(&:usage_id)))
       usages.group_by(&:tarif_group).filter_map do |label, grouped_usages|
         usage_group_items = grouped_usages.map { build_from_usage(it) }.compact
         next unless usage_group_items.any?
@@ -46,7 +48,7 @@ class Invoice
 
     def build_item(**attributes)
       item_class = attributes.delete(:class) || ::Invoice::Items::Add
-      item_class.new(invoice: invoice, suggested: true, **attributes)
+      item_class.new(parent:, suggested: true, **attributes)
     end
 
     def build_title(**attributes)
@@ -54,7 +56,7 @@ class Invoice
     end
 
     def deposits
-      booking.invoices.deposits.kept.where.not(id: invoice.id)
+      booking.invoices.deposits.kept.where.not(id: parent.id)
     end
 
     def build_from_deposits # rubocop:disable Metrics/AbcSize
@@ -72,11 +74,11 @@ class Invoice
     end
 
     def build_from_supersede_invoice
-      @invoice.supersede_invoice&.items&.map(&:dup) if @invoice.new_record?
+      parent.supersede_invoice&.items&.map(&:dup) if parent.new_record?
     end
 
     def build_from_usage(usage)
-      return unless usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class))
+      return unless usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(parent.class))
 
       case usage.tarif
       when Tarifs::OvernightStay
