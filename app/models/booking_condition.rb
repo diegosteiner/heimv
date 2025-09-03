@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class BookingCondition
-  # extend ActiveModel::Translation
   include StoreModel::Model
   include ActiveModel::Validations::Callbacks
   include Subtypeable

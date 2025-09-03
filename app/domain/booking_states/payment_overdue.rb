@@ -17,7 +17,7 @@ module BookingStates
     after_transition do |booking|
       booking.deadline&.clear!
 
-      invoices = booking.invoices.kept.unsettled
+      invoices = booking.invoices.kept.outstanding
       MailTemplate.use(:payment_overdue_notification, booking, to: :tenant, context: { invoices: })&.tap do |mail|
         mail.attach(invoices)
         mail.autodeliver!

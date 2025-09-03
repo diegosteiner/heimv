@@ -19,7 +19,7 @@ module Manage
 
       def create
         @usage.save
-        respond_with :manage, @booking, @usage, location: manage_booking_usages_path(@usage.booking)
+        respond_with :manage, @booking, @usage, location: -> { manage_booking_usages_path(@usage.booking) }
       end
 
       def update_many
@@ -33,12 +33,12 @@ module Manage
 
       def update
         @usage.update(usage_params)
-        respond_with :manage, @booking, @usage, location: manage_booking_usages_path(@usage.booking)
+        respond_with :manage, @booking, @usage, location: -> { manage_booking_usages_path(@usage.booking) }
       end
 
       def destroy
         @usage.destroy
-        respond_with :manage, @booking, @usage, location: manage_booking_usages_path(@usage.booking)
+        respond_with :manage, @booking, @usage, location: -> { manage_booking_usages_path(@usage.booking) }
       end
 
       private

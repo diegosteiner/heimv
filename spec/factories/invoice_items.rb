@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: invoice_parts
+# Table name: items
 #
 #  id                        :bigint           not null, primary key
 #  accounting_account_nr     :string
@@ -19,8 +19,12 @@
 #  vat_category_id           :bigint
 #
 
-require 'rails_helper'
-
-RSpec.describe InvoicePart do
-  pending "add some examples to (or delete) #{__FILE__}"
+FactoryBot.define do
+  factory :invoice_item, class: Invoice::Items::Add.to_s do
+    # usage { nil }
+    # parent { association :invoice }
+    amount { usage&.price || rand(50.0..1000.0) }
+    label { 'MyText' }
+    breakdown { 'MyText' }
+  end
 end

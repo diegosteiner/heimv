@@ -1,8 +1,8 @@
 .row
   .col
     = f.select :invoice_types, subtype_options_for_select(Invoice.subtypes), { include_blank: true }, multiple: true
-  .col 
-    = f.select :paid, { only_paid: true, only_unpaid: false }.map { [t(_1, scope: 'activerecord.enums.invoice/filter.paid'), _2] }, include_blank: true
+  .col
+    = f.select :statuses, Invoice.statuses.keys.map { [Invoice.human_enum(:status, it), it] }, {include_blank: true}, multiple: true
 .row
   .col
     = f.date_field :issued_at_after, include_blank: true

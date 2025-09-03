@@ -26,9 +26,7 @@ Rails.application.routes.draw do
       resources :data_digests, except: %i[update edit]
       resources :data_digest_templates
       resources :plan_b_backups, only: %i[index]
-      resources :invoices do
-        resources :invoice_parts, except: %i[index show]
-      end
+      resources :invoices
       resources :payments, only: :index do
         match :new_import, via: %i[get post], on: :collection
         post :import, on: :collection

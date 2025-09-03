@@ -6,9 +6,10 @@
 #
 #  id                        :bigint           not null, primary key
 #  amount                    :decimal(, )      default(0.0)
-#  amount_open               :decimal(, )
+#  balance                   :decimal(, )
 #  discarded_at              :datetime
 #  issued_at                 :datetime
+#  items                     :jsonb
 #  locale                    :string
 #  payable_until             :datetime
 #  payment_info_type         :string
@@ -18,6 +19,7 @@
 #  sent_at                   :datetime
 #  sequence_number           :integer
 #  sequence_year             :integer
+#  status                    :integer
 #  text                      :text
 #  type                      :string
 #  created_at                :datetime         not null
@@ -33,18 +35,19 @@ FactoryBot.define do
     issued_at { 1.week.ago }
     payable_until { 3.months.from_now }
     text { Faker::Lorem.sentences }
+    status { :outstanding }
     transient do
-      skip_invoice_parts { false }
+      skip_items { false }
     end
 
     after(:build) do |invoice, evaluator|
-      next if evaluator.skip_invoice_parts
+      next if evaluator.skip_items
 
-      if evaluator.amount&.positive?
-        build(:invoice_part, amount: evaluator.amount, invoice:)
-      else
-        build_list(:invoice_part, 3, invoice:)
-      end
+      invoice.items = if evaluator.amount&.positive?
+                        build_list(:invoice_item, 1, amount: evaluator.amount)
+                      else
+                        build_list(:invoice_item, 3)
+                      end
     end
 
     factory :deposit, class: Invoices::Deposit.sti_name

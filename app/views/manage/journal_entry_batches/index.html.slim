@@ -25,8 +25,8 @@ h1.mt-0.mb-5= JournalEntryBatch.model_name.human(count: 2)
       tr 
         th=
         th=JournalEntryBatch.human_attribute_name(:date)
-        th=JournalEntryBatch.human_attribute_name(:soll_account)
-        th=JournalEntryBatch.human_attribute_name(:haben_account)
+        th=JournalEntryBatch::Entry.human_attribute_name(:soll_account)
+        th=JournalEntryBatch::Entry.human_attribute_name(:haben_account)
         th=JournalEntryBatch.human_attribute_name(:amount)
         th=JournalEntryBatch.human_attribute_name(:text)
         th=Booking.model_name.human

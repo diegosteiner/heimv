@@ -21,18 +21,22 @@ module Manage
 
     def create
       @booking_validation.update(organisation: current_organisation)
-      respond_with :manage, @booking_validation, location: edit_manage_booking_validation_path(@booking_validation)
+      respond_with :manage, @booking_validation, location: lambda {
+        edit_manage_booking_validation_path(@booking_validation)
+      }
     end
 
     def update
       @booking_validation.update(booking_validation_params)
-      respond_with :manage, @booking_validation, location: edit_manage_booking_validation_path(@booking_validation)
+      respond_with :manage, @booking_validation, location: lambda {
+        edit_manage_booking_validation_path(@booking_validation)
+      }
     end
 
     def destroy
       # @booking_validation.discarded? ? @booking_validation.destroy : @booking_validation.discard!
       @booking_validation.destroy
-      respond_with :manage, @booking_validation, location: manage_booking_validations_path
+      respond_with :manage, @booking_validation, location: -> { manage_booking_validations_path }
     end
 
     private

@@ -78,7 +78,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=6000
               Date=27.12.2024
               TaxId="VAT50"
-              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus Anzahlungen"
               Type=1
               ValNt=-200.00
               ValTx=-100.00
@@ -92,7 +92,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=9001
               BType=1
               Date=27.12.2024
-              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus Anzahlungen"
               Type=1
               ValNt=-200.00
               CAcc=6000
@@ -104,7 +104,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               BType=2
               CAcc=1050
               Date=27.12.2024
-              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus Anzahlungen"
               Type=1
               ValNt=-100.00
               ValTx=-200.00
@@ -160,7 +160,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
 
       before do
         invoice.journal_entry_batches.reload.update_all(processed_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
-        invoice.invoice_parts.last.update(amount: 1440.0)
+        invoice.items.last.assign_attributes(amount: 1440.0)
         invoice.recalculate
         invoice.save!
       end
@@ -192,7 +192,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=6000
               Date=#{date}
               TaxId="VAT50"
-              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus Anzahlungen"
               Type=0
               ValNt=-200.00
               ValTx=-100.00
@@ -206,7 +206,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=9001
               BType=1
               Date=#{date}
-              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus Anzahlungen"
               Type=0
               ValNt=-200.00
               CAcc=6000
@@ -218,7 +218,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               BType=2
               CAcc=1050
               Date=#{date}
-              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus Anzahlungen"
               Type=0
               ValNt=-100.00
               ValTx=-200.00
@@ -281,7 +281,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=6000
               Date=#{date}
               TaxId="VAT50"
-              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus Anzahlungen"
               Type=1
               ValNt=-200.00
               ValTx=-100.00
@@ -295,7 +295,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=9001
               BType=1
               Date=#{date}
-              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus Anzahlungen"
               Type=1
               ValNt=-200.00
               CAcc=6000
@@ -307,7 +307,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               BType=2
               CAcc=1050
               Date=#{date}
-              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus Anzahlungen"
               Type=1
               ValNt=-100.00
               ValTx=-200.00

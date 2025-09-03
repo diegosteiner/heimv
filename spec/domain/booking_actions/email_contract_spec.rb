@@ -31,7 +31,7 @@ describe BookingActions::EmailContract do
       let(:deposit) { create(:deposit, booking:) }
 
       it do
-        expect(deposit.invoice_parts).to be_present
+        expect(deposit.items).to be_present
         expect(booking_after_invoke.invoices.find(deposit.id)).to be_sent
       end
     end

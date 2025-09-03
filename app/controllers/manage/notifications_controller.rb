@@ -25,12 +25,12 @@ module Manage
       @notification.update(notification_params)
       purge_attachments
       @notification.deliver if @notification.valid? && params[:deliver].present?
-      respond_with :manage, @notification, location: manage_notification_path(@notification)
+      respond_with :manage, @notification, location: -> { manage_notification_path(@notification) }
     end
 
     def destroy
       @notification.destroy
-      respond_with :manage, @notification, location: manage_booking_path(@notification.booking)
+      respond_with :manage, @notification, location: -> { manage_booking_path(@notification.booking) }
     end
 
     private

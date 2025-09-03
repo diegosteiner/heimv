@@ -16,7 +16,7 @@
 #
 
 module DataDigestTemplates
-  class InvoicePart < Tabular
+  class InvoiceItem < Tabular
     ::DataDigestTemplate.register_subtype self
 
     DEFAULT_COLUMN_CONFIG = [
@@ -37,7 +37,7 @@ module DataDigestTemplates
         body: '{{ booking.home.name }}'
       },
       {
-        header: ::Invoice.human_attribute_name(:amount_paid),
+        header: ::Invoice.human_attribute_name(:percentage_paid),
         body: '{{ invoice.percentage_paid }}'
       },
       {
@@ -46,52 +46,66 @@ module DataDigestTemplates
       },
       {
         header: ::Tarif.model_name.human,
-        body: '{{ invoice_part.tarif_id }}'
+        body: '{{ invoice_item.usage.tarif_id }}'
       },
       {
         header: ::Tarif.human_attribute_name(:label),
-        body: '{{ invoice_part.tarif.label }}'
+        body: '{{ invoice_item.usage.tarif.label }}'
       },
       {
-        header: ::InvoicePart.human_attribute_name(:label),
-        body: '{{ invoice_part.label }}'
+        header: ::Invoice::Item.human_attribute_name(:label),
+        body: '{{ invoice_item.label }}'
       },
       {
-        header: ::InvoicePart.human_attribute_name(:breakdown),
-        body: '{{ invoice_part.breakdown }}'
+        header: ::Invoice::Item.human_attribute_name(:breakdown),
+        body: '{{ invoice_item.breakdown }}'
       },
       {
-        header: ::InvoicePart.human_attribute_name(:amount),
-        body: '{{ invoice_part.amount | round: 2 }}'
+        header: ::Usage.human_attribute_name(:used_units),
+        body: '{{ invoice_item.usage.used_units }}'
+      },
+      {
+        header: ::Invoice::Item.human_attribute_name(:amount),
+        body: '{{ invoice_item.amount | round: 2 }}'
       },
       {
         header: ::Usage.human_attribute_name(:remarks),
-        body: '{{ invoice_part.usage.remarks }}'
+        body: '{{ invoice_item.usage.remarks }}'
       }
     ].freeze
 
     column_type :default do
-      body do |invoice_part, template_context_cache|
-        booking = invoice_part.booking
-        context = template_context_cache[cache_key(invoice_part)] ||=
-          TemplateContext.new(booking:, invoice: invoice_part.invoice,
-                              invoice_part:, organisation: booking.organisation).to_h
+      body do |invoice_item, template_context_cache|
+        booking = invoice_item.booking
+        context = template_context_cache[cache_key(invoice_item.invoice, invoice_item.id)] ||=
+          TemplateContext.new(booking:, invoice: invoice_item.invoice,
+                              invoice_item:, organisation: booking.organisation).to_h
         @templates[:body]&.render!(context)
+      end
+    end
+
+    def crunch(records)
+      record_ids = records.pluck(:id).uniq
+      base_scope.where(id: record_ids).find_each(cursor: record_order.keys,
+                                                 order: record_order.values).flat_map do |record|
+        record.items.map do |entry|
+          template_context_cache = {}
+          columns.map { |column| column.body(entry, template_context_cache) }
+        end
       end
     end
 
     def periodfilter(period = nil)
       filter_class.new(issued_at_after: period&.begin, issued_at_before: period&.end)
-      # rescue StandardError
     end
 
     def filter_class
-      ::InvoicePart::Filter
+      ::Invoice::Filter
     end
 
     def base_scope
-      @base_scope ||= ::InvoicePart.joins(usage: :tarif, invoice: :booking)
-                                   .where(invoices: { bookings: { organisation_id: organisation } })
+      @base_scope ||= ::Invoice.joins(:booking).where(bookings: { organisation_id: organisation })
+                               .includes(booking: :organisation).ordered
     end
   end
 end

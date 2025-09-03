@@ -11,6 +11,7 @@ module Manage
                            .includes(:organisation, :payments).ordered.with_attached_pdf
                            .limit(Invoice::LIMIT)
       @invoices = @invoices.where(booking: @booking) if @booking.present?
+      @invoices = @invoices.kept if @booking.blank?
       @invoices = @filter.apply(@invoices, cached: false) if @filter.any? && @booking.blank?
 
       respond_with :manage, @invoices
@@ -27,7 +28,7 @@ module Manage
     end
 
     def new
-      @invoice = Invoice::Factory.new(@booking).build(invoice_params)
+      @invoice = Invoice::Factory.new(@booking).build(suggest_items: true, **invoice_params)
       respond_with :manage, @booking, @invoice
     end
 
@@ -39,33 +40,33 @@ module Manage
     def create
       @booking = @invoice.booking
       @invoice.save
-      respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
+      respond_with :manage, @invoice, location: -> { manage_booking_invoices_path(@invoice.booking) }
     end
 
     def update
+      @booking = @invoice.booking
       @invoice.update(invoice_params) unless @invoice.discarded?
-      respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
+      respond_with :manage, @invoice, location: -> { manage_booking_invoices_path(@invoice.booking) }
     end
 
     def destroy
-      @invoice.discarded? ? @invoice.destroy : @invoice.discard!
-      respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
+      @invoice.discarded? || !@invoice.sent? ? @invoice.destroy : @invoice.discard!
+      respond_with :manage, @invoice, location: -> { manage_booking_invoices_path(@invoice.booking) }
     end
 
     private
 
     def set_filter
       invoice_types = if @booking.blank?
-                        %w[Invoices::Invoice Invoices::Deposit Invoices::LateNotice
-                           Invoices::LateNotice::Invoice]
+                        %w[Invoices::Invoice Invoices::Deposit Invoices::LateNotice Invoices::LateNotice::Invoice]
                       end
-      default_filter_params = { paid: false, invoice_types: }.with_indifferent_access
+      default_filter_params = { statuses: %i[outstanding refund], invoice_types: }.with_indifferent_access
       @filter = Invoice::Filter.new(default_filter_params.merge(invoice_filter_params || {}))
     end
 
     def invoice_filter_params
-      params[:filter]&.permit(*%w[issued_at_after issued_at_before payable_until_after payable_until_before paid],
-                              invoice_types: [])
+      params[:filter]&.permit(*%w[issued_at_after issued_at_before payable_until_after payable_until_before],
+                              statuses: [], invoice_types: [])
     end
 
     def invoice_params

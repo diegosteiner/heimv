@@ -74,7 +74,7 @@ module Manage
     def destroy
       deletion_service = BookingDeletionService.new(current_organisation)
       deletion_service.delete!(@booking)
-      respond_with :manage, @booking, location: return_to_path(manage_bookings_path)
+      respond_with :manage, @booking, location: -> { return_to_path(manage_bookings_path) }
     end
 
     private
@@ -131,8 +131,7 @@ module Manage
         home = organisation.homes.find(home_id)
         headers = self.headers.presence&.split(/[,;]/) || true
 
-        ::Import::Csv::BookingImporter.new(home, initial_state:, csv: { headers: })
-                                      .parse_file(file)
+        ::Import::Csv::BookingImporter.new(home, initial_state:, csv: { headers: }).parse_file(file)
       end
     end
   end

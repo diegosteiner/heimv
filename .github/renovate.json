@@ -35,6 +35,14 @@
       "automerge": false
     },
     {
+      "matchPackageNames": ["selenium/standalone-chrome"],
+      "groupName": "selenium",
+      "separateMajorMinor": true,
+      "separateMinorPatch": true,
+      "rebaseWhen": "explicit",
+      "automerge": false
+    },
+    {
       "matchPackageNames": ["vite"],
       "enabled": false
     }

@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: invoice_parts
+# Table name: items
 #
 #  id                        :bigint           not null, primary key
 #  accounting_account_nr     :string
@@ -19,8 +19,18 @@
 #  vat_category_id           :bigint
 #
 
-module InvoiceParts
-  class Title < Text
-    InvoicePart.register_subtype self
+class Invoice
+  module Items
+    class Deposit < Add
+      Invoice::Item.register_subtype self
+
+      def deposit
+        invoice.booking.invoices.deposits.find_by(id: deposit_id)
+      end
+
+      def vat_category_required?
+        false
+      end
+    end
   end
 end

@@ -31,7 +31,7 @@
       = sf.text_field :accounting_cost_center_nr, value: sf.object.accounting_cost_center_nr
 
   .form-actions.pt-4.mt-3
-    = f.submit
+    = f.submit class: 'btn btn-primary'
     - unless @occupiable.new_record?
       =<> link_to manage_occupiable_path(@occupiable), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
         span.fa.fa-trash

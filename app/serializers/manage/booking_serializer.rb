@@ -16,7 +16,7 @@ module Manage
     association :usages,      blueprint: Manage::UsageSerializer
 
     fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request, :tenant_id, :locale,
-           :purpose_description, :approximate_headcount, :remarks
+           :purpose_description, :approximate_headcount, :remarks, :internal_remarks
 
     field :operator_responsibilities do |booking|
       booking.operator_responsibilities.to_h do |operator_responsibility|

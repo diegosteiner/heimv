@@ -194,12 +194,14 @@ describe 'Booking by tenant', :devise do
     visit manage_booking_path(@booking, org:) # capybara issue
 
     find('.checklist li:nth-child(2) a').click
+    page.scroll_to(:bottom)
+    @booking.usages.each { expect(page).to have_field(with: it.tarif.label) }
     submit_form
 
     deposit = @booking.invoices.reload.last
     visit manage_invoice_path(deposit, org:, format: :pdf)
     # pdf = page_to_pdf
-    # deposit.invoice_parts.each { expect(pdf).to have_content(it.label) }
+    # deposit.items.each { expect(pdf).to have_content(it.label) }
   end
 
   def send_invoice

@@ -6,15 +6,16 @@
       .position-relative
         h2.m-0.mb-2.small= t('.manage.title')
 
-        - if current_user.present?
-          select#change-org.form-select
-            - organisations = current_user.role_admin? ? Organisation.ordered : current_user.organisations.ordered
-            - organisations.each do |organisation|
-              option[value=manage_root_path(org: organisation.slug) selected=(organisation == current_organisation)]= organisation 
-        - elsif current_organisation.present?
-          ul.list-unstyled
-            li= current_organisation&.name
-            li= mail_to current_organisation&.email, current_organisation&.email
+        - cache([current_user, current_organisation]) do
+          - if current_user.present?
+            select#change-org.form-select
+              - organisations = current_user.role_admin? ? Organisation.ordered : current_user.organisations.ordered
+              - organisations.each do |organisation|
+                option[value=manage_root_path(org: organisation.slug) selected=(organisation == current_organisation)]= organisation 
+          - elsif current_organisation.present?
+            ul.list-unstyled
+              li= current_organisation&.name
+              li= mail_to current_organisation&.email, current_organisation&.email
 
     .col-md-3.position-relative.pt-3
       span.fa.fa-balance-scale.position-absolute.end-0.me-3.bottom-0.display-5.opacity-25

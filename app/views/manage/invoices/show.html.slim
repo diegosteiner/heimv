@@ -2,25 +2,29 @@
 
 .card.shadow-sm
   .card-body
-    = render_hash_as_dl(@invoice.attributes.slice(*%w(type issued_at payable_until)), Invoice)
-    br
-
     dl
+      dt= Invoice.human_attribute_name(:type)
+      dd= @invoice.model_name.human
+
+      dt= Invoice.human_attribute_name(:issued_at)
+      dd= l(@invoice.issued_at, format: :date)
+
+      - if @invoice.payable_until.present?
+        dt= Invoice.human_attribute_name(:payable_until)
+        dd= l(@invoice.payable_until, format: :date)
+
       dt= Booking.model_name.human
       dd= link_to @invoice.booking.ref, manage_booking_path(@invoice.booking)
 
     == @invoice.text
-    - @invoice.invoice_parts.each do |invoice_part|
+    - @invoice.items.each do |item|
       .row
         .col-4
-          = invoice_part.label
+          = item.label
         .col-4
-          = invoice_part.breakdown
+          = item.breakdown
         .col-2.text-end
-          = number_to_currency(invoice_part.calculated_amount)
-        .col-1
-          = link_to edit_manage_invoice_invoice_part_path(invoice_part.invoice, invoice_part)
-            i.fa.fa-pencil
+          = number_to_currency(item.calculated_amount)
 
     hr
     .row

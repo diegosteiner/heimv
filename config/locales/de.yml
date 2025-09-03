@@ -46,13 +46,25 @@ de:
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
       invoice/filter:
-        invoice_type: Rechungsart
+        invoice_types: Rechungsarten
         issued_at_after: Rechnungsdatum ab
         issued_at_before: Rechnungsdatum bis
-        paid: Zahlungstatus
         payable_until_after: Zahlbar bis ab
         payable_until_before: Zahlbar bis bis
-      invoice_part/filter:
+        statuses: Status
+      invoice/item:
+        accounting_account_nr: Buchhaltungskonto
+        accounting_cost_center_nr: Kostenstelle
+        amount: Betrag
+        amount_with_vat: Betrag inkl. %{vat_percentage}% MwSt. (%{vat_label})
+        apply: Anwenden
+        breakdown: Aufschlüsselung
+        label: Text
+        suggested: Vorschlag
+        type: Art der Rechnungsposition
+        vat: inkl. MwSt. in Prozent
+        vat_category_id: MwSt. Kategorie
+      item/filter:
         homes: Hauptmietobjekte
         issued_at_after: Rechnungsdatum ab
         issued_at_before: Rechnungsdatum bis
@@ -60,7 +72,7 @@ de:
         amount: Betrag
         cost_center: Kostenstelle
         haben_account: Haben Konto
-        invoice_part_id: Rechnungsposition
+        invoice_item_id: Rechnungsposition
         soll_account: Soll Konto
         text: Text
         vat_amount: Steuerbetrag (inkl.)
@@ -109,6 +121,22 @@ de:
         paid_at_before: Zahlung bis
         ref: Zahlungsreferenz
         sort: Sortierung
+    model:
+      invoice/items/add:
+        one: Normale Rechungsposition
+        other: Normale Rechnungspositionen
+      invoice/items/balance:
+        one: Saldo Rechnungsposition
+        other: Saldo Rechnungspositionen
+      invoice/items/deposit:
+        one: Akontorechnung Rechungsposition
+        other: Akontorechnung Rechnungspositionen
+      invoice/items/text:
+        one: Text Rechnungsposition
+        other: Text Rechnungspositionen
+      invoice/items/title:
+        one: Titel Rechnungsposition
+        other: Titel Rechnungspositionen
     models:
       accounting_settings: Buchhaltungseinstellungen
       booking_condition:
@@ -158,6 +186,9 @@ de:
         other:
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen
+      invoice/item:
+        one: Rechungsposition
+        other: Rechungspositionen
       journal_entry_batch/entry:
         one: Buchungssatz
         other: Buchungssätze
@@ -299,32 +330,22 @@ de:
         updated_at: Letzte Änderung
       invoice:
         amount: Betrag
-        amount_open: offener Betrag
         amount_paid: bezahlter Betrag
+        balance: offener Betrag
         booking_id: Buchung
         esr_number: ESR Nummer
-        invoice_parts: Rechnungspositionen
         issued_at: Ausgestellt am
+        items: Rechnungspositionen
         locale: Sprache
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
+        payment_ref: Zahlungsreferenz
         payment_required: Zahlung für Statusübergang zwingend
         percentage_paid: "% bezahlt"
         ref: Rechnungsnummer
         sent_at: Rechnungsdatum
         text: Text
         type: Rechnungsart
-      invoice_part:
-        accounting_account_nr: Buchhaltungskonto
-        accounting_cost_center_nr: Kostenstelle
-        amount: Betrag
-        apply: Anwenden
-        breakdown: Aufschlüsselung
-        label: Text
-        ordinal_position: Ordnungsnummer
-        type: Art der Rechnungsposition
-        vat: inkl. MwSt. in Prozent
-        vat_category_id: MwSt. Kategorie
       journal_entry_batch:
         amount: Betrag
         booking_id: Buchung
@@ -581,10 +602,13 @@ de:
           price_list: Preisliste
           privacy_statement: Datenschutzerklärung
           terms: Geschäftsbedingungen / AGB
-      invoice/filter:
-        paid:
-          only_paid: Nur beglichene
-          only_unpaid: Nur offene
+      invoice:
+        status:
+          draft: Entwurf
+          outstanding: Offen
+          paid: Bezahlt
+          refund: zu Erstatten
+          void: Abgelöst
       journal_entry_batch:
         triggers:
           invoice_created: Rechnung erstellt
@@ -734,7 +758,7 @@ de:
       data_digest_templates/invoice:
         one: Rechnungen Auszug
         other: Rechnungen Auszüge
-      data_digest_templates/invoice_part:
+      data_digest_templates/invoice_item:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
       data_digest_templates/journal_entry:
@@ -761,18 +785,6 @@ de:
       invoice:
         one: Rechnung
         other: Rechnungen
-      invoice_part:
-        one: Rechungsposition
-        other: Rechungspositionen
-      invoice_parts/add:
-        one: Normale Rechungsposition
-        other: Normale Rechnungspositionen
-      invoice_parts/deposit:
-        one: Akontorechnung Rechungsposition
-        other: Akontorechnung Rechnungspositionen
-      invoice_parts/percentage:
-        one: Rabatt
-        other: Rabatt
       invoices/deposit:
         one: Akontorechnung
         other: Akontorechnungen
@@ -1464,13 +1476,12 @@ de:
       update: Speichern
   import: Import
   import_records: "%{model_name} importieren"
-  invoice_parts:
+  invoice_items:
+    balance_breakdown: Saldo aus Anzahlungen
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
-    deposited_amount: Gutschrift aus Akontorechnung
-    unassigned_payments_amount: Saldo aus bereits geleisteten Zahlungen
   invoices:
     total: Total
     vat_title: in den Preisen enhaltene MwSt.
@@ -1550,7 +1561,6 @@ de:
     invoices:
       form:
         payment_not_required_warning: Ohne diesen Haken wird die Belegung kann die Belegung automatisch in den nächsten Status wechseln, wenn sonst alle Bedingungen erfüllt sind.
-        suggested_invoice_parts: Vorgeschlagene Positionen
     journal_entry_batches:
       index:
         process_all: Alle unverbuchten verbuchen
@@ -2099,7 +2109,7 @@ de:
         <p>{{ booking.tenant.salutation }}</p>
 
         <span>{% if invoices[0] %}</span>
-        <p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Überweise bitte auch die angegebene Akontorechnung über {{ invoices[0].amount_open | currency }}.</p>
+        <p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Überweise bitte auch die angegebene Akontorechnung über {{ invoices[0].balance | currency }}.</p>
         <p>Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Akontorechnung und der unterzeichnete Vertrag bei uns eingetroffen sind.</p>
         <span>{% else %}</span>
         <p>Mit dieser Nachricht erhältst Du den Vertrag für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück.</p>

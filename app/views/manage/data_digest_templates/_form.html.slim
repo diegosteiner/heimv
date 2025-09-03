@@ -9,7 +9,7 @@
     = f.fields_for :prefilter_params, @data_digest_template.prefilter do |ff|
       = render partial: @data_digest_template.filter_class.to_partial_path('filter_fields'), locals: { f: ff }
 
-  = render partial: 'renderables/data_digest_templates/tabular/form_fields', locals: { data_digest_template: @data_digest_template }
+  = render partial: 'renderables/data_digest_templates/tabular/form_fields', locals: { data_digest_template: @data_digest_template, f: }
  
-  = f.submit
+  = f.submit class: 'btn btn-primary'
 

@@ -43,12 +43,15 @@
           - unless @booking
             th= Booking.model_name.human
           th= Invoice.model_name.human
-          th= Invoice.human_attribute_name(:type)
+          th
+            div= Invoice.human_attribute_name(:type)
+            .fw-normal= Invoice.human_attribute_name(:status)
           th= Invoice.human_attribute_name(:issued_at)
           th= Invoice.human_attribute_name(:payable_until)
-          th= Invoice.human_attribute_name(:amount)
-          th= Invoice.human_attribute_name(:amount_paid)
-          th= Invoice.human_attribute_name(:amount_open)
+          th
+            .text-end= Invoice.human_attribute_name(:amount)
+            .text-end.fw-normal= Invoice.human_attribute_name(:amount_paid)
+            .text-end.fw-normal= Invoice.human_attribute_name(:balance)
           th
 
       tbody.shadow-sm
@@ -67,6 +70,17 @@
                 = invoice.payment_info&.formatted_ref.presence || invoice.payment_ref
             td.align-middle
               = invoice.model_name.human
+              - if invoice.draft? || invoice.void?
+                .text-muted= Invoice.human_enum(:status, invoice.status)
+              - elsif invoice.paid?
+                .text-success= Invoice.human_enum(:status, invoice.status)
+              - elsif invoice.outstanding?
+                - if invoice.payable_until&.past?
+                  .text-danger= Invoice.human_enum(:status, invoice.status)
+                - else 
+                  .text-warning= Invoice.human_enum(:status, invoice.status)
+              - elsif invoice.refund?
+                .text-warning= Invoice.human_enum(:status, invoice.status)
 
             td.align-middle
               - if invoice.issued_at.present?
@@ -84,23 +98,23 @@
                   div= distance_of_time_in_words_to_now(invoice.payable_until)
 
             td.align-middle
-              = number_to_currency(invoice.amount)
+              - unless invoice.void?
+                .text-end= number_to_currency(invoice.amount)
 
-            td.align-middle
-              = number_to_currency(invoice.amount_paid)
-
-            td.align-middle
-              - if invoice.amount_open.negative?
-                .text-warning= number_to_currency(invoice.amount_open)
-              - elsif invoice.amount_open.zero?
-                .text-success= number_to_currency(invoice.amount_open)
-              - else
-                .text-danger= number_to_currency(invoice.amount_open)
+                - unless invoice.is_a?(Invoices::Offer)
+                  .text-end= number_to_currency(-invoice.amount_paid)
+                  .text-end.border-top.mt-1
+                    - if invoice.balance.negative?
+                      .text-warning= number_to_currency(invoice.balance)
+                    - elsif invoice.balance.zero?
+                      .text-success= number_to_currency(invoice.balance)
+                    - else
+                      .text-danger= number_to_currency(invoice.balance)
 
             td.py-1.text-end.align-middle
               - if can?(:manage, invoice)
                 .btn-group
-                  - unless invoice.discarded?
+                  - unless invoice.discarded? || invoice.void?
                     - if invoice.unsettled?
                       = link_to new_manage_booking_payment_path(invoice.booking, payment: { invoice_id: invoice.id }), class: 'btn btn-default'
                         = t(:add_record, model_name: Payment.model_name.human)

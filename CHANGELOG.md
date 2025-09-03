@@ -1,5 +1,12 @@
 # Changelog
 
+## 25.9.1
+
+Released 03.09.2025
+
+- Feature: Improve invoice items handling and overview
+- Fix: Improve performance on calendar and bookings
+
 ## 25.7.1
 
 Released 22.07.2025

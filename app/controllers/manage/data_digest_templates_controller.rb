@@ -21,17 +21,17 @@ module Manage
     def create
       @data_digest_template.organisation = current_organisation
       @data_digest_template.save
-      respond_with :manage, @data_digest_template, location: manage_data_digest_templates_path
+      respond_with :manage, @data_digest_template, location: -> { manage_data_digest_templates_path }
     end
 
     def update
       @data_digest_template.update(data_digest_template_params)
-      respond_with :manage, @data_digest_template, location: manage_data_digest_templates_path
+      respond_with :manage, @data_digest_template, location: -> { manage_data_digest_templates_path }
     end
 
     def destroy
       @data_digest_template.destroy
-      respond_with :manage, @data_digest_template, location: manage_data_digest_templates_path
+      respond_with :manage, @data_digest_template, location: -> { manage_data_digest_templates_path }
     end
 
     private

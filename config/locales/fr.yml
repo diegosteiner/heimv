@@ -46,13 +46,21 @@ fr:
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
         unconfirmed_request_deadline: Délai pour la confirmation de l'adresse e-mail
       invoice/filter:
-        invoice_type: Type de facture/facturation
         issued_at_after: Date de facturation à partir du
         issued_at_before: Date de facturation jusqu'au
-        paid: Statut de paiement
         payable_until_after: Payable au plus tard le
         payable_until_before: Payable jusqu'au
-      invoice_part/filter:
+      invoice/item:
+        accounting_account_nr: zugewiesenes Buchhaltungskonto
+        accounting_cost_center_nr:
+        amount: Montant
+        apply: Employer
+        breakdown: Ventilation
+        label: Texte
+        type: Type de poste de facturation
+        vat: TVA incluse en pourcentage
+        vat_category_id:
+      item/filter:
         homes: Chalets
         issued_at_after: Date de facturation à partir du
         issued_at_before: Date de facturation jusqu'au
@@ -101,6 +109,13 @@ fr:
         paid_at_before: Paiement jusqu'au
         ref: Référence de paiement
         sort: Triage
+    model:
+      invoice/items/add:
+        one: Poste de facturation normal
+        other: Postes de facturation normaux
+      invoice/items/deposit:
+        one:
+        other:
     models:
       accounting_settings: Paramètres de comptabilité
       booking_condition:
@@ -146,6 +161,9 @@ fr:
         other:
       booking_state_settings: Paramètres du processus de réservation
       deadline_settings: Réglages des délais
+      invoice/item:
+        one: Poste de facturation
+        other: Postes de facturation
       occupancy_calendar:
         one: Plan de locations
         other: Plans de locations
@@ -284,12 +302,12 @@ fr:
         updated_at: Dernière modification
       invoice:
         amount: Montant
-        amount_open: Montant en suspens
         amount_paid: Montant payé
+        balance: Montant en suspens
         booking_id: Réservation
         esr_number: Numéro de BVR
-        invoice_parts: Postes de la facture
         issued_at: Créé le
+        items: Postes de la facture
         locale: Langue
         payable_until: Payable jusqu'au
         payment_info_type: Section paiement
@@ -299,17 +317,6 @@ fr:
         sent_at: Date de la facture
         text: Texte
         type: Type de facture
-      invoice_part:
-        accounting_account_nr: zugewiesenes Buchhaltungskonto
-        accounting_cost_center_nr:
-        amount: Montant
-        apply: Employer
-        breakdown: Ventilation
-        label: Texte
-        ordinal_position: Numéro d'ordre
-        type: Type de poste de facturation
-        vat: TVA incluse en pourcentage
-        vat_category_id:
       journal_entry_batch:
         amount: Montant
         booking_id: Réservation
@@ -566,10 +573,6 @@ fr:
           price_list: Liste de prix
           privacy_statement: Déclaration de confidentialité
           terms: Conditions générales d'utilisation / CGU
-      invoice/filter:
-        paid:
-          only_paid: Uniquement les factures réglées
-          only_unpaid: Seulement ouvert
       journal_entry_batch:
         triggers:
           invoice_created:
@@ -717,9 +720,6 @@ fr:
       data_digest_templates/invoice:
         one: Extrait de facture
         other: Extraits de facture
-      data_digest_templates/invoice_part:
-        one: Extrait des postes de la facture
-        other: Extraits des postes de facturation
       data_digest_templates/meter_reading_period:
         one: Relevé du compteur (Début)
         other: Relevés de compteurs (Fin)
@@ -741,18 +741,6 @@ fr:
       invoice:
         one: Facture
         other: Factures
-      invoice_part:
-        one: Poste de facturation
-        other: Postes de facturation
-      invoice_parts/add:
-        one: Poste de facturation normal
-        other: Postes de facturation normaux
-      invoice_parts/deposit:
-        one:
-        other:
-      invoice_parts/percentage:
-        one: Réduction
-        other: Réduction
       invoices/deposit:
         one: Acompte
         other: Acomptes
@@ -1346,13 +1334,11 @@ fr:
         Ÿ: "Y"
   import: Importer
   import_records: Importer %{model_name}
-  invoice_parts:
+  invoice_items:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum}
-    deposited_amount: Avoir à partir d'un acompte
-    unassigned_payments_amount:
   invoices:
     total: Total
     vat_title: TVA incluse dans les prix
@@ -1432,7 +1418,6 @@ fr:
     invoices:
       form:
         payment_not_required_warning:
-        suggested_invoice_parts: Positions proposées
     journal_entry_batches:
       index:
         process_all:

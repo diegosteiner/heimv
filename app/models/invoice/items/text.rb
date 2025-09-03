@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: invoice_parts
+# Table name: items
 #
 #  id                        :bigint           not null, primary key
 #  accounting_account_nr     :string
@@ -19,16 +19,18 @@
 #  vat_category_id           :bigint
 #
 
-module InvoiceParts
-  class Text < InvoicePart
-    InvoicePart.register_subtype self
+class Invoice
+  module Items
+    class Text < ::Invoice::Item
+      Invoice::Item.register_subtype self
 
-    def calculated_amount
-      nil
-    end
+      def calculated_amount
+        nil
+      end
 
-    def to_sum(sum)
-      sum
+      def to_sum(sum)
+        sum
+      end
     end
   end
 end
