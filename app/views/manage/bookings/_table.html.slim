@@ -47,12 +47,12 @@
               =<> booking.internal_remarks
 
           - if booking.organisation.operators.any? && booking.booking_state.roles.present?
-              - booking.operator_responsibilities.where(responsibility: booking.booking_state.roles).each do |operator_responsibility|
-                .d-block
-                  i.fa.fa-key
-                  =< OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
-                  | :
-                  =< link_to(operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator))
+            - booking.operator_responsibilities.where(responsibility: booking.booking_state.roles).each do |operator_responsibility|
+              .d-block
+                i.fa.fa-key
+                =< OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
+                | :
+                =< link_to(operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator))
           = render partial: 'manage/bookings/checklist', locals: { booking: booking }
 
         .col-md-1
@@ -60,8 +60,5 @@
             button.btn.btn-default.w-100.h-100[data-bs-toggle="dropdown" type="button"]
               i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
-              - if can?(:manage, booking)
-                = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking:, button_class: proc { |variant| "dropdown-item text-#{variant}" } }
-              .dropdown-divider
               = link_to t(:show), manage_booking_path(booking), class: 'dropdown-item' if can?(:show, booking)
               = link_to t(:edit), edit_manage_booking_path(booking), class: 'dropdown-item' if can?(:edit, booking)

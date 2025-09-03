@@ -3,11 +3,11 @@ import type { i18n as I18nType } from "i18next";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-// @ts-ignore
+// @ts-expect-error
 import de_translations from "../../../config/locales/de.yml";
-// @ts-ignore
+// @ts-expect-error
 import fr_translations from "../../../config/locales/fr.yml";
-// @ts-ignore
+// @ts-expect-error
 import it_translations from "../../../config/locales/it.yml";
 import type { TranslatedString } from "../types";
 

@@ -18,6 +18,6 @@ class OccupancyCalendar
   def occupancies
     @occupancies ||= Occupancy.occupancy_calendar.where(occupiable: occupiables)
                               .at(from: window_from, to: window_to)
-                              .includes(booking: [:deadline])
+                              .includes(occupiable: [:organisation], booking: %i[deadline organisation])
   end
 end

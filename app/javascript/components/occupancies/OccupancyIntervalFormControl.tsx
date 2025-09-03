@@ -30,7 +30,7 @@ function parseLocaleDate(value: string, format?: string): Date | undefined {
 }
 
 function buildControlDateValue({ date, time, text }: Partial<ControlDateValue>): ControlDateValue {
-  let [hours, minutes] = time?.split(":").map((value) => Number.parseInt(value)) || [];
+  let [hours, minutes] = time?.split(":").map((value) => +value) || [];
   hours = closestNumber(hours ?? (date && getHours(date)) ?? 0, availableHours);
   minutes = closestNumber(minutes ?? (date && getMinutes(date)) ?? 0, availableMinutes);
   time = formatTime(hours, minutes);

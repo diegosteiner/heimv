@@ -4,6 +4,13 @@ require 'active_support/core_ext/integer/time'
 require Rails.root.join('app/services/cache_store_factory')
 
 Rails.application.configure do
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = false
+    Bullet.rails_logger = true
+    Bullet.console = true
+  end
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Make code changes take effect immediately without server restart.
@@ -20,7 +27,7 @@ Rails.application.configure do
 
   # Enable/disable Action Controller caching. By default Action Controller caching is disabled.
   # Run rails dev:cache to toggle Action Controller caching.
-  config.action_controller.perform_caching = ENV['RAILS_PERFORM_CACHING'].present?
+  config.action_controller.perform_caching = true || ENV['RAILS_PERFORM_CACHING'].present?
 
   # Change to :null_store to avoid any caching.
   config.cache_store = (CacheStoreFactory.redis(config.redis_config))

@@ -134,12 +134,6 @@ Then import data with:
 cat data.csv | bin/rails r "Import::Csv::BookingImporter.new(home).parse(ARGF, **options)"
 ```
 
-or with heroku:
-
-```bash
-cat data.csv | heroku run --no-tty -- 'bin/rails r "Import::Csv::BookingImporter.new(home).parse"'
-```
-
 ### Tenants
 
 Prepare a csv with these columns, including a header, as utf-8:
@@ -181,8 +175,8 @@ cat data.csv | bin/rails r Import::Csv::TarifImporter.new(home).read
 ## Backup & Restore
 
 ```bash
-docker cp ./path/to/backup.dump $(docker ps -q --filter name=heimv-db-):/tmp/resore.dump
-docker exec -i $(docker ps -q --filter name=heimv-db-)  pg_restore -U postgres --dbname heimv_development --host=localhost --no-privileges --no-owner --no-acl --clean --create --verbose < /tmp/restore.dump
+# docker cp ./path/to/backup.dump $(docker ps -q --filter name=heimv-db-):/tmp/resore.dump
+docker exec -i $(docker ps -q --filter name=heimv-db-)  pg_restore -U postgres --dbname heimv_development --host=localhost --no-privileges --no-owner --no-acl --clean --create --verbose < ./restore.dump
 ```
 
 Additionally you might need to run these commands:
