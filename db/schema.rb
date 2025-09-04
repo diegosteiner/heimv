@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_19_103045) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_04_081003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -303,24 +303,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_19_103045) do
     t.boolean "send_with_accepted", default: false, null: false
     t.jsonb "attaching_conditions"
     t.index ["organisation_id"], name: "index_designated_documents_on_organisation_id"
-  end
-
-  create_table "invoice_parts", force: :cascade do |t|
-    t.bigint "invoice_id"
-    t.bigint "usage_id"
-    t.string "type"
-    t.decimal "amount"
-    t.string "label"
-    t.string "breakdown"
-    t.integer "ordinal"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.bigint "vat_category_id"
-    t.string "accounting_account_nr"
-    t.string "accounting_cost_center_nr"
-    t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
-    t.index ["usage_id"], name: "index_invoice_parts_on_usage_id"
-    t.index ["vat_category_id"], name: "index_invoice_parts_on_vat_category_id"
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -860,9 +842,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_19_103045) do
   add_foreign_key "data_digests", "data_digest_templates"
   add_foreign_key "data_digests", "organisations"
   add_foreign_key "deadlines", "bookings"
-  add_foreign_key "invoice_parts", "invoices"
-  add_foreign_key "invoice_parts", "usages"
-  add_foreign_key "invoice_parts", "vat_categories"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
   add_foreign_key "invoices", "notifications", column: "sent_with_notification_id"
