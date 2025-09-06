@@ -877,6 +877,8 @@ de:
   booking_actions:
     accept:
       label: Anfrage akzeptieren
+    base: 
+      not_allowed: Aktion nicht möglich
     cancel:
       cancellation_reason: Anfrage zurückgezogen
       description: Bist du sicher?

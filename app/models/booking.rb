@@ -131,8 +131,8 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   before_validation :assert_tenant!, :sequence_number, :update_occupancies
   before_create :generate_ref
-  after_save :apply_transitions
-  after_touch :apply_transitions
+  after_save :apply_transitions, :update_booking_state_cache!
+  after_touch :apply_transitions, :update_booking_state_cache!
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
@@ -229,12 +229,11 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
     self.transition_to = nil
     self.applied_transitions += booking_flow.infer if infer_transitions
-    update_booking_state_cache!
     applied_transitions
   end
 
   def update_booking_state_cache!
-    return unless booking_state_cache != booking_state&.to_s
+    return if booking_state_cache == booking_state&.to_s
 
     update_columns(booking_state_cache: booking_state.to_s, updated_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
   end

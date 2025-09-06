@@ -8,7 +8,7 @@ module Manage
       after_action :attach_files, only: %i[create update]
 
       def index
-        @contracts = @contracts.includes(signed_pdf_attachment: :blob, pdf_attachment: :blob)
+        @contracts = @contracts.includes(:signed_pdf_attachment, :pdf_attachment)
         respond_with :manage, @contracts
       end
 

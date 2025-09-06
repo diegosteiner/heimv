@@ -21,6 +21,10 @@ module BookingActions
       def self.failure(**)
         new(success: false, **)
       end
+
+      def success?
+        error.blank? && success
+      end
     end
 
     def initialize(booking, key)
@@ -33,7 +37,7 @@ module BookingActions
 
       invoke!(**)
     rescue Statesman::TransitionConflictError, NotInvokable
-      Result.failure error: translate(:not_allowed)
+      Result.failure error: BookingActions::Base.translate(:not_allowed)
     rescue StandardError => e
       raise e unless Rails.env.production?
 
