@@ -93,12 +93,12 @@ class ApplicationController < ActionController::Base
     if current_user.nil?
       redirect_to new_user_session_path(return_to: request.fullpath), alert: t('unauthorized')
     else
-      redirect_back alert: t('unauthorized'), fallback_location: -> { root_path }
+      redirect_back alert: t('unauthorized'), fallback_location: root_path
     end
   end
 
   def invalid_request
-    redirect_back alert: t('errors.invalid_csrf_token'), fallback_location: -> { root_path }
+    redirect_back alert: t('errors.invalid_csrf_token'), fallback_location: root_path
   end
 
   def return_to_path(default = nil)
