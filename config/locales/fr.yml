@@ -46,17 +46,21 @@ fr:
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
         unconfirmed_request_deadline: Délai pour la confirmation de l'adresse e-mail
       invoice/filter:
+        invoice_types:
         issued_at_after: Date de facturation à partir du
         issued_at_before: Date de facturation jusqu'au
         payable_until_after: Payable au plus tard le
         payable_until_before: Payable jusqu'au
+        statuses: Status
       invoice/item:
         accounting_account_nr: zugewiesenes Buchhaltungskonto
-        accounting_cost_center_nr:
+        accounting_cost_center_nr: Centre de coûts
         amount: Montant
+        amount_with_vat:
         apply: Employer
         breakdown: Ventilation
         label: Texte
+        suggested:
         type: Type de poste de facturation
         vat: TVA incluse en pourcentage
         vat_category_id:
@@ -64,6 +68,14 @@ fr:
         homes: Chalets
         issued_at_after: Date de facturation à partir du
         issued_at_before: Date de facturation jusqu'au
+      journal_entry_batch/entry:
+        amount: Montant
+        cost_center: Centre de coûts
+        haben_account:
+        invoice_item_id:
+        soll_account:
+        text: Texte
+        vat_amount:
       journal_entry_batch/filter:
         date_after: Date de réservation à partir du
         date_before: Date de réservation jusqu'au
@@ -113,7 +125,16 @@ fr:
       invoice/items/add:
         one: Poste de facturation normal
         other: Postes de facturation normaux
+      invoice/items/balance:
+        one:
+        other:
       invoice/items/deposit:
+        one:
+        other:
+      invoice/items/text:
+        one:
+        other:
+      invoice/items/title:
         one:
         other:
     models:
@@ -164,6 +185,9 @@ fr:
       invoice/item:
         one: Poste de facturation
         other: Postes de facturation
+      journal_entry_batch/entry:
+        one:
+        other:
       occupancy_calendar:
         one: Plan de locations
         other: Plans de locations
@@ -311,6 +335,7 @@ fr:
         locale: Langue
         payable_until: Payable jusqu'au
         payment_info_type: Section paiement
+        payment_ref: Référence de paiement
         payment_required: Paiement obligatoire pour le transfert de statut
         percentage_paid: "% payé"
         ref: Numéro de facture
@@ -326,7 +351,7 @@ fr:
         processed_at:
         ref:
         text: Texte
-        trigger:
+        trigger: Déclencheur
       meter_reading_period:
         begins_at: Début
         end_value: Nouvelle valeur du compteur
@@ -573,13 +598,22 @@ fr:
           price_list: Liste de prix
           privacy_statement: Déclaration de confidentialité
           terms: Conditions générales d'utilisation / CGU
+      invoice:
+        status:
+          draft:
+          outstanding:
+          paid:
+          refund:
+          void:
       journal_entry_batch:
         triggers:
           invoice_created:
           invoice_discarded:
+          invoice_reverted:
           invoice_updated:
           payment_created:
           payment_discarded:
+          payment_reverted:
           payment_updated:
       journal_entry_batch/filter:
         processed:
@@ -720,6 +754,12 @@ fr:
       data_digest_templates/invoice:
         one: Extrait de facture
         other: Extraits de facture
+      data_digest_templates/invoice_item:
+        one: Extrait des postes de la facture
+        other: Extraits des postes de facturation
+      data_digest_templates/journal_entry:
+        one:
+        other:
       data_digest_templates/meter_reading_period:
         one: Relevé du compteur (Début)
         other: Relevés de compteurs (Fin)
@@ -827,7 +867,10 @@ fr:
   booking_actions:
     accept:
       label: Accepter la demande
+    base:
+      not_allowed:
     cancel:
+      cancellation_reason:
       description:
       label:
       label_committed: Annuler
@@ -1335,6 +1378,7 @@ fr:
   import: Importer
   import_records: Importer %{model_name}
   invoice_items:
+    balance_breakdown:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}

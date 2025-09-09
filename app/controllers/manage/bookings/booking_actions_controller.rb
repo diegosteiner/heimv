@@ -15,7 +15,7 @@ module Manage
       def invoke
         @result = booking_action.invoke(**booking_action_params, current_user:)
 
-        if @result&.success
+        if @result&.success?
           write_booking_log
           redirect_to @result.redirect_proc || manage_booking_path(@booking), notice: t('.success')
         else

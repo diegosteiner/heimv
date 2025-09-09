@@ -6,12 +6,14 @@ module BookingActions
     use_mail_template(:operator_contract_signed_notification, context: %i[booking], optional: true)
 
     def invoke!(signed_pdf: nil, current_user: nil)
-      booking.contract.update(signed_pdf:) if signed_pdf.present?
-      booking.contract.signed!
-      booking.update(committed_request: true)
-      mail = MailTemplate.use(:contract_signed_notification, booking, to: :tenant)
-      send_operator_notification
-      Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
+      ActiveRecord::Base.transaction do
+        booking.contract.update!(signed_pdf:) if signed_pdf.present?
+        booking.contract.signed!
+        booking.update!(committed_request: true)
+        mail = MailTemplate.use(:contract_signed_notification, booking, to: :tenant)
+        send_operator_notification
+        Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
+      end
     end
 
     def invoke_schema
@@ -21,7 +23,7 @@ module BookingActions
     end
 
     def invokable?(signed_pdf: nil, current_user: nil)
-      booking.contract&.sent? && !booking.contract&.signed?
+      booking.contract&.sent? && !booking.contract&.signed? && booking.valid_with_attributes?(committed_request: true)
     end
 
     def invokable_with(current_user: nil)

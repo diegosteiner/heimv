@@ -8,7 +8,8 @@ module BookingActions
     end
 
     def invokable?(current_user: nil)
-      agent_booking&.booking_agent_responsible? && !booking&.committed_request_in_database
+      agent_booking&.booking_agent_responsible? && !booking&.committed_request_in_database &&
+        booking.valid_with_attributes?(context: :agent_update, committed_request: true)
     end
 
     delegate :agent_booking, to: :booking

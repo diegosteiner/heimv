@@ -5,9 +5,9 @@ module BookingActions
     def invoke!(current_user: nil)
       booking.errors.clear
       booking.cancellation_reason ||= t('.cancellation_reason')
-      booking.transition_to = transition_to
+      booking.update!(transition_to:)
 
-      Result.new success: booking.save
+      Result.success
     end
 
     def transition_to

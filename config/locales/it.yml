@@ -46,17 +46,21 @@ it:
         provisional_request_deadline: Periodo per le richieste di prenotazione provvisorie
         unconfirmed_request_deadline: Termine ultimo per la conferma dell'indirizzo e-mail
       invoice/filter:
+        invoice_types:
         issued_at_after: Data di fatturazione dopo
         issued_at_before: Data di fatturazione precedente
         payable_until_after: Pagabile fino a dopo
         payable_until_before: Pagabile fino a prima di
+        statuses: stato
       invoice/item:
         accounting_account_nr: Conto contabile
         accounting_cost_center_nr:
         amount: Importo
+        amount_with_vat:
         apply: Applicare
         breakdown: Ripartizione
         label: Testo
+        suggested:
         type: Tipo di voce della fattura
         vat:
         vat_category_id:
@@ -64,6 +68,14 @@ it:
         homes: Oggetti principali di affitto
         issued_at_after: Data di fatturazione dopo
         issued_at_before: Data di fatturazione precedente
+      journal_entry_batch/entry:
+        amount: Importo
+        cost_center:
+        haben_account:
+        invoice_item_id:
+        soll_account:
+        text: Testo
+        vat_amount:
       journal_entry_batch/filter:
         date_after:
         date_before:
@@ -113,7 +125,16 @@ it:
       invoice/items/add:
         one: Voce di fattura normale
         other: Voci di fattura normali
+      invoice/items/balance:
+        one:
+        other:
       invoice/items/deposit:
+        one:
+        other:
+      invoice/items/text:
+        one:
+        other:
+      invoice/items/title:
         one:
         other:
     models:
@@ -164,6 +185,9 @@ it:
       invoice/item:
         one: Voce di fattura
         other: Voci di fattura
+      journal_entry_batch/entry:
+        one:
+        other:
       occupancy_calendar:
         one: Piano di occupazione
         other: Piani di occupazione
@@ -311,6 +335,7 @@ it:
         locale: Lingua
         payable_until: Pagabile fino a
         payment_info_type: Sezione di pagamento
+        payment_ref:
         payment_required:
         percentage_paid: "% pagati"
         ref: Numero di riferimento
@@ -573,13 +598,22 @@ it:
           price_list: Listino prezzi
           privacy_statement: Informativa sulla privacy
           terms: Termini e condizioni
+      invoice:
+        status:
+          draft:
+          outstanding:
+          paid:
+          refund:
+          void:
       journal_entry_batch:
         triggers:
           invoice_created:
           invoice_discarded:
+          invoice_reverted:
           invoice_updated:
           payment_created:
           payment_discarded:
+          payment_reverted:
           payment_updated:
       journal_entry_batch/filter:
         processed:
@@ -720,6 +754,12 @@ it:
       data_digest_templates/invoice:
         one: Fatture (estratto)
         other: Estratti di fatture
+      data_digest_templates/invoice_item:
+        one: Voci di fattura (estratto)
+        other: Estratti di voci di fattura
+      data_digest_templates/journal_entry:
+        one:
+        other:
       data_digest_templates/meter_reading_period:
         one:
         other:
@@ -827,7 +867,10 @@ it:
   booking_actions:
     accept:
       label: Accettare la richiesta
+    base:
+      not_allowed:
     cancel:
+      cancellation_reason:
       description:
       label:
       label_committed: Cancellare
@@ -1300,6 +1343,7 @@ it:
   import: Importazione
   import_records: importa %{model_name}.
   invoice_items:
+    balance_breakdown:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}

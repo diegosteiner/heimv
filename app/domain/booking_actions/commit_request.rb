@@ -3,13 +3,15 @@
 module BookingActions
   class CommitRequest < Base
     def invoke!(current_user: nil)
-      Result.new success: booking.update(committed_request: true)
+      booking.update!(committed_request: true)
+
+      Result.success
     end
 
     def invokable?(current_user: nil)
       return false if booking.committed_request || booking.agent_booking || booking.email.blank?
 
-      booking.valid?(:public_update)
+      booking.valid_with_attributes?(committed_request: true)
     end
 
     def invokable_with(current_user: nil)
