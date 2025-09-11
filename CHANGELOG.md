@@ -1,5 +1,12 @@
 # Changelog
 
+## 25.9.2
+
+Released 11.09.2025
+
+- Fix: Improve check occupancy overlap even more
+- Feature: Add «reserved» occupancy state that cannot be booked over by tenants
+
 ## 25.9.1
 
 Released 03.09.2025
