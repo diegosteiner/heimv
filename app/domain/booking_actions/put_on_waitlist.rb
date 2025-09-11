@@ -3,7 +3,8 @@
 module BookingActions
   class PutOnWaitlist < Base
     def invoke!(current_user: nil)
-      Result.new success: booking.update(transition_to: :waitlisted_request)
+      booking.update!(transition_to: :waitlisted_request)
+      Result.success
     end
 
     def invokable?(current_user: nil)

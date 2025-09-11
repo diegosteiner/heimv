@@ -10,7 +10,7 @@
 #  ends_at            :datetime         not null
 #  ignore_conflicting :boolean          default(FALSE), not null
 #  linked             :boolean          default(TRUE)
-#  occupancy_type     :integer          default("free"), not null
+#  occupancy_type     :integer          default("pending"), not null
 #  remarks            :text
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null

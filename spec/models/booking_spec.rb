@@ -25,7 +25,7 @@
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
 #  occupancy_color        :string
-#  occupancy_type         :integer          default("free"), not null
+#  occupancy_type         :integer          default("pending"), not null
 #  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
@@ -161,7 +161,9 @@ describe Booking do
   end
 
   describe '#conflicting?' do
-    let(:booking) { build(:booking, home:, tenant:, organisation:, initial_state: :definitive_request) }
+    let(:booking) do
+      build(:booking, home:, tenant:, organisation:, initial_state: :definitive_request, occupancy_type: :occupied)
+    end
     let(:begins_at) { booking.begins_at }
     let(:ends_at) { booking.ends_at }
     let(:conflicting_occupancy) do
@@ -178,7 +180,7 @@ describe Booking do
 
     context 'with non-conflicting occupancy' do
       it 'fails validation with :occupancy_conflict' do
-        conflicting_occupancy.free!
+        conflicting_occupancy.pending!
         expect(booking).to be_valid
       end
     end

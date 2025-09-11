@@ -25,7 +25,7 @@
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
 #  occupancy_color        :string
-#  occupancy_type         :integer          default("free"), not null
+#  occupancy_type         :integer          default("pending"), not null
 #  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
@@ -48,7 +48,7 @@ FactoryBot.define do
     sequence(:email) { |n| "booking-#{n}@heimv.test" }
     sequence(:begins_at) { |i| (Time.zone.now + i.month).change(hour: 9, minute: 0) }
     ends_at { (begins_at + 1.week).change(hour: 14, minute: 0) }
-    occupancy_type { Booking.occupancy_types[:free] }
+    occupancy_type { Booking.occupancy_types[:pending] }
     tenant_organisation { Faker::Company.name }
     committed_request { [true, false].sample }
     approximate_headcount { rand(1..30) }

@@ -3,10 +3,11 @@
 module BookingActions
   class ClearWaitlist < Base
     def invoke(current_user: nil)
-      success = waitlisted_requests.all? do |booking|
-        booking.update(transition_to: :declined_request, cancellation_reason: translate(:cancellation_reason))
+      waitlisted_requests.all? do |booking|
+        booking.update!(occupancy_type: :free, transition_to: :declined_request,
+                        cancellation_reason: translate(:cancellation_reason))
       end
-      Result.new(success:)
+      Result.success
     end
 
     def invokable?(current_user: nil)

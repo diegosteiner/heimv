@@ -10,7 +10,7 @@
 #  ends_at            :datetime         not null
 #  ignore_conflicting :boolean          default(FALSE), not null
 #  linked             :boolean          default(TRUE)
-#  occupancy_type     :integer          default("free"), not null
+#  occupancy_type     :integer          default("pending"), not null
 #  remarks            :text
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -22,7 +22,7 @@ FactoryBot.define do
   factory :occupancy do
     sequence(:begins_at) { |i| (Time.zone.now + i.month).change(hour: 9, minute: 0) }
     ends_at { (begins_at + 1.week).change(hour: 14, minute: 0) }
-    occupancy_type { Occupancy.occupancy_types[:free] }
+    occupancy_type { Occupancy.occupancy_types[:pending] }
     occupiable
     linked { false }
 

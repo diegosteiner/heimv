@@ -640,10 +640,12 @@ de:
           tenant: Mieter
       occupancy:
         occupancy_type:
-          closed: Geschlossen
-          free: Frei
-          occupied: definitiv Besetzt
-          tentative: provisorisch Besetzt
+          closed: geschlossen
+          free: frei
+          occupied: definitiv besetzt
+          pending: angefragt
+          reserved: intern reserviert
+          tentative: provisorisch besetzt
       operator_responsibility:
         responsibility:
           administration: Administration

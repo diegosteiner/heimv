@@ -5,7 +5,7 @@ export type Occupancy = {
   id: string;
   beginsAt: Date;
   endsAt: Date;
-  occupancyType: "free" | "tentative" | "occupied" | "closed";
+  occupancyType: "pending" | "tentative" | "occupied" | "closed" | "free" | "reserved";
   ref?: string;
   deadline?: Date;
   remarks?: string;
@@ -36,7 +36,7 @@ export function parse(json: OccupancyJson): Partial<Occupancy> {
   };
 }
 
-const occupancyTypeMapping = ["free", "tentative", "occupied", "closed"];
+const occupancyTypeMapping = ["pending", "tentative", "occupied", "closed", "free", "reserved"];
 
 export function findMostRelevantOccupancy(occupancies: Set<Occupancy>): Occupancy | undefined {
   let topCandidate: Occupancy | undefined;

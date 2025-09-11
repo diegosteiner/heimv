@@ -10,7 +10,7 @@
 #  ends_at            :datetime         not null
 #  ignore_conflicting :boolean          default(FALSE), not null
 #  linked             :boolean          default(TRUE)
-#  occupancy_type     :integer          default("free"), not null
+#  occupancy_type     :integer          default("pending"), not null
 #  remarks            :text
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -20,7 +20,7 @@
 
 class Occupancy < ApplicationRecord
   COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
-  OCCUPANCY_TYPES = { free: 0, tentative: 1, occupied: 2, closed: 3 }.freeze
+  OCCUPANCY_TYPES = { pending: 0, tentative: 1, occupied: 2, closed: 3, free: 4, reserved: 5 }.freeze
 
   include Timespanable
 
@@ -34,15 +34,14 @@ class Occupancy < ApplicationRecord
 
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :occupancy_calendar, lambda {
-    where.not(occupancy_type: :free)
-         .or(where(occupancy_type: :free, booking: nil))
+    where.not(occupancy_type: %i[pending free]).or(where(occupancy_type: :free, booking: nil))
   }
 
   before_validation :update_from_booking
   validates :occupancy_type, presence: true
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate if: ->(occupancy) { occupancy.validation_context != :ignore_conflicting } do
-    errors.add(:base, :occupancy_conflict) if !ignore_conflicting && conflicting?
+    errors.add(:base, :occupancy_conflict) if !ignore_conflicting && !free? && conflicting?
   end
   validate on: %i[manage_create manage_update] do
     errors.add(:begins_at, :invalid) if linked && begins_at != booking&.begins_at
@@ -57,7 +56,8 @@ class Occupancy < ApplicationRecord
     conflicting(...)&.exists?
   end
 
-  def conflicting(conflicting_occupancy_types = %i[occupied closed], margin: occupiable&.settings&.booking_margin || 0) # rubocop:disable Metrics/AbcSize
+  def conflicting(conflicting_occupancy_types = %i[occupied closed reserved], # rubocop:disable Metrics/AbcSize
+                  margin: occupiable&.settings&.booking_margin || 0)
     return unless begins_at.present? && ends_at.present? && occupiable.present?
 
     occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin)

@@ -25,7 +25,7 @@
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
 #  occupancy_color        :string
-#  occupancy_type         :integer          default("free"), not null
+#  occupancy_type         :integer          default("pending"), not null
 #  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
@@ -108,14 +108,14 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
   end
   validate do
-    next if ignore_conflicting
+    next if ignore_conflicting || free?
     # TODO: remove when backwards compatibilty is no longer needed
     next if validation_context == :manage_update
 
     if agent_booking || !organisation.booking_state_settings.enable_waitlist
-      next unless conflicting?(%i[occupied tentative closed])
+      next unless conflicting?(%i[tentative occupied closed reserved])
     else
-      next unless conflicting?(%i[occupied closed])
+      next unless conflicting?(%i[occupied closed reserved])
     end
 
     errors.add(:occupiable_ids, :occupancy_conflict)
@@ -238,7 +238,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     update_columns(booking_state_cache: booking_state.to_s, updated_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
   end
 
-  def conflicting?(conflicting_occupancy_types = %i[occupied closed])
+  def conflicting?(conflicting_occupancy_types = %i[occupied closed reserved])
     occupancies.any? { it.conflicting(conflicting_occupancy_types)&.exists? }
   end
 
@@ -253,6 +253,12 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def booking_flow
     @booking_flow ||= booking_flow_class&.new(self)
+  end
+
+  def initialize_copy(original)
+    super
+    assign_attributes(ref: nil, sequence_number: nil, sequence_year: nil, token: nil)
+    self.occupancies = original.occupancies.map(&:dup)
   end
 
   private

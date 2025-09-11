@@ -4,9 +4,8 @@ module BookingActions
   class Cancel < Base
     def invoke!(current_user: nil)
       booking.errors.clear
-      booking.cancellation_reason ||= t('.cancellation_reason')
-      booking.update!(transition_to:)
-
+      cancellation_reason ||= booking.cancellation_reason
+      booking.update!(occupancy_type: :free, transition_to:, cancellation_reason: cancellation_reason.presence)
       Result.success
     end
 

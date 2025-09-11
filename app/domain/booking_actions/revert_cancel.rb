@@ -13,7 +13,7 @@ module BookingActions
         end
 
         booking.booking_flow.current_state(force_reload: true) # flush cache of statemachine
-        booking.update!(concluded: false)
+        booking.update!(occupancy_type: :occupied, concluded: false)
         error = 'Nothing reverted' if reverted.compact.none?
         raise ActiveRecord::Rollback if error.present?
       end
