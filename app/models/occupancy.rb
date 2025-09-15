@@ -39,9 +39,10 @@ class Occupancy < ApplicationRecord
 
   before_validation :update_from_booking
   validates :occupancy_type, presence: true
+  validates :occupancy_type, inclusion: { in: %w[pending free tentative occupied] }, if: :linked
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate if: ->(occupancy) { occupancy.validation_context != :ignore_conflicting } do
-    errors.add(:base, :occupancy_conflict) if !ignore_conflicting && !free? && conflicting?
+    errors.add(:base, :occupancy_conflict) if !ignore_conflicting && !free? && !reserved? && conflicting?
   end
   validate on: %i[manage_create manage_update] do
     errors.add(:begins_at, :invalid) if linked && begins_at != booking&.begins_at

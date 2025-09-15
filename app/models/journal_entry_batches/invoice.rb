@@ -68,11 +68,10 @@ module JournalEntryBatches
     def self.build_with_invoice(invoice, **attributes)
       return unless invoice.is_a?(::Invoices::Deposit) || invoice.is_a?(::Invoices::Invoice)
 
-      text = "#{invoice.ref} - #{invoice.booking.tenant.last_name}"
       booking = invoice.booking
       date = invoice.issued_at
 
-      new(ref: invoice.ref, date:, invoice:, booking:, text:, **attributes).tap do |batch|
+      new(ref: invoice.ref, date:, invoice:, booking:, text: invoice_text(invoice), **attributes).tap do |batch|
         invoice.items.each { build_with_item(batch, it) }
       end
     end
@@ -99,11 +98,11 @@ module JournalEntryBatches
     end
 
     def self.item_text(item)
-      "#{invoice_text(item.invoice)}: #{item.label}"
+      "#{item.invoice.model_name.human} #{item.invoice.ref}: #{item.label}"
     end
 
     def self.invoice_text(invoice)
-      "#{invoice.ref} - #{invoice.booking.tenant.last_name}"
+      "#{invoice.model_name.human} #{invoice.ref} #{invoice.booking.ref}"
     end
   end
 end

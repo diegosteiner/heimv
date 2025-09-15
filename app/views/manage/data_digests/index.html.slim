@@ -18,9 +18,9 @@ h1.mt-0= DataDigest.model_name.human(count: 2)
           tr[data-href=manage_data_digest_path(data_digest) data-id=data_digest.to_param]
             td
               - if data_digest.crunching_finished?
-                = link_to data_digest.label, manage_data_digest_path(data_digest)
+                = link_to data_digest.data_digest_template.label, manage_data_digest_path(data_digest)
               - else 
-                span.text-muted= data_digest.label
+                span.text-muted= data_digest.data_digest_template.label
 
             td
               = data_digest.class.model_name.human

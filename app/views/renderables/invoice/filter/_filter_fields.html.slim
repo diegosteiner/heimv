@@ -1,3 +1,4 @@
+= f.text_field :ref
 .row
   .col
     = f.select :invoice_types, subtype_options_for_select(Invoice.subtypes), { include_blank: true }, multiple: true

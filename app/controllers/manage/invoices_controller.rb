@@ -65,7 +65,7 @@ module Manage
     end
 
     def invoice_filter_params
-      params[:filter]&.permit(*%w[issued_at_after issued_at_before payable_until_after payable_until_before],
+      params[:filter]&.permit(*%w[issued_at_after issued_at_before payable_until_after payable_until_before ref],
                               statuses: [], invoice_types: [])
     end
 

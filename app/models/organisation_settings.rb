@@ -43,9 +43,11 @@ class OrganisationSettings
 
   def occupancy_colors
     {
+      pending: nil, # no color
       tentative: tentative_occupancy_color,
       occupied: occupied_occupancy_color,
-      closed: closed_occupancy_color
+      closed: closed_occupancy_color,
+      reserved: closed_occupancy_color
     }.tap { |hash| hash.default = '#FFFFFF00' }
   end
 

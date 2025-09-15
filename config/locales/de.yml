@@ -51,6 +51,7 @@ de:
         issued_at_before: Rechnungsdatum bis
         payable_until_after: Zahlbar bis ab
         payable_until_before: Zahlbar bis bis
+        ref: Referenznummer
         statuses: Status
       invoice/item:
         accounting_account_nr: Buchhaltungskonto

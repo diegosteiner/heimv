@@ -8,6 +8,7 @@ class Invoice
     attribute :payable_until_before, :datetime
     attribute :invoice_types, default: -> { [] }
     attribute :statuses
+    attribute :ref
 
     filter :issued_at do |invoices|
       next unless issued_at_before.present? || issued_at_after.present?
@@ -23,6 +24,10 @@ class Invoice
 
     filter :statuses do |invoices|
       invoices.where(status: statuses) if statuses.present?
+    end
+
+    filter :ref do |invoices|
+      invoices.where(Invoice.arel_table[:ref].matches("#{ref}%")) if ref.present?
     end
 
     filter :invoice_types do |invoices|
