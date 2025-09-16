@@ -23,7 +23,7 @@ class Booking
     class_attribute :updated_timestamp_column
     self.updated_timestamp_column = :updated_at
 
-    belongs_to :booking, inverse_of: :state_transitions
+    belongs_to :booking, inverse_of: :state_transitions, touch: true
 
     scope :ordered, -> { order(sort_key: :ASC) }
 
