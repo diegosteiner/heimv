@@ -7,7 +7,7 @@ module Manage
       load_and_authorize_resource :usage, through: :booking
 
       def index
-        @usages = @usages.includes(:tarif)
+        @usages = @usages.includes(tarif: %i[prefill_usage_booking_question vat_category])
         @suggested_usages = Usage::Factory.new(@booking).build(preselect: suggest_usages?)
 
         respond_with :manage, @booking, @usages
@@ -24,11 +24,14 @@ module Manage
 
       def update_many
         @booking.assign_attributes(booking_usages_params)
-        @booking.usages.each(&:valid?)
-        @booking.save
-        respond_with :manage, @booking, @usages,
-                     responder_flash_messages(Usage.model_name.human(count: 2))
-                       .merge(location: return_to_path(manage_booking_usages_path(@booking)))
+
+        if @booking.usages.all?(&:valid?) && @booking.save
+          redirect_to manage_booking_usages_path(@booking),
+                      notice: responder_flash_messages(Usage.model_name.human)[:notice]
+        else
+          redirect_to manage_booking_usages_path(@booking),
+                      alert: responder_flash_messages(Usage.model_name.human)[:error]
+        end
       end
 
       def update

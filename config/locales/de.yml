@@ -2525,7 +2525,7 @@ de:
       default_body: |
         <p>{{ booking.tenant.salutation }}</p>
 
-        <p>Du hast kürzlich eine provisorische Reservation für {{ booking.home.name }} erstellt. Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Pfadihaus wird wieder freigegeben. Wir geben Dir nochmals 3 Tage Zeit, um Deine Reservation zu verlängern oder um sie definitiv zu machen. Klicke dazu auf den untenstehenden Link.</p>
+        <p>Du hast kürzlich eine provisorische Reservation für {{ booking.home.name }} erstellt. Wir geben Dir nochmals bis {{ booking.deadline.at | datetime_format }} Zeit, um Deine Reservation zu verlängern oder um sie definitiv zu machen. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Pfadihaus wird wieder freigegeben. Klicke dazu auf den untenstehenden Link.</p>
 
         <p><a href="{{booking.links.show}}">{{booking.links.show}}</a></p>
 
@@ -2599,7 +2599,7 @@ de:
       default_body: |
         <p>{{ booking.tenant.salutation }}</p>
 
-        <p>Vielen Dank für Deine Mietanfrage. Wir haben Deine Angaben geprüft und nun eine provisorische Reservation erstellt. Diese gilt für <strong>14 Tage</strong>, danach verfällt sie und das Lagerhaus wird wieder freigegeben. Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.</p>
+        <p>Vielen Dank für Deine Mietanfrage. Wir haben Deine Angaben geprüft und nun eine provisorische Reservation erstellt. Diese gilt bis <strong>{{ booking.deadline.at | datetime_format }}</strong>, danach verfällt sie und das Lagerhaus wird wieder freigegeben. Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.</p>
 
         <p><a href="{{booking.links.show}}">{{booking.links.show}}</a></p>
 

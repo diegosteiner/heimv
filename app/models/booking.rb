@@ -107,21 +107,26 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
       validation.booking_valid?(self, validation_context:) || errors.add(:base, validation.error_message)
     end
   end
+
   validate do
     next if ignore_conflicting || free?
-    # TODO: remove when backwards compatibilty is no longer needed
-    next if validation_context == :manage_update
 
     if agent_booking || !organisation.booking_state_settings.enable_waitlist
-      next unless conflicting?(%i[tentative occupied closed reserved])
+      next unless conflicting?(%i[tentative occupied closed])
     else
-      next unless conflicting?(%i[occupied closed reserved])
+      next unless conflicting?(%i[occupied closed])
     end
 
     errors.add(:occupiable_ids, :occupancy_conflict)
   end
 
-  validate on: %i[public_create public_update agent_update] do
+  validate on: %i[public_create public_update agent_create agent_update] do
+    next if ignore_conflicting || free? || !conflicting?(%i[occupied closed reserved])
+
+    errors.add(:occupiable_ids, :occupancy_conflict)
+  end
+
+  validate on: %i[public_create public_update agent_create agent_update] do
     window = organisation.settings.booking_window
     errors.add(:begins_at, :too_far_in_future) if begins_at_changed? && window && begins_at&.>(window.from_now)
   end
@@ -238,7 +243,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     update_columns(booking_state_cache: booking_state.to_s, updated_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
   end
 
-  def conflicting?(conflicting_occupancy_types = %i[occupied closed reserved])
+  def conflicting?(conflicting_occupancy_types = %i[occupied closed])
     occupancies.any? { it.conflicting(conflicting_occupancy_types)&.exists? }
   end
 

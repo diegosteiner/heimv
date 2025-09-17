@@ -57,7 +57,7 @@ class Occupancy < ApplicationRecord
     conflicting(...)&.exists?
   end
 
-  def conflicting(conflicting_occupancy_types = %i[occupied closed reserved], # rubocop:disable Metrics/AbcSize
+  def conflicting(conflicting_occupancy_types = %i[occupied closed], # rubocop:disable Metrics/AbcSize
                   margin: occupiable&.settings&.booking_margin || 0)
     return unless begins_at.present? && ends_at.present? && occupiable.present?
 
