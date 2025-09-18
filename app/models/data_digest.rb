@@ -42,7 +42,6 @@ class DataDigest < ApplicationRecord
   belongs_to :data_digest_template, inverse_of: :data_digests
   belongs_to :organisation
 
-  delegate :label, to: :data_digest_template
   attr_reader :period
 
   def period=(period_key)
@@ -51,6 +50,14 @@ class DataDigest < ApplicationRecord
 
     self.period_from ||= period_range&.begin
     self.period_to ||= period_range&.end
+  end
+
+  def label
+    return data_digest_template.label if period_from.blank? && period_to.blank?
+
+    [data_digest_template.label, [period_from, period_to].map do
+      it ? I18n.l(it, format: :short) : ''
+    end.join('-')].join(' ')
   end
 
   def period_from=(value)

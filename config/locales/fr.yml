@@ -51,6 +51,7 @@ fr:
         issued_at_before: Date de facturation jusqu'au
         payable_until_after: Payable au plus tard le
         payable_until_before: Payable jusqu'au
+        ref:
         statuses: Status
       invoice/item:
         accounting_account_nr: zugewiesenes Buchhaltungskonto
@@ -639,6 +640,8 @@ fr:
           closed: Fermé
           free: Libre
           occupied: Demande de location définitive
+          pending:
+          reserved:
           tentative: Demande de location provisoire
       operator_responsibility:
         responsibility:
@@ -1838,7 +1841,23 @@ fr:
       default_title: Rappel de paiement pour ta facture Pfadihaus
       description: Notification de facture en retard (locataire)
     provisional_request_notification:
-      default_body:
+      default_body: |
+        <p>{{ booking.tenant.salutation }}</p>
+
+        <p>Merci beaucoup pour ta demande de location. Nous avons vérifié tes données et avons établi une réservation provisoire. Celle-ci est valable jusqu'au <strong>{{ booking.deadline.at | datetime_format }}</strong>, après quoi elle expire et l'entrepôt est remis à disposition. En cliquant sur le lien suivant, tu peux prolonger ta réservation, l'annuler ou la déclarer définitive.</p>
+
+        <p><a href="{{booking.links.show}}">{{booking.links.show}}</a></p>
+
+        <p><strong>Détails de la réservation</strong></p>
+
+        <ul>
+          <li>Référence de la réservation : {{ booking.ref }}</li>
+          <li>Entrepôt : {{booking.home.name}}</li>
+          <li>Réservation : {{ booking.begins_at | datetime_format }} à {{ booking.ends_at | datetime_format }}</li>
+          <li>Organisation : {{ booking.tenant_organisation }}</li>
+          <li>Objet de la location : {{ booking.category.title }} : {{ booking.purpose_description }}</li>
+          <li>Remarques : {{ booking.remarks }}</li>
+        </ul>
       default_title: Réservation provisoire confirmée
       description: Notification de demande de location provisoire (locataire)
     text_payment_info_text:

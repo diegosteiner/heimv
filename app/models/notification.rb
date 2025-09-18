@@ -47,7 +47,8 @@ class Notification < ApplicationRecord
   end
 
   def deliver
-    return unless deliverable? && update(sent_at: Time.zone.now, delivered_at: nil)
+    sent_at = Time.zone.now
+    return unless deliverable? && update(sent_at:, delivered_at: nil)
 
     contracts.each { it.update(sent_at:) }
     invoices.each { it.update(sent_at:) }

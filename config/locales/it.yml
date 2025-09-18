@@ -51,6 +51,7 @@ it:
         issued_at_before: Data di fatturazione precedente
         payable_until_after: Pagabile fino a dopo
         payable_until_before: Pagabile fino a prima di
+        ref:
         statuses: stato
       invoice/item:
         accounting_account_nr: Conto contabile
@@ -639,6 +640,8 @@ it:
           closed: Chiuso
           free: Libero
           occupied: sicuramente occupato
+          pending:
+          reserved:
           tentative: provvisoriamente riservato
       operator_responsibility:
         responsibility:
@@ -2067,7 +2070,7 @@ it:
       default_body: |
         <p>{{ booking.tenant.salutation_name }}</p>
 
-        <p>Grazie per la sua richiesta di affitto. Abbiamo controllato i suoi dati e abbiamo effettuato una prenotazione provvisoria. Questa è valida per <strong>14 giorni</strong>, dopodiché scade e la casa viene nuovamente liberata. È possibile utilizzare il seguente link per estendere, cancellare o dichiarare definitiva la prenotazione.</p>
+        <p>Grazie per la sua richiesta di affitto. Abbiamo controllato i suoi dati e abbiamo effettuato una prenotazione provvisoria. Questa è valida fino al <strong>{{ booking.deadline.at | datetime_format }}</strong>, dopodiché scade e la casa viene nuovamente liberata. È possibile utilizzare il seguente link per estendere, cancellare o dichiarare definitiva la prenotazione.</p>
 
         <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
 

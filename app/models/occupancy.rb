@@ -39,9 +39,10 @@ class Occupancy < ApplicationRecord
 
   before_validation :update_from_booking
   validates :occupancy_type, presence: true
+  validates :occupancy_type, inclusion: { in: %w[pending free tentative occupied] }, if: :linked
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate if: ->(occupancy) { occupancy.validation_context != :ignore_conflicting } do
-    errors.add(:base, :occupancy_conflict) if !ignore_conflicting && !free? && conflicting?
+    errors.add(:base, :occupancy_conflict) if !ignore_conflicting && !free? && !reserved? && conflicting?
   end
   validate on: %i[manage_create manage_update] do
     errors.add(:begins_at, :invalid) if linked && begins_at != booking&.begins_at
@@ -56,7 +57,7 @@ class Occupancy < ApplicationRecord
     conflicting(...)&.exists?
   end
 
-  def conflicting(conflicting_occupancy_types = %i[occupied closed reserved], # rubocop:disable Metrics/AbcSize
+  def conflicting(conflicting_occupancy_types = %i[occupied closed], # rubocop:disable Metrics/AbcSize
                   margin: occupiable&.settings&.booking_margin || 0)
     return unless begins_at.present? && ends_at.present? && occupiable.present?
 
