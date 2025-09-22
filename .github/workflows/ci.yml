@@ -34,8 +34,8 @@ jobs:
 
       - name: docker build
         run: |
-          docker buildx bake -f docker-compose.ci.yml e2e_test --load --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
-          docker buildx bake -f docker-compose.ci.yml e2e_target --load --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
+          docker buildx bake -f docker-compose.ci.yml e2e_test --set e2e_test.tags=heimv-e2e_test:latest --load --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
+          docker buildx bake -f docker-compose.ci.yml e2e_target --set e2e_target.tags=heimv-e2e_target:latest --load --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
 
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run --rm e2e_test bin/check_ci

@@ -32,9 +32,9 @@ class Invoice
       end.flatten
     end
 
-    def build_from_balance
+    def build_from_balance # rubocop:disable Metrics/AbcSize
       unassigned_payments_amount = booking.payments.where(invoice: nil, write_off: false).sum(:amount) || 0
-      deposit_balance = deposits.sum(&:balance) || 0
+      deposit_balance = (deposits.sum(&:balance) || 0) - (invoice.supersede_invoice&.amount_paid || 0)
       amount = deposit_balance - unassigned_payments_amount
       return if amount.zero?
 
@@ -58,7 +58,7 @@ class Invoice
     end
 
     def build_from_deposits # rubocop:disable Metrics/AbcSize
-      return unless deposits.exists?
+      return if !deposits.exists? || invoice.supersede_invoice.present?
 
       [
         build_item(class: ::Invoice::Items::Title, label: Invoices::Deposit.model_name.human(count: 2)),
@@ -72,7 +72,10 @@ class Invoice
     end
 
     def build_from_supersede_invoice
-      @invoice.supersede_invoice&.items&.map(&:dup) if @invoice.new_record?
+      return unless invoice.new_record?
+
+      items = invoice.supersede_invoice&.items&.filter { !it.is_a?(::Invoice::Items::Balance) }
+      items&.map(&:dup)
     end
 
     def build_from_usage(usage)
