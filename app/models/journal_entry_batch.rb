@@ -53,8 +53,8 @@ class JournalEntryBatch < ApplicationRecord
   scope :unprocessed, -> { where(processed_at: nil) }
 
   # this can be replaced with type: sti_name
-  scope :invoice, -> { where(trigger: %i[invoice_created invoice_updated invoice_discarded]) }
-  scope :payment, -> { where(trigger: %i[payment_created payment_updated payment_discarded]) }
+  scope :invoice, -> { where(trigger: %i[invoice_created invoice_updated invoice_discarded invoice_reverted]) }
+  scope :payment, -> { where(trigger: %i[payment_created payment_updated payment_discarded payment_reverted]) }
 
   delegate :accounting_settings, to: :organisation, allow_nil: true
 
@@ -63,7 +63,7 @@ class JournalEntryBatch < ApplicationRecord
   end
 
   def to_s
-    "##{id}@#{date}: #{text}\n" + entries.map(&:to_s).join("\n")
+    "##{id}@#{date}[#{trigger}]: #{text}\n" + entries.map(&:to_s).join("\n")
   end
 
   def processed?

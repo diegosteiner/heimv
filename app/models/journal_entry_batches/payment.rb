@@ -40,6 +40,14 @@ module JournalEntryBatches
       existing_batches(payment).destroy_all
     end
 
+    def self.handle_discard(payment)
+      previous_batch = existing_batches(payment).processed.last
+      return if previous_batch.nil? || previous_batch.trigger_payment_discarded?
+
+      previous_batch.dup.invert.update(trigger: :payment_discarded, date: payment.discarded_at&.to_date,
+                                       processed_at: nil)
+    end
+
     def self.existing_batches(payment)
       payment.organisation.journal_entry_batches.where(payment:).payment.ordered
     end
@@ -47,6 +55,7 @@ module JournalEntryBatches
     def self.handle(payment)
       existing_batches(payment).unprocessed.destroy_all
       return handle_destroy(payment) if payment.destroyed?
+      return handle_discard(payment) if payment.discarded?
 
       handle_save(payment)
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_11_130138) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_28_132335) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -548,6 +548,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_11_130138) do
     t.string "camt_instr_id"
     t.string "accounting_account_nr"
     t.string "accounting_cost_center_nr"
+    t.datetime "discarded_at"
     t.index ["booking_id"], name: "index_payments_on_booking_id"
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
   end

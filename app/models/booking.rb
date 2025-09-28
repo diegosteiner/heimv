@@ -132,7 +132,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   scope :ordered, -> { order(begins_at: :ASC) }
-  scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
+  scope :with_default_includes, -> { includes(DEFAULT_INCLUDES).joins(most_recent_transition_join) }
 
   before_validation :assert_tenant!, :sequence_number, :update_occupancies
   before_create :generate_ref
