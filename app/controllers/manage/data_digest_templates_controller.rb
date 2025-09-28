@@ -11,7 +11,8 @@ module Manage
     end
 
     def new
-      @data_digest_template = DataDigestTemplate.new(data_digest_template_params)
+      data_digest_template_to_clone = current_organisation.data_digest_templates.find(params[:clone]) if params[:clone]
+      @data_digest_template = data_digest_template_to_clone.dup if data_digest_template_to_clone.present?
       @data_digest_template.organisation = current_organisation
       respond_with :manage, @data_digest_template
     end

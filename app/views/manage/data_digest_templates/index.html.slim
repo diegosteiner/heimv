@@ -31,6 +31,8 @@ p= link_to DataDigest.model_name.human(count: 2), manage_data_digests_path
               .btn-group
                 = link_to edit_manage_data_digest_template_path(data_digest_template), class: 'btn btn-default' do
                   span.fa.fa-edit
+                = link_to new_manage_data_digest_template_path(clone: data_digest_template.to_param), class: 'btn btn-default', title: t(:clone) do
+                  span.fa.fa-clone
                 = link_to manage_data_digest_template_path(data_digest_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
                   span.fa.fa-trash
 
