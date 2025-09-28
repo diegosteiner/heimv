@@ -1,5 +1,14 @@
 # Changelog
 
+## 25.9.3
+
+Released 28.09.2025
+
+- Fix: Fix broken «Create invoice» button on usages
+- Fix: Handle updates to processed journal entries correctly
+- Feature: Allow Payments to be soft deleted
+- Feature: Allow cloning of data digest templates
+
 ## 25.9.2
 
 Released 11.09.2025

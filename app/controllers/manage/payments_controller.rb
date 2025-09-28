@@ -57,7 +57,7 @@ module Manage
     end
 
     def destroy
-      @payment.destroy
+      @payment.discarded? ? @payment.destroy : @payment.discard!
       respond_with :manage, @payment, location: -> { manage_booking_payments_path(@payment.booking) }
     end
 

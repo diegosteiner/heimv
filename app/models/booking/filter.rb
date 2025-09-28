@@ -63,10 +63,10 @@ class Booking
       next bookings if q.blank?
 
       match_part = "%#{q.strip}%"
-      bookings.joins(:tenant).left_joins(:agent_booking)
-              .where(Tenant.arel_table[:search_cache].matches(match_part)
-              .or(Booking.arel_table[:tenant_organisation].matches(match_part))
-              .or(Booking.arel_table[:ref].matches(match_part)))
+      bookings = bookings.joins(:tenant).left_joins(:agent_booking)
+      bookings.where(Tenant.arel_table[:search_cache].matches(match_part)
+                .or(Booking.arel_table[:tenant_organisation].matches(match_part))
+                .or(Booking.arel_table[:ref].matches(match_part)))
               .or(bookings.where(AgentBooking.arel_table[:booking_agent_ref].matches(q)))
     end
 

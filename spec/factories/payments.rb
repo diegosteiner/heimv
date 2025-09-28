@@ -9,6 +9,7 @@
 #  accounting_cost_center_nr :string
 #  amount                    :decimal(, )
 #  data                      :jsonb
+#  discarded_at              :datetime
 #  paid_at                   :date
 #  ref                       :string
 #  remarks                   :text

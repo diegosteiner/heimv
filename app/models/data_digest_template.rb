@@ -63,6 +63,10 @@ class DataDigestTemplate < ApplicationRecord
     @prefilter ||= filter_class&.new(prefilter_params.presence || {})
   end
 
+  # def initialize_copy(origin)
+  #   super
+  # end
+
   def self.template_environment
     @template_environment ||= Liquid::Environment.build do |environment|
       environment.error_mode = :strict unless Rails.env.production?

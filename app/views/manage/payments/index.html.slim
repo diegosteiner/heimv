@@ -47,7 +47,7 @@
 
     tbody.shadow-sm
       - @payments.each do |payment|
-        tr[data-href=manage_payment_path(payment)]
+        tr[data-href=manage_payment_path(payment) class=('disabled' if payment.discarded?)]
           td
             = link_to l(payment.paid_at), manage_payment_path(payment)
           td
@@ -63,8 +63,9 @@
           td.py-1.text-end
             - if can?(:manage, payment)
               .btn-group
-                = link_to edit_manage_payment_path(payment), class: 'btn btn-default' do
-                  span.fa.fa-edit
+                - unless payment.discarded?
+                  = link_to edit_manage_payment_path(payment), class: 'btn btn-default' do
+                    span.fa.fa-edit
                 = link_to manage_payment_path(payment), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                   span.fa.fa-trash
 

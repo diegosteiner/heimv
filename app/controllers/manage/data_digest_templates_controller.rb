@@ -12,7 +12,10 @@ module Manage
 
     def new
       @data_digest_template = DataDigestTemplate.new(data_digest_template_params)
+      to_clone = current_organisation.data_digest_templates.find(params[:clone]) if params[:clone]
+      @data_digest_template = to_clone.dup if to_clone.present?
       @data_digest_template.organisation = current_organisation
+
       respond_with :manage, @data_digest_template
     end
 

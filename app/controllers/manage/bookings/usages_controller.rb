@@ -24,13 +24,13 @@ module Manage
 
       def update_many
         @booking.assign_attributes(booking_usages_params)
+        flash_messages = responder_flash_messages(Usage.model_name.human)
 
         if @booking.usages.all?(&:valid?) && @booking.save
-          redirect_to manage_booking_usages_path(@booking),
-                      notice: responder_flash_messages(Usage.model_name.human)[:notice]
+          redirect_to params[:return_to].presence || manage_booking_usages_path(@booking),
+                      notice: flash_messages[:notice]
         else
-          redirect_to manage_booking_usages_path(@booking),
-                      alert: responder_flash_messages(Usage.model_name.human)[:error]
+          redirect_to manage_booking_usages_path(@booking), alert: flash_messages[:error]
         end
       end
 
