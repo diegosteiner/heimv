@@ -2,9 +2,12 @@
 
 ## Resources
 
-- **deployment/heimv-web**: The app's web server and main component
-- **deployment/heimv-worker**: The app's job worker
-- **service/heimv-web-service**: Service for *deployment/heimv-web*
+- **deployment/web**: The app's web server and main component
+- **deployment/hobs**: The app's job worker
+
+## Configuration
+
+- Generate/Add secrets and config in *kustomization.yaml*
 
 ## Additional needed resources
 

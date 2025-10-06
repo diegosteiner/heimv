@@ -2,24 +2,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: heimv-web
+  name: heimv-jobs
   annotations:
+    keel.sh/match-tag: "true"
+    keel.sh/policy: force
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: heimv-web
+      app: heimv-jobs
   template:
     metadata:
       labels:
-        app: heimv-web
+        app: heimv-jobs
     spec:
       containers:
         - name: heimv
           image: ghcr.io/diegosteiner/heimv:main
           imagePullPolicy: Always
-          ports:
-            - containerPort: 3000
+          command:
+            - bin/jobs
           envFrom:
             - secretRef:
                 name: app-secret
@@ -31,17 +33,9 @@ spec:
                 secretKeyRef:
                   name: database-secret
                   key: url
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 3000
-              scheme: HTTP
-            initialDelaySeconds: 30
-            periodSeconds: 60
-            failureThreshold: 3
           resources:
             requests:
-              memory: 512M
-            limits:
               memory: 1024M
+            limits:
+              memory: 2048M
       restartPolicy: Always
