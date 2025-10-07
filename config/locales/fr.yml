@@ -1467,7 +1467,7 @@ fr:
         payment_not_required_warning:
     journal_entry_batches:
       index:
-        process_all:
+        digest_and_process:
         processed_at:
         unprocessed:
     notifications:

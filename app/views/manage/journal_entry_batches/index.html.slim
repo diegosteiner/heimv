@@ -6,8 +6,13 @@ h1.mt-0.mb-5= JournalEntryBatch.model_name.human(count: 2)
     i.fa.fa-filter<>
     = t(:filter)
   
-  = button_to process_all_manage_journal_entry_batches_path(filter: @filter.attributes), method: :post, class: 'btn btn-primary', data: { confirm: t(:confirm) }
-    = t('.process_all')
+  .dropdown.d-inline-block
+    button.btn.btn-outline-primary[data-bs-toggle="dropdown" type="button"]
+      = t('.digest_and_process')
+    .dropdown-menu.dropdown-menu-right
+      - @data_digest_templates.each do |data_digest_template|
+        = button_to(digest_and_process_manage_journal_entry_batches_path(filter: @filter.attributes, data_digest_template_id: data_digest_template.id), data: { confirm: t(:confirm) }, class: 'dropdown-item')
+          = data_digest_template.label
 
 #filter.modal.fade
   .modal-dialog.modal-lg

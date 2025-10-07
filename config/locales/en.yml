@@ -1444,7 +1444,7 @@ en:
         payment_not_required_warning: Ohne diesen Haken wird die Belegung kann die Belegung automatisch in den nächsten Status wechseln, wenn sonst alle Bedingungen erfüllt sind.
     journal_entry_batches:
       index:
-        process_all: Als verbucht markieren
+        digest_and_process: Als verbucht markieren
         processed_at: verbucht %{at}
         unprocessed: unverbucht
     notifications:

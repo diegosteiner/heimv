@@ -1,6 +1,10 @@
 h1.mt-0= @data_digest.label
 p=  @data_digest.localized_period
 
+
+- unless @data_digest.crunching_finished?
+  .alert.alert-warning.my-4[role=alert]= t('manage.data_digests.create.job_started')
+
 = render partial: 'renderables/data_digest_templates/tabular/show_data_digest', locals: { data_digest: @data_digest }
 
 br

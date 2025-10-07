@@ -43,12 +43,18 @@ class DataDigest < ApplicationRecord
   belongs_to :data_digest_template, inverse_of: :data_digests
   belongs_to :organisation
 
+  before_create :evaluate_records, if: -> { record_ids.blank? }
+
   attr_reader :period
 
   def period=(period_key)
-    @period = period_key&.to_sym
-    period_range = PERIODS[@period]&.call(Time.zone.now)
-
+    period_range = case period_key
+                   when Range
+                     period_key
+                   else
+                     @period = period_key&.to_sym
+                     PERIODS[@period]&.call(Time.zone.now)
+                   end
     self.period_from ||= period_range&.begin
     self.period_to ||= period_range&.end
   end
@@ -85,11 +91,12 @@ class DataDigest < ApplicationRecord
     data_digest_template.base_scope.where(id: record_ids)
   end
 
+  def evaluate_records
+    self.record_ids = data_digest_template.records(period_from..period_to).pluck(:id)
+  end
+
   def crunch
-    records = data_digest_template.records(period_from..period_to)
-    self.record_ids = records.pluck(:id)
     self.data = data_digest_template.crunch(records)
-    true
   end
 
   def crunch!
