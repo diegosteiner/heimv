@@ -24,6 +24,8 @@ module JournalEntryBatches
   class Invoice < ::JournalEntryBatch
     JournalEntryBatch.register_subtype self
 
+    validates :invoice, presence: true
+
     def self.handle(invoice)
       return unless invoice.is_a?(::Invoices::Deposit) || invoice.is_a?(::Invoices::Invoice)
 

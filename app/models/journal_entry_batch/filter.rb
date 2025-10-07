@@ -18,14 +18,15 @@ class JournalEntryBatch
     filter :processed_at do |journal_entry_batches|
       next unless processed_at_before.present? || processed_at_after.present?
 
-      journal_entry_batches.where(JournalEntryBatch.arel_table[:date].between(processed_at_after..processed_at_before))
+      journal_entry_batches.where(JournalEntryBatch.arel_table[:processed_at]
+                                                   .between(processed_at_after..processed_at_before))
     end
 
-    filter :processed do |journal_entry_batches|
-      next if processed.nil?
+    # filter :processed do |journal_entry_batches|
+    #   next if processed.nil? || processed == ''
 
-      processed ? journal_entry_batches.processed : journal_entry_batches.unprocessed
-    end
+    #   processed ? journal_entry_batches.processed : journal_entry_batches.unprocessed
+    # end
 
     filter :triggers do |journal_entry_batches|
       trigger = (Array.wrap(triggers) & JournalEntryBatch.triggers.keys).compact_blank

@@ -1,5 +1,9 @@
 # Changelog
 
+## unreleased
+
+- Fix: Fix processing of journal_entry_batches together with data digests
+
 ## 25.9.3
 
 Released 28.09.2025

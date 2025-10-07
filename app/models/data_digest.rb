@@ -10,6 +10,7 @@
 #  data                    :jsonb
 #  period_from             :datetime
 #  period_to               :datetime
+#  record_ids              :jsonb
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  data_digest_template_id :bigint           not null
@@ -81,17 +82,19 @@ class DataDigest < ApplicationRecord
   end
 
   def records
-    data_digest_template.records(period_from..period_to)
+    data_digest_template.base_scope.where(id: record_ids)
   end
 
   def crunch
+    records = data_digest_template.records(period_from..period_to)
+    self.record_ids = records.pluck(:id)
     self.data = data_digest_template.crunch(records)
+    true
   end
 
   def crunch!
     update(crunching_started_at: Time.zone.now) &&
-      crunch &&
-      update(crunching_finished_at: Time.zone.now)
+      crunch && update(crunching_finished_at: Time.zone.now)
   end
 
   def crunching_finished?

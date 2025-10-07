@@ -41,7 +41,7 @@ FactoryBot.define do
     end
 
     after(:build) do |invoice, evaluator|
-      next if evaluator.skip_items
+      next if evaluator.skip_items || evaluator.items.present?
 
       invoice.items = if evaluator.amount&.positive?
                         build_list(:invoice_item, 1, amount: evaluator.amount)
