@@ -155,7 +155,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
     context 'with VAT of 0.0% (KT0)' do
       let(:vat_category_0) { create(:vat_category, organisation:, accounting_vat_code: 'KT0', percentage: 0.0) }
       let(:invoice) do
-        create(:invoice, booking:, items: [
+        create(:invoice, booking:, issued_at: '2025-09-30 12:00', items: [
                  build(:invoice_item, vat_category: vat_category_0, label: 'Kurtaxe (MwSt. befreit)', amount: 50,
                                       accounting_account_nr: '2016')
                ])
