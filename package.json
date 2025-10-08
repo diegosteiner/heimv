@@ -28,7 +28,7 @@
     "react-bootstrap": "^2.3.1",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.51.3",
-    "react-i18next": "^15.0.0",
+    "react-i18next": "^16.0.0",
     "react-sortablejs": "^6.1.4",
     "react-swipeable": "^7.0.0",
     "sass": "^1.85.1",
