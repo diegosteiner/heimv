@@ -115,7 +115,7 @@ module Export
               CAcc: side.soll? ? entry.haben_account : entry.soll_account,
               Date: entry.journal_entry_batch.date,
               Text: entry.text, Type: side.to_type,
-              ValNt: entry.vat_amount,
+              ValNt: entry.vat_amount, # why is this omitted?
               ValTx: entry.vat_breakup.[](:netto),
               **override)
         end

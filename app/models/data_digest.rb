@@ -10,6 +10,7 @@
 #  data                    :jsonb
 #  period_from             :datetime
 #  period_to               :datetime
+#  record_ids              :jsonb
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  data_digest_template_id :bigint           not null
@@ -42,12 +43,18 @@ class DataDigest < ApplicationRecord
   belongs_to :data_digest_template, inverse_of: :data_digests
   belongs_to :organisation
 
+  before_create :evaluate_records, if: -> { record_ids.blank? }
+
   attr_reader :period
 
   def period=(period_key)
-    @period = period_key&.to_sym
-    period_range = PERIODS[@period]&.call(Time.zone.now)
-
+    period_range = case period_key
+                   when Range
+                     period_key
+                   else
+                     @period = period_key&.to_sym
+                     PERIODS[@period]&.call(Time.zone.now)
+                   end
     self.period_from ||= period_range&.begin
     self.period_to ||= period_range&.end
   end
@@ -81,7 +88,11 @@ class DataDigest < ApplicationRecord
   end
 
   def records
-    data_digest_template.records(period_from..period_to)
+    data_digest_template.base_scope.where(id: record_ids)
+  end
+
+  def evaluate_records
+    self.record_ids = data_digest_template.records(period_from..period_to).pluck(:id)
   end
 
   def crunch
@@ -90,8 +101,7 @@ class DataDigest < ApplicationRecord
 
   def crunch!
     update(crunching_started_at: Time.zone.now) &&
-      crunch &&
-      update(crunching_finished_at: Time.zone.now)
+      crunch && update(crunching_finished_at: Time.zone.now)
   end
 
   def crunching_finished?

@@ -7,10 +7,10 @@ module Public
     layout false
     after_action :allow_embed, only: %i[embed]
     after_action :allow_cors, only: %i[index]
-    before_action :set_calendar, only: %i[index private_ical_feed]
     respond_to :json, :ics
 
     def index
+      load_calendar(current_organisation_user)
       respond_to do |format|
         format.json { render json: OccupancyCalendarSerializer.render(@calendar) }
         format.ics { render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies) }
@@ -18,11 +18,12 @@ module Public
     end
 
     def private_ical_feed
-      organisation_user = current_organisation_user.present? ||
+      organisation_user = current_organisation_user.presence ||
                           current_organisation.organisation_users.find_by(token: params[:token])
 
       return head(:unauthorized) if organisation_user.blank?
 
+      load_calendar(organisation_user)
       respond_to do |format|
         format.ics do
           render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies, include_tenant_details: true)
@@ -49,8 +50,8 @@ module Public
       nil
     end
 
-    def set_calendar
-      window_from = current_organisation_user.present? ? 4.months.ago : Time.zone.now.beginning_of_day
+    def load_calendar(organisation_user)
+      window_from = organisation_user.present? ? 4.months.ago : Time.zone.now.beginning_of_day
 
       @calendar = OccupancyCalendar.new(organisation: current_organisation, occupiables: @occupiable, window_from:)
     end

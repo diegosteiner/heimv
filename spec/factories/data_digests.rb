@@ -10,6 +10,7 @@
 #  data                    :jsonb
 #  period_from             :datetime
 #  period_to               :datetime
+#  record_ids              :jsonb
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  data_digest_template_id :bigint           not null

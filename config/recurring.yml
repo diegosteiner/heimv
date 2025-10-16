@@ -21,6 +21,10 @@ production:
   transition_booking_states:
     schedule: "*/5 * * * *"
     class: TransitionBookingStatesJob
+  
+  retry_pending_notifications_job:
+    schedule: "35 * * * *"
+    class: RetryPendingNotificationsJob
 
   clean_data_digests:
     schedule: "0 3 * * *"

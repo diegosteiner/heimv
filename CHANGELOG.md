@@ -1,5 +1,12 @@
 # Changelog
 
+## 25.10.1
+
+Released 16.10.2025
+
+- Feature: Retry sent but undelivered notifications
+- Fix: Fix processing of journal_entry_batches together with data digests
+
 ## 25.9.3
 
 Released 28.09.2025

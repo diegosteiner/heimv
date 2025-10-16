@@ -1,16 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - web-deployment.yaml
-  - web-service.yaml
-  - worker-deployment.yaml
+  - web.yaml
+  - jobs.yaml
 
 images:
   - name: ghcr.io/diegosteiner/heimv
     newTag: main
 
 replicas:
-  - name: heimv-worker
+  - name: heimv-jobs
     count: 1
   - name: heimv-web
     count: 2

@@ -24,6 +24,8 @@ module JournalEntryBatches
   class Payment < ::JournalEntryBatch
     JournalEntryBatch.register_subtype self
 
+    validates :payment, presence: true
+
     def self.handle_save(payment)
       previous_batch = existing_batches(payment).processed.last
       new_batch = build_with_payment(payment)

@@ -39,7 +39,7 @@
               - if contract.sent? || contract.superseded?
                 = l(contract.sent_at) if contract.sent?
               - else
-                | -
+                | –
             td
               - if contract.signed? || contract.superseded?
                 - if contract.signed_pdf.attached?
@@ -50,7 +50,7 @@
                 - elsif contract.signed?
                   = l(contract.signed_at)
               - else
-                | -
+                | –
             td.py-1.text-end
               .btn-group
                 - unless contract.superseded?

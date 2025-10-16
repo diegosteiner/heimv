@@ -152,6 +152,91 @@ describe Export::Taf::Blocks::Batch, type: :model do
       end
     end
 
+    context 'with VAT of 0.0% (KT0)' do
+      let(:vat_category_0) { create(:vat_category, organisation:, accounting_vat_code: 'KT0', percentage: 0.0) }
+      let(:invoice) do
+        create(:invoice, booking:, issued_at: '2025-09-30 12:00', items: [
+                 build(:invoice_item, vat_category: vat_category_0, label: 'Kurtaxe (MwSt. befreit)', amount: 50,
+                                      accounting_account_nr: '2016')
+               ])
+      end
+
+      it do # rubocop:disable RSpec/ExampleLength
+        expect(taf).to eq(<<~TAF.chomp)
+          {Adr
+            AdrId=200002
+            Sort="MAXMUELLER"
+            Corp="Max Müller"
+            Lang="D"
+            Road="Bahnhofstr. 1"
+            CCode="CH"
+            ACode="1234"
+            City="Bern"
+
+          }
+
+          {PKd
+            PkKey=200002
+            AdrId=200002
+            AccId=1050
+            ZabId="15T"
+
+          }
+
+          {OPd
+            PkKey=200002
+            OpId=250002
+            ZabId="15T"
+            Ref="200002202500002"
+            Text="Rechnung 250002 #{booking.ref}"
+
+          }
+
+          {Blg
+            Date=30.09.2025
+            Orig=1
+
+            {Bk
+              AccId=1050
+              Date=30.09.2025
+              Text="Rechnung 250002 #{booking.ref}"
+              Type=0
+              ValNt=50.00
+              PkKey=200002
+              OpId=250002
+              Flags=1
+
+            }
+
+            {Bk
+              AccId=2016
+              Date=30.09.2025
+              TaxId="KT0"
+              Text="Rechnung 250002: Kurtaxe (MwSt. befreit)"
+              Type=1
+              ValNt=50.00
+              ValTx=0.00
+              CAcc=1050
+              TIdx=3
+
+            }
+
+            {Bk
+              AccId=2016
+              BType=2
+              CAcc=1050
+              Date=30.09.2025
+              Text="Rechnung 250002: Kurtaxe (MwSt. befreit)"
+              Type=1
+              ValNt=0.00
+              ValTx=50.00
+
+            }
+          }
+        TAF
+      end
+    end
+
     context 'with invoice_updated' do
       subject(:blocks) { journal_entry_batches.map { described_class.build_with_journal_entry_batch(it) } }
 

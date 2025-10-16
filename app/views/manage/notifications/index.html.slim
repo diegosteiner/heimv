@@ -28,15 +28,14 @@ table.table.table-hover.align-middle
           = l(notification.created_at)
       
         td
-          = notification.sent_at.present? ? l(notification.sent_at) : '-'
-          - if notification.delivered_at.present?
-            span.fa.fa-check.text-success.ms-1
-            - if notification.sent_at
-              = l(notification.sent_at, format: :short)
-            - else
-              = '-'
+          - if notification.sent_at.blank?
+            | –
+          - else
+            = l(notification.sent_at) 
             - if notification.delivered_at.present?
-              span.fa.fa-check.text-success.ms-1
+              span.fa.fa-check.text-success.ms-1[title=l(notification.delivered_at, format: :short)]
+            - else
+              span.fa.fa-hourglass.text-info.ms-1
 
         td
           - notification.deliver_to.each do |to|

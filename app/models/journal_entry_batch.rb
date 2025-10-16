@@ -22,6 +22,9 @@
 # frozen_string_literal: true
 
 class JournalEntryBatch < ApplicationRecord
+  TRIGGER_INVOICE = %i[invoice_created invoice_updated invoice_discarded invoice_reverted].freeze
+  TRIGGER_PAYMENT = %i[payment_created payment_updated payment_discarded payment_reverted].freeze
+
   include Subtypeable
   include StoreModel::NestedAttributes
 
@@ -51,10 +54,11 @@ class JournalEntryBatch < ApplicationRecord
   scope :ordered, -> { order(date: :ASC, created_at: :ASC) }
   scope :processed, -> { where.not(processed_at: nil) }
   scope :unprocessed, -> { where(processed_at: nil) }
+  scope :of_organisation, ->(organisation) { joins(invoice: :booking).where(invoices: { bookings: { organisation: } }) }
 
   # this can be replaced with type: sti_name
-  scope :invoice, -> { where(trigger: %i[invoice_created invoice_updated invoice_discarded invoice_reverted]) }
-  scope :payment, -> { where(trigger: %i[payment_created payment_updated payment_discarded payment_reverted]) }
+  scope :invoice, -> { where(trigger: TRIGGER_INVOICE) }
+  scope :payment, -> { where(trigger: TRIGGER_PAYMENT) }
 
   delegate :accounting_settings, to: :organisation, allow_nil: true
 

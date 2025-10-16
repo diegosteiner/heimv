@@ -100,8 +100,6 @@ module DataDigestTemplates
       ::JournalEntryBatch::Filter
     end
 
-    protected
-
     def base_scope
       @base_scope ||= ::JournalEntryBatch.joins(:booking).where(bookings: { organisation_id: organisation })
                                          .includes(booking: :organisation).ordered
