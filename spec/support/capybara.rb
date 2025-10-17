@@ -6,7 +6,6 @@ Capybara.register_driver :selenium_chrome do |app|
   options.add_preference(:download, prompt_for_download: false, default_directory: '/tmp/downloads')
 
   options.add_argument('--headless=new') if ENV['SELENIUM_VNC'].blank?
-  options.add_argument('--no-sandbox')
   options.add_argument('--window-size=1280,1024')
   options.add_argument('--no-default-browser-check')
   options.add_argument('--disable-search-engine-choice-screen')
