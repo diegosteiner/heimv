@@ -26,7 +26,8 @@
 #  salutation_form           :integer
 #  search_cache              :text             not null
 #  sequence_number           :integer
-#  street_address            :string
+#  street                    :string
+#  street_nr                 :string
 #  zipcode                   :string
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
@@ -45,8 +46,9 @@ class Tenant < ApplicationRecord
 
   validates :email, allow_blank: true, uniqueness: { scope: :organisation_id }
   validates :email, presence: true, on: :public_update
-  validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
-  validates :street_address, length: { maximum: 255 }
+  validates :first_name, :last_name, :street, :street_nr, :zipcode, :city, presence: true, on: :public_update
+  validates :street, length: { maximum: 255 }
+  validates :street_nr, length: { maximum: 25 }
   validates :phone, presence: true, length: { minimum: 10, maximum: 255 }, on: :public_update
   validates :locale, presence: true, on: :public_update
   validates :ref, uniqueness: { scope: :organisation_id }, allow_blank: true # rubocop:disable Rails/UniqueValidationWithoutIndex
@@ -98,23 +100,15 @@ class Tenant < ApplicationRecord
   end
 
   def address_lines
-    [
-      address_addon&.strip,
-      street_address&.lines&.map(&:strip),
-      [zipcode, city, country_code != organisation&.country_code && country_code].compact_blank.join(' ')
-    ].flatten.compact_blank
+    raise NotImplementedError
   end
 
   def full_address_lines
-    [full_name, address_lines].flatten
-  end
-
-  def address
-    full_address_lines.join("\n")
+    raise NotImplementedError
   end
 
   def contact_lines
-    full_address_lines + [phone&.lines, email].flatten.compact_blank
+    address.lines + [phone&.lines, email].flatten.compact_blank
   end
 
   def contact_info
@@ -122,13 +116,11 @@ class Tenant < ApplicationRecord
   end
 
   def to_s
-    "##{id} #{names[:full_name]}"
+    "##{id} #{full_name}"
   end
 
   def complete?
-    valid? &&
-      [email, first_name, last_name, street_address, zipcode, city, country_code, phone].all?(&:present?) &&
-      (!birth_date_required? || birth_date.present?)
+    valid? && address.complete? && (!birth_date_required? || birth_date.present?)
   end
 
   def changed_values
@@ -144,5 +136,10 @@ class Tenant < ApplicationRecord
 
     assign_attributes(tenant&.changed_values&.except(:email, :organisation_id) || {})
     self
+  end
+
+  def address
+    Address.clean(recipient: full_name, suffix: address_addon, street:, street_nr:, postalcode: zipcode,
+                  city:, country_code:)
   end
 end

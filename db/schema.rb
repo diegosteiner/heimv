@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_07_090833) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_17_130517) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -203,7 +203,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_07_090833) do
     t.text "cancellation_reason"
     t.integer "approximate_headcount"
     t.text "remarks"
-    t.text "invoice_address"
+    t.text "unstructured_invoice_address"
     t.string "ref"
     t.boolean "editable"
     t.boolean "notifications_enabled", default: false
@@ -228,6 +228,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_07_090833) do
     t.jsonb "booking_questions"
     t.integer "sequence_number"
     t.integer "sequence_year"
+    t.jsonb "invoice_address"
+    t.string "bookings"
+    t.string "invoice_cc"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
@@ -532,6 +535,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_07_090833) do
     t.string "tenant_ref_template"
     t.jsonb "booking_state_settings", default: {}
     t.jsonb "deadline_settings", default: {}
+    t.jsonb "qr_bill_creditor_address"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
@@ -733,7 +737,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_07_090833) do
   create_table "tenants", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "street_address"
+    t.string "street"
     t.string "zipcode"
     t.string "city"
     t.boolean "reservations_allowed", default: true
@@ -757,6 +761,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_07_090833) do
     t.string "accounting_account_nr"
     t.integer "sequence_number"
     t.string "ref"
+    t.string "street_nr"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"

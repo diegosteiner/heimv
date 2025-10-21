@@ -4,42 +4,45 @@
 #
 # Table name: bookings
 #
-#  id                     :uuid             not null, primary key
-#  accept_conditions      :boolean          default(FALSE)
-#  approximate_headcount  :integer
-#  begins_at              :datetime
-#  booking_flow_type      :string
-#  booking_questions      :jsonb
-#  booking_state_cache    :string           default("initial"), not null
-#  cancellation_reason    :text
-#  committed_request      :boolean
-#  concluded              :boolean          default(FALSE)
-#  conditions_accepted_at :datetime
-#  editable               :boolean
-#  email                  :string
-#  ends_at                :datetime
-#  ignore_conflicting     :boolean          default(FALSE), not null
-#  import_data            :jsonb
-#  internal_remarks       :text
-#  invoice_address        :text
-#  locale                 :string
-#  notifications_enabled  :boolean          default(FALSE)
-#  occupancy_color        :string
-#  occupancy_type         :integer          default("pending"), not null
-#  purpose_description    :string
-#  ref                    :string
-#  remarks                :text
-#  sequence_number        :integer
-#  sequence_year          :integer
-#  state_data             :json
-#  tenant_organisation    :string
-#  token                  :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  booking_category_id    :integer
-#  home_id                :integer          not null
-#  organisation_id        :bigint           not null
-#  tenant_id              :integer
+#  id                           :uuid             not null, primary key
+#  accept_conditions            :boolean          default(FALSE)
+#  approximate_headcount        :integer
+#  begins_at                    :datetime
+#  booking_flow_type            :string
+#  booking_questions            :jsonb
+#  booking_state_cache          :string           default("initial"), not null
+#  bookings                     :string
+#  cancellation_reason          :text
+#  committed_request            :boolean
+#  concluded                    :boolean          default(FALSE)
+#  conditions_accepted_at       :datetime
+#  editable                     :boolean
+#  email                        :string
+#  ends_at                      :datetime
+#  ignore_conflicting           :boolean          default(FALSE), not null
+#  import_data                  :jsonb
+#  internal_remarks             :text
+#  invoice_address              :jsonb
+#  invoice_cc                   :string
+#  locale                       :string
+#  notifications_enabled        :boolean          default(FALSE)
+#  occupancy_color              :string
+#  occupancy_type               :integer          default("pending"), not null
+#  purpose_description          :string
+#  ref                          :string
+#  remarks                      :text
+#  sequence_number              :integer
+#  sequence_year                :integer
+#  state_data                   :json
+#  tenant_organisation          :string
+#  token                        :string
+#  unstructured_invoice_address :text
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  booking_category_id          :integer
+#  home_id                      :integer          not null
+#  organisation_id              :bigint           not null
+#  tenant_id                    :integer
 #
 
 FactoryBot.define do

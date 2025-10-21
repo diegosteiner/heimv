@@ -30,7 +30,7 @@ module Export
 
       to_render do
         tenant_organisation = @booking.tenant_organisation
-        tenant_address_lines = @booking.tenant&.full_address_lines
+        tenant_address_lines = @booking.tenant&.address&.lines
 
         if tenant_organisation
           address = tenant_organisation

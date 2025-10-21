@@ -4,42 +4,45 @@
 #
 # Table name: bookings
 #
-#  id                     :uuid             not null, primary key
-#  accept_conditions      :boolean          default(FALSE)
-#  approximate_headcount  :integer
-#  begins_at              :datetime
-#  booking_flow_type      :string
-#  booking_questions      :jsonb
-#  booking_state_cache    :string           default("initial"), not null
-#  cancellation_reason    :text
-#  committed_request      :boolean
-#  concluded              :boolean          default(FALSE)
-#  conditions_accepted_at :datetime
-#  editable               :boolean
-#  email                  :string
-#  ends_at                :datetime
-#  ignore_conflicting     :boolean          default(FALSE), not null
-#  import_data            :jsonb
-#  internal_remarks       :text
-#  invoice_address        :text
-#  locale                 :string
-#  notifications_enabled  :boolean          default(FALSE)
-#  occupancy_color        :string
-#  occupancy_type         :integer          default("pending"), not null
-#  purpose_description    :string
-#  ref                    :string
-#  remarks                :text
-#  sequence_number        :integer
-#  sequence_year          :integer
-#  state_data             :json
-#  tenant_organisation    :string
-#  token                  :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  booking_category_id    :integer
-#  home_id                :integer          not null
-#  organisation_id        :bigint           not null
-#  tenant_id              :integer
+#  id                           :uuid             not null, primary key
+#  accept_conditions            :boolean          default(FALSE)
+#  approximate_headcount        :integer
+#  begins_at                    :datetime
+#  booking_flow_type            :string
+#  booking_questions            :jsonb
+#  booking_state_cache          :string           default("initial"), not null
+#  bookings                     :string
+#  cancellation_reason          :text
+#  committed_request            :boolean
+#  concluded                    :boolean          default(FALSE)
+#  conditions_accepted_at       :datetime
+#  editable                     :boolean
+#  email                        :string
+#  ends_at                      :datetime
+#  ignore_conflicting           :boolean          default(FALSE), not null
+#  import_data                  :jsonb
+#  internal_remarks             :text
+#  invoice_address              :jsonb
+#  invoice_cc                   :string
+#  locale                       :string
+#  notifications_enabled        :boolean          default(FALSE)
+#  occupancy_color              :string
+#  occupancy_type               :integer          default("pending"), not null
+#  purpose_description          :string
+#  ref                          :string
+#  remarks                      :text
+#  sequence_number              :integer
+#  sequence_year                :integer
+#  state_data                   :json
+#  tenant_organisation          :string
+#  token                        :string
+#  unstructured_invoice_address :text
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  booking_category_id          :integer
+#  home_id                      :integer          not null
+#  organisation_id              :bigint           not null
+#  tenant_id                    :integer
 #
 
 class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
@@ -83,13 +86,14 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_one_attached :usage_report
   has_secure_token :token, length: 48
+
   attr_accessor :transition_to, :skip_infer_transitions, :applied_transitions
 
   timespan :begins_at, :ends_at
   enum :occupancy_type, Occupancy::OCCUPANCY_TYPES
   normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
+  attribute :invoice_address, Address.to_type
 
-  validates :invoice_address, length: { maximum: 255 }
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
   validates :approximate_headcount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
@@ -266,10 +270,15 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     self.occupancies = original.occupancies.map(&:dup)
   end
 
+  def tenant_address
+    Address.clean(**tenant.address.attributes, representing: tenant_organisation) if tenant.present?
+  end
+
   private
 
   def reject_tenant_attributes?(tenant_attributes)
     (tenant_id_changed? && tenant_id_was.present?) ||
-      tenant_attributes.slice(:email, :first_name, :last_name, :street_address, :zipcode, :city).values.all?(&:blank?)
+      tenant_attributes.slice(:email, :first_name, :last_name, :street, :street_nr, :zipcode,
+                              :city).values.all?(&:blank?)
   end
 end

@@ -31,6 +31,7 @@
 #  name                         :string
 #  nickname_label_i18n          :jsonb
 #  notifications_enabled        :boolean          default(TRUE)
+#  qr_bill_creditor_address     :jsonb
 #  representative_address       :string
 #  settings                     :jsonb
 #  slug                         :string

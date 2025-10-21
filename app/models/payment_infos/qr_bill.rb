@@ -7,7 +7,7 @@ module PaymentInfos
     QRTYPE = 'SPC'
     VERSION = '0200'
     CODING_TYPE = '1'
-    ADDRESS_TYPE = 'K'
+    ADDRESS_TYPE = 'S'
     # REF_TYPE = 'QRR'
     # REF_TYPE = 'SCOR'
     CURRENCY = 'CHF'
@@ -19,6 +19,7 @@ module PaymentInfos
       N O P Q R S T U V W X Y Z
     ].freeze
     RF00 = [2, 7, 1, 5, 0, 0].freeze
+    StructuredAddress = Struct.new(:name, :street, :street_nr, :zipcode, :city, :country_code)
 
     delegate :amount, :invoice_address, to: :invoice
 
@@ -32,8 +33,8 @@ module PaymentInfos
         cr_account: creditor_account&.to_s&.delete(' '),
         cr_address_type: ADDRESS_TYPE,
         cr_name: creditor_address_lines.fetch(0, ''),
-        cr_address_line_1: creditor_address_lines.fetch(1, ''),
-        cr_address_line_2: creditor_address_lines.fetch(2, ''),
+        cr_street: creditor_address_lines.fetch(1, ''),
+        cr_street_nr: creditor_address_lines.fetch(2, ''),
         cr_zipcode: '',
         cr_place: '',
         cr_country: COUNTRY_CODE,
@@ -48,8 +49,8 @@ module PaymentInfos
         currency:,
         ezp_address_type: ADDRESS_TYPE,
         ezp_name: debitor_address_lines.fetch(0, ''),
-        ezp_address_line_1: debitor_address_lines.fetch(1, ''),
-        ezp_address_line_2: debitor_address_lines.fetch(2, ''),
+        ezp_street: debitor_address_lines.fetch(1, ''),
+        ezp_street_nr: debitor_address_lines.fetch(2, ''),
         ezp_zipcode: '',
         ezp_place: '',
         ezp_country: COUNTRY_CODE,
@@ -62,10 +63,11 @@ module PaymentInfos
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
 
-    def creditor_address_lines
-      @creditor_address_lines ||= (organisation.account_address.presence ||
-                                    organisation.creditor_address.presence ||
-                                    organisation.address.presence || '').lines.map(&:chomp).compact_blank
+    def creditor_address
+      @creditor_address ||= StructuredAddress.new(
+        *organisation.attributes.slice(*w[qr_bill_creditor_name qr_bill_creditor_street qr_bill_creditor_street_nr \
+          qr_bill_creditor_zipcode qr_bill_creditor_city qr_bill_creditor_country_code])
+      )
     end
 
     def debitor_address_lines

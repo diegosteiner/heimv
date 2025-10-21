@@ -7,8 +7,11 @@ module Manage
          mail_from locale default_payment_info_type creditor_address account_address
          representative_address contract_signature email notifications_enabled] +
         I18n.available_locales.map { |locale| ["nickname_label_#{locale}"] }.flatten +
-        [{ deadline_settings: deadline_settings_permitted_keys, accounting_settings: accounting_settings_permitted_keys,
-           booking_state_settings: booking_state_settings_permitted_keys, settings: settings_permitted_keys }]
+        [{ deadline_settings: deadline_settings_permitted_keys,
+           accounting_settings: accounting_settings_permitted_keys,
+           booking_state_settings: booking_state_settings_permitted_keys,
+           settings: settings_permitted_keys,
+           qr_bill_creditor_address: Public::AddressParams.permitted_keys }]
     end
 
     def self.settings_permitted_keys

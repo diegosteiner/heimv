@@ -26,7 +26,8 @@
 #  salutation_form           :integer
 #  search_cache              :text             not null
 #  sequence_number           :integer
-#  street_address            :string
+#  street                    :string
+#  street_nr                 :string
 #  zipcode                   :string
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null

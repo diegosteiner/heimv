@@ -20,7 +20,7 @@ class PaymentInfo
   end
 
   def invoice_address
-    invoice.booking.invoice_address.presence || invoice.booking.tenant.full_address_lines.join("\n")
+    invoice.booking.invoice_address.presence || invoice.booking.tenant.address
   end
 
   def formatted_ref
