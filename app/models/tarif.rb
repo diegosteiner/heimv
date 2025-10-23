@@ -122,7 +122,7 @@ class Tarif < ApplicationRecord
   end
 
   def to_s
-    "##{ordinal}: #{tarif_group}#{label} (#{self.class.model_name.human})"
+    "##{ordinal}: [#{tarif_group}] #{label} (#{self.class.model_name.human})"
   end
 
   def minimum_prices(usage) # rubocop:disable Metrics/CyclomaticComplexity

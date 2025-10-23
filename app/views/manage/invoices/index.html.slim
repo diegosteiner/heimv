@@ -90,7 +90,9 @@
                   span.fa.fa-envelope-open.text-white[title="#{Invoice.human_attribute_name(:sent_at)}: #{l(invoice.sent_at)}"]
             td.align-middle
               - if invoice.payable_until.present?
-                - if invoice.payable_until.past? && !invoice.paid?
+                - if invoice.void?
+                  .text-muted= l(invoice.payable_until, format: :date)
+                - elsif invoice.payable_until.past? && !invoice.paid?
                   .text-danger= l(invoice.payable_until, format: :date)
                   .text-danger= distance_of_time_in_words_to_now(invoice.payable_until)
                 - else
