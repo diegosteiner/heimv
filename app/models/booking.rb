@@ -37,6 +37,7 @@
 #  tenant_organisation          :string
 #  token                        :string
 #  unstructured_invoice_address :text
+#  use_invoice_address          :boolean          default(FALSE), not null
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
 #  booking_category_id          :integer
@@ -138,7 +139,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES).joins(most_recent_transition_join) }
 
-  before_validation :assert_tenant!, :sequence_number, :update_occupancies
+  before_validation :clear_invoice_address, :assert_tenant!, :sequence_number, :update_occupancies
   before_create :generate_ref
   after_save :apply_transitions, :update_booking_state_cache!
   after_touch :apply_transitions, :update_booking_state_cache!
@@ -272,6 +273,10 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def tenant_address
     Address.clean(**tenant.address.attributes, representing: tenant_organisation) if tenant.present?
+  end
+
+  def clear_invoice_address
+    self.invoice_address = nil unless use_invoice_address
   end
 
   private

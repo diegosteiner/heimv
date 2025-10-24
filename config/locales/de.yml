@@ -10,6 +10,14 @@ de:
         rental_yield_account_nr: Konto Mietertrag
         rental_yield_vat_category_id: Mietertrag MwSt. Kategorie
         vat_account_nr: Konto MwSt.
+      address:
+        city: Ort
+        country_code: Land
+        postalcode: PLZ
+        recipient: Adressat
+        street: Strasse
+        street_nr: Nr.
+        suffix: Adresszusatz
       booking/filter:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
@@ -238,7 +246,7 @@ de:
         home_id: Hauptmietobjekt
         ignore_conflicting: Terminkonflikte ignorieren
         internal_remarks: Interne Bemerkungen
-        invoice_address: vollständige Rechnungsadresse (falls abweichend)
+        invoice_address: Rechnungsadresse
         locale: Sprache
         nights: Nächte
         notifications_enabled: Aus der Applikation generierte Emails versenden
@@ -256,6 +264,7 @@ de:
         tenant_organisation: Mieter Organisation / Gruppenname
         transition_to: Neuer Status
         usage_report: Verbrauchsformular
+        use_invoice_address: abweichende Rechnungsadresse
       booking/booking_question_responses:
         value: Zusätzliche Angabe
       booking/occupancies:
@@ -413,7 +422,6 @@ de:
         booking_ref_template: Buchungreferenz Format
         contract_signature: Vertragsunterschrift Bild
         cors_origins: CORS Origins
-        creditor_address: Anschrift auf Rechnungen
         currency: Währung
         default_payment_info_type: Standartzahlungsteil
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
@@ -430,6 +438,7 @@ de:
         nickname_label: Bezeichnung des Übernamens
         notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
+        qr_bill_creditor_address: Zahlbar an QR-Rechnungen
         representative_address: Adresse der Vertretung für Verträge
         slug: Namespace
         smtp_settings: Mailserver Einstellungen
@@ -502,7 +511,8 @@ de:
         reservations_allowed: Darf Reservationsanfragen schicken
         salutation: Anrede
         salutation_form: Bevorzugte Anredeform
-        street_address: Strasse / Nr.
+        street: Strasse
+        street_nr: Nr.
         zipcode: PLZ
       usage:
         apply: Anwenden

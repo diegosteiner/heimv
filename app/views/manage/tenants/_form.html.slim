@@ -18,8 +18,14 @@
       .col-md-4
         - if current_organisation.show_nickname?
           = f.text_field :nickname, label: current_organisation.nickname_label
-    = f.text_field :street_address
-    = f.text_field :address_addon
+
+    = f.text_field :address_addon, help: t(:optional)
+
+    .row  
+      .col
+        = f.text_field :street, required: false
+      .col-sm-3
+        = f.text_field :street_nr, required: false
     .row
       .col-sm-4
         = f.text_field :zipcode
@@ -27,7 +33,7 @@
         = f.text_field :city
 
     = f.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code) } do
-      = f.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control'
+      = f.country_select :country_code, { priority_countries: %w[CH DE FR IT] }, class: 'form-control'
 
     = f.text_field :phone
     = f.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true

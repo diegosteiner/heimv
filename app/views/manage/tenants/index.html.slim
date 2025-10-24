@@ -19,7 +19,7 @@ h1.mt-0.mb-5= Tenant.model_name.human(count: 2)
               = tenant.full_name if tenant.full_name.present?
               .text-muted= tenant.ref.presence
           td 
-            == tenant.full_address_lines.join('<br>'.html_safe)
+            == tenant.address_lines.join('<br>'.html_safe)
           td 
             = mail_to tenant.email
             - tenant.phone&.lines do |phone|

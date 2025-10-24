@@ -25,19 +25,19 @@ module PaymentInfos
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
-    def qr_data
+    def qr_data # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
       @qr_data ||= {
         qrtype: QRTYPE,
         version: VERSION,
         coding_type: CODING_TYPE,
         cr_account: creditor_account&.to_s&.delete(' '),
         cr_address_type: ADDRESS_TYPE,
-        cr_name: creditor_address_lines.fetch(0, ''),
-        cr_street: creditor_address_lines.fetch(1, ''),
-        cr_street_nr: creditor_address_lines.fetch(2, ''),
-        cr_zipcode: '',
-        cr_place: '',
-        cr_country: COUNTRY_CODE,
+        cr_name: creditor_address&.recipient || '',
+        cr_street: creditor_address&.street || '',
+        cr_street_nr: creditor_address&.street_nr || '',
+        cr_postalcode: creditor_address&.postalcode || '',
+        cr_city: creditor_address&.city || '',
+        cr_country: creditor_address&.country_code || COUNTRY_CODE,
         ucr_address_type: '',
         ucr_name: '',
         ucr_address_line_1: '',
@@ -48,12 +48,12 @@ module PaymentInfos
         amount: formatted_amount(delimitter: ''),
         currency:,
         ezp_address_type: ADDRESS_TYPE,
-        ezp_name: debitor_address_lines.fetch(0, ''),
-        ezp_street: debitor_address_lines.fetch(1, ''),
-        ezp_street_nr: debitor_address_lines.fetch(2, ''),
-        ezp_zipcode: '',
-        ezp_place: '',
-        ezp_country: COUNTRY_CODE,
+        ezp_name: debitor_address&.recipient || '',
+        ezp_street: debitor_address&.street || '',
+        ezp_street_nr: debitor_address&.street_nr || '',
+        ezp_zipcode: debitor_address&.postalcode || '',
+        ezp_place: debitor_address&.city || '',
+        ezp_country: debitor_address&.country_code || '',
         ref_type:,
         ref:,
         additional_information: '',
@@ -64,18 +64,15 @@ module PaymentInfos
     # rubocop:enable Metrics/MethodLength
 
     def creditor_address
-      @creditor_address ||= StructuredAddress.new(
-        *organisation.attributes.slice(*w[qr_bill_creditor_name qr_bill_creditor_street qr_bill_creditor_street_nr \
-          qr_bill_creditor_zipcode qr_bill_creditor_city qr_bill_creditor_country_code])
-      )
+      @creditor_address ||= organisation.qr_bill_creditor_address.presence || Address.parse_lines(organisation.address)
     end
 
-    def debitor_address_lines
-      @debitor_address_lines ||= [invoice_address.lines, invoice_address.represented_by].compact.max_by(&:size)
+    def debitor_address
+      @debitor_address ||= booking.invoice_address.presence || booking.tenant_address
     end
 
     def creditor_account
-      organisation.iban.to_s.presence
+      @creditor_account ||= organisation.iban.to_s.presence
     end
 
     def currency

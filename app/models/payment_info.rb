@@ -8,7 +8,7 @@ class PaymentInfo
 
   attr_reader :invoice
 
-  delegate :amount, :ref, :invoice_ref_service, :organisation, :booking, to: :invoice
+  delegate :amount, :ref, :invoice_ref_service, :organisation, :invoice_address, :booking, to: :invoice
   delegate :iban, to: :organisation
 
   def initialize(invoice)
@@ -17,10 +17,6 @@ class PaymentInfo
 
   def show?
     true
-  end
-
-  def invoice_address
-    invoice.booking.invoice_address.presence || invoice.booking.tenant.address
   end
 
   def formatted_ref

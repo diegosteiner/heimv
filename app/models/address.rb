@@ -4,8 +4,7 @@ class Address
   include StoreModel::Model
   extend ActiveModel::Naming
   extend ActiveModel::Translation
-
-  delegate :organisation, to: :parent, allow_nil: true
+  extend TemplateRenderable
 
   attribute :recipient
   attribute :suffix
@@ -14,9 +13,15 @@ class Address
   attribute :street_nr
   attribute :postalcode
   attribute :city
-  attribute :country_code
+  attribute :country_code, default: -> { 'CH' }
 
   validates :country_code, inclusion: { in: ISO3166::Country.codes }
+
+  def organisation
+    return parent if parent.is_a?(Organisation)
+
+    parent.try(:organisation)
+  end
 
   def street_line
     [street, street_nr].compact_blank.join(' ')
@@ -29,10 +34,10 @@ class Address
   def lines
     [
       recipient,
-      suffix,
+      suffix.presence,
       street_line,
       postal_line
-    ]
+    ].compact
   end
 
   def to_s
@@ -41,6 +46,10 @@ class Address
 
   def complete?
     attributes.slice(:recipient, :street, :street_nr, :postalcode, :city, :country_code).all?(&:present?)
+  end
+
+  def blank?
+    super || attributes.slice(:recipient, :street, :street_nr, :postalcode, :city).all?(&:blank?)
   end
 
   def self.clean(**attributes)
@@ -54,7 +63,8 @@ class Address
 
     postalcode, _, city = lines.pop&.partition(' ')
     street, _, street_nr = lines.pop&.rpartition(' ')
+    suffix = lines.pop if lines.many?
     recipient = lines.join(', ')
-    Address.clean(recipient:, street:, street_nr:, postalcode:, city:, **defaults)
+    Address.clean(recipient:, suffix:, street:, street_nr:, postalcode:, city:, **defaults)
   end
 end

@@ -37,6 +37,7 @@
 #  tenant_organisation          :string
 #  token                        :string
 #  unstructured_invoice_address :text
+#  use_invoice_address          :boolean          default(FALSE), not null
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
 #  booking_category_id          :integer

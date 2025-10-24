@@ -188,10 +188,6 @@ class Invoice < ApplicationRecord
     @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
   end
 
-  def invoice_address
-    @invoice_address ||= InvoiceAddress.new(booking)
-  end
-
   def to_attachable
     { io: StringIO.new(pdf.blob.download), filename:, content_type: pdf.content_type } if pdf&.blob.present?
   end

@@ -10,6 +10,14 @@ en:
         rental_yield_account_nr: Konto Mietertrag
         rental_yield_vat_category_id: Mietertrag MwSt. Kategorie
         vat_account_nr: Konto MwSt.
+      address:
+        city: Ort
+        country_code: Land
+        postalcode: PLZ
+        recipient: Adressat
+        street: Strasse
+        street_nr: Nr.
+        suffix: Adresszusatz
       booking/filter:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
@@ -24,6 +32,11 @@ en:
         occupiables: Mietobjekte
         previous_booking_states: Vergangene Status
         q: Buchungsreferenz, Mieter, Organisation
+      booking_condition:
+        compare_attribute: Attribut
+        compare_operator: Operator
+        compare_value: Bedingung
+        type: Typ
       booking_state_settings:
         default_manage_transition_to_state: Standard Status für Buchungen durch Verwaltung
         editable_booking_states: Status, bei welchen die Buchung durch den Mieter bearbeitbar ist
@@ -41,17 +54,22 @@ en:
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
       invoice/filter:
+        invoice_types: Rechungsarten
         issued_at_after: Rechnungsdatum nach
         issued_at_before: Rechnungsdatum vor
         payable_until_after: Zahlbar bis nach
         payable_until_before: Zahlbar bis vor
+        ref: Referenznummer
+        statuses: Status
       invoice/item:
         accounting_account_nr: Buchhaltungskonto
         accounting_cost_center_nr: Kostenstelle
         amount: Betrag
+        amount_with_vat: Betrag inkl. %{vat_percentage}% MwSt. (%{vat_label})
         apply: Anwenden
         breakdown: Aufschlüsselung
         label: Text
+        suggested: Vorschlag
         type: Art der Rechnungsposition
         vat: inkl. MwSt. in Prozent
         vat_category_id: MwSt. Kategorie
@@ -59,6 +77,14 @@ en:
         homes: Hauptmietobjekte
         issued_at_after: Rechnungsdatum ab
         issued_at_before: Rechnungsdatum bis
+      journal_entry_batch/entry:
+        amount: Betrag
+        cost_center: Kostenstelle
+        haben_account: Haben Konto
+        invoice_item_id: Rechnungsposition
+        soll_account: Soll Konto
+        text: Text
+        vat_amount: Steuerbetrag (inkl.)
       journal_entry_batch/filter:
         date_after: Buchungsdatum ab
         date_before: Buchungsdatum bis
@@ -84,6 +110,8 @@ en:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
       organisation_settings:
+        available_begins_at_times: Beginn der Belegung auswählbare Zeiten
+        available_ends_at_times: Ende der Belegung auswählbare Zeiten
         booking_window: Reservationsfenster
         closed_occupancy_color: Farbe für Schliessungen
         contract_sign_by_click_enabled: Vertrag «per Klick» durch Mieter unterschreiben
@@ -106,16 +134,73 @@ en:
       invoice/items/add:
         one: Normale Rechungsposition
         other: Normale Rechnungspositionen
+      invoice/items/balance:
+        one: Saldo Rechnungsposition
+        other: Saldo Rechnungspositionen
       invoice/items/deposit:
         one: Akontorechnung Rechungsposition
         other: Akontorechnung Rechnungspositionen
+      invoice/items/text:
+        one: Text Rechnungsposition
+        other: Text Rechnungspositionen
+      invoice/items/title:
+        one: Titel Rechnungsposition
+        other: Titel Rechnungspositionen
     models:
       accounting_settings: Buchhaltungseinstellungen
+      booking_condition:
+        one: Bedingung
+        other: Bedingungen
+      booking_conditions/all_of:
+        one: Alle Bedingungen
+        other: Other
+      booking_conditions/always:
+        one: Immer
+        other: Other
+      booking_conditions/booking_attribute:
+        one: Buchungsattribut
+        other: Other
+      booking_conditions/booking_category:
+        one: Mietkategorie
+        other: Other
+      booking_conditions/booking_date_time:
+        one: Belegungsdatum
+        other: Other
+      booking_conditions/booking_question:
+        one: Zusätzliche Angabe
+        other: Other
+      booking_conditions/booking_state:
+        one: Status
+        other: Other
+      booking_conditions/duration:
+        one: Zeitspanne
+        other: Other
+      booking_conditions/never:
+        one: Nie
+        other: Other
+      booking_conditions/occupancy_duration:
+        one: Belegungsdauer
+        other: Other
+      booking_conditions/occupiable:
+        one: Mietobjekt
+        other: Other
+      booking_conditions/one_of:
+        one: Eine der Bedingungen
+        other: Other
+      booking_conditions/tarif:
+        one: Ausgewählter Tarif
+        other: Other
+      booking_conditions/tenant_attribute:
+        one: Mieterattribut
+        other: Other
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen
       invoice/item:
         one: Rechungsposition
         other: Rechungspositionen
+      journal_entry_batch/entry:
+        one: Buchungssatz
+        other: Buchungssätze
       occupancy_calendar:
         one: Belegungsplan
         other: Belegungspläne
@@ -179,6 +264,7 @@ en:
         tenant_organisation: Mieter Organisation / Gruppenname
         transition_to: Neuer Status
         usage_report: Verbrauchsformular
+        use_invoice_address: abweichende Rechnungsadresse
       booking/booking_question_responses:
         value: Zusätzliche Angabe
       booking/occupancies:
@@ -263,6 +349,7 @@ en:
         locale: Sprache
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
+        payment_ref: Zahlungsreferenz
         payment_required: Zahlung für Statusübergang zwingend
         percentage_paid: "% bezahlt"
         ref: Referenznummer
@@ -335,7 +422,6 @@ en:
         booking_ref_template: Buchungreferenz Format
         contract_signature: Vertragsunterschrift Bild
         cors_origins: CORS Origins
-        creditor_address: Anschrift auf Rechnungen
         currency: Währung
         default_payment_info_type: Standartzahlungsteil
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
@@ -352,6 +438,7 @@ en:
         nickname_label: Bezeichnung des Übernamens
         notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
+        qr_bill_creditor_address: Zahlbar an QR-Rechnungen
         representative_address: Adresse der Vertretung für Verträge
         slug: Namespace
         smtp_settings: Mailserver Einstellungen
@@ -363,11 +450,14 @@ en:
         role: Rolle
         token: Token
       payment:
+        accounting_account_nr: Buchhaltungskonto
+        accounting_cost_center_nr: Kostenstelle
         amount: Betrag
         confirm: Zahlungsbestätigung automatisch verschicken
         invoice_id: Rechnung
         paid_at: Bezahlt am
         remarks: Bemerkungen
+        vat_category_id: MwSt. Kategorie
         write_off: Abschreibung
       plan_b_backup:
         created_at: Erstellt am
@@ -421,7 +511,8 @@ en:
         reservations_allowed: Darf Reservationsanfragen schicken
         salutation: Anrede
         salutation_form: Bevorzugte Anredeform
-        street_address: Strasse / Nr.
+        street: Strasse
+        street_nr: Nr.
         zipcode: PLZ
       usage:
         apply: Anwenden
@@ -522,13 +613,22 @@ en:
           price_list: Preisliste
           privacy_statement: Datenschutzerklärung
           terms: Geschäftsbedingungen / AGB
+      invoice:
+        status:
+          draft: Entwurf
+          outstanding: Offen
+          paid: Bezahlt
+          refund: zu Erstatten
+          void: Abgelöst
       journal_entry_batch:
         triggers:
           invoice_created: Rechnung erstellt
           invoice_discarded: Rechnung gelöscht
+          invoice_reverted: Rechnung zurückgebucht
           invoice_updated: Rechnung geändert
           payment_created: Zahlung erstellt
           payment_discarded: Zahlung gelöscht
+          payment_reverted: Zahlung zurückgebucht
           payment_updated: Zahlung geändert
       journal_entry_batch/filter:
         processed:
@@ -554,6 +654,8 @@ en:
           closed: Geschlossen
           free: Frei
           occupied: definitiv Besetzt
+          pending: angefragt
+          reserved: intern reserviert
           tentative: provisorisch Besetzt
       operator_responsibility:
         responsibility:
@@ -669,6 +771,12 @@ en:
       data_digest_templates/invoice:
         one: Rechnungen Auszug
         other: Rechnungen Auszüge
+      data_digest_templates/invoice_item:
+        one: Rechnungspositionen Auszug
+        other: Rechnungspositionen Auszüge
+      data_digest_templates/journal_entry:
+        one: Buchungssätze Auszug
+        other: Buchungssätze Auszüge
       data_digest_templates/meter_reading_period:
         one: Zählerstand Auszug
         other: Zählerstände Auszüge
@@ -782,7 +890,10 @@ en:
   booking_actions:
     accept:
       label: Anfrage akzeptieren
+    base:
+      not_allowed: Aktion nicht möglich
     cancel:
+      cancellation_reason: Anfrage zurückgezogen
       description: Bist du sicher?
       label: Anfrage zurückziehen / stornieren
       label_committed: Stornieren
@@ -838,6 +949,7 @@ en:
     booking_attribute:
       attributes:
         approximate_headcount: Erwartete Anzahl Personen
+        booking_editable: Buchung bearbeitbar
         days: Tage
         nights: Nächte
         overnight_stays: Erwartete Anzahl Übernachtungen
@@ -850,6 +962,12 @@ en:
         ends_at: Ende der Belegung
         now: Heute
         updated_at: Aktualisierung der Belegung
+    duration:
+      attributes:
+        begins_at_to_ends_at: Beginn der Belegung bis zum Ende der Belegung
+        created_at_to_now: Erstellung der Belegung bis jetzt
+        now_to_begins_at: Jetzt bis zum Beginn der Belegung
+        now_to_ends_at: Jetzt bis zum Ende der Belegung
     occupiable:
       attributes:
         home: Hauptmietobjekt
@@ -857,6 +975,7 @@ en:
     tenant_attribute:
       attributes:
         country_code: Ländercode
+        locale: Sprache
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
     contract_signed: Vertrag unterschieben
@@ -1359,6 +1478,7 @@ en:
   import: Import
   import_records: "%{model_name} importieren"
   invoice_items:
+    balance_breakdown: Saldo aus Anzahlungen
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
@@ -1556,7 +1676,7 @@ en:
               <dt>Anredeform des Mieters</dt>
               <dd><pre>{{ booking.tenant.salutation_form }}</pre></dd>
               <dt>Adresse des Mieters</dt>
-              <dd><pre>{{ booking.tenant.street_address }}</pre></dd>
+              <dd><pre>{{ booking.tenant.street }} {{ booking.tenant.street_nr }}</pre></dd>
               <dt>PLZ des Mieters</dt>
               <dd><pre>{{ booking.tenant.zipcode }}</pre></dd>
               <dt>Mieter Organisation / Gruppenname</dt>
@@ -1887,4 +2007,5 @@ en:
     application: HeimV %{organisation}
   too_many_records: Es wurden zu viele %{model_name} gefunden. Bitte schränke die Suche ein.
   unauthorized: Du hast keine Berechtigung für diese Seite. Bitte logge dich ein
+  unsupported: Dieses Feature ist experimentell und kann zu Problemen führen.
   until: bis

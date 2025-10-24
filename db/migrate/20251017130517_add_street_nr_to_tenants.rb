@@ -9,6 +9,7 @@ class AddStreetNrToTenants < ActiveRecord::Migration[8.0]
 
     change_table :bookings, bulk: true do |t|
       t.jsonb :invoice_address
+      t.boolean :use_invoice_address, default: false, null: false
       t.string :bookings, :invoice_cc
     end
 
@@ -46,7 +47,7 @@ class AddStreetNrToTenants < ActiveRecord::Migration[8.0]
       lines = booking.unstructured_invoice_address
       next if lines.blank?
 
-      booking.update!(invoice_address: Address.parse_lines(lines, country_code: 'CH'))
+      booking.update!(use_invoice_address: true, invoice_address: Address.parse_lines(lines, country_code: 'CH'))
     end
   end
 end

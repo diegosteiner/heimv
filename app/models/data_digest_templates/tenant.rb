@@ -33,7 +33,7 @@ module DataDigestTemplates
       },
       {
         header: ::Tenant.human_attribute_name(:address),
-        body: "{{ tenant.address_addon }}\n{{ tenant.street_address }}"
+        body: "{{ tenant.address_addon }}\n{{ tenant.street }} {{ tenant.street_nr}}"
       },
       {
         header: ::Tenant.human_attribute_name(:zipcode),

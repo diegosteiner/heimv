@@ -114,10 +114,6 @@ class Organisation < ApplicationRecord
     self[:slug] = value.presence
   end
 
-  def address_lines
-    @address_lines ||= address&.lines&.map(&:strip)&.compact_blank || []
-  end
-
   def to_s
     name
   end

@@ -39,7 +39,11 @@
           = f.text_field :iban
           = f.text_field :esr_ref_prefix
           div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
-          div[v-pre]= f.text_area :account_address, rows: 4, help: t('optional')
+
+          = f.label :qr_bill_creditor_address, class: "mb-2"
+          fieldset.border.p-3.rounded
+            = f.fields_for :qr_bill_creditor_address, @organisation.qr_bill_creditor_address || Address.new(country_code: @organisation.country_code) do |iaf|
+              = render partial: Address.to_partial_path('form_fields'), locals: { f: iaf, suffix: false }
 
     fieldset
       h3.mt-5= Tenant.model_name.human(count: 2)

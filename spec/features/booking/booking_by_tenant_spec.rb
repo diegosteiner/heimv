@@ -165,7 +165,8 @@ describe 'Booking by tenant', :devise do
     click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
     click_on BookingActions::MarkContractSigned.label
-    expect(page).to have_current_path(manage_booking_prepare_action_path(@booking, id: :mark_contract_signed, org:))
+    expect(page).to have_current_path(manage_booking_prepare_action_path(@booking, id: :mark_contract_signed, org:),
+                                      ignore_query: true)
     click_button BookingActions::MarkContractSigned.label # confirm
   end
 

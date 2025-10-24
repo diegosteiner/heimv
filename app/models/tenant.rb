@@ -99,13 +99,7 @@ class Tenant < ApplicationRecord
     self.ref = RefBuilders::Tenant.new(self).generate if ref.blank? || force
   end
 
-  def address_lines
-    raise NotImplementedError
-  end
-
-  def full_address_lines
-    raise NotImplementedError
-  end
+  delegate :lines, to: :address, prefix: true
 
   def contact_lines
     address.lines + [phone&.lines, email].flatten.compact_blank

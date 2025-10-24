@@ -13,7 +13,7 @@ RSpec.describe PaymentInfos::QrBill do
   end
   let(:tenant) do
     create(:tenant, organisation:, first_name: 'Peter', last_name: 'Muster',
-                    street_address: 'Teststrasse 2', zipcode: 8049, city: 'Zürich')
+                    street: 'Teststrasse', street_nr: '2', zipcode: 8049, city: 'Zürich')
   end
   let(:booking) { create(:booking, organisation:, tenant:, tenant_organisation: nil) }
   let(:invoice) { create(:invoice, booking:) }
@@ -28,9 +28,9 @@ RSpec.describe PaymentInfos::QrBill do
     let(:expected_payload) do
       [
         'SPC', '0200', '1', iban.delete(' '),
-        'K', 'Organisation', 'Strasse 1', '8000 Zürich', '', '', 'CH',
+        'S', 'Organisation', 'Strasse', '1', '8000', 'Zürich', 'CH',
         '', '', '', '', '', '', '', '1255.35',
-        'CHF', 'K', 'Peter Muster', 'Teststrasse 2', '8049 Zürich', '', '', 'CH',
+        'CHF', 'S', 'Peter Muster', 'Teststrasse', '2', '8049', 'Zürich', 'CH',
         'SCOR', 'RF1800000123456789', '', 'EPD'
       ]
     end

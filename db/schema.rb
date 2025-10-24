@@ -229,6 +229,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_17_130517) do
     t.integer "sequence_number"
     t.integer "sequence_year"
     t.jsonb "invoice_address"
+    t.boolean "use_invoice_address", default: false, null: false
     t.string "bookings"
     t.string "invoice_cc"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
