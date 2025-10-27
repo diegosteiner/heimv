@@ -10,8 +10,8 @@ Capybara.register_driver :selenium_chrome do |app|
   options.add_argument('--no-default-browser-check')
   options.add_argument('--disable-search-engine-choice-screen')
   # see https://github.com/teamcapybara/capybara/issues/2800
-  options.add_argument('--disable-backgrounding-occluded-windows')
-  options.add_argument('--no-sandbox')
+  # options.add_argument('--disable-backgrounding-occluded-windows')
+  # options.add_argument('--no-sandbox')
 
   Capybara::Selenium::Driver.new(app, browser: :remote, capabilities: [options],
                                       url: "http://#{ENV.fetch('SELENIUM_HOST', nil)}/wd/hub")

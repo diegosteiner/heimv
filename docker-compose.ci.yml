@@ -50,7 +50,7 @@ services:
       selenium:
 
   selenium:
-    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:141.0}
+    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:133.0}
     shm_size: 4gb
     networks:
       selenium:
