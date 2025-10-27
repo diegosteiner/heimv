@@ -1,5 +1,11 @@
 # Changelog
 
+## 25.10.2
+
+Released 28.10.2025
+
+- Feature: use structured address for qr_bills
+
 ## 25.10.1
 
 Released 16.10.2025
