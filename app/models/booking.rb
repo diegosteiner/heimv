@@ -279,6 +279,18 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     self.invoice_address = nil unless use_invoice_address
   end
 
+  # if `occupiable_ids =` or `occupiable_ids <<` is called on a persisted booking, it will raise
+  # validation errors even before `save` is called (see gems/activerecord-8.0.3/lib/active_record/associations/has_many_through_association.rb:40)
+  # to fix we build the records ourselves
+  def occupiable_ids=(value)
+    return super if new_record? # rubocop:disable Lint/ReturnInVoidContext
+
+    value = Array.wrap(value)
+    new_occupiable_ids = value - Array.wrap(occupiable_ids)
+    new_occupiable_ids.each { occupancies.build(occupiable_id: it) }
+    occupancies.map(&:occupiable_id)
+  end
+
   private
 
   def reject_tenant_attributes?(tenant_attributes)
