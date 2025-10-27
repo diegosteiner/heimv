@@ -285,10 +285,9 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def occupiable_ids=(value)
     return super if new_record? # rubocop:disable Lint/ReturnInVoidContext
 
-    value = Array.wrap(value)
-    new_occupiable_ids = value - Array.wrap(occupiable_ids)
-    new_occupiable_ids.each { occupancies.build(occupiable_id: it) }
-    occupancies.map(&:occupiable_id)
+    self.occupancies = Array.wrap(value).filter_map do |occupiable_id|
+      Occupancy.find_or_initialize_by(booking_id: id, occupiable_id:)
+    end
   end
 
   private
