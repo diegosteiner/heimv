@@ -62,8 +62,13 @@
           - if current_organisation.show_nickname?
             = f.text_field :nickname, label: current_organisation.nickname_label, disabled: !@booking.editable?
 
-      = tf.text_field :street_address, disabled: !@booking.editable?
-      = tf.text_field :address_addon, disabled: !@booking.editable?, help: t('optional')
+      = tf.text_field :address_addon, help: t(:optional), disabled: !@booking.editable?
+
+      .row  
+        .col
+          = tf.text_field :street, required: false, disabled: !@booking.editable?
+        .col-sm-3
+          = tf.text_field :street_nr, required: false, disabled: !@booking.editable?
 
       .row
         .col-sm-4
@@ -72,7 +77,7 @@
           = tf.text_field :city, disabled: !@booking.editable?
 
       = tf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code), required: true } do
-        = tf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable?
+        = tf.country_select :country_code, { priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable?
       = tf.text_area :phone, rows: 1, disabled: !@booking.editable?
       = tf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable?, include_blank: true, required: @booking.tenant.birth_date_required?, help: !@booking.tenant.birth_date_required? && t('optional')
       
@@ -85,7 +90,10 @@
   fieldset
     h5= t('.booking_details')
     = f.text_field :tenant_organisation, help: t('optional'), disabled: !@booking.editable?
-    = f.text_area :invoice_address, help: t('optional'), disabled: !@booking.editable?
+    = f.check_box :use_invoice_address, data: { 'bs-toggle' => 'collapse', 'bs-target' => "#invoice_address_fields" }, disabled: !@booking.editable?
+    fieldset#invoice_address_fields.border.p-3.collapse.rounded[class=(@booking.invoice_address.present? ? "show" : "") disabled=!@booking.editable?]
+      = f.fields_for :invoice_address, @booking.invoice_address || Address.new(country_code: current_organisation.country_code) do |iaf|
+        = render partial: Address.to_partial_path('form_fields'), locals: { f: iaf }
 
     = f.form_group :committed_request, class: ['mb-3', current_organisation.booking_state_settings.enable_provisional_request || !@booking.committed_request ? '' : 'd-none']
       = f.label :committed_request, Booking.human_attribute_name(:committed_request), class: 'required mb-1'

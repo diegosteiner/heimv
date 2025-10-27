@@ -38,7 +38,7 @@ module DataDigestTemplates
       },
       {
         header: ::Tenant.model_name.human,
-        body: "{{ booking.tenant.full_address_lines | join: \"\n\" }}"
+        body: "{{ booking.tenant.address_lines | join: \"\n\" }}"
       },
       {
         header: ::Payment.human_attribute_name(:remarks),

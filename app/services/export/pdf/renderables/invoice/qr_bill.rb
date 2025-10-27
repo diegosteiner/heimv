@@ -67,14 +67,14 @@ module Export
             text translate('creditor_account'), size: 6, style: :bold
             move_down 3
             text qr_bill.creditor_account
-            text qr_bill.creditor_address_lines.join("\n")
+            text qr_bill.creditor_address.to_s
             move_down 7
           end
 
           def render_debitor
             text translate('payable_by'), size: 6, style: :bold
             move_down 3
-            text qr_bill.debitor_address_lines.join("\n")
+            text qr_bill.debitor_address.to_s
             move_down 7
           end
 

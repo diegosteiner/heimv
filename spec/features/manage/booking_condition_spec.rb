@@ -56,6 +56,7 @@ describe 'BookingCondition', :devise do
 
     it 'add enabling conditions' do
       visit edit_manage_booking_validation_path(validation, org:)
+
       within '#enabling_conditions' do
         manipulate_conditions
       end

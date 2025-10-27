@@ -165,7 +165,8 @@ describe 'Booking by tenant', :devise do
     click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
     click_on BookingActions::MarkContractSigned.label
-    sleep 0.5
+    expect(page).to have_current_path(manage_booking_prepare_action_path(@booking, id: :mark_contract_signed, org:),
+                                      ignore_query: true)
     click_button BookingActions::MarkContractSigned.label # confirm
   end
 
@@ -220,7 +221,6 @@ describe 'Booking by tenant', :devise do
   end
 
   def check_booking
-    sleep 1 # capybara issue
     expect(@booking.notifications.reload.map { |notification| notification.mail_template.key })
       .to match_array(expected_notifications)
     expect(@booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)

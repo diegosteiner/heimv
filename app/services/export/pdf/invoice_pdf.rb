@@ -13,7 +13,7 @@ module Export
       }.freeze
       attr_reader :invoice
 
-      delegate :booking, :organisation, :payment_info, :invoice_address, to: :invoice
+      delegate :booking, :organisation, :payment_info, to: :invoice
 
       def initialize(invoice)
         super()
@@ -30,9 +30,13 @@ module Export
       end
 
       to_render do
-        render Renderables::Address.new(invoice_address.lines,
-                                        represented_by: invoice_address.represented_by,
-                                        column: :right, label: Tenant.model_name.human)
+        if booking.invoice_address.present?
+          render Renderables::Address.new(booking.invoice_address, represented_by: booking.tenant.full_name,
+                                                                   column: :right, label: Tenant.model_name.human)
+        else
+          render Renderables::Address.new(booking.tenant_organisation, represented_by: booking.tenant_address,
+                                                                       column: :right, label: Tenant.model_name.human)
+        end
       end
 
       to_render do

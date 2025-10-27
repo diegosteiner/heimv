@@ -126,7 +126,11 @@
             .col-md-6 
               dl 
                 dt= t('.public_booking_url')
-                dd= link_to truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...'), public_booking_url(@booking.token)
+                dd 
+                  = link_to public_booking_url(@booking.token)
+                    = truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...')
+                    button.ms-2.btn.btn-sm.text-primary[type="button" data-copy-to-clipboard=edit_public_booking_url(@booking.token)]
+                      .fa.fa-clipboard
 
           .row
             .col-md-6

@@ -25,7 +25,7 @@ RSpec.describe Import::Csv::TenantImporter, type: :model do
 
     it do
       is_expected.to have_attributes(first_name: eq('Peter'), last_name: eq('Muster'),
-                                     street_address: eq('Teststrasse 24'),
+                                     street: eq('Teststrasse'), street_nr: eq('24'),
                                      zipcode: eq('8049'), city: eq('Zürich'), email: eq('test@heimv.test'))
     end
   end

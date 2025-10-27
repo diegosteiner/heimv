@@ -9,14 +9,20 @@ module Export
         end
 
         def self.build_with_tenant(tenant, **properties)
-          new(AdrId: Value.cast(tenant.ref, as: :symbol),
-              Sort: I18n.transliterate(tenant.full_name).gsub(/\s/, '').upcase,
-              Corp: tenant.full_name,
+          build_with_address(tenant.address,
+                             AdrId: Value.cast(tenant.ref, as: :symbol),
+                             Sort: I18n.transliterate(tenant.full_name).gsub(/\s/, '').upcase,
+                             **properties)
+        end
+
+        def self.build_with_address(address, **properties)
+          new(AdrId: nil, Sort: nil,
+              Corp: address.recipient,
               Lang: 'D',
-              Road: tenant.street_address,
-              CCode: tenant.country_code,
-              ACode: tenant.zipcode,
-              City: tenant.city, **properties)
+              Road: address.street_line,
+              CCode: address.country_code,
+              ACode: address.postalcode,
+              City: address.city, **properties)
         end
       end
     end

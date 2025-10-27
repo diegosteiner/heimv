@@ -62,6 +62,7 @@ gem 'vite_rails'
 
 group :development do
   gem 'annotaterb'
+  gem 'binding_of_caller'
   gem 'i18n-tasks'
   gem 'listen'
   gem 'ruby-lsp'

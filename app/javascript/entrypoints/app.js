@@ -83,6 +83,18 @@ function setupSubmit() {
   }
 }
 
+function setupCopyToClipboard() {
+  for (const element of document.querySelectorAll("[data-copy-to-clipboard]")) {
+    element.addEventListener("click", (event) => {
+      event.preventDefault();
+      navigator.clipboard
+        .writeText(element.dataset.copyToClipboard)
+        .then(() => element.classList.add("text-success"))
+        .catch(() => element.classList.add("text-danger"));
+    });
+  }
+}
+
 // Rails.start();
 document.addEventListener("DOMContentLoaded", () => {
   csrfForm();
@@ -93,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupOccupiableSelect();
   setupOrgChangeSelect();
   setupSubmit();
+  setupCopyToClipboard();
   Rails.start();
 });
 

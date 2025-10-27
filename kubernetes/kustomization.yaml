@@ -8,12 +8,6 @@ images:
   - name: ghcr.io/diegosteiner/heimv
     newTag: main
 
-replicas:
-  - name: heimv-jobs
-    count: 1
-  - name: heimv-web
-    count: 2
-
 secretGenerator:
   - name: app-secret
     # behavior: merge

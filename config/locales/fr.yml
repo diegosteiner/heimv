@@ -7,9 +7,17 @@ fr:
         enabled: Activé
         liable_for_vat: Assujetti à la TVA
         payment_account_nr: Compte Paiements
-        rental_yield_account_nr:
-        rental_yield_vat_category_id:
+        rental_yield_account_nr: Konto Mietertrag
+        rental_yield_vat_category_id: Mietertrag MwSt. Kategorie
         vat_account_nr: Compte TVA
+      address:
+        city: Ort
+        country_code: Land
+        postalcode: PLZ
+        recipient: Adressat
+        street: Strasse
+        street_nr: Nr.
+        suffix: Adresszusatz
       booking/filter:
         begins_at: à partir du / de
         begins_at_after: Début de la location
@@ -46,25 +54,25 @@ fr:
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
         unconfirmed_request_deadline: Délai pour la confirmation de l'adresse e-mail
       invoice/filter:
-        invoice_types:
+        invoice_types: Rechungsarten
         issued_at_after: Date de facturation à partir du
         issued_at_before: Date de facturation jusqu'au
         payable_until_after: Payable au plus tard le
         payable_until_before: Payable jusqu'au
-        ref:
+        ref: Referenznummer
         statuses: Status
       invoice/item:
         accounting_account_nr: zugewiesenes Buchhaltungskonto
         accounting_cost_center_nr: Centre de coûts
         amount: Montant
-        amount_with_vat:
+        amount_with_vat: Betrag inkl. %{vat_percentage}% MwSt. (%{vat_label})
         apply: Employer
         breakdown: Ventilation
         label: Texte
-        suggested:
+        suggested: Vorschlag
         type: Type de poste de facturation
         vat: TVA incluse en pourcentage
-        vat_category_id:
+        vat_category_id: MwSt. Kategorie
       item/filter:
         homes: Chalets
         issued_at_after: Date de facturation à partir du
@@ -72,11 +80,11 @@ fr:
       journal_entry_batch/entry:
         amount: Montant
         cost_center: Centre de coûts
-        haben_account:
-        invoice_item_id:
-        soll_account:
+        haben_account: Haben Konto
+        invoice_item_id: Rechnungsposition
+        soll_account: Soll Konto
         text: Texte
-        vat_amount:
+        vat_amount: Steuerbetrag (inkl.)
       journal_entry_batch/filter:
         date_after: Date de réservation à partir du
         date_before: Date de réservation jusqu'au
@@ -102,8 +110,8 @@ fr:
         accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
       organisation_settings:
-        available_begins_at_times:
-        available_ends_at_times:
+        available_begins_at_times: Beginn der Belegung auswählbare Zeiten
+        available_ends_at_times: Ende der Belegung auswählbare Zeiten
         booking_window: Plage de réservation
         closed_occupancy_color: Couleur pour les clôtures
         contract_sign_by_click_enabled: Signature du contrat "en cochant" par le locataire
@@ -113,7 +121,7 @@ fr:
         last_minute_warning: Délai pour les demandes de réservation de dernière minute
         locales: Langues
         occupied_occupancy_color: Couleur pour les locations définitives
-        predefined_salutation_form:
+        predefined_salutation_form: Vordefinierte Anredeform
         tenant_birth_date_required: Date de naissance, Indication obligatoire
         tentative_occupancy_color: Couleur pour les locations provisoires
         upcoming_soon_window: Délai pour location prochaine
@@ -252,6 +260,7 @@ fr:
         tenant_organisation: Organisation/entité locataire
         transition_to: Nouveau statut
         usage_report: Formulaire de consommation
+        use_invoice_address: abweichende Rechnungsadresse
       booking/booking_question_responses:
         value: Infos supplémentaires
       booking/occupancies:
@@ -270,22 +279,22 @@ fr:
         title: Titre
       booking_question:
         applying_conditions: Conditions
-        booking_agent_mode:
+        booking_agent_mode: Eingabemodus für Vermittler
         description: Description
         key: Clé
         label: Désignation
         ordinal_position: Ordnungsnummer
         required: Saisie obligatoire
-        tenant_mode:
+        tenant_mode: Eingabemodus für Mieter
         type: type
       booking_question_response:
-        value:
+        value: Anwort
       booking_validation:
-        check_on:
-        enabling_conditions:
+        check_on: Prüfen bei
+        enabling_conditions: Bedingungen zur Ausführung der Gültigkeitsprüfung
         error_message: Message d'erreur à afficher
         ordinal_position: Position de l'affichage
-        validating_conditions:
+        validating_conditions: Gültigkeitskriterium
       contract:
         issuer: Propriétaire
         locale: Langue
@@ -321,7 +330,7 @@ fr:
         locale: Langue
         name: Nom
         remarks: Remarques
-        send_with_accepted:
+        send_with_accepted: Mit dem Akzeptieren der Buchung versenden
         send_with_contract: Envoyer avec le contrat
         send_with_last_infos: Envoyer avec les dernières informations (location prochaine)
         updated_at: Dernière modification
@@ -349,8 +358,8 @@ fr:
         date: Date
         invoice_id: Facture
         payment_id: Paiement
-        processed_at:
-        ref:
+        processed_at: Verbucht am
+        ref: Beleg
         text: Texte
         trigger: Déclencheur
       meter_reading_period:
@@ -406,16 +415,15 @@ fr:
         account_address: Adresse du compte pour les factures QR (si différente)
         address: Adresse
         bcc: BCC
-        booking_ref_template:
+        booking_ref_template: Buchungreferenz Format
         contract_signature: Image de signature de contrat
-        cors_origins:
-        creditor_address: Adresse sur les factures
+        cors_origins: CORS Origins
         currency: Währung
         default_payment_info_type: Partie paiement standard
         esr_beneficiary_account: Numéro de participant BVR / compte postal
         esr_ref_prefix: Numéro d'identification BVR / Préfixe
         iban: IBAN
-        invoice_payment_ref_template:
+        invoice_payment_ref_template: Zahlungsreferenz Format
         invoice_ref_template: Numéro de facture Format
         locale: Langue
         locales: Langues
@@ -426,11 +434,12 @@ fr:
         nickname_label: Désignation du surnom
         notifications_enabled: Messages activés
         privacy_statement_pdf: Déclaration de confidentialité
+        qr_bill_creditor_address: Zahlbar an QR-Rechnungen
         representative_address: Adresse de la suppléance pour les contrats
         slug: Espace de nommage
         smtp_settings: Paramètres du serveur de messagerie
         smtp_settings_json: Paramètres du serveur de messagerie
-        tenant_ref_template:
+        tenant_ref_template: Mieterreferenz Format
         terms_pdf: CGU
       organisation_user:
         email: Email
@@ -444,7 +453,7 @@ fr:
         invoice_id: Facture
         paid_at: Payé le
         remarks: Remarques
-        vat_category_id:
+        vat_category_id: MwSt. Kategorie
         write_off: Amortissement
       plan_b_backup:
         created_at: Erstellt am
@@ -459,7 +468,7 @@ fr:
         title: Titre
       tarif:
         accounting_account_nr: zugewiesenes Buchhaltungskonto
-        accounting_cost_center_nr:
+        accounting_cost_center_nr: Kostenstelle
         associated_types: Affiché dans les documents
         enabling_conditions: Conditions de sélection autorisée
         label: Désignation du tarif
@@ -477,12 +486,12 @@ fr:
         tarif_group: groupe tarifaire
         type: type
         unit: unité
-        vat_category_id:
+        vat_category_id: MwSt. Kategorie
       tenant:
         address: Adresse
         address_addon: Complément d'adresse / école / entreprise
         birth_date: Date de naissance
-        bookings_without_contract:
+        bookings_without_contract: Buchungen ohne Vertrag
         bookings_without_invoice: Réservations sans facture
         city: Lieu
         country_code: Pays
@@ -493,12 +502,13 @@ fr:
         locale: Langue
         nickname: Totem
         phone: Téléphone
-        ref:
+        ref: Kundennummer
         remarks: Remarques internes
         reservations_allowed: Peut envoyer des demandes de réservation
-        salutation:
+        salutation: Anrede
         salutation_form: Forme de salutation préférée
-        street_address: Rue / N
+        street: Strasse
+        street_nr: Nr.
         zipcode: Code postal
       usage:
         apply: Appliquer
@@ -529,17 +539,17 @@ fr:
         sign_in_count: Nombre des connexions
         updated_at: Date de mise à jour
       vat_category:
-        accounting_vat_code:
+        accounting_vat_code: Buchhaltungscode
         label: Désignation
-        percentage:
+        percentage: Satz
     enums:
       booking:
         committed_request:
           definitive_request: Demande de location définitive
           provisional_request: Demande de location provisoire
         editable:
-          auto:
-          'false':
+          auto: Auto
+          'false': Nicht durch Mieter bearbeitbar
           'true': Possibilité de traitement par le locataire
       booking/filter:
         concluded:
@@ -553,10 +563,10 @@ fr:
           tenant: Locataire
       booking_question:
         booking_agent_modes:
-          always_editable:
-          blank_editable:
-          not_visible:
-          provisional_editable:
+          always_editable: Für Vermittler sichtbar, jederzeit bearbeitbar
+          blank_editable: Für Vermittler sichtbar, bearbeitbar wenn leer
+          not_visible: Für Vermittler unsichtbar
+          provisional_editable: Für Vermittler sichtbar, bearbeitbar bis definitiv
         tenant_modes:
           always_editable: Visible par les locataires, modifiable à tout moment
           blank_editable: Visible par les locataires, modifiable si vide
@@ -564,12 +574,12 @@ fr:
           provisional_editable: Visible pour les locataires, modifiable jusqu'à définitif
       booking_validation:
         check_on:
-          agent_create:
-          agent_update:
-          manage_create:
-          manage_update:
+          agent_create: Erstellung durch Vermittler
+          agent_update: Bearbeitung durch Vermittler
+          manage_create: Erstellung durch Verwaltung
+          manage_update: Bearbeitung durch Verwaltung
           public_create: Création par le locataire
-          public_update:
+          public_update: Bearbeitung durch Mieter
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -601,25 +611,25 @@ fr:
           terms: Conditions générales d'utilisation / CGU
       invoice:
         status:
-          draft:
-          outstanding:
-          paid:
-          refund:
-          void:
+          draft: Entwurf
+          outstanding: Offen
+          paid: Bezahlt
+          refund: zu Erstatten
+          void: Abgelöst
       journal_entry_batch:
         triggers:
-          invoice_created:
-          invoice_discarded:
-          invoice_reverted:
-          invoice_updated:
-          payment_created:
-          payment_discarded:
-          payment_reverted:
-          payment_updated:
+          invoice_created: Rechnung erstellt
+          invoice_discarded: Rechnung gelöscht
+          invoice_reverted: Rechnung zurückgebucht
+          invoice_updated: Rechnung geändert
+          payment_created: Zahlung erstellt
+          payment_discarded: Zahlung gelöscht
+          payment_reverted: Zahlung zurückgebucht
+          payment_updated: Zahlung geändert
       journal_entry_batch/filter:
         processed:
-          only_processed:
-          only_unprocessed:
+          only_processed: Nur verbuchte
+          only_unprocessed: Nur unverbuchte
       mail_template:
         attachable_booking_documents:
           contract: Contrat
@@ -640,8 +650,8 @@ fr:
           closed: Fermé
           free: Libre
           occupied: Demande de location définitive
-          pending:
-          reserved:
+          pending: angefragt
+          reserved: intern reserviert
           tentative: Demande de location provisoire
       operator_responsibility:
         responsibility:
@@ -658,8 +668,8 @@ fr:
           readonly: Lecture
       payment/filter:
         sort:
-          "-paid_at":
-          paid_at:
+          "-paid_at": Bezahlt am (neuste zuerst)
+          paid_at: Bezahlt am (älteste zuerst)
       tarif:
         prefill_usage_methods:
           days: Jour
@@ -863,7 +873,7 @@ fr:
         one: Compte
         other: Compte
       vat_category:
-        one:
+        one: One
         other:
   add_record: Ajouter %{model_name}
   back: Retour
@@ -871,33 +881,33 @@ fr:
     accept:
       label: Accepter la demande
     base:
-      not_allowed:
+      not_allowed: Aktion nicht möglich
     cancel:
-      cancellation_reason:
-      description:
-      label:
+      cancellation_reason: Anfrage zurückgezogen
+      description: Bist du sicher?
+      label: Anfrage zurückziehen / stornieren
       label_committed: Annuler
-      label_request:
+      label_request: Anfrage zurückziehen
     clear_waitlist:
-      cancellation_reason:
-      label:
+      cancellation_reason: Warteliste aufgelöst; Mietobjekt ist definitiv belegt
+      label: Überschneidene Anfragen in der Warteliste ablehnen
     commit_booking_agent_request:
       label: Confirmer la demande
     commit_request:
       label: Confirmer la demande
     decline:
       deadline_exceeded: Délai expiré
-      label:
+      label: Ablehnen / Stornieren
       label_committed: Annuler
-      label_request:
+      label_request: Anfrage ablehnen
     email_contract:
-      confirm:
+      confirm: Den Vertrag wirklich ohne Akontorechnung verschicken?
       label: Envoyer le contrat
       label_with_invoice: Envoyer le contrat avec facture
       label_without_invoice: Envoyer le contrat sans facture
     email_invoice:
       label: Envoyer une facture
-      label_with_ref:
+      label_with_ref: "%{type} %{ref} verschicken"
     email_offer:
       label: Envoyer une offre
     mark_contract_sent:
@@ -913,20 +923,23 @@ fr:
     postpone_deadline:
       label: Prolonger le délai
     put_on_waitlist:
-      label:
+      label: Anfrage auf Warteliste setzen
     revert_cancel:
       label: Annuler l'annulation
     sign_contract:
       confirm_authorization_label: Je certifie que je dispose des pouvoirs nécessaires pour signer ce contrat de manière juridiquement contraignante
-      description:
-      label:
+      description: |
+        Mit dem Klick auf den Knopf «Vertrag rechtskräftig unterzeichnen» wird der Vertrag rechtsverbindlich abgeschlossen und bestätigt, dass die Berechtigung zur Unterzeichnung vorliegt. Damit werden die geltenden Vertragsbedingungen sowie die allgemeinen Geschäftsbedingungen in ihrer jeweils aktuellen Fassung anerkannt.
+        Zudem wird erklärt, dass alle erforderlichen Befugnisse vorhanden sind, um den Vertrag im eigenen Namen oder – sofern zutreffend – im Namen einer juristischen Person abzuschliessen.
+        Durch die Bestätigung entsteht die Verpflichtung zur Einhaltung aller vereinbarten Pflichten und Rechte, einschliesslich möglicher Zahlungsverpflichtungen, sowie zur Beachtung aller anwendbaren gesetzlichen Bestimmungen. Falls keine Berechtigung zur Vertragsunterzeichnung besteht, kann dies rechtliche Konsequenzen nach sich ziehen.
+      label: Vertrag rechtskräftig unterzeichnen
     skip_invoice:
       label: Sauter le décompte final
   booking_conditions:
     booking_attribute:
       attributes:
         approximate_headcount: Nombre de personnes attendues
-        booking_editable:
+        booking_editable: Buchung bearbeitbar
         days: Jour
         nights: Nächte
         overnight_stays: Nombre de nuitées attendues
@@ -934,17 +947,17 @@ fr:
     booking_date_time:
       attributes:
         begins_at: Début de la location
-        created_at:
-        deadline:
+        created_at: Erstellung der Belegung
+        deadline: Frist der Belegung
         ends_at: Fin de la location
         now: Aujourd'hui
-        updated_at:
+        updated_at: Aktualisierung der Belegung
     duration:
       attributes:
-        begins_at_to_ends_at:
-        created_at_to_now:
-        now_to_begins_at:
-        now_to_ends_at:
+        begins_at_to_ends_at: Beginn der Belegung bis zum Ende der Belegung
+        created_at_to_now: Erstellung der Belegung bis jetzt
+        now_to_begins_at: Jetzt bis zum Beginn der Belegung
+        now_to_ends_at: Jetzt bis zum Ende der Belegung
     occupiable:
       attributes:
         home: Principal objet de location
@@ -956,12 +969,12 @@ fr:
   booking_state_checklist_item:
     contract_created: Créer un contrat
     contract_signed: Contrat signé
-    credit_issued:
+    credit_issued: Gutschrift ausbezahlt
     deposit_created: Anzahlung erstellen
     deposit_paid: Acompte réglé
     invoice_created: Établir le décompte final
-    invoice_paid:
-    invoice_refunded:
+    invoice_paid: "%{invoice} bezahlt"
+    invoice_refunded: "%{invoice} erstattet"
     invoices_paid: Rechnung beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Attribuer des responsabilités (facultatif)
@@ -1041,16 +1054,16 @@ fr:
       label: Location (prochainement)
       relevant_time: Début de la location %{time}
     waitlisted_request:
-      description:
+      description: Die Anfrage ist auf der Warteliste
       label: Demande de location (liste d'attente)
-      public_info:
+      public_info: Deine Mietanfrage ist auf der Warteliste.
       relevant_time: Déposé %{time}
   clone: Dupliquer
   confirm: Êtes-vous sûr ?
   contracts:
-    header_reference:
+    header_reference: Buchung %{ref}
     issuer_signature_label: Date, lieu, signature du bailleur
-    page_numbering:
+    page_numbering: "%{page}/%{total}"
     represented_by: Représenté par
     tenant_signature_label: Date, lieu, signature du locataire
   currency: Monnaie
@@ -1381,7 +1394,7 @@ fr:
   import: Importer
   import_records: Importer %{model_name}
   invoice_items:
-    balance_breakdown:
+    balance_breakdown: Saldo aus Anzahlungen
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
@@ -1400,7 +1413,7 @@ fr:
       manage:
         title: Organisation
       version:
-        changelog:
+        changelog: Changelog
         github: GitHub
         title: Logiciel
     manage_navigation:
@@ -1420,10 +1433,10 @@ fr:
           failure: 'Échec de l''importation :'
           success: Importation réussie
         prepare:
-          missing_template:
+          missing_template: Aktion so nicht ausführbar
       calendar:
         ics_link: comme ICAL
-        private_ics_link:
+        private_ics_link: als privater ICAL
       import:
         headers: En-têtes
         import_error: 'Échec de l''importation : '
@@ -1464,12 +1477,12 @@ fr:
         all_locales: Tous les
     invoices:
       form:
-        payment_not_required_warning:
+        payment_not_required_warning: Ohne diesen Haken kann die Belegung automatisch in den nächsten Status wechseln, wenn sonst alle Bedingungen erfüllt sind.
     journal_entry_batches:
       index:
-        digest_and_process:
-        processed_at:
-        unprocessed:
+        digest_and_process: Auszug erstellen und verbuchen
+        processed_at: verbucht %{at}
+        unprocessed: unverbucht
     notifications:
       form:
         deliver: Enregistrer et envoyer
@@ -1495,12 +1508,126 @@ fr:
         exception: 'Le fichier de paiement n''a pas pu être traité : %{errors}'
     rich_text_templates:
       form:
-        help_lead:
+        help_lead: |
+          <h5>Variabeln im Text verwenden</h5>
+          <pre>Hallo {{ booking.tenant.first_name }}!</pre>
+
+          <h5>Logik im Text verwenden</h5>
+          <pre>{% if booking.home_id contains 1 %}Passage nur sichtbar, wenn ID des Hauptmietobjekts der Buchung gleich 1 ist{% endif %}</pre>
+          <pre>
+          {% if booking.category.key == 'camp' %}
+            Wir wünschen euch viel Spass in eurem Lager in unserem Heim!
+          {% else %}
+            Wir wünschen Ihnen einen schönen Aufenthalt in unserem Heim!
+          {% endif %}
+          </pre>
         help_title: Aide sur les variables
         load_locale_defaults: Rétablir le texte par défaut pour cette langue
         template_context:
-          booking:
-          contract:
+          booking: |-
+            <h5>Buchung</h5>
+            <dl>
+              <dt>Beginn der Belegung</dt>
+              <dd><pre>{{ booking.begins_at | datetime_format }}</pre></dd>
+              <dd><pre>{{ booking.begins_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
+              <dt>Ende der Belegung</dt>
+              <dd><pre>{{ booking.ends_at | datetime_format }}</pre></dd>
+              <dd><pre>{{ booking.ends_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
+              <dt>Erwartete Anzahl Personen</dt>
+              <dd><pre>{{ booking.approximate_headcount }}</pre></dd>
+              <dt>Annulierungsgrund</dt>
+              <dd><pre>{{ booking.cancellation_reason }}</pre></dd>
+              <dt>Verbindlichkeit der Mietanfrage</dt>
+              <dd><pre>{{ booking.committed_request }}</pre></dd>
+              <dt>ID des Hauptmietobjekts</dt>
+              <dd><pre>{{ booking.home.id }}</pre></dd>
+              <dt>IDs aller belegten Mietobjekte</dt>
+              <dd><pre>{{ booking.occupiable_ids }}</pre></dd>
+              <dt>Name des Hauptmietobjekts</dt>
+              <dd><pre>{{ booking.home.name }}</pre></dd>
+              <dt>Adresse des Hauptmietobjekts</dt>
+              <dd><pre>{{ booking.home.description }}</pre></dd>
+              <dt>Name aller belegten Mietobjekte</dt>
+              <dd><pre>{{ booking.occupiables | map: "name" | join: ", " }}</pre></dd>
+              <dt>Liste belegten Hauptmietobjekte</dt>
+              <dd><pre><ul>{% for home in booking.occupiables %}<li>{{ home.name }}</li>{% endfor %}</ul></pre></dd>
+              <dt>Rechnungsadresse</dt>
+              <dd><pre>{{ booking.invoice_address }}</pre></dd>
+              <dt>Frist bis Datum / Uhrzeit</dt>
+              <dd><pre>{{ booking.deadline.at | datetime_format }}</pre></dd>
+              <dt>Frist Verlängerbar für n Sekunden</dt>
+              <dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>
+              <dt>Link für den Mieter</dt>
+              <dd><pre>{{ booking.links.show }}</pre></dd>
+              <dt>Link für den Vermieter</dt>
+              <dd><pre>{{ booking.links.manage }}</pre></dd>
+              <dt>Belegungstyp</dt>
+              <dd><pre>{{ booking.occupancy_type }}</pre></dd>
+              <dt>Schlüssel der Mietkategorie</dt>
+              <dd><pre>{{ booking.category.key }}</pre></dd>
+              <dt>Bezeichnung der Mietkategorie</dt>
+              <dd><pre>{{ booking.category.title }}</pre></dd>
+              <dt>Beschreibung der Mietkategorie</dt>
+              <dd><pre>{{ booking.category.description }}</pre></dd>
+              <dt>Beschreibung der Mietzwecks</dt>
+              <dd><pre>{{ booking.purpose_description }}</pre></dd>
+              <dt>Referenznummer der Buchung</dt>
+              <dd><pre>{{ booking.ref }}</pre></dd>
+              <dt>Bemerkungen des Mieters</dt>
+              <dd><pre>{{ booking.remarks }}</pre></dd>
+              <dt>Adresszusatz des Mieters</dt>
+              <dd><pre>{{ booking.tenant.address_addon }}</pre></dd>
+              <dt>Ort des Mieters</dt>
+              <dd><pre>{{ booking.tenant.city }}</pre></dd>
+              <dt>E-Mail des Mieters</dt>
+              <dd><pre>{{ booking.tenant.email }}</pre></dd>
+              <dt>Vorname des Mieters</dt>
+              <dd><pre>{{ booking.tenant.first_name }}</pre></dd>
+              <dt>Nachname des Mieters</dt>
+              <dd><pre>{{ booking.tenant.last_name }}</pre></dd>
+              <dt>Übername des Mieters</dt>
+              <dd><pre>{{ booking.tenant.nickname }}</pre></dd>
+              <dt>Anrede mit Name des Mieters</dt>
+              <dd><pre>{{ booking.tenant.salutation }}</pre></dd>
+              <dt>Anredeform des Mieters</dt>
+              <dd><pre>{{ booking.tenant.salutation_form }}</pre></dd>
+              <dt>Adresse des Mieters</dt>
+              <dd><pre>{{ booking.tenant.street_address }}</pre></dd>
+              <dt>PLZ des Mieters</dt>
+              <dd><pre>{{ booking.tenant.zipcode }}</pre></dd>
+              <dt>Mieter Organisation / Gruppenname</dt>
+              <dd><pre>{{ booking.tenant_organisation }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Hausübergabe</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Hausübergabe</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Hausübergabe</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Hausrücknahme</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Hausrücknahme</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Hausrücknahme</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>
+              <dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>
+              <dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>
+              <dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Verrechnung</dt>
+              <dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Verrechnung</dt>
+              <dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt>
+              <dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>
+            </dl>
+          contract: |-
+            <h5>Vertrag</h5>
+            <dl>
+              <dt>Vertragsdatum</dt>
+              <dd><pre>{{ contract.issued_at | date_format }}</pre></dd>
+            </dl>
           invoice: |-
             <h5>Facture</h5>
             <dl>
@@ -1521,8 +1648,37 @@ fr:
               <dt>Date de la facture</dt>
               <dd><pre>{{ invoice.issued_at | date_format }}</pre></dd>
             </dl>
-          organisation:
-          other:
+          organisation: |-
+            <h5>Organisation</h5>
+            <dl>
+              <dt>Adresse der Organisation, Sitz</dt>
+              <dd><pre>{{ organisation.address }}</pre></dd>
+              <dt>Liste aller Mietkategorien der Organisation</dt>
+              <dd><pre>{{ organisation.booking_categories }}</pre></dd>
+              <dt>E-Mail der Organisation</dt>
+              <dd><pre>{{ organisation.email }}</pre></dd>
+              <dt>PC-Kontonummer</dt>
+              <dd><pre>{{ organisation.esr_beneficiary_account }}</pre></dd>
+              <dt>IBAN</dt>
+              <dd><pre>{{ organisation.iban }}</pre></dd>
+              <dt>Link zur Datenschutzerklärung</dt>
+              <dd><pre>{{ organisation.links.privacy_statement_pdf }}</pre></dd>
+              <dt>Link zu den AGB</dt>
+              <dd><pre>{{ organisation.links.terms_pdf }}</pre></dd>
+              <dt>Name der Organisation</dt>
+              <dd><pre>{{ organisation.name }}</pre></dd>
+            </dl>
+          other: |-
+            <h5>Tarife</h5>
+            <dl>
+              <dt>Tarife (nur für Vertrag und Rechnung)</dt> <dd><pre>{{ TARIFS }}</pre></dd></dt>
+            </dl>
+            <h5>Kosten</h5>
+            <dl>
+              <dt>Verbrauch</dt><dd><pre>{{ costs.used | currency }}</pre></dd>
+              <dt>Verrechnet</dt><dd><pre>{{ costs.invoiced | currency }}</pre></dd>
+              <dt>Akontorechnung</dt><dd><pre>{{ costs.invoiced_deposits | currency }}</pre></dd>
+            </dl>
       index:
         booking_action: Action
         booking_state: Statut comptable
@@ -1708,7 +1864,7 @@ fr:
       description: Notification de clôture de la réservation (locataire)
     contract_sent_notification:
       default_title: Contrat envoyé
-      description:
+      description: Benachrichtigung für per Post versendeten Vertrag (Mieter)
     contract_signed_notification:
       default_body:
       default_title: Recevoir le contrat signé
@@ -1733,11 +1889,11 @@ fr:
     email_contract_notification:
       default_body:
       default_title: Contrat pour ta réservation
-      description:
+      description: Benachrichtigung für Versand Vertrag/Akontorechnung (Mieter)
     email_invoice_notification:
       default_body:
       default_title:
-      description:
+      description: Benachrichtigung für Versand Rechnung (Mieter)
     email_offer_notification:
       default_body:
       default_title:
@@ -1763,7 +1919,7 @@ fr:
     manage_cancelation_pending_notification:
       default_body:
       default_title:
-      description:
+      description: Benachrichtigung für stornierte Reservation (Verwaltung)
     manage_cancelled_request_notification:
       default_body:
       default_title: Annulation Demande de réservation {{ booking.ref }}
@@ -1771,7 +1927,7 @@ fr:
     manage_contract_signed_notification:
       default_body:
       default_title: Recevoir le contrat signé
-      description:
+      description: Benachrichtigung für Vertragseingang (Verwaltung)
     manage_definitive_request_notification:
       default_body:
       default_title: Demande de location {{ booking.ref }} définitive
@@ -1800,19 +1956,19 @@ fr:
     operator_contract_signed_notification:
       default_body:
       default_title: Recevoir le contrat signé
-      description:
+      description: Benachrichtigung für Vertragseingang (Funktionär)
     operator_email_contract_notification:
       default_body:
       default_title:
-      description:
+      description: Benachrichtigung für Versand Vertrag/Akontorechnung (Funktionär)
     operator_email_invoice_notification:
       default_body:
       default_title: Facture envoyée
-      description:
+      description: Benachrichtigung für Versand Rechnung (Funktionär)
     operator_payment_confirmation_notification:
       default_body:
       default_title: Recevoir le contrat signé
-      description:
+      description: Benachrichtigung für Zahlungseingang (Funktionär)
     operator_upcoming_notification:
       default_body:
       default_title: Location
@@ -1926,7 +2082,7 @@ fr:
     pm: pm
   titles:
     application: HeimV %{organisation}
-  too_many_records:
+  too_many_records: Es wurden zu viele %{model_name} gefunden. Bitte schränke die Suche ein.
   unauthorized: Tu n'as pas l'autorisation d'accéder à cette page.
-  unsupported:
+  unsupported: Dieses Feature ist experimentell und kann zu Problemen führen.
   until: jusqu'à

@@ -60,10 +60,11 @@ describe 'Booking by agent', :devise do
     check 'booking_accept_conditions'
   end
 
-  def fill_tenant_form(tenant)
+  def fill_tenant_form(tenant) # rubocop:disable Metrics/MethodLength
     fill_in 'booking_tenant_attributes_first_name', with: tenant.first_name
     fill_in 'booking_tenant_attributes_last_name', with: tenant.last_name
-    fill_in 'booking_tenant_attributes_street_address', with: tenant.street_address
+    fill_in 'booking_tenant_attributes_street', with: tenant.street
+    fill_in 'booking_tenant_attributes_street_nr', with: tenant.street_nr
     fill_in 'booking_tenant_attributes_zipcode', with: tenant.zipcode
     fill_in 'booking_tenant_attributes_city', with: tenant.city
     fill_in 'booking_tenant_attributes_phone', with: tenant.phone

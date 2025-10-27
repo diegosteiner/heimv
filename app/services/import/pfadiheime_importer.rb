@@ -6,7 +6,7 @@ module Import
                                 booking.remarks booking.occupancy_type ignore.created_at ignore.updated_at
                                 tenant.email ignore.occupancy_type booking.internal_remarks ignore.slug
                                 booking.headcount tenant.birth_date booking.tenant_organisation tenant.name
-                                tenant.street_address tenant.street_address_2 tenant.zipcode tenant.city
+                                tenant.address_addon tenant.street_address tenant.zipcode tenant.city
                                 tenant.phone].freeze
 
     def initialize(**options)
