@@ -88,12 +88,16 @@
         = tf.hidden_field :locale, value: current_organisation.locales.first
 
   fieldset
-    h5= t('.booking_details')
-    = f.text_field :tenant_organisation, help: t('optional'), disabled: !@booking.editable?
+    h5= Invoice.model_name.human
     = f.check_box :use_invoice_address, data: { 'bs-toggle' => 'collapse', 'bs-target' => "#invoice_address_fields" }, disabled: !@booking.editable?
-    fieldset#invoice_address_fields.border.p-3.collapse.rounded[class=(@booking.invoice_address.present? ? "show" : "") disabled=!@booking.editable?]
+    fieldset#invoice_address_fields.border.p-3.collapse.rounded[class=(@booking.use_invoice_address || @booking.invoice_address.present? ? "show" : "") disabled=!@booking.editable?]
       = f.fields_for :invoice_address, @booking.invoice_address || Address.new(country_code: current_organisation.country_code) do |iaf|
         = render partial: Address.to_partial_path('form_fields'), locals: { f: iaf }
+
+
+  fieldset
+    h5= t('.booking_details')
+    = f.text_field :tenant_organisation, help: t('optional'), disabled: !@booking.editable?
 
     = f.form_group :committed_request, class: ['mb-3', current_organisation.booking_state_settings.enable_provisional_request || !@booking.committed_request ? '' : 'd-none']
       = f.label :committed_request, Booking.human_attribute_name(:committed_request), class: 'required mb-1'

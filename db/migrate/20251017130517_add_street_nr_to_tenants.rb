@@ -2,8 +2,10 @@
 
 class AddStreetNrToTenants < ActiveRecord::Migration[8.0]
   def change
-    add_column :tenants, :street_nr, :string
-    rename_column :tenants, :street_address, :street
+    change_table :tenants, bulk: true do |t|
+      t.string :street_nr
+      t.string :street
+    end
     rename_column :bookings, :invoice_address, :unstructured_invoice_address
     add_column :organisations, :qr_bill_creditor_address, :jsonb
 
@@ -26,8 +28,8 @@ class AddStreetNrToTenants < ActiveRecord::Migration[8.0]
 
   def migrate_tenants
     Tenant.find_each do |tenant|
-      street, _, street_nr = tenant.street&.rpartition(' ')&.[](0..1)
-      tenant.update(street:, street_nr:)
+      street, _, street_nr = tenant.street&.rpartition(' ')
+      tenant.update_columns(street:, street_nr:) # rubocop:disable Rails/SkipsModelValidations
     end
   end
 

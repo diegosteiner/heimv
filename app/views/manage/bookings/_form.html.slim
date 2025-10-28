@@ -70,13 +70,15 @@
       = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true
       = cf.select :locale, current_organisation.locales.map { [it.upcase, it.downcase] }, required: false
     = f.text_field :tenant_organisation
+
+    h5.mt-4= Invoice.model_name.human
     = f.check_box :use_invoice_address, data: { 'bs-toggle' => 'collapse', 'bs-target' => "#invoice_address_fields" }
-    fieldset#invoice_address_fields.border.p-3.collapse.rounded[class=(@booking.invoice_address.present? ? "show" : "")]
+    fieldset#invoice_address_fields.border.p-3.collapse.rounded[class=(@booking.use_invoice_address || @booking.invoice_address.present? ? "show" : "")]
       = f.fields_for :invoice_address, @booking.invoice_address || Address.new(country_code: current_organisation.country_code) do |iaf|
         = render partial: Address.to_partial_path('form_fields'), locals: { f: iaf }
 
-  fieldset.mt-3
-    h5.mt-0= Booking.model_name.human
+  fieldset
+    h5.mt-4= Booking.model_name.human
     = f.form_group :committed_request
       = f.label :committed_request, Booking.human_attribute_name(:committed_request)
       = f.radio_button :committed_request, false, label: t(:'activerecord.enums.booking.committed_request.provisional_request'), checked: @booking.committed_request.blank?
