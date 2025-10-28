@@ -47,7 +47,8 @@ class AddStreetNrToTenants < ActiveRecord::Migration[8.0]
       lines = booking.unstructured_invoice_address
       next if lines.blank?
 
-      booking.update!(use_invoice_address: true, invoice_address: Address.parse_lines(lines, country_code: 'CH'))
+      booking.update_columns(use_invoice_address: true, # rubocop:disable Rails/SkipsModelValidations
+                             invoice_address: Address.parse_lines(lines, country_code: 'CH'))
     end
   end
 end
