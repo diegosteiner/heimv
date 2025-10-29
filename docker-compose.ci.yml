@@ -23,7 +23,7 @@ services:
       selenium:
 
   e2e_target:
-    build: 
+    build:
       context: .
       target: production
     ports:
@@ -60,7 +60,7 @@ services:
       - /dev/shm:/dev/shm
     logging:
       driver: none
-  
+
   # video:
   #   image: selenium/video
   #   depends_on:
@@ -73,7 +73,7 @@ services:
   #     selenium:
 
   db:
-    image: postgres:18
+    image: postgres:17
     environment:
       POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
