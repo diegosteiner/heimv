@@ -64,7 +64,8 @@ module PaymentInfos
     # rubocop:enable Metrics/MethodLength
 
     def creditor_address
-      @creditor_address ||= organisation.qr_bill_creditor_address.presence || Address.parse_lines(organisation.address)
+      @creditor_address ||= organisation.qr_bill_creditor_address.presence ||
+                            Address.parse_lines(organisation.address).presence
     end
 
     def debitor_address

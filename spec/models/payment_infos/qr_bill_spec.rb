@@ -35,7 +35,9 @@ RSpec.describe PaymentInfos::QrBill do
       ]
     end
 
-    it { is_expected.to eq(expected_payload) }
+    it {
+      is_expected.to eq(expected_payload)
+    }
   end
 
   describe '#formatted_ref' do
