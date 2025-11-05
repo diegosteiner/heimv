@@ -23,8 +23,8 @@ module BookingActions
         next unless invokable?(invoice_id: invoice.id, current_user:)
         next if invoice.is_a?(Invoices::Deposit) && booking.contract && !booking.contract.sent?
 
-        { label: translate(:label_with_ref, type: invoice.model_name.human, ref: invoice.ref),
-          params: { invoice_id: invoice.to_param } }
+        label = translate(:label_with_ref, type: invoice.model_name.human, ref: invoice.ref)
+        { label:, params: { invoice_id: invoice.to_param } }
       end
     end
 

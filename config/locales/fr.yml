@@ -918,8 +918,6 @@ fr:
       label: Confirmer la réception du paiement
     mark_invoices_paid:
       label: Confirmer la réception du paiement
-    mark_invoices_refunded:
-      label: Marquer les notes de crédit comme étant remboursées
     postpone_deadline:
       label: Prolonger le délai
     put_on_waitlist:

@@ -918,8 +918,6 @@ it:
       label: Confermare la ricezione del pagamento
     mark_invoices_paid:
       label: Confermare la ricezione del pagamento
-    mark_invoices_refunded:
-      label: Gutschriften als rückerstattet markieren
     postpone_deadline:
       label: Prolungare il periodo
     put_on_waitlist:

@@ -929,7 +929,7 @@ de:
     mark_invoices_paid:
       label: Zahlungseingang bestätigen
     mark_invoices_refunded:
-      label: Gutschriften als rückerstattet markieren
+      label_with_ref: Offener Betrag von %{type} %{ref} rückerstatten
     postpone_deadline:
       label: Frist verlängern
     put_on_waitlist:
