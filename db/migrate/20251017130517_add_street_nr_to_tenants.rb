@@ -35,9 +35,9 @@ class AddStreetNrToTenants < ActiveRecord::Migration[8.0]
 
   def migrate_organisations
     Organisation.find_each do |organisation|
-      lines = organisation.account_address.presence&.lines ||
-              organisation.creditor_address.presence&.lines ||
-              organisation.address&.lines
+      lines = organisation.account_address.presence ||
+              organisation.creditor_address.presence ||
+              organisation.address
       next if lines.blank?
 
       organisation.update!(qr_bill_creditor_address: Address.parse(lines, country_code: 'CH'))
