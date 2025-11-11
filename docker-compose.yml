@@ -47,9 +47,9 @@ services:
     #   - /dev/shm:/dev/shm
     ports:
       - "5900:5900"
-  
+
   db:
-    image: postgres:18
+    image: postgres:17
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:

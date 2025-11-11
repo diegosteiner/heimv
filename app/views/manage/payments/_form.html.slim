@@ -1,7 +1,10 @@
 = form_with(model: [:manage, @booking, @payment], local: true) do |f|
 
   fieldset
-    - invoices = @payment.organisation.invoices.includes(:organisation).kept.unsettled.order(ref: :ASC)
+    - if @booking.present?
+      - invoices = @booking.invoices.includes(:organisation).kept.order(ref: :ASC)
+    - else 
+      - invoices = @payment.organisation.invoices.includes(:organisation).kept.unsettled.order(ref: :ASC)
     = f.collection_select :invoice_id, [@payment.invoice, invoices].flatten.compact.uniq, :id, :ref, include_blank: true
     = f.text_field :amount, inputmode: "numeric" 
     = f.date_field :paid_at, lang: I18n.locale

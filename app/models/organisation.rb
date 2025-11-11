@@ -31,6 +31,7 @@
 #  name                         :string
 #  nickname_label_i18n          :jsonb
 #  notifications_enabled        :boolean          default(TRUE)
+#  qr_bill_creditor_address     :jsonb
 #  representative_address       :string
 #  settings                     :jsonb
 #  slug                         :string
@@ -81,6 +82,7 @@ class Organisation < ApplicationRecord
 
   validates :booking_flow_type, presence: true
   validates :currency, :country_code, presence: true
+  validates :country_code, inclusion: { in: ISO3166::Country.codes }
   validates :name, :email, presence: true
   validates :slug, uniqueness: true, allow_blank: true
   validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }
@@ -102,6 +104,7 @@ class Organisation < ApplicationRecord
   attribute :booking_ref_template, default: -> { RefBuilders::Booking::DEFAULT_TEMPLATE }
   attribute :invoice_ref_template, default: -> { RefBuilders::Invoice::DEFAULT_TEMPLATE }
   attribute :invoice_payment_ref_template, default: -> { RefBuilders::InvoicePayment::DEFAULT_TEMPLATE }
+  attribute :qr_bill_creditor_address, Address.to_type, default: -> { Address.new }
 
   def booking_flow_class
     @booking_flow_class ||= BookingFlows.const_get(booking_flow_type)
@@ -109,10 +112,6 @@ class Organisation < ApplicationRecord
 
   def slug=(value)
     self[:slug] = value.presence
-  end
-
-  def address_lines
-    @address_lines ||= address&.lines&.map(&:strip)&.compact_blank || []
   end
 
   def to_s

@@ -4,42 +4,46 @@
 #
 # Table name: bookings
 #
-#  id                     :uuid             not null, primary key
-#  accept_conditions      :boolean          default(FALSE)
-#  approximate_headcount  :integer
-#  begins_at              :datetime
-#  booking_flow_type      :string
-#  booking_questions      :jsonb
-#  booking_state_cache    :string           default("initial"), not null
-#  cancellation_reason    :text
-#  committed_request      :boolean
-#  concluded              :boolean          default(FALSE)
-#  conditions_accepted_at :datetime
-#  editable               :boolean
-#  email                  :string
-#  ends_at                :datetime
-#  ignore_conflicting     :boolean          default(FALSE), not null
-#  import_data            :jsonb
-#  internal_remarks       :text
-#  invoice_address        :text
-#  locale                 :string
-#  notifications_enabled  :boolean          default(FALSE)
-#  occupancy_color        :string
-#  occupancy_type         :integer          default("pending"), not null
-#  purpose_description    :string
-#  ref                    :string
-#  remarks                :text
-#  sequence_number        :integer
-#  sequence_year          :integer
-#  state_data             :json
-#  tenant_organisation    :string
-#  token                  :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  booking_category_id    :integer
-#  home_id                :integer          not null
-#  organisation_id        :bigint           not null
-#  tenant_id              :integer
+#  id                           :uuid             not null, primary key
+#  accept_conditions            :boolean          default(FALSE)
+#  approximate_headcount        :integer
+#  begins_at                    :datetime
+#  booking_flow_type            :string
+#  booking_questions            :jsonb
+#  booking_state_cache          :string           default("initial"), not null
+#  bookings                     :string
+#  cancellation_reason          :text
+#  committed_request            :boolean
+#  concluded                    :boolean          default(FALSE)
+#  conditions_accepted_at       :datetime
+#  editable                     :boolean
+#  email                        :string
+#  ends_at                      :datetime
+#  ignore_conflicting           :boolean          default(FALSE), not null
+#  import_data                  :jsonb
+#  internal_remarks             :text
+#  invoice_address              :jsonb
+#  invoice_cc                   :string
+#  locale                       :string
+#  notifications_enabled        :boolean          default(FALSE)
+#  occupancy_color              :string
+#  occupancy_type               :integer          default("pending"), not null
+#  purpose_description          :string
+#  ref                          :string
+#  remarks                      :text
+#  sequence_number              :integer
+#  sequence_year                :integer
+#  state_data                   :json
+#  tenant_organisation          :string
+#  token                        :string
+#  unstructured_invoice_address :text
+#  use_invoice_address          :boolean          default(FALSE), not null
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  booking_category_id          :integer
+#  home_id                      :integer          not null
+#  organisation_id              :bigint           not null
+#  tenant_id                    :integer
 #
 
 class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
@@ -83,13 +87,14 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_one_attached :usage_report
   has_secure_token :token, length: 48
+
   attr_accessor :transition_to, :skip_infer_transitions, :applied_transitions
 
   timespan :begins_at, :ends_at
   enum :occupancy_type, Occupancy::OCCUPANCY_TYPES
   normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
+  attribute :invoice_address, Address.to_type
 
-  validates :invoice_address, length: { maximum: 255 }
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
   validates :approximate_headcount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
@@ -134,7 +139,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES).joins(most_recent_transition_join) }
 
-  before_validation :assert_tenant!, :sequence_number, :update_occupancies
+  before_validation :clear_invoice_address, :assert_tenant!, :sequence_number, :update_occupancies
   before_create :generate_ref
   after_save :apply_transitions, :update_booking_state_cache!
   after_touch :apply_transitions, :update_booking_state_cache!
@@ -266,10 +271,30 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     self.occupancies = original.occupancies.map(&:dup)
   end
 
+  def tenant_address
+    Address.clean(**tenant.address.attributes, representing: tenant_organisation) if tenant.present?
+  end
+
+  def clear_invoice_address
+    self.invoice_address = nil unless use_invoice_address
+  end
+
+  # if `occupiable_ids =` or `occupiable_ids <<` is called on a persisted booking, it will raise
+  # validation errors even before `save` is called (see gems/activerecord-8.0.3/lib/active_record/associations/has_many_through_association.rb:40)
+  # to fix we build the records ourselves
+  def occupiable_ids=(value)
+    return super if new_record? # rubocop:disable Lint/ReturnInVoidContext
+
+    self.occupancies = Array.wrap(value).filter_map do |occupiable_id|
+      Occupancy.find_or_initialize_by(booking_id: id, occupiable_id:)
+    end
+  end
+
   private
 
   def reject_tenant_attributes?(tenant_attributes)
     (tenant_id_changed? && tenant_id_was.present?) ||
-      tenant_attributes.slice(:email, :first_name, :last_name, :street_address, :zipcode, :city).values.all?(&:blank?)
+      tenant_attributes.slice(:email, :first_name, :last_name, :street, :street_nr, :zipcode,
+                              :city).values.all?(&:blank?)
   end
 end

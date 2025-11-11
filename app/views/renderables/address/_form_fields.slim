@@ -1,0 +1,16 @@
+= f.text_field :recipient
+- unless defined?(suffix) && !suffix
+  = f.text_field :suffix, help: t(:optional)
+.row  
+  .col
+    = f.text_field :street, required: false
+  .col-sm-3
+    = f.text_field :street_nr, required: false
+.row
+  .col-sm-4
+    = f.text_field :postalcode
+  .col-sm-8
+    = f.text_field :city
+
+= f.form_group :country_code, label: { text: Address.human_attribute_name(:country_code) } do
+  = f.country_select :country_code, { priority_countries: %w[CH DE FR IT] }, class: 'form-control'

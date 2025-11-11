@@ -8,7 +8,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
   let(:vat_category) { create(:vat_category, organisation:, percentage: 50, accounting_vat_code: 'VAT50') }
   let(:tenant) do
     create(:tenant, sequence_number: 200_002, first_name: 'Max', last_name: 'Müller', organisation:,
-                    street_address: 'Bahnhofstr. 1', city: 'Bern', zipcode: 1234)
+                    street: 'Bahnhofstr.', street_nr: '1', city: 'Bern', zipcode: 1234)
   end
 
   before do

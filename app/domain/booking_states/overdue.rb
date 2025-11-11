@@ -20,7 +20,7 @@ module BookingStates
     end
 
     infer_transition(to: :upcoming) do |booking|
-      booking.contracts.signed.any? && Invoices::Deposit.of(booking).kept.all?(&:paid?)
+      booking.contracts.signed.any? && Invoices::Deposit.of(booking).kept.all? { it.paid? || it.void? }
     end
 
     def relevant_time

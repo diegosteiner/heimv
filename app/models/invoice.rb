@@ -71,6 +71,7 @@ class Invoice < ApplicationRecord
   before_save :sequence_number, :generate_ref, :generate_payment_ref, :recalculate, :set_status
   before_save :generate_pdf, if: :generate_pdf?
   after_create :supersede!
+  before_destroy :restrict_destroy!
   after_save :update_payments, :update_void_deposits
   after_save :update_journal_entry_batches, unless: :skip_journal_entry_batches
 
@@ -78,6 +79,10 @@ class Invoice < ApplicationRecord
   validates :items, store_model: true
   validate do
     errors.add(:supersede_invoice_id, :invalid) if supersede_invoice && supersede_invoice.organisation != organisation
+  end
+
+  def restrict_destroy!
+    raise ActiveRecord::DeleteRestrictionError if supersede_invoice.present?
   end
 
   def items
@@ -186,10 +191,6 @@ class Invoice < ApplicationRecord
 
   def payment_info
     @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
-  end
-
-  def invoice_address
-    @invoice_address ||= InvoiceAddress.new(booking)
   end
 
   def to_attachable

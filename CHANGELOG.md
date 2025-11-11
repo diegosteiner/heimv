@@ -1,5 +1,12 @@
 # Changelog
 
+## 25.11.1
+
+Released 11.11.2025
+
+- Feature: Use structured address for qr_bills
+- Fix: Allow to select unsent invoices in payments
+
 ## 25.10.1
 
 Released 16.10.2025

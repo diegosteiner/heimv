@@ -18,29 +18,17 @@ module Export
       end
 
       to_render do
-        represented_by = @organisation.representative_address.presence
-        address = if represented_by
-                    [@organisation.name]
-                  else
-                    [@organisation.address]
-                  end
-
-        render Renderables::Address.new(address, represented_by:, label: Contract.human_attribute_name('issuer'))
+        represented_by = @organisation.representative_address
+        if represented_by.present?
+          render Renderables::Address.new(represented_by, label: Contract.human_attribute_name('issuer'))
+        else
+          render Renderables::Address.new(@organisation.address, label: Contract.human_attribute_name('issuer'))
+        end
       end
 
       to_render do
-        tenant_organisation = @booking.tenant_organisation
-        tenant_address_lines = @booking.tenant&.full_address_lines
-
-        if tenant_organisation
-          address = tenant_organisation
-          represented_by = tenant_address_lines
-        else
-          address = tenant_address_lines
-          represented_by = nil
-        end
-
-        render Renderables::Address.new(address, represented_by:, column: :right, label: Tenant.model_name.human)
+        render Renderables::Address.new(@booking.tenant_organisation, represented_by: @booking.tenant&.address,
+                                                                      column: :right, label: Tenant.model_name.human)
       end
 
       to_render do

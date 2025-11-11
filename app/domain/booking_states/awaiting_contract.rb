@@ -25,7 +25,8 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.create_deadline(length: booking.organisation.deadline_settings.awaiting_contract_deadline,
+      booking.create_deadline(length: booking.organisation.deadline_settings.awaiting_contract_deadline +
+                                      booking.organisation.deadline_settings.payment_overdue_deadline,
                               postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,
                               remarks: booking.booking_state.t(:label))
     end
@@ -37,7 +38,7 @@ module BookingStates
     infer_transition(to: :upcoming) do |booking|
       booking.contracts.signed.any? &&
         Invoices::Deposit.of(booking).kept.all? do |deposit|
-          deposit.paid? || !deposit.payment_required
+          deposit.paid? || deposit.void? || !deposit.payment_required
         end
     end
 
