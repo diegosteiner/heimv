@@ -26,6 +26,7 @@ gem 'factory_bot_rails', require: false
 gem 'faker', require: false
 gem 'faraday', require: false
 gem 'iban-tools'
+gem 'image_processing'
 gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
