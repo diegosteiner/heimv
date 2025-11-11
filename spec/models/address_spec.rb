@@ -17,22 +17,38 @@ RSpec.describe Address do
     end
   end
 
-  describe '::parse_lines' do
-    subject(:address) { described_class.parse_lines(address_lines) }
+  describe '::parse' do
+    subject(:address) { described_class.parse(address_lines) }
 
-    let(:address_lines) do
-      <<~ADDRESS
-        Peter Muster
-        Adresszusatz
-        Teststrasse 22a
-        8031 Bälzwil
-      ADDRESS
+    context 'with well formatted address' do
+      let(:address_lines) do
+        <<~ADDRESS
+          Peter Muster
+          Adresszusatz
+          Teststrasse 22a
+          8031 Bälzwil
+        ADDRESS
+      end
+
+      it do
+        expect(address.attributes.symbolize_keys).to include(recipient: 'Peter Muster', city: 'Bälzwil',
+                                                             suffix: 'Adresszusatz', street: 'Teststrasse',
+                                                             street_nr: '22a', postalcode: '8031', country_code: 'CH')
+      end
     end
 
-    it do
-      expect(address.attributes.symbolize_keys).to include(recipient: 'Peter Muster', city: 'Bälzwil',
-                                                           suffix: 'Adresszusatz', street: 'Teststrasse',
-                                                           street_nr: '22a', postalcode: '8031', country_code: 'CH')
+    context 'with not so well formatted address' do
+      let(:address_lines) do
+        <<~ADDRESS
+          Peter Muster, Teststrasse 22a, 8031 Bälzwil
+        ADDRESS
+      end
+
+      it do
+        expect(address.attributes.symbolize_keys).to include(recipient: 'Peter Muster', city: 'Bälzwil',
+                                                             street: 'Teststrasse', street_nr: '22a',
+                                                             postalcode: '8031', country_code: 'CH')
+      end
     end
   end
 end

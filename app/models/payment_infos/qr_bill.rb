@@ -65,7 +65,7 @@ module PaymentInfos
 
     def creditor_address
       @creditor_address ||= organisation.qr_bill_creditor_address.presence ||
-                            Address.parse_lines(organisation.address).presence
+                            Address.parse(organisation.address).presence
     end
 
     def debitor_address

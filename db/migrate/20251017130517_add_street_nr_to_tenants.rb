@@ -40,17 +40,22 @@ class AddStreetNrToTenants < ActiveRecord::Migration[8.0]
               organisation.address&.lines
       next if lines.blank?
 
-      organisation.update!(qr_bill_creditor_address: Address.parse_lines(lines, country_code: 'CH'))
+      organisation.update!(qr_bill_creditor_address: Address.parse(lines, country_code: 'CH'))
     end
   end
 
-  def migrate_invoice_addresses
+  def migrate_invoice_addresses # rubocop:disable Metrics/CyclomaticComplexity
     Booking.where.not(unstructured_invoice_address: [nil, '']).find_each do |booking|
       lines = booking.unstructured_invoice_address
-      next if lines.blank?
+      invoice_address = Address.parse(lines, country_code: 'CH')
+      next if invoice_address.blank?
 
-      booking.update_columns(use_invoice_address: true, # rubocop:disable Rails/SkipsModelValidations
-                             invoice_address: Address.parse_lines(lines, country_code: 'CH'))
+      invoice_address.assign_attributes(
+        recipient: invoice_address.recipient.presence || booking.tenant_organisation.presence || booking.tenant&.name,
+        postalcode: invoice_address.postalcode.presence || booking.tenant_address.postalcode,
+        city: invoice_address.city.presence || booking.tenant_address&.city
+      )
+      booking.update_columns(use_invoice_address: true, invoice_address:) # rubocop:disable Rails/SkipsModelValidations
     end
   end
 end

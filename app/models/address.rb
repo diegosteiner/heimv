@@ -56,15 +56,16 @@ class Address
     new(**attributes.transform_values { it&.strip })
   end
 
-  def self.parse_lines(lines, **defaults)
-    lines = lines.lines if lines.is_a?(String)
-    lines = lines.compact_blank if lines.is_a?(Array)
-    return if lines.blank?
+  def self.parse(string, separator: nil, **defaults) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/AbcSize,Metrics/PerceivedComplexity
+    parts = string.lines.compact_blank
+    parts = parts.flat_map { it.split(separator || /[,;]/) }.map(&:strip) if separator || parts.one?
+    parts = parts.compact_blank
+    return if parts.blank?
 
-    postalcode, _, city = lines.pop&.partition(' ')
-    street, _, street_nr = lines.pop&.rpartition(' ')
-    suffix = lines.pop if lines.many?
-    recipient = lines.join(', ')
+    postalcode, _, city = parts.pop&.partition(' ') unless parts.one?
+    street, _, street_nr = parts.pop&.rpartition(' ')
+    suffix = parts.pop if parts.many?
+    recipient = parts.join(', ')
     Address.clean(recipient:, suffix:, street:, street_nr:, postalcode:, city:, **defaults)
   end
 end
