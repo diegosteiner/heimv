@@ -19,7 +19,13 @@ class SmtpSettings
   end
 
   def to_h
-    attributes.symbolize_keys
+    # :enable_starttls and :tls are mutually exclusive. Set :tls if you're on an SMTPS connection.
+    # Set :enable_starttls if you're on an SMTP connection and using STARTTLS for secure TLS upgrade
+    if tls
+      attributes.symbolize_keys.except(:enable_starttls_auto)
+    else
+      attributes.symbolize_keys.except(:tls)
+    end
   end
 
   def to_config

@@ -62,7 +62,6 @@ export default function OccupiableSelect({
   return (
     <>
       <Form.Group className={cx({ "mb-3": true, "d-none": hideHomeSelect })}>
-        {/** biome-ignore lint/correctness/useUniqueElementIds: emulate rails behaviour */}
         <Form.Select
           name={`${namePrefix}[home_id]`}
           id="booking_home_id"
