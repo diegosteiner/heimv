@@ -28,7 +28,7 @@ class AddStreetNrToTenants < ActiveRecord::Migration[8.0]
 
   def migrate_tenants
     Tenant.find_each do |tenant|
-      street, _, street_nr = tenant.street&.rpartition(' ')
+      street, _, street_nr = tenant.street_address&.rpartition(' ')
       tenant.update_columns(street:, street_nr:) # rubocop:disable Rails/SkipsModelValidations
     end
   end
