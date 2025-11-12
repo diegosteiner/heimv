@@ -3,14 +3,17 @@
 require 'rails_helper'
 
 describe BookingStates::Upcoming do
-  booking_flow_class = Class.new(BookingFlows::Base) do
-    state BookingStates::Initial, to: [:upcoming], initial: true
-    state BookingStates::Upcoming
-  end
   subject(:transitioned_booking) do
     booking.booking_flow.transition_to(described_class.to_sym)
     booking.save
     booking
+  end
+
+  let(:booking_flow_class) do
+    Class.new(BookingFlows::Base) do
+      state BookingStates::Initial, to: [:upcoming], initial: true
+      state BookingStates::Upcoming
+    end
   end
 
   let(:organisation) { create(:organisation, :with_templates, booking_flow_class:) }
