@@ -106,14 +106,22 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :ref, uniqueness: { scope: :organisation_id } # rubocop:disable Rails/UniqueValidationWithoutIndex
   validates :locale, inclusion: { in: ->(booking) { booking.organisation.locales } }, on: :public_update
   validate do
-    errors.add(:occupiable_ids, :blank) if occupancies.none?
-    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email)
+    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email, host_validation: :syntax,
+                                                                                 dns_validation: false)
     organisation&.booking_validations&.each do |validation|
       validation.booking_valid?(self, validation_context:) || errors.add(:base, validation.error_message)
     end
   end
 
   validate do
+    next if email.nil? || ENV['EMAIL_VALIDATE_MX'].blank? || EmailAddress.valid?(email, host_validation: :mx,
+                                                                                        dns_validation: false)
+
+    errors.add(:email, :invalid)
+  end
+
+  validate do
+    errors.add(:occupiable_ids, :blank) if occupancies.none?
     next if ignore_conflicting || free?
 
     if agent_booking || !organisation.booking_state_settings.enable_waitlist
