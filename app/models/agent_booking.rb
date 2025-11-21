@@ -43,8 +43,7 @@ class AgentBooking < ApplicationRecord
     next if tenant_email.blank?
 
     errors.add(:tenant_email, :invalid) if tenant_email == booking_agent&.email
-    errors.add(:tenant_email, :invalid) unless EmailAddress.valid?(tenant_email, host_validation: :syntax,
-                                                                                 dns_validation: false)
+    errors.add(:tenant_email, :invalid) unless EmailAddress.valid?(tenant_email, host_validation: :syntax)
   end
 
   def tenant_email=(value)

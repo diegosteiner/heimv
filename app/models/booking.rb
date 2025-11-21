@@ -114,7 +114,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validate do
     next if email.nil?
 
-    precision = email_changed? ? {} : { host_validation: :syntax, dns_validation: false }
+    precision = email_changed? ? {} : { host_validation: :syntax }
     errors.add(:email, :invalid) unless EmailAddress.valid?(email, **precision)
   end
 
