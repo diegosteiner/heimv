@@ -27,7 +27,8 @@ class BookingAgent < ApplicationRecord
   validates :name, :code, :email, presence: true
   validates :code, uniqueness: { scope: %i[organisation_id] }
   validate do
-    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email, host_validation: :syntax, dns_validation: false)
+    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email, host_validation: :syntax,
+                                                                                 dns_validation: false)
   end
 
   def to_s

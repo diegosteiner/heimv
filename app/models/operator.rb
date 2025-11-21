@@ -24,7 +24,8 @@ class Operator < ApplicationRecord
 
   validates :locale, presence: true
   validate do
-    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email, host_validation: :syntax, dns_validation: false)
+    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email, host_validation: :syntax,
+                                                                                 dns_validation: false)
   end
 
   def to_s

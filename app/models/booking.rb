@@ -106,15 +106,16 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :ref, uniqueness: { scope: :organisation_id } # rubocop:disable Rails/UniqueValidationWithoutIndex
   validates :locale, inclusion: { in: ->(booking) { booking.organisation.locales } }, on: :public_update
   validate do
-    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email, host_validation: :syntax,
-                                                                                 dns_validation: false)
     organisation&.booking_validations&.each do |validation|
       validation.booking_valid?(self, validation_context:) || errors.add(:base, validation.error_message)
     end
   end
 
-  validate on: :create do
-    errors.add(:email, :invalid) unless email.nil?  || EmailAddress.valid?(email)
+  validate do
+    next if email.nil?
+
+    precision = email_changed? ? {} : { host_validation: :syntax, dns_validation: false }
+    errors.add(:email, :invalid) unless EmailAddress.valid?(email, **precision)
   end
 
   validate do
