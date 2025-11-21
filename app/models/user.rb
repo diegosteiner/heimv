@@ -45,7 +45,7 @@ class User < ApplicationRecord
   validates :token, length: { minimum: 48 }, allow_nil: true
   validate do
     errors.add(:default_organisation_id, :invalid) if default_organisation && !in_organisation?(default_organisation)
-    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email)
+    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email, host_validation: :syntax, dns_validation: false)
   end
 
   def to_s

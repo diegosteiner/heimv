@@ -113,11 +113,8 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
   end
 
-  validate do
-    next if email.nil? || ENV['EMAIL_VALIDATE_MX'].blank? || EmailAddress.valid?(email, host_validation: :mx,
-                                                                                        dns_validation: false)
-
-    errors.add(:email, :invalid)
+  validate on: :create do
+    errors.add(:email, :invalid) unless email.nil?  || EmailAddress.valid?(email)
   end
 
   validate do
