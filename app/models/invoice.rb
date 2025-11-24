@@ -94,7 +94,7 @@ class Invoice < ApplicationRecord
   end
 
   def supersede!
-    return if supersede_invoice.blank? || supersede_invoice.discarded?
+    return if supersede_invoice.blank? || supersede_invoice.discarded? || supersede_invoice.void?
 
     self.payments = supersede_invoice.payments
     supersede_invoice.void!
