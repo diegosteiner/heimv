@@ -54,10 +54,7 @@ class Tenant < ApplicationRecord
   validates :ref, uniqueness: { scope: :organisation_id }, allow_blank: true # rubocop:disable Rails/UniqueValidationWithoutIndex
   validates :birth_date, presence: true, on: :public_update, if: :birth_date_required?
   validate do
-    next if email.nil?
-
-    precision = email_changed? ? {} : { host_validation: :syntax }
-    errors.add(:email, :invalid) unless EmailAddress.valid?(email, **precision)
+    errors.add(:email, :invalid) unless email.blank? || EmailAddress.valid?(email, host_validation: :syntax)
   end
 
   scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }
