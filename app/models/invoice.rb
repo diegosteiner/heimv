@@ -63,7 +63,7 @@ class Invoice < ApplicationRecord
   scope :unsent,    -> { kept.where(sent_at: nil) }
   scope :overdue,   ->(at = Time.zone.today) { kept.not_offer.where(arel_table[:payable_until].lteq(at)) }
   scope :of,        ->(booking) { where(booking:) }
-  scope :unsettled, -> { kept.not_offer.where(status: %i[outstanding refund]) }
+  scope :unsettled, -> { kept.not_offer.where(status: %i[draft outstanding refund]) }
   scope :with_default_includes, -> { includes(%i[payments organisation]) }
 
   accepts_nested_attributes_for :items, reject_if: :all_blank, allow_destroy: true
@@ -158,7 +158,7 @@ class Invoice < ApplicationRecord
   end
 
   def unsettled?
-    outstanding? || refund?
+    outstanding? || refund? || draft?
   end
 
   def recalculate
