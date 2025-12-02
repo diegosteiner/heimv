@@ -73,7 +73,7 @@ services:
   #     selenium:
 
   db:
-    image: postgres:17
+    image: postgres:18
     environment:
       POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
