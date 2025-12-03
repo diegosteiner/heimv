@@ -69,10 +69,11 @@ module Tarifs
     end
 
     def minimum_price(usage)
-      if usage.price_per_unit&.negative?
-        minimum_prices_with_difference(usage).filter { _2&.negative? }.min_by { _2 }
+      minimum_prices_with_difference_memo = minimum_prices_with_difference(usage)
+      if minimum_prices_with_difference_memo.values.compact.all?(&:negative?)
+        minimum_prices_with_difference_memo.filter { _2&.negative? }.min_by { _2 }
       else
-        minimum_prices_with_difference(usage).filter { _2&.positive? }.max_by { _2 }
+        minimum_prices_with_difference_memo.filter { _2&.positive? }.max_by { _2 }
       end
     end
 
