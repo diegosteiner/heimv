@@ -15,7 +15,6 @@ services:
       E2E_SERVER_PORT: "3001"
       E2E_TARGET_HOST: "app.test:3001"
       SELENIUM_HOST: "selenium:4444"
-      SELENIUM_VNC: ${SELENIUM_VNC}
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
@@ -37,16 +36,13 @@ services:
           - "app.test"
 
   selenium:
-    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:132.0}
-    shm_size: 2gb
+    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:133.0}
+    shm_size: 2g
     networks:
       selenium:
-    environment:
-      SE_VNC_NO_PASSWORD: ${SELENIUM_VNC:-0}
-    # volumes:
-    #   - /dev/shm:/dev/shm
+    # noVNC in browser with password «secret»
     ports:
-      - "5900:5900"
+      - "7900:7900"
 
   db:
     image: postgres:17
