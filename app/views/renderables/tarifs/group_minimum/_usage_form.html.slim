@@ -68,15 +68,17 @@
         | =
 
     - when :minimum_price_total
-      div
-        = number_to_currency(usage.tarif.minimum_price_total)
+      - if usage.tarif.minimum_price_total.zero?
+      - else
+        div
+          = number_to_currency(usage.tarif.minimum_price_total)
 
-      div
-        | -
+        div
+          | -
 
-      div
-        = number_to_currency(usage.tarif.group_price(usage))
+        div
+          = number_to_currency(usage.tarif.group_price(usage))
 
-      div
-        | =
+        div
+          | =
 

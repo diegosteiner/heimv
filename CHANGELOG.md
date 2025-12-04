@@ -1,5 +1,14 @@
 # Changelog
 
+## 25.12.1
+
+Released 04.12.2025
+
+- Feature: Add button to mark invoices as sent
+- Fix: Fix journal entries for balance items (must no yield entries)
+- Fix: Allow tarif group minimums to be zero to avoid negative amounts
+- Fix: Improve email validation
+
 ## 25.11.1
 
 Released 11.11.2025

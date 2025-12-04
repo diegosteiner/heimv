@@ -111,10 +111,12 @@ class Tarif < ApplicationRecord
   end
 
   def breakdown(usage)
-    key ||= :flat if is_a?(Tarifs::Flat)
-    key ||= :minimum if usage.minimum_price? || is_a?(Tarifs::GroupMinimum)
+    key ||= :minimum if usage.minimum_price?
     key ||= :default
-    I18n.t(key, scope: 'invoice_items.breakdown', **breakdown_options(usage))
+    I18n.t(key, scope: 'invoice_items.breakdown', unit:,
+                minimum: minimum_price(usage),
+                used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
+                price_per_unit: number_to_currency(usage.price_per_unit.presence || 0, unit: organisation.currency))
   end
 
   def <=>(other)
@@ -150,15 +152,6 @@ class Tarif < ApplicationRecord
   end
 
   private
-
-  def breakdown_options(usage)
-    {
-      unit:,
-      minimum: '',
-      used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
-      price_per_unit: number_to_currency(usage.price_per_unit.presence || 0, unit: organisation.currency)
-    }
-  end
 
   def initialize_copy(origin)
     super

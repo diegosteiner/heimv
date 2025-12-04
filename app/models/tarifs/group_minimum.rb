@@ -35,6 +35,12 @@ module Tarifs
   class GroupMinimum < Tarif
     Tarif.register_subtype self
 
+    def breakdown(usage)
+      minimum = number_to_currency(minimum_price(usage)&.last || 0, unit: organisation.currency)
+      I18n.t(:minimum, scope: 'invoice_items.breakdown', unit:, minimum:,
+                       group_price: number_to_currency(group_price(usage) || 0, unit: organisation.currency))
+    end
+
     def usages_in_group(usage)
       usage.booking.usages.joins(:tarif)
            .where(tarifs: { tarif_group: usage.tarif.tarif_group })
