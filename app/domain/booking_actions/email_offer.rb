@@ -12,7 +12,7 @@ module BookingActions
     end
 
     def invokable?(offer_id:, current_user: nil)
-      booking.notifications_enabled && MailTemplate.enabled?(:email_offer_notification) &&
+      booking.notifications_enabled && MailTemplate.enabled?(:email_offer_notification, booking) &&
         booking.tenant.email.present? && unsent_offers.exists?(id: offer_id)
     end
 
