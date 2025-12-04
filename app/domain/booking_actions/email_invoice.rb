@@ -14,8 +14,8 @@ module BookingActions
     end
 
     def invokable?(invoice_id:, current_user: nil)
-      booking.notifications_enabled && booking.tenant.email.present? &&
-        unsent_invoices.exists?(id: invoice_id)
+      booking.notifications_enabled && MailTemplate.enabled?(:email_contract_notification) &&
+        booking.tenant.email.present? && unsent_invoices.exists?(id: invoice_id)
     end
 
     def invokable_with(current_user: nil)
