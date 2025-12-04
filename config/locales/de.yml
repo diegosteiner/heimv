@@ -926,6 +926,8 @@ de:
       label: Vertragseingang bestätigen
     mark_deposits_paid:
       label: Zahlungseingang bestätigen
+    mark_invoice_sent:
+      label: Rechnung als versendet markieren
     mark_invoices_paid:
       label: Zahlungseingang bestätigen
     mark_invoices_refunded:

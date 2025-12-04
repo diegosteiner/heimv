@@ -40,6 +40,12 @@ class MailTemplate < RichTextTemplate
       nil
     end
 
+    def enabled?(key, booking)
+      raise RichTextTemplate::InvalidDefinition unless definitions.key?(key)
+
+      booking.organisation.rich_text_templates.where(type: to_s).by_key!(key)&.enabled
+    end
+
     def use!(key, booking, **, &)
       raise RichTextTemplate::InvalidDefinition unless definitions.key?(key)
 

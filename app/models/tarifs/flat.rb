@@ -36,4 +36,9 @@ module Tarifs
   class Flat < Tarif
     Tarif.register_subtype self
   end
+
+  def breakdown(usage)
+    I18n.t(:flat, scope: 'invoice_items.breakdown', unit:,
+                  price_per_unit: number_to_currency(usage.price_per_unit.presence || 0, unit: organisation.currency))
+  end
 end

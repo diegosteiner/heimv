@@ -12,7 +12,6 @@ services:
       RAILS_ENV: test
       NODE_ENV: test
       SELENIUM_HOST: "selenium:4444"
-      SELENIUM_VNC: ${SELENIUM_VNC}
       SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
       MAIL_FROM: "no-reply@heimv.local"
     command: bin/check_ci
@@ -51,11 +50,9 @@ services:
 
   selenium:
     image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:133.0}
-    shm_size: 4gb
+    shm_size: 2g
     networks:
       selenium:
-    environment:
-      SE_VNC_NO_PASSWORD: ${SELENIUM_VNC:-0}
     volumes:
       - /dev/shm:/dev/shm
     logging:

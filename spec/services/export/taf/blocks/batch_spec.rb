@@ -67,47 +67,10 @@ describe Export::Taf::Blocks::Batch, type: :model do
               Date=27.12.2024
               Text="Rechnung 250001 #{booking.ref}"
               Type=0
-              ValNt=420.00
+              ValNt=720.00
               PkKey=200002
               OpId=250001
               Flags=1
-
-            }
-
-            {Bk
-              AccId=6000
-              Date=27.12.2024
-              TaxId="VAT50"
-              Text="Rechnung 250001: Saldo aus Anzahlungen"
-              Type=1
-              ValNt=-200.00
-              ValTx=-100.00
-              CAcc=1050
-              CIdx=3
-              TIdx=4
-
-            }
-
-            {Bk
-              AccId=9001
-              BType=1
-              Date=27.12.2024
-              Text="Rechnung 250001: Saldo aus Anzahlungen"
-              Type=1
-              ValNt=-200.00
-              CAcc=6000
-
-            }
-
-            {Bk
-              AccId=2016
-              BType=2
-              CAcc=1050
-              Date=27.12.2024
-              Text="Rechnung 250001: Saldo aus Anzahlungen"
-              Type=1
-              ValNt=-100.00
-              ValTx=-200.00
 
             }
 
@@ -120,8 +83,8 @@ describe Export::Taf::Blocks::Batch, type: :model do
               ValNt=480.00
               ValTx=240.00
               CAcc=1050
-              CIdx=6
-              TIdx=7
+              CIdx=3
+              TIdx=4
 
             }
 
@@ -252,8 +215,8 @@ describe Export::Taf::Blocks::Batch, type: :model do
 
       it do
         expect(journal_entry_batches).to contain_exactly(
-          have_attributes(amount: 420.0, trigger: 'invoice_reverted'),
-          have_attributes(amount: 1140.0, trigger: 'invoice_updated')
+          have_attributes(amount: 720.0, trigger: 'invoice_reverted'),
+          have_attributes(amount: 1440.0, trigger: 'invoice_updated')
         )
       end
 
@@ -267,46 +230,9 @@ describe Export::Taf::Blocks::Batch, type: :model do
               Date=#{date}
               Text="Rechnung 250001 #{booking.ref}"
               Type=1
-              ValNt=420.00
+              ValNt=720.00
               PkKey=200002
               OpId=250001
-
-            }
-
-            {Bk
-              AccId=6000
-              Date=#{date}
-              TaxId="VAT50"
-              Text="Rechnung 250001: Saldo aus Anzahlungen"
-              Type=0
-              ValNt=-200.00
-              ValTx=-100.00
-              CAcc=1050
-              CIdx=3
-              TIdx=4
-
-            }
-
-            {Bk
-              AccId=9001
-              BType=1
-              Date=#{date}
-              Text="Rechnung 250001: Saldo aus Anzahlungen"
-              Type=0
-              ValNt=-200.00
-              CAcc=6000
-
-            }
-
-            {Bk
-              AccId=2016
-              BType=2
-              CAcc=1050
-              Date=#{date}
-              Text="Rechnung 250001: Saldo aus Anzahlungen"
-              Type=0
-              ValNt=-100.00
-              ValTx=-200.00
 
             }
 
@@ -319,8 +245,8 @@ describe Export::Taf::Blocks::Batch, type: :model do
               ValNt=480.00
               ValTx=240.00
               CAcc=1050
-              CIdx=6
-              TIdx=7
+              CIdx=3
+              TIdx=4
 
             }
 
@@ -356,46 +282,9 @@ describe Export::Taf::Blocks::Batch, type: :model do
               Date=#{date}
               Text="Rechnung 250001 #{booking.ref}"
               Type=0
-              ValNt=1140.00
+              ValNt=1440.00
               PkKey=200002
               OpId=250001
-
-            }
-
-            {Bk
-              AccId=6000
-              Date=#{date}
-              TaxId="VAT50"
-              Text="Rechnung 250001: Saldo aus Anzahlungen"
-              Type=1
-              ValNt=-200.00
-              ValTx=-100.00
-              CAcc=1050
-              CIdx=3
-              TIdx=4
-
-            }
-
-            {Bk
-              AccId=9001
-              BType=1
-              Date=#{date}
-              Text="Rechnung 250001: Saldo aus Anzahlungen"
-              Type=1
-              ValNt=-200.00
-              CAcc=6000
-
-            }
-
-            {Bk
-              AccId=2016
-              BType=2
-              CAcc=1050
-              Date=#{date}
-              Text="Rechnung 250001: Saldo aus Anzahlungen"
-              Type=1
-              ValNt=-100.00
-              ValTx=-200.00
 
             }
 
@@ -408,8 +297,8 @@ describe Export::Taf::Blocks::Batch, type: :model do
               ValNt=960.00
               ValTx=480.00
               CAcc=1050
-              CIdx=6
-              TIdx=7
+              CIdx=3
+              TIdx=4
 
             }
 
