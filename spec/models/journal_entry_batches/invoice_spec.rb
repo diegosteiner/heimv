@@ -41,10 +41,11 @@ RSpec.describe JournalEntryBatches::Invoice do
 
     it 'builds batch with entries' do
       is_expected.to be_valid
-      is_expected.to have_attributes(date: Date.new(2024, 12, 27), ref: '250001', amount: 420.0)
+      # prepaid amount does not create another journal_entry
+      is_expected.to have_attributes(date: Date.new(2024, 12, 27), ref: '250001', amount: 720.0)
       expect(journal_entry_batch.entries).to contain_exactly(
-        have_attributes(soll_account: '1050', haben_account: '6000', amount: -300.0, cost_center: '9001',
-                        vat_category_id: vat_category.id, vat_amount: -100.0),
+        # have_attributes(soll_account: '1050', haben_account: '6000', amount: -300.0, cost_center: '9001',
+        #                 vat_category_id: vat_category.id, vat_amount: -100.0),
         have_attributes(soll_account: '1050', haben_account: '6000', amount: 720.0, cost_center: '9001',
                         vat_category_id: vat_category.id, vat_amount: 240.0)
       )
@@ -58,7 +59,7 @@ RSpec.describe JournalEntryBatches::Invoice do
 
     it 'creates, updates and deletes the journal_entry_batches' do # rubocop:disable RSpec/ExampleLength
       expect(journal_entry_batches.reload).to contain_exactly(
-        have_attributes(trigger: 'invoice_created', amount: invoice.amount, processed?: be_falsy)
+        have_attributes(trigger: 'invoice_created', amount: 720.0, processed?: be_falsy)
       )
       expect(described_class).to have_received(:handle).once
 
@@ -67,9 +68,9 @@ RSpec.describe JournalEntryBatches::Invoice do
 
       expect(described_class).to have_received(:handle).twice
       expect(journal_entry_batches.reload).to contain_exactly(
-        have_attributes(trigger: 'invoice_created', amount: 420, processed?: be_truthy),
-        have_attributes(trigger: 'invoice_reverted', amount: 420, processed?: be_falsy),
-        have_attributes(trigger: 'invoice_updated', amount: 497, processed?: be_falsy)
+        have_attributes(trigger: 'invoice_created', amount: 720, processed?: be_truthy),
+        have_attributes(trigger: 'invoice_reverted', amount: 720, processed?: be_falsy),
+        have_attributes(trigger: 'invoice_updated', amount: 797, processed?: be_falsy)
       )
     end
 
