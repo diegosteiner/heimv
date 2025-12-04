@@ -60,6 +60,7 @@ module BookingFlows
         mark_contract_sent: BookingActions::MarkContractSent,
         mark_invoices_refunded: BookingActions::MarkInvoicesRefunded,
         email_invoice: BookingActions::EmailInvoice,
+        mark_invoice_sent: BookingActions::MarkInvoiceSent,
         email_offer: BookingActions::EmailOffer,
         postpone_deadline: BookingActions::PostponeDeadline,
         mark_contract_signed: BookingActions::MarkContractSigned,
