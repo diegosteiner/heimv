@@ -80,10 +80,10 @@ module JournalEntryBatches
 
     def self.build_with_item(batch, item)
       case item
+      when ::Invoice::Items::Balance
+        # No journal entries for balance (which is also ::Invoice::Items::Add)
       when ::Invoice::Items::Add, ::Invoice::Items::Deposit
         build_with_add_item(batch, item)
-      when ::Invoice::Items::Balance
-        # No journal entries for balance
       end
     end
 
