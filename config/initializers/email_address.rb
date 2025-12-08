@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 if Rails.env.production?
-  EmailAddress::Config.configure(local_format: :standard, host_validation: :mx)
+  EmailAddress::Config.configure(local_format: :standard, dns_lookup: :mx)
 else
   EmailAddress::Config.configure(local_format: :standard, host_validation: :syntax)
 end
