@@ -64,10 +64,11 @@ export default function InvoiceItemElement({
     (change: Partial<InvoiceItem>) => !disabled && onChange?.({ ...item, ...change }),
     [disabled, item, onChange],
   );
-  const vat_category =
+  const nonTextItemType = [InvoiceItemType.Add, InvoiceItemType.Balance, InvoiceItemType.Deposit].includes(item.type);
+  const vatCategory =
     item.vat_category_id &&
     optionsForSelect.vatCategories.find((it) => it.id.toString() === item.vat_category_id?.toString());
-  console.log(optionsForSelect, item.vat_category_id, vat_category);
+
   return (
     <Row>
       <Col md={1} className="sortable-handle align-items-center d-flex">
@@ -106,7 +107,7 @@ export default function InvoiceItemElement({
         </FloatingLabel>
       </Form.Group>
       <Form.Group className="col-lg-5 col-md-3 py-1">
-        {[InvoiceItemType.Add, InvoiceItemType.Balance, InvoiceItemType.Deposit].includes(item.type) && (
+        {nonTextItemType && (
           <FloatingLabel label={t("activemodel.attributes.invoice/item.breakdown")}>
             <Form.Control
               type="text"
@@ -119,13 +120,13 @@ export default function InvoiceItemElement({
         )}
       </Form.Group>
       <Form.Group className="col-lg-2 col-md-3 py-1">
-        {[InvoiceItemType.Add, InvoiceItemType.Balance, InvoiceItemType.Deposit].includes(item.type) && (
+        {nonTextItemType && (
           <FloatingLabel
             label={
-              vat_category
+              vatCategory
                 ? t("activemodel.attributes.invoice/item.amount_with_vat", {
-                    vat_percentage: vat_category.percentage,
-                    vat_label: vat_category.label,
+                    vat_percentage: vatCategory.percentage,
+                    vat_label: vatCategory.label,
                   })
                 : t("activemodel.attributes.invoice/item.amount")
             }
@@ -149,7 +150,7 @@ export default function InvoiceItemElement({
       </Form.Group>
       <div className="col-lg-1 col-md-2 d-flex justify-content-end align-items-center">
         <div className="btn-group">
-          {[InvoiceItemType.Add, InvoiceItemType.Balance, InvoiceItemType.Deposit].includes(item.type) && (
+          {nonTextItemType && (
             <button
               disabled={disabled}
               type="button"
@@ -173,6 +174,58 @@ export default function InvoiceItemElement({
       </div>
       <Modal show={editing} onHide={() => setEditing(false)}>
         <Modal.Body>
+          <Form.Group className="mb-3">
+            <Form.Label>{t("activemodel.attributes.invoice/item.label")}</Form.Label>
+            <Form.Control
+              type="text"
+              name={`${namePrefix}[label]`}
+              required
+              value={item.label || ""}
+              onChange={(event) => handleChange({ label: event.target.value })}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            {nonTextItemType && (
+              <>
+                <Form.Label>{t("activemodel.attributes.invoice/item.breakdown")}</Form.Label>
+                <Form.Control
+                  type="text"
+                  required
+                  value={item.breakdown || ""}
+                  name={`${namePrefix}[breakdown]`}
+                  onChange={(event) => handleChange({ breakdown: event.target.value })}
+                />
+              </>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3">
+            {nonTextItemType && (
+              <>
+                <Form.Label>
+                  {vatCategory
+                    ? t("activemodel.attributes.invoice/item.amount_with_vat", {
+                        vat_percentage: vatCategory.percentage,
+                        vat_label: vatCategory.label,
+                      })
+                    : t("activemodel.attributes.invoice/item.amount")}
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  required
+                  inputMode="numeric"
+                  value={item.amount || ""}
+                  name={`${namePrefix}[amount]`}
+                  className="text-end"
+                  onChange={(event) => handleChange({ amount: event.target.value })}
+                  onBlur={(event) =>
+                    handleChange({
+                      amount: Number.isNaN(+event.target.value) ? undefined : (+event.target.value).toFixed(2),
+                    })
+                  }
+                />
+              </>
+            )}
+          </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>{t("activemodel.attributes.invoice/item.accounting_account_nr")}</Form.Label>
             <Form.Control

@@ -15,7 +15,7 @@ table.table
         td.bg-transparent
           = link_to payment.invoice, manage_invoice_path(payment.invoice) if payment.invoice.present?
         td.bg-transparent
-          = link_to payment.booking, manage_booking_path(payment.booking) if payment.booking.present?
+          = link_to payment.booking, manage_booking_path(payment.booking) if payment.booking&.persisted?
         td.bg-transparent
           = number_to_currency(payment.amount, unit:payment.organisation.currency) if payment.organisation.present?
         td.bg-transparent

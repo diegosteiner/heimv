@@ -1,4 +1,3 @@
 = render layout: 'manage/tarifs/usage_form', locals: { usage:, f: }
   .form-check.py-2.text-end
-    = f.hidden_field :used_units, value: 0
-    = f.checkbox :used_units, value: 1, class: "form-check-input float-none"
+    = f.check_box :used_units, { skip_label: true, wrapper: { style: 'margin-bottom: 0 !important' } }, '1', '0'
