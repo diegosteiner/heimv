@@ -148,7 +148,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   before_validation :clear_invoice_address, :assert_tenant!, :sequence_number, :update_occupancies
   before_create :generate_ref
-  after_save :apply_transitions, :update_booking_state_cache!
+  after_save :apply_transitions, :update_booking_state_cache!, :touch_conflicting_bookings
   after_touch :apply_transitions, :update_booking_state_cache!
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -259,8 +259,12 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     occupancies.any? { it.conflicting(conflicting_occupancy_types)&.exists? }
   end
 
-  def conflicting_bookings
-    occupancies.flat_map { it.conflicting(%i[occupied tentative closed])&.map(&:booking) }.compact
+  def conflicting_bookings(conflicting_occupancy_types = %i[occupied tentative closed])
+    occupancies.flat_map { it.conflicting(conflicting_occupancy_types)&.map(&:booking) }.compact.uniq
+  end
+
+  def touch_conflicting_bookings
+    conflicting_bookings(%i[occupied tentative closed free reserved]).each(&:touch)
   end
 
   def booking_flow_class
