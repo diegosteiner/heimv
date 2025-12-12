@@ -15,7 +15,7 @@
       .card-header.bg-danger.text-white
         = "Danger zone"
       .card-body
-        = button_to t(".cancel_my_account"), registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger'
+        = button_to t(".cancel_my_account"), registration_path(resource_name), params: { locale: current_locale }, data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger'
 
     br
     = link_to t("devise.shared.links.back"), :back

@@ -13,13 +13,13 @@ class ApplicationController < ActionController::Base
 
   default_form_builder BootstrapForm::FormBuilder
   before_action :prepare_exception_notification_context, :current_locale, :set_default_meta_tags
-  helper_method :current_organisation, :current_organisation_user, :home_path
+  helper_method :current_locale, :current_organisation, :current_organisation_user, :home_path
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.role_admin?
   end
 
   def default_url_options
-    { org: current_organisation&.to_param || params[:org], locale: current_locale }.merge(super)
+    { locale: current_locale, org: current_organisation&.to_param || params[:org] }.merge(super)
   end
 
   def set_default_meta_tags

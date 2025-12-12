@@ -127,11 +127,11 @@
                         - unless invoice.sent?
                           - email_invoice_action = invoice.booking.booking_flow.manage_actions[:email_invoice]
                           - if email_invoice_action.invokable?(invoice_id: invoice.id)
-                            = button_to manage_booking_invoke_action_path(invoice.booking), method: :post, params: { id: email_invoice_action.key, invoice_id: invoice.id }, class: 'dropdown-item'
+                            = button_to manage_booking_invoke_action_path(invoice.booking), method: :post, params: { id: email_invoice_action.key, invoice_id: invoice.id, locale: current_locale }, class: 'dropdown-item'
                               = email_invoice_action.label
                           - mark_invoice_sent_action = invoice.booking.booking_flow.manage_actions[:mark_invoice_sent]
                           - if mark_invoice_sent_action.invokable?(invoice_id: invoice.id)
-                            = button_to manage_booking_invoke_action_path(invoice.booking), method: :post, params: { id: mark_invoice_sent_action.key, invoice_id: invoice.id }, class: 'dropdown-item'
+                            = button_to manage_booking_invoke_action_path(invoice.booking), method: :post, params: { id: mark_invoice_sent_action.key, invoice_id: invoice.id, locale: current_locale }, class: 'dropdown-item'
                               = mark_invoice_sent_action.label
                         - unless invoice.is_a?(Invoices::LateNotice)
                           = link_to new_manage_booking_invoice_path(invoice.booking, invoice: { type: Invoices::LateNotice, supersede_invoice_id: invoice.to_param }), class: 'dropdown-item' do

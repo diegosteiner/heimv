@@ -12,7 +12,7 @@ gem 'bootsnap', require: false
 gem 'bootstrap_form'
 gem 'camt_parser'
 gem 'cancancan'
-gem 'connection_pool'
+gem 'connection_pool', '~> 2.5' # https://github.com/mperham/connection_pool/issues/210
 gem 'countries'
 gem 'country_select'
 gem 'csv'

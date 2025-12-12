@@ -11,7 +11,7 @@ h1.mt-0.mb-5= JournalEntryBatch.model_name.human(count: 2)
       = t('.digest_and_process')
     .dropdown-menu.dropdown-menu-right
       - @data_digest_templates.each do |data_digest_template|
-        = button_to(digest_and_process_manage_journal_entry_batches_path(filter: @filter.attributes, data_digest_template_id: data_digest_template.id), data: { confirm: t(:confirm) }, class: 'dropdown-item')
+        = button_to(digest_and_process_manage_journal_entry_batches_path(filter: @filter.attributes, data_digest_template_id: data_digest_template.id), params: { locale: current_locale }, data: { confirm: t(:confirm) }, class: 'dropdown-item')
           = data_digest_template.label
 
 #filter.modal.fade
@@ -43,10 +43,10 @@ h1.mt-0.mb-5= JournalEntryBatch.model_name.human(count: 2)
             / td= journal_entry_batch.id
             td.p-1
               - if journal_entry_batch.processed? 
-                = button_to manage_journal_entry_batch_path(journal_entry_batch), method: :patch, params: { journal_entry_batch: { processed: false } }, class: 'btn btn-default'
+                = button_to manage_journal_entry_batch_path(journal_entry_batch), method: :patch, params: { journal_entry_batch: { processed: false }, locale: current_locale }, class: 'btn btn-default'
                   span.fa.fa-check-circle.text-success[title=t('.processed_at', at: l(journal_entry_batch.processed_at))]
               - else
-                = button_to manage_journal_entry_batch_path(journal_entry_batch), method: :patch, params: { journal_entry_batch: { processed: true } }, class: 'btn btn-default'
+                = button_to manage_journal_entry_batch_path(journal_entry_batch), method: :patch, params: { journal_entry_batch: { processed: true }, locale: current_locale }, class: 'btn btn-default'
                   span.fa.fa-circle.text-muted[title=t('.unprocessed')]
             td= l(journal_entry_batch.date, format: :default)
             td= entry.soll_account

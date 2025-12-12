@@ -31,8 +31,6 @@
   fieldset.mt-3
     h5.mt-0= Booking.human_attribute_name(:tenant)
 
-    = f.collection_select :tenant_id, current_organisation.tenants.ordered, :id, :to_s, { include_blank: true, hide_label: true }, { disabled: true }
-
     = f.fields_for :tenant, (@booking.tenant || @booking.build_tenant) do |cf|
       = cf.hidden_field :id
       = f.email_field :email, required: false
@@ -104,19 +102,21 @@
       = f.radio_button :editable, true, label: t('activerecord.enums.booking.editable.true'), inline: true
       = f.radio_button :editable, '', label: t('activerecord.enums.booking.editable.auto'), inline: true, checked: @booking.editable.nil?
 
-  fieldset.mt-4
-    h5.mt-0= BookingQuestion.model_name.human(count: 2)
-    = f.fields_for :booking_question_responses, @booking.booking_question_responses.sort_by(&:ordinal) do |bqrf|
-      - response = bqrf.object
-      - question = response.booking_question
-      = bqrf.hidden_field :booking_question_id
-      = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: false }
+  - if  @booking.booking_question_responses.present?
+    fieldset.mt-4
+      h5.mt-0= BookingQuestion.model_name.human(count: 2)
+      = f.fields_for :booking_question_responses, @booking.booking_question_responses.sort_by(&:ordinal) do |bqrf|
+        - response = bqrf.object
+        - question = response.booking_question
+        = bqrf.hidden_field :booking_question_id
+        = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: false }
 
-  fieldset.mt-3
-    h5.mt-0= AgentBooking.model_name.human
-    = f.fields_for :agent_booking do |af|
-      = af.text_field :booking_agent_code
-      = af.text_field :booking_agent_ref
+  - if @booking.agent_booking
+    fieldset.mt-3
+      h5.mt-0= AgentBooking.model_name.human
+      = f.fields_for :agent_booking do |af|
+        = af.text_field :booking_agent_code
+        = af.text_field :booking_agent_ref
 
   .form-actions.pt-4.mt-3
     = f.submit class: 'btn btn-primary'
