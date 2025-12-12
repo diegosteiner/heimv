@@ -4,7 +4,7 @@
     = button_to manage_booking_invoke_action_path(booking, id: action.key), \
       name: :action, value: action.key, \
       method: invokable_with[:prepare] ? :get : :post, \
-      params: invokable_with[:params].presence, \
-      data: { confirm: invokable_with[:confirm], disable_with: label }.compact, \
+      params: { locale: current_locale }.merge(invokable_with[:params].to_h), \
+      data: { confirm: invokable_with[:confirm], disable_with: label, locale: current_locale }.compact, \
       class: defined?(button_class) && (button_class.is_a?(Proc) ? button_class.(invokable_with[:variant].presence || :primary) : button_class)
       = label

@@ -45,11 +45,11 @@ table.table.table-hover.align-middle
         td.py-1.text-end
           .btn-group
             - if notification.deliverable? && notification.sent_at.blank?
-              = button_to manage_notification_path(notification), data: { confirm: t(:confirm) }, params: { deliver: true }, method: :patch, class: 'btn btn-default' do
+              = button_to manage_notification_path(notification), method: :patch,  data: { confirm: t(:confirm) }, params: { deliver: true, locale: current_locale }, class: 'btn btn-default' do
                 span.fa.fa-paper-plane-o
             = link_to manage_notification_path(notification), class: 'btn btn-default' do
               span.fa.fa-eye
             = link_to edit_manage_notification_path(notification), class: 'btn btn-default' do
               span.fa.fa-edit
-            = link_to manage_notification_path(notification), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+            = link_to manage_notification_path(notification), data: { confirm: t(:confirm) }, method: :delete, params: {locale: current_locale}, class: 'btn btn-default' do
               span.fa.fa-trash
