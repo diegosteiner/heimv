@@ -15,8 +15,13 @@ module BookingStates
     infer_transition(to: :declined_request) do |booking|
       booking.deadline&.exceeded?
     end
+
     infer_transition(to: :open_request) do |booking|
       booking.valid?(:public_update) || booking.agent_booking.present?
+    end
+
+    before_transition(to: :declined_request) do |booking|
+      booking.cancellation_reason ||= translate(:deadline_exceeded_cancellation_reason) if booking.deadline&.exceeded?
     end
 
     after_transition do |booking|

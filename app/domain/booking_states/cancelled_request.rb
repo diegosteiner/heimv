@@ -20,8 +20,6 @@ module BookingStates
       MailTemplate.use(:manage_cancelled_request_notification, booking, to: :administration, &:autodeliver!)
       MailTemplate.use(:cancelled_request_notification, booking,
                        to: booking.agent_booking ? :booking_agent : :tenant, &:autodeliver!)
-
-      booking.conflicting_bookings.each(&:apply_transitions)
     end
   end
 end

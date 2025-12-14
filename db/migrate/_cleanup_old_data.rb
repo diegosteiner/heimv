@@ -10,6 +10,6 @@
 #     remove_column :journal_entry_batches, :fragments
 #     remove_table :bookable_extras
 #     remove_table :booked_extras
-#     remove_table :invoice_parts
+#     remove_table :invoice_parts # sind glaube ich schon weg
 #   end
 # end

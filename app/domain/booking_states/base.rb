@@ -51,8 +51,8 @@ module BookingStates
         add_callback(callback_type: :infer, from: to_sym, to:, &)
       end
 
-      def before_transition(from: nil, &)
-        add_callback(callback_type: :before, from:, &)
+      def before_transition(to: nil, &)
+        add_callback(callback_type: :before, from: to_sym, to:, &)
       end
 
       def after_transition(from: nil, &)

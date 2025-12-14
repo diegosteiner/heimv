@@ -13,13 +13,10 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.free!
-      booking.conclude
+      booking.update!(occupancy_type: :free, concluded: true)
       booking.deadline&.clear!
       MailTemplate.use(:declined_request_notification, booking,
                        to: booking.agent_booking ? :booking_agent : :tenant, &:autodeliver!)
-
-      booking.conflicting_bookings.each(&:apply_transitions)
     end
 
     def relevant_time; end
