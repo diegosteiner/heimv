@@ -63,7 +63,7 @@ class BookingQuestion < ApplicationRecord
   end
 
   def required(booking)
-    requiring_conditions.any? || requiring_conditions.all? { it.fullfills?(booking) }
+    requiring_conditions.any? && requiring_conditions.all? { it.fullfills?(booking) }
   end
 
   def self.applying_to_booking(booking)
