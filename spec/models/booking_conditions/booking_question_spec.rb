@@ -24,7 +24,7 @@ RSpec.describe BookingConditions::BookingQuestion do
 
     context 'with a string question' do
       let(:question) do
-        create(:booking_question, type: BookingQuestions::String.to_s, label: 'Test', required: false, organisation:)
+        create(:booking_question, type: BookingQuestions::String.to_s, label: 'Test', organisation:)
       end
 
       before { booking.booking_question_responses.create(booking_question: question, value: 'Hello') }
@@ -51,7 +51,7 @@ RSpec.describe BookingConditions::BookingQuestion do
     context 'with a integer question' do
       let(:question) do
         create(:booking_question, type: BookingQuestions::Integer.to_s, label: 'Test',
-                                  required: false, organisation:)
+                                  organisation:)
       end
 
       before { booking.booking_question_responses.create(booking_question: question, value: 13) }

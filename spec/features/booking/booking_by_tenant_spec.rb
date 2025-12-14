@@ -19,7 +19,8 @@ describe 'Booking by tenant', :devise do
 
   let!(:tarifs) { [deposit_tarifs, invoice_tarifs].flatten }
   let!(:booking_question) do
-    create(:booking_question, organisation:, required: true, type: BookingQuestions::Integer.to_s,
+    create(:booking_question, organisation:, type: BookingQuestions::Integer.to_s,
+                              requiring_conditions: [{ type: BookingConditions::Always.to_s }].to_json,
                               tenant_mode: :provisional_editable, booking_agent_mode: :not_visible)
   end
 

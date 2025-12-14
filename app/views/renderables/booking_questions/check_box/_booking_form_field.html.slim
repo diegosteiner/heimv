@@ -1,5 +1,5 @@
 = form.check_box :value, checked: response.value, \
                          disabled: disabled, \
-                         required: question.required do 
+                         required: question.required(booking) do 
     div= question.label 
     div.text-muted.small= question.description

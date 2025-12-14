@@ -6,7 +6,6 @@
     = f.select :booking_agent_mode, enum_options_for_select(BookingQuestion, :booking_agent_modes, @booking_question.booking_agent_mode), include_blank: true
     = f.text_field :ordinal_position
     = f.text_field :key
-    = f.check_box :required
 
   fieldset
     ul.nav.nav-tabs.mt-4 role="tablist"
@@ -28,6 +27,9 @@
     label= BookingQuestion.human_attribute_name(:applying_conditions)
     = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:applying_conditions), value: @booking_question.applying_conditions }
 
+  fieldset.mt-4#requiring_conditions
+    label= BookingQuestion.human_attribute_name(:requiring_conditions)
+    = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:requiring_conditions), value: @booking_question.requiring_conditions }
 
   .form-actions.pt-4.mt-3
     = f.submit class: 'btn btn-primary'

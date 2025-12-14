@@ -21,7 +21,7 @@ class BookingQuestionResponse < ApplicationRecord
 
   validates :value, length: { maximum: 1000 }
   validate on: %i[public_create public_update] do
-    errors.add(:value, :blank) if booking_question&.required && value.blank?
+    errors.add(:value, :blank) if booking_question&.required(booking) && value.blank?
   end
 
   delegate :ordinal, to: :booking_question, allow_nil: true
