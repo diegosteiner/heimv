@@ -15,8 +15,6 @@ module BookingStates
     after_transition do |booking|
       booking.tentative!
       MailTemplate.use(:waitlisted_request_notification, booking, to: :tenant, &:autodeliver!)
-
-      booking.conflicting_bookings.each(&:apply_transitions)
     end
 
     guard_transition do |booking|

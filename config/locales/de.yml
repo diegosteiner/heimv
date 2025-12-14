@@ -1053,6 +1053,7 @@ de:
       public_info: Deine provisorische Mietanfrage ist bestätigt.
       relevant_time: Frist %{time}
     unconfirmed_request:
+      deadline_exceeded_cancellation_reason: Die E-Mail Adresse wurde nicht fristgerecht bestätigt.
       description: Der Mieter hat seine E-Mail Adresse noch nicht bestätigt, die Anfrage ist noch ungültig.
       label: Mietanfrage (unbestätigt)
       public_info: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
