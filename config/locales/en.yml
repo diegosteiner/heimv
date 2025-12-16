@@ -288,7 +288,7 @@ en:
         key: Schlüssel
         label: Bezeichnung
         ordinal_position: Ordnungsnummer
-        required: Pflichteingabe
+        requiring_conditions: Pflichteingabe Bedingungen
         tenant_mode: Eingabemodus für Mieter
         type: Typ
       booking_question_response:
@@ -926,8 +926,12 @@ en:
       label: Vertragseingang bestätigen
     mark_deposits_paid:
       label: Zahlungseingang bestätigen
+    mark_invoice_sent:
+      label: Rechnung als versendet markieren
     mark_invoices_paid:
       label: Zahlungseingang bestätigen
+    mark_invoices_refunded:
+      label_with_ref: Offener Betrag von %{type} %{ref} rückerstatten
     postpone_deadline:
       label: Frist verlängern
     put_on_waitlist:
@@ -1049,6 +1053,7 @@ en:
       public_info: Deine provisorische Mietanfrage ist bestätigt.
       relevant_time: Frist %{time}
     unconfirmed_request:
+      deadline_exceeded_cancellation_reason: Die E-Mail Adresse wurde nicht fristgerecht bestätigt.
       description: Der Mieter hat seine E-Mail Adresse noch nicht bestätigt, die Anfrage ist noch ungültig.
       label: Mietanfrage (unbestätigt)
       public_info: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.

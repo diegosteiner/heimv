@@ -4,21 +4,22 @@
 #
 # Table name: booking_questions
 #
-#  id                  :bigint           not null, primary key
-#  applying_conditions :jsonb
-#  booking_agent_mode  :integer          default("not_visible")
-#  description_i18n    :jsonb            not null
-#  discarded_at        :datetime
-#  key                 :string
-#  label_i18n          :jsonb            not null
-#  options             :jsonb
-#  ordinal             :integer
-#  required            :boolean          default(FALSE)
-#  tenant_mode         :integer          default("not_visible"), not null
-#  type                :string
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  organisation_id     :bigint           not null
+#  id                   :bigint           not null, primary key
+#  applying_conditions  :jsonb
+#  booking_agent_mode   :integer          default("not_visible")
+#  default_value        :jsonb
+#  description_i18n     :jsonb            not null
+#  discarded_at         :datetime
+#  key                  :string
+#  label_i18n           :jsonb            not null
+#  options              :jsonb
+#  ordinal              :integer
+#  requiring_conditions :jsonb
+#  tenant_mode          :integer          default("not_visible"), not null
+#  type                 :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  organisation_id      :bigint           not null
 #
 class BookingQuestion < ApplicationRecord
   MODES = { not_visible: 0, provisional_editable: 1, always_editable: 2, blank_editable: 3 }.freeze
@@ -39,6 +40,7 @@ class BookingQuestion < ApplicationRecord
   enum :booking_agent_mode, MODES, prefix: :booking_agent, default: :not_visible
 
   attribute :applying_conditions, BookingCondition.one_of.to_array_type, nil: true
+  attribute :requiring_conditions, BookingCondition.one_of.to_array_type, nil: true
 
   scope :ordered, -> { rank(:ordinal) }
   ranks :ordinal, with_same: :organisation_id, class_name: 'BookingQuestion'
@@ -48,10 +50,10 @@ class BookingQuestion < ApplicationRecord
 
   validates :type, presence: true, inclusion: { in: ->(_) { BookingQuestion.subtypes.keys.map(&:to_s) } }
   validates :tenant_mode, :booking_agent_mode, presence: true
-  validates :applying_conditions, store_model: true, allow_nil: true
-  validate { errors.add(:required, :invalid) if required && tenant_not_visible? }
+  validates :applying_conditions, :requiring_conditions, store_model: true, allow_nil: true
 
   accepts_nested_attributes_for :applying_conditions, allow_destroy: true
+  accepts_nested_attributes_for :requiring_conditions, allow_destroy: true
 
   def cast(value)
     ActiveModel::Type::String.new.cast(value)
@@ -59,6 +61,10 @@ class BookingQuestion < ApplicationRecord
 
   def applies_to_booking?(booking)
     applying_conditions.blank? || applying_conditions.all? { it.fullfills?(booking) }
+  end
+
+  def required(booking)
+    requiring_conditions&.any? && requiring_conditions.all? { it.fullfills?(booking) }
   end
 
   def self.applying_to_booking(booking)

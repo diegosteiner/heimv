@@ -282,13 +282,14 @@ de:
         ordinal_position: Ordnungsnummer
         title: Titel
       booking_question:
-        applying_conditions: Bedingungen
+        applying_conditions: Anzeige Bedingungen
         booking_agent_mode: Eingabemodus für Vermittler
+        default_value: Standardwert
         description: Beschreibung
         key: Schlüssel
         label: Bezeichnung
         ordinal_position: Ordnungsnummer
-        required: Pflichteingabe
+        requiring_conditions: Pflichteingabe Bedingungen
         tenant_mode: Eingabemodus für Mieter
         type: Typ
       booking_question_response:
