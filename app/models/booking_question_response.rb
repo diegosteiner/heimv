@@ -62,6 +62,7 @@ class BookingQuestionResponse < ApplicationRecord
       existing_responses.fetch(question.id, booking.booking_question_responses.build).tap do |response|
         response.booking = booking
         response.booking_question = question
+        response.value ||= question.default_value
         next if params.blank? || !response.editable?(role)
 
         response.value = question.cast(params[:value])

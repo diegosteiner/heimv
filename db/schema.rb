@@ -150,6 +150,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
     t.jsonb "applying_conditions"
     t.integer "booking_agent_mode", default: 0
     t.datetime "created_at", null: false
+    t.jsonb "default_value"
     t.jsonb "description_i18n", default: {}, null: false
     t.datetime "discarded_at"
     t.string "key"

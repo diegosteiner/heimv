@@ -7,6 +7,7 @@
 #  id                   :bigint           not null, primary key
 #  applying_conditions  :jsonb
 #  booking_agent_mode   :integer          default("not_visible")
+#  default_value        :jsonb
 #  description_i18n     :jsonb            not null
 #  discarded_at         :datetime
 #  key                  :string
@@ -63,7 +64,7 @@ class BookingQuestion < ApplicationRecord
   end
 
   def required(booking)
-    requiring_conditions.any? && requiring_conditions.all? { it.fullfills?(booking) }
+    requiring_conditions&.any? && requiring_conditions.all? { it.fullfills?(booking) }
   end
 
   def self.applying_to_booking(booking)
