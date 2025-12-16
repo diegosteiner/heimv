@@ -2,9 +2,12 @@
 
 class AddRequiringConditionsToBookingQuestions < ActiveRecord::Migration[8.1]
   def change
-    add_column :booking_questions, :requiring_conditions, :jsonb, null: true
+    change_table :booking_questions do |t|
+      t.jsonb :requiring_conditions, null: true
+      t.jsonb :default_value, null: true
+    end
     migrate_requiring_conditions
-    remove_column :booking_questions, :required, null: true
+    remove_column :booking_questions, :required, :boolean, null: true
   end
 
   def migrate_requiring_conditions

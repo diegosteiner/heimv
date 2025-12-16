@@ -6,6 +6,7 @@
     = f.select :booking_agent_mode, enum_options_for_select(BookingQuestion, :booking_agent_modes, @booking_question.booking_agent_mode), include_blank: true
     = f.text_field :ordinal_position
     = f.text_field :key
+    = f.text_field :default_value
 
   fieldset
     ul.nav.nav-tabs.mt-4 role="tablist"

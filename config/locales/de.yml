@@ -284,6 +284,7 @@ de:
       booking_question:
         applying_conditions: Anzeige Bedingungen
         booking_agent_mode: Eingabemodus für Vermittler
+        default_value: Standardwert
         description: Beschreibung
         key: Schlüssel
         label: Bezeichnung
