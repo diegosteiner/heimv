@@ -733,6 +733,9 @@ de:
       booking_question:
         one: Zusätzliche Angabe
         other: Zusätzliche Angaben
+      booking_questions/country_code:
+        one: Zusätzliche Angabe als Ländercode
+        other:
       booking_questions/check_box:
         one: Zusätzliche Angabe als Checkbox
         other:
