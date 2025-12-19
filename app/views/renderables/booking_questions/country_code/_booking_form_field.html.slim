@@ -1,0 +1,7 @@
+= form.country_select :value, { priority_countries: %w[CH DE FR IT] }, \
+                              label: question.label, \
+                              help: question.description, \ 
+                              value: response.value, \
+                              disabled: disabled, \
+                              class: 'form-control', \
+                              required: question.required(booking)
