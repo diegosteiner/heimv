@@ -51,15 +51,18 @@ class BookingQuestionResponse < ApplicationRecord
 
   class << self
     def process(booking, params = {}, role:)
-      existing_responses = indexed_by_booking_question_id(booking)
       params_by_question_id = params&.to_h&.values&.index_by { it[:booking_question_id]&.to_i } || {}
-      BookingQuestion.applying_to_booking(booking).map do |question|
-        build_response(booking, question, existing_responses, params_by_question_id[question.id], role:)
-      end
+
+      Array.new(2) do # Needs to passes the resolve dependencies on other responses
+        existing_responses = indexed_by_booking_question_id(booking)
+        BookingQuestion.applying_to_booking(booking).map do |question|
+          build_response(booking, question, existing_responses, params_by_question_id[question.id], role:)
+        end
+      end.last
     end
 
     def build_response(booking, question, existing_responses, params = {}, role: nil)
-      existing_responses.fetch(question.id, booking.booking_question_responses.build).tap do |response|
+      (existing_responses[question.id] || booking.booking_question_responses.build).tap do |response|
         response.booking = booking
         response.booking_question = question
         response.value ||= question.default_value

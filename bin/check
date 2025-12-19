@@ -5,8 +5,6 @@ yarn run check:lint || exit 1
 yarn run check:types || exit 1
 bin/rspec ./spec --tag ~@type:feature || exit 1
 bundle exec i18n-tasks normalize -p
-sed -Ei "s/'(.+)''(.+)'/\"\1'\2\"/g" config/locales/fr.yml
-sed -Ei "s/'(.+)''(.+)'/\"\1'\2\"/g" config/locales/it.yml
 bundle exec i18n-tasks health de || exit 1
 bundle exec i18n-tasks health > /dev/null
 bin/rspec ./spec --tag @type:feature --fail-fast || exit 1
