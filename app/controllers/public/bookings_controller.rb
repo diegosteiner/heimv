@@ -48,7 +48,7 @@ module Public
     private
 
     def set_booking
-      @booking = current_organisation.bookings.find_by!(token: params[:id])
+      @booking = current_organisation.bookings.find_by!(token: params[:id], concluded: false)
     end
 
     def write_booking_log
