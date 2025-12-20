@@ -11,7 +11,7 @@ module BookingConditions
     validates :compare_operator, :compare_attribute, presence: true
 
     def evaluate!(booking)
-      actual_response = booking.booking_question_responses.includes(:booking_question).to_a.first do
+      actual_response = booking.booking_question_responses.includes(:booking_question).to_a.find do
         it.booking_question_id == booking_question
       end
       actual_value = actual_response&.value
