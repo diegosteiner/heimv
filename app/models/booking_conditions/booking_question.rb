@@ -11,8 +11,10 @@ module BookingConditions
     validates :compare_operator, :compare_attribute, presence: true
 
     def evaluate!(booking)
+      return nil if booking_question.blank?
+
       actual_response = booking.booking_question_responses.includes(:booking_question).to_a.find do
-        it.booking_question_id == booking_question
+        it.booking_question_id == booking_question&.id
       end
       actual_value = actual_response&.value
       cast_compare_value = booking_question&.cast(compare_value)
