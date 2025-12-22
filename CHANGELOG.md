@@ -1,5 +1,14 @@
 # Changelog
 
+## 25.12.2
+
+Released 23.12.2025 🎄
+
+- Feature: Add new booking question for country codes
+- Feature: Add condition for booking questions required
+- Feature: Add default value for booking questions
+- Fix: Validate booking question condition correctly
+
 ## 25.12.1
 
 Released 04.12.2025
