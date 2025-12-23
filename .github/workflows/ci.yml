@@ -23,13 +23,11 @@ jobs:
 
       - name: update version
         run: |
-          if [ "${GITHUB_REF_TYPE}" == "tag" ]; then
-            echo "${GITHUB_REF_NAME}" > VERSION
-          else
-            ref=$(echo ${GITHUB_REF#refs/heads/})
-            sha=$(echo ${GITHUB_SHA} | cut -c1-7)
-            echo " ${ref}@${sha}" >> VERSION
-          fi
+          export VERSION="$(cat ./VERSION)"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          ref=$(echo ${GITHUB_REF#refs/heads/})
+          sha=$(echo ${GITHUB_SHA} | cut -c1-7)
+          echo " ${ref}@${sha}" >> ./VERSION
 
       - name: docker build
         run: |
@@ -76,20 +74,14 @@ jobs:
 
       - if: github.event_name != 'pull_request'
         name: push image
-        env:
-          IMAGE_TAG: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
         run: |
-          export VERSION="${{ github.ref_name }}"
-          export IMAGE_TAG="ghcr.io/${{ github.repository }}:$VERSION"
+          export IMAGE_TAG="ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
           docker tag heimv-e2e_target $IMAGE_TAG
           docker push $IMAGE_TAG
 
       - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         name: push image
         run: |
-          export VERSION="$(cat ./VERSION)"
-          echo $VERSION
           export IMAGE_TAG="ghcr.io/${{ github.repository }}:$VERSION"
-          echo $IMAGE_TAG
           docker tag heimv-e2e_target "$IMAGE_TAG"
           docker push $IMAGE_TAG
