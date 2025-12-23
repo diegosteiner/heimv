@@ -87,9 +87,9 @@ jobs:
       - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         name: push image
         run: |
-          export VERSION="$(cat VERSION)"
-          echo VERSION
-          ls -al
+          export VERSION="$(cat ./VERSION)"
+          echo $VERSION
           export IMAGE_TAG="ghcr.io/${{ github.repository }}:$VERSION"
-          docker tag heimv-e2e_target $IMAGE_TAG
+          echo $IMAGE_TAG
+          docker tag heimv-e2e_target "$IMAGE_TAG"
           docker push $IMAGE_TAG
