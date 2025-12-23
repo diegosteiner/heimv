@@ -88,6 +88,8 @@ jobs:
         name: push image
         run: |
           export VERSION="$(cat VERSION)"
+          echo VERSION
+          ls -al
           export IMAGE_TAG="ghcr.io/${{ github.repository }}:$VERSION"
           docker tag heimv-e2e_target $IMAGE_TAG
           docker push $IMAGE_TAG
