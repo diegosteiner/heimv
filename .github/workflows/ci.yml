@@ -79,7 +79,8 @@ jobs:
         env:
           IMAGE_TAG: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
         run: |
-          export IMAGE_TAG="ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+          export VERSION="${{ github.ref_name }}"
+          export IMAGE_TAG="ghcr.io/${{ github.repository }}:$VERSION"
           docker tag heimv-e2e_target $IMAGE_TAG
           docker push $IMAGE_TAG
 
@@ -87,6 +88,6 @@ jobs:
         name: push image
         run: |
           export VERSION="$(cat VERSION)"
-          export IMAGE_TAG="ghcr.io/${{ github.repository }}:${VERSION}"
+          export IMAGE_TAG="ghcr.io/${{ github.repository }}:$VERSION"
           docker tag heimv-e2e_target $IMAGE_TAG
           docker push $IMAGE_TAG
