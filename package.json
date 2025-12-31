@@ -39,7 +39,7 @@
     "vite": "^5.0.0",
     "vite-plugin-rails": "^0.5.0",
     "vite-plugin-ruby": "^5.1.0",
-    "yaml-loader": "^0.8.0"
+    "yaml-loader": "^0.9.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.4",
