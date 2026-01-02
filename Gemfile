@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.4.8'
+ruby '4.0.0'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
@@ -12,7 +12,7 @@ gem 'bootsnap', require: false
 gem 'bootstrap_form'
 gem 'camt_parser'
 gem 'cancancan'
-gem 'connection_pool', '~> 2.5' # https://github.com/mperham/connection_pool/issues/210
+gem 'connection_pool', '~> 3.0' # https://github.com/mperham/connection_pool/issues/210
 gem 'countries'
 gem 'country_select'
 gem 'csv'
