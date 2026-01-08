@@ -51,10 +51,10 @@ describe Export::Taf::Blocks::Batch, type: :model do
 
           {OPd
             PkKey=200002
-            OpId=250001
+            OpId=#{invoice.ref}
             ZabId="15T"
-            Ref="200002202500001"
-            Text="Rechnung 250001 #{booking.ref}"
+            Ref="#{invoice.payment_ref}"
+            Text="Rechnung #{invoice.ref} #{booking.ref}"
 
           }
 
@@ -65,11 +65,11 @@ describe Export::Taf::Blocks::Batch, type: :model do
             {Bk
               AccId=1050
               Date=27.12.2024
-              Text="Rechnung 250001 #{booking.ref}"
+              Text="Rechnung #{invoice.ref} #{booking.ref}"
               Type=0
               ValNt=720.00
               PkKey=200002
-              OpId=250001
+              OpId=#{invoice.ref}
               Flags=1
 
             }
@@ -78,7 +78,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=6000
               Date=27.12.2024
               TaxId="VAT50"
-              Text="Rechnung 250001: Preis pro Übernachtung"
+              Text="Rechnung #{invoice.ref}: Preis pro Übernachtung"
               Type=1
               ValNt=480.00
               ValTx=240.00
@@ -92,7 +92,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=9001
               BType=1
               Date=27.12.2024
-              Text="Rechnung 250001: Preis pro Übernachtung"
+              Text="Rechnung #{invoice.ref}: Preis pro Übernachtung"
               Type=1
               ValNt=480.00
               CAcc=6000
@@ -104,7 +104,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               BType=2
               CAcc=1050
               Date=27.12.2024
-              Text="Rechnung 250001: Preis pro Übernachtung"
+              Text="Rechnung #{invoice.ref}: Preis pro Übernachtung"
               Type=1
               ValNt=240.00
               ValTx=480.00
@@ -148,10 +148,10 @@ describe Export::Taf::Blocks::Batch, type: :model do
 
           {OPd
             PkKey=200002
-            OpId=250002
+            OpId=#{invoice.ref}
             ZabId="15T"
-            Ref="200002202500002"
-            Text="Rechnung 250002 #{booking.ref}"
+            Ref="#{invoice.payment_ref}"
+            Text="Rechnung #{invoice.ref} #{booking.ref}"
 
           }
 
@@ -162,11 +162,11 @@ describe Export::Taf::Blocks::Batch, type: :model do
             {Bk
               AccId=1050
               Date=30.09.2025
-              Text="Rechnung 250002 #{booking.ref}"
+              Text="Rechnung #{invoice.ref} #{booking.ref}"
               Type=0
               ValNt=50.00
               PkKey=200002
-              OpId=250002
+              OpId=#{invoice.ref}
               Flags=1
 
             }
@@ -175,7 +175,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=2016
               Date=30.09.2025
               TaxId="KT0"
-              Text="Rechnung 250002: Kurtaxe (MwSt. befreit)"
+              Text="Rechnung #{invoice.ref}: Kurtaxe (MwSt. befreit)"
               Type=1
               ValNt=50.00
               ValTx=0.00
@@ -189,7 +189,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               BType=2
               CAcc=1050
               Date=30.09.2025
-              Text="Rechnung 250002: Kurtaxe (MwSt. befreit)"
+              Text="Rechnung #{invoice.ref}: Kurtaxe (MwSt. befreit)"
               Type=1
               ValNt=0.00
               ValTx=50.00
@@ -228,11 +228,11 @@ describe Export::Taf::Blocks::Batch, type: :model do
             {Bk
               AccId=1050
               Date=#{date}
-              Text="Rechnung 250001 #{booking.ref}"
+              Text="Rechnung #{invoice.ref} #{booking.ref}"
               Type=1
               ValNt=720.00
               PkKey=200002
-              OpId=250001
+              OpId=#{invoice.ref}
 
             }
 
@@ -240,7 +240,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=6000
               Date=#{date}
               TaxId="VAT50"
-              Text="Rechnung 250001: Preis pro Übernachtung"
+              Text="Rechnung #{invoice.ref}: Preis pro Übernachtung"
               Type=0
               ValNt=480.00
               ValTx=240.00
@@ -254,7 +254,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=9001
               BType=1
               Date=#{date}
-              Text="Rechnung 250001: Preis pro Übernachtung"
+              Text="Rechnung #{invoice.ref}: Preis pro Übernachtung"
               Type=0
               ValNt=480.00
               CAcc=6000
@@ -266,7 +266,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               BType=2
               CAcc=1050
               Date=#{date}
-              Text="Rechnung 250001: Preis pro Übernachtung"
+              Text="Rechnung #{invoice.ref}: Preis pro Übernachtung"
               Type=0
               ValNt=240.00
               ValTx=480.00
@@ -280,11 +280,11 @@ describe Export::Taf::Blocks::Batch, type: :model do
             {Bk
               AccId=1050
               Date=#{date}
-              Text="Rechnung 250001 #{booking.ref}"
+              Text="Rechnung #{invoice.ref} #{booking.ref}"
               Type=0
               ValNt=1440.00
               PkKey=200002
-              OpId=250001
+              OpId=#{invoice.ref}
 
             }
 
@@ -292,7 +292,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=6000
               Date=#{date}
               TaxId="VAT50"
-              Text="Rechnung 250001: Preis pro Übernachtung"
+              Text="Rechnung #{invoice.ref}: Preis pro Übernachtung"
               Type=1
               ValNt=960.00
               ValTx=480.00
@@ -306,7 +306,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               AccId=9001
               BType=1
               Date=#{date}
-              Text="Rechnung 250001: Preis pro Übernachtung"
+              Text="Rechnung #{invoice.ref}: Preis pro Übernachtung"
               Type=1
               ValNt=960.00
               CAcc=6000
@@ -318,7 +318,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
               BType=2
               CAcc=1050
               Date=#{date}
-              Text="Rechnung 250001: Preis pro Übernachtung"
+              Text="Rechnung #{invoice.ref}: Preis pro Übernachtung"
               Type=1
               ValNt=480.00
               ValTx=960.00

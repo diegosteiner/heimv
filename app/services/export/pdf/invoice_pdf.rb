@@ -44,7 +44,7 @@ module Export
 
         font_size(9) do
           text "#{::Invoice.human_attribute_name(:ref)}: #{invoice.ref}" if invoice.ref.present?
-          text "#{::Invoice.human_attribute_name(:sent_at)}: #{I18n.l(invoice.sent_at&.to_date || Time.zone.today)}"
+          text "#{::Invoice.human_attribute_name(:issued_at)}: #{I18n.l(invoice.issued_at&.to_date || Time.zone.today)}"
           if invoice.payable_until
             text "#{::Invoice.human_attribute_name(:payable_until)}: #{I18n.l(invoice.payable_until.to_date)}"
           end
