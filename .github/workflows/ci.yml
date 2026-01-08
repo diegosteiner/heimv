@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       COMPOSE_PROJECT_NAME: heimv
-      IMAGE_TAG: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
     steps:
       - name: checkout
         uses: actions/checkout@v5
@@ -24,13 +23,11 @@ jobs:
 
       - name: update version
         run: |
-          if [ "${GITHUB_REF_TYPE}" == "tag" ]; then
-            echo "${GITHUB_REF_NAME}" > VERSION
-          else
-            ref=$(echo ${GITHUB_REF#refs/heads/})
-            sha=$(echo ${GITHUB_SHA} | cut -c1-7)
-            echo " ${ref}@${sha}" >> VERSION
-          fi
+          export VERSION="$(cat ./VERSION)"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          ref=$(echo ${GITHUB_REF#refs/heads/})
+          sha=$(echo ${GITHUB_SHA} | cut -c1-7)
+          echo " ${ref}@${sha}" >> ./VERSION
 
       - name: docker build
         run: |
@@ -39,7 +36,7 @@ jobs:
 
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run --rm e2e_test bin/check_ci
-      
+
       - name: prepare e2e specs
         run: |
           docker compose --file docker-compose.ci.yml up -d e2e_target
@@ -52,7 +49,7 @@ jobs:
 
       - if: failure()
         name: prepare artifacts
-        run: | 
+        run: |
           mkdir -p artifacts
           docker compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
           docker cp $(docker compose --file docker-compose.ci.yml ps -qa e2e_test | tail -n1):/rails/tmp/capybara ./artifacts/
@@ -74,9 +71,17 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - if: github.event_name != 'pull_request'
         name: push image
         run: |
+          export IMAGE_TAG="ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
           docker tag heimv-e2e_target $IMAGE_TAG
+          docker push $IMAGE_TAG
+
+      - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        name: push image
+        run: |
+          export IMAGE_TAG="ghcr.io/${{ github.repository }}:$VERSION"
+          docker tag heimv-e2e_target "$IMAGE_TAG"
           docker push $IMAGE_TAG

@@ -42,7 +42,7 @@ RSpec.describe JournalEntryBatches::Invoice do
     it 'builds batch with entries' do
       is_expected.to be_valid
       # prepaid amount does not create another journal_entry
-      is_expected.to have_attributes(date: Date.new(2024, 12, 27), ref: '250001', amount: 720.0)
+      is_expected.to have_attributes(date: Date.new(2024, 12, 27), ref: invoice.ref, amount: 720.0)
       expect(journal_entry_batch.entries).to contain_exactly(
         # have_attributes(soll_account: '1050', haben_account: '6000', amount: -300.0, cost_center: '9001',
         #                 vat_category_id: vat_category.id, vat_amount: -100.0),

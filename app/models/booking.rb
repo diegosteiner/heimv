@@ -291,14 +291,11 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   # if `occupiable_ids =` or `occupiable_ids <<` is called on a persisted booking, it will raise
-  # validation errors even before `save` is called (see gems/activerecord-8.0.3/lib/active_record/associations/has_many_through_association.rb:40)
-  # to fix we build the records ourselves
+  # validation errors even before `save` is called (see https://github.com/rails/rails/issues/32276)
   def occupiable_ids=(value)
-    return super if new_record? # rubocop:disable Lint/ReturnInVoidContext
-
-    self.occupancies = Array.wrap(value).filter_map do |occupiable_id|
-      Occupancy.find_or_initialize_by(booking_id: id, occupiable_id:)
-    end
+    super
+  rescue ActiveRecord::RecordInvalid
+    false
   end
 
   private
