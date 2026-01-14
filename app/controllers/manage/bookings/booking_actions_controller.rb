@@ -32,6 +32,7 @@ module Manage
         error = BookingActions::Base::NotInvokable.new(result&.error)
         ExceptionNotifier.notify_exception(error, data: {
                                              organisation: current_organisation.slug,
+                                             error: result&.error,
                                              booking_id: @booking.id,
                                              booking_action: booking_action,
                                              booking_action_params: booking_action_params
