@@ -187,7 +187,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def email
-    super || tenant&.email
+    tenant&.email || super
   end
 
   def tenant
