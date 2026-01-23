@@ -81,6 +81,7 @@ FactoryBot.define do
       Booking::StateTransition.initial_for(booking, evaluator.initial_state)
       booking.booking_flow.current_state(force_reload: true)
       booking.apply_transitions
+      booking.touch # rubocop:disable Rails/SkipsModelValidations
     end
 
     trait :invoiced do
