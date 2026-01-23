@@ -110,11 +110,12 @@ class Tarif < ApplicationRecord
     (presumed_units_prefill_factor(usage).presence || 1) * (presumed_units_question_factor(usage).presence || 1)
   end
 
-  def breakdown(usage)
+  def breakdown(usage) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     key ||= :minimum if usage.minimum_price?
     key ||= :default
+    minimum = minimum_price(usage)&.last
     I18n.t(key, scope: 'invoice_items.breakdown', unit:,
-                minimum: minimum_price(usage),
+                minimum: (minimum && number_to_rounded(minimum, precision: 2)) || nil,
                 used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
                 price_per_unit: number_to_currency(usage.price_per_unit.presence || 0, unit: organisation.currency))
   end
