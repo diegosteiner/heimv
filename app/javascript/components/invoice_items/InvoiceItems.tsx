@@ -1,7 +1,10 @@
+import type { DragEndEvent } from "@dnd-kit/core";
+import { DndContext, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import * as React from "react";
 import { Dropdown } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { ReactSortable } from "react-sortablejs";
 import { v4 as uuidv4 } from "uuid";
 import type { VatCategory } from "../../models/VatCategory";
 import { underscorize } from "../../services/i18n";
@@ -33,32 +36,37 @@ export default function InvoiceItems({ value, name, disabled, optionsForSelect }
   const handleChange = (changedItem: InvoiceItem) =>
     !disabled && setItems((prev) => prev.map((prevItem) => (prevItem.id === changedItem.id ? changedItem : prevItem)));
 
+  const sensors = useSensors(useSensor(PointerSensor));
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (active.id && over?.id && active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.findIndex((i) => i.id === active.id);
+        const newIndex = items.findIndex((i) => i.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
   return (
     <div className="mb-3">
-      <ReactSortable
-        tag="ol"
-        className="mb-3 list-unstyled"
-        list={Array.from(items)}
-        setList={setItems}
-        handle=".sortable-handle"
-      >
-        {Array.from(items).map((item, index) => (
-          <li key={item.id} className="py-1">
-            <InvoiceItemElement
-              optionsForSelect={optionsForSelect}
-              namePrefix={`${name}[${index}]`}
-              item={item}
-              onChange={handleChange}
-              onRemove={handleRemove}
-            />
-          </li>
-        ))}
-      </ReactSortable>
-      {/* <div className="row">
-        <div className="col-lg-2 offset-lg-9 py-2 px-4 text-end border-top">
-          {items.reduce((sum, item) => sum + +(item.amount || 0), 0).toFixed(2)}
-        </div>
-      </div> */}
+      <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={handleDragEnd}>
+        <SortableContext items={items.map((i) => i.id).filter(Boolean)} strategy={verticalListSortingStrategy}>
+          <ol className="mb-3 list-unstyled">
+            {items.map((item, index) =>
+              item.id ? (
+                <InvoiceItemElement
+                  key={item.id}
+                  optionsForSelect={optionsForSelect}
+                  namePrefix={`${name}[${index}]`}
+                  item={item}
+                  onChange={handleChange}
+                  onRemove={handleRemove}
+                />
+              ) : null,
+            )}
+          </ol>
+        </SortableContext>
+      </DndContext>
       <Dropdown onSelect={(eventKey) => !disabled && handleAdd(eventKey as InvoiceItemType)}>
         <Dropdown.Toggle variant="secondary">
           {t("add_record", { model_name: t("activemodel.models.invoice/item.one") })}
