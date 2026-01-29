@@ -196,7 +196,7 @@ function ColumnConfigForm({ config, onUpdate, onRemove, options }: ColumnConfigF
           <span className="fa fa-bars" />
         </Col>
         <Col>
-          <Row className="row-gap-2">
+          <Row className="mt-3 row-gap-2">
             <Col md={6}>
               <FloatingLabel label="Header">
                 <Form.Control
@@ -215,8 +215,12 @@ function ColumnConfigForm({ config, onUpdate, onRemove, options }: ColumnConfigF
                 />
               </FloatingLabel>
             </Col>
-            <Col md={12}>{typeSpecificComponents[config.type]?.(config)}</Col>
           </Row>
+          {typeSpecificComponents[config.type] && (
+            <Row className="mt-2">
+              <Col md={12}>{typeSpecificComponents[config.type](config)}</Col>
+            </Row>
+          )}
         </Col>
         <Col md={1} className="align-self-center">
           <div className="btn-group">

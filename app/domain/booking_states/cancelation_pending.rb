@@ -6,7 +6,7 @@ module BookingStates
     use_mail_template(:manage_cancelation_pending_notification, context: %i[booking], optional: true)
 
     def checklist
-      BookingStateChecklistItem.prepare(:invoices_settled, booking:)
+      BookingStateChecklistItem.prepare(booking, :invoices_settled)
     end
 
     def self.to_sym
