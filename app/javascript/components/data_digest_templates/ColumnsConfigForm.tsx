@@ -178,8 +178,8 @@ function ColumnConfigForm({ config, onUpdate, onRemove, options }: ColumnConfigF
           }
         >
           <option />
-          {options?.tarifs &&
-            Object.entries(options.tarifs).map(([id, label]) => (
+          {options?.bookingQuestions &&
+            Object.entries(options.bookingQuestions).map(([id, label]) => (
               <option key={id} value={id}>
                 {label}
               </option>
