@@ -16,7 +16,7 @@ gem 'connection_pool', '~> 2.5' # https://github.com/mperham/connection_pool/iss
 gem 'countries'
 gem 'country_select'
 gem 'csv'
-gem 'devise'
+gem 'devise', '~> 4.9.4'
 gem 'devise_invitable'
 gem 'discard'
 gem 'dry-schema'

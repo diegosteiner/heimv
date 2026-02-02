@@ -18,9 +18,14 @@
 
 class RichTextTemplate < ApplicationRecord
   InterpolationResult = Struct.new(:title, :body, :locale)
-  InvalidDefinition = Class.new(StandardError)
-  InvalidContext = Class.new(StandardError)
-  NoTemplate = Class.new(StandardError)
+  class InvalidDefinition < StandardError
+  end
+
+  class InvalidContext < StandardError
+  end
+
+  class NoTemplate < StandardError
+  end
 
   extend Mobility
   extend Translatable
