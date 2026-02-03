@@ -740,7 +740,7 @@ DEPENDENCIES
   vite_rails
 
 RUBY VERSION
-   ruby 4.0.1p0
+  ruby 4.0.1p0
 
 BUNDLED WITH
-   2.6.2
+  4.0.5
