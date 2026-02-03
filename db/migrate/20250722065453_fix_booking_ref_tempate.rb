@@ -8,8 +8,8 @@ class FixBookingRefTempate < ActiveRecord::Migration[8.0]
 
     Organisation.where(Organisation.arel_table[:booking_ref_template].matches('%<same_day_alpha>s%'))
                 .find_each do |organisation|
-      organisation.booking_ref_template.gsub!('<same_day_alpha>s', '<same_ref_alpha>s')
-      organisation.save
+                  organisation.booking_ref_template.gsub!('<same_day_alpha>s', '<same_ref_alpha>s')
+                  organisation.save
     end
   end
 end
