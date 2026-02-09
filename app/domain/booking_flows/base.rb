@@ -5,7 +5,8 @@ module BookingFlows
     extend TemplateRenderable
     include Statesman::Machine
 
-    CircularTransitionError = Class.new(StandardError)
+    class CircularTransitionError < StandardError
+    end
 
     class << self
       def state_classes

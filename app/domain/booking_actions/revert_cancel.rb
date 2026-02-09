@@ -25,7 +25,7 @@ module BookingActions
     end
 
     def invokable_with(current_user: nil)
-      { variant: :danger, confirm: I18n.t(:confirm) } if invokable?(current_user:)
+      { variant: :danger, confirm: I18n.t(:confirm), disabled: booking.conflicting? } if invokable?(current_user:)
     end
   end
 end

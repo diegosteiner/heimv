@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 describe 'Session', :devise do
   let(:organisation_user) { create(:organisation_user, :manager) }
   let(:user) { organisation_user.user }

@@ -149,7 +149,7 @@ class Organisation < ApplicationRecord
 
     return if original.logo.blank?
 
-    file.attach(io: StringIO.new(original.logo.download),
+    logo.attach(io: StringIO.new(original.logo.download),
                 filename: original.logo.filename,
                 content_type: original.logo.content_type)
   end

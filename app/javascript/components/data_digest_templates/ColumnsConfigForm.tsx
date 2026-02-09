@@ -1,8 +1,12 @@
+import type { DragEndEvent } from "@dnd-kit/core";
+import { DndContext, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import type * as React from "react";
 import { useState } from "react";
 import { Col, Dropdown, FloatingLabel, Form, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { ReactSortable } from "react-sortablejs";
 import { v4 as uuidv4 } from "uuid";
 
 enum ColumnConfigType {
@@ -68,22 +72,44 @@ export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig,
   const handleAdd = (type: string) =>
     isColumnConfigType(type) && setColumnsConfig((prev) => [...prev, { type, body: "", header: "", id: uuidv4() }]);
 
+  const sensors = useSensors(useSensor(PointerSensor));
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (active.id && over?.id && active.id !== over.id) {
+      setColumnsConfig((items) => {
+        const oldIndex = items.findIndex((i) => i.id === active.id);
+        const newIndex = items.findIndex((i) => i.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
   return (
     <Form.Group className="mb-3">
       <Form.Label className="mb-2">{t("activerecord.attributes.data_digest_template.columns_config")}</Form.Label>
-      <ReactSortable
-        tag="ol"
-        className="list-unstyled mb-3"
-        list={columnsConfig}
-        setList={setColumnsConfig}
-        handle=".sortable-handle"
-      >
-        {columnsConfig.map((config) => (
-          <li key={config.id} className="list-group-item">
-            <ColumnConfigForm config={config} onRemove={handleRemove} onUpdate={handleUpdate} options={options} />
-          </li>
-        ))}
-      </ReactSortable>
+      <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={handleDragEnd}>
+        <SortableContext
+          items={columnsConfig
+            .map((c) => c.id)
+            .filter(Boolean)
+            .filter(Boolean)}
+          strategy={verticalListSortingStrategy}
+        >
+          <ol className="list-unstyled mb-3">
+            {columnsConfig.map(
+              (config) =>
+                config.id && (
+                  <ColumnConfigForm
+                    key={config.id}
+                    config={config}
+                    onRemove={handleRemove}
+                    onUpdate={handleUpdate}
+                    options={options}
+                  />
+                ),
+            )}
+          </ol>
+        </SortableContext>
+      </DndContext>
       <Dropdown onSelect={(eventKey) => handleAdd(eventKey as ColumnConfigType)}>
         <Dropdown.Toggle variant="secondary">
           {t("add_record", { model_name: t("activerecord.attributes.data_digest_template.columns_config") })}
@@ -96,7 +122,6 @@ export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig,
           ))}
         </Dropdown.Menu>
       </Dropdown>
-
       <Form.Control className="d-none" name={name} as="textarea" readOnly value={toJson(columnsConfig)} />
     </Form.Group>
   );
@@ -111,6 +136,20 @@ type ColumnConfigFormProps = {
 };
 
 function ColumnConfigForm({ config, onUpdate, onRemove, options }: ColumnConfigFormProps) {
+  const {
+    attributes: draggableAttributes,
+    listeners: draggableListeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: config.id });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
   const typeSpecificComponents: Record<ColumnConfigType, (config: ColumnConfig) => React.ReactElement> = {
     [ColumnConfigType.Default]: (_config) => <></>,
     [ColumnConfigType.Costs]: (_config) => <></>,
@@ -139,8 +178,8 @@ function ColumnConfigForm({ config, onUpdate, onRemove, options }: ColumnConfigF
           }
         >
           <option />
-          {options?.tarifs &&
-            Object.entries(options.tarifs).map(([id, label]) => (
+          {options?.bookingQuestions &&
+            Object.entries(options.bookingQuestions).map(([id, label]) => (
               <option key={id} value={id}>
                 {label}
               </option>
@@ -151,40 +190,46 @@ function ColumnConfigForm({ config, onUpdate, onRemove, options }: ColumnConfigF
   };
 
   return (
-    <Row className="row-gap-2">
-      <Col md={1} className="sortable-handle align-self-center">
-        <span className="fa fa-bars" />
-      </Col>
-      <Col>
-        <Row className="row-gap-2">
-          <Col md={6}>
-            <FloatingLabel label="Header">
-              <Form.Control
-                type="text"
-                defaultValue={config.header}
-                onChange={(event) => onUpdate({ ...config, header: event.target.value })}
-              />
-            </FloatingLabel>
-          </Col>
-          <Col md={6}>
-            <FloatingLabel label="Body">
-              <Form.Control
-                type="text"
-                defaultValue={config.body}
-                onChange={(event) => onUpdate({ ...config, body: event.target.value })}
-              />
-            </FloatingLabel>
-          </Col>
-          <Col md={12}>{typeSpecificComponents[config.type]?.(config)}</Col>
-        </Row>
-      </Col>
-      <Col md={1} className="align-self-center">
-        <div className="btn-group">
-          <button type="button" className="btn btn-default" onClick={() => onRemove(config)}>
-            <span className="fa fa-trash" />
-          </button>
-        </div>
-      </Col>
-    </Row>
+    <li ref={setNodeRef} style={style} {...draggableAttributes} className="list-group-item">
+      <Row className="row-gap-2">
+        <Col ref={setActivatorNodeRef} {...draggableListeners} md={1} className="align-self-center">
+          <span className="fa fa-bars" />
+        </Col>
+        <Col>
+          <Row className="mt-3 row-gap-2">
+            <Col md={6}>
+              <FloatingLabel label="Header">
+                <Form.Control
+                  type="text"
+                  defaultValue={config.header}
+                  onChange={(event) => onUpdate({ ...config, header: event.target.value })}
+                />
+              </FloatingLabel>
+            </Col>
+            <Col md={6}>
+              <FloatingLabel label="Body">
+                <Form.Control
+                  type="text"
+                  defaultValue={config.body}
+                  onChange={(event) => onUpdate({ ...config, body: event.target.value })}
+                />
+              </FloatingLabel>
+            </Col>
+          </Row>
+          {typeSpecificComponents[config.type] && (
+            <Row className="mt-2">
+              <Col md={12}>{typeSpecificComponents[config.type](config)}</Col>
+            </Row>
+          )}
+        </Col>
+        <Col md={1} className="align-self-center">
+          <div className="btn-group">
+            <button type="button" className="btn btn-default" onClick={() => onRemove(config)}>
+              <span className="fa fa-trash" />
+            </button>
+          </div>
+        </Col>
+      </Row>
+    </li>
   );
 }

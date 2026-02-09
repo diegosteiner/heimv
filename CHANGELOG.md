@@ -1,5 +1,11 @@
 # Changelog
 
+## 26.2.1
+
+Released 02.02.2026
+
+- Fix: Fix some minor errors and Ohas
+
 ## 26.1.1
 
 Released 08.01.2026

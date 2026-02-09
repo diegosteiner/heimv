@@ -1,3 +1,5 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { useCallback, useState } from "react";
 import { Button, FloatingLabel, Modal } from "react-bootstrap";
 import Col from "react-bootstrap/esm/Col";
@@ -68,114 +70,50 @@ export default function InvoiceItemElement({
   const vatCategory =
     item.vat_category_id &&
     optionsForSelect.vatCategories.find((it) => it.id.toString() === item.vat_category_id?.toString());
+  const {
+    attributes: draggableAttributes,
+    listeners: draggableListeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
 
   return (
-    <Row>
-      <Col md={1} className="sortable-handle align-items-center d-flex">
-        <span className="fa fa-bars" />
-        {item.errors && Object.keys(item.errors).length > 0 && (
-          <span className="fa fa-exclamation-circle text-danger fs-5 ms-3" />
-        )}
-        {item.suggested && (
-          <span
-            title={t("activemodel.attributes.invoice/item.suggested")}
-            className="fa fa-lightbulb-o ms-3 text-warning fs-4"
-          />
-        )}
-        <input type="hidden" name={`${namePrefix}[id]`} value={item.id} />
-        <input type="hidden" name={`${namePrefix}[type]`} value={item.type} />
-        <input type="hidden" name={`${namePrefix}[usage_id]`} value={item.usage_id} />
-        <input type="hidden" name={`${namePrefix}[deposit_id]`} value={item.deposit_id} />
-        <input type="hidden" name={`${namePrefix}[accounting_account_nr]`} value={item.accounting_account_nr || ""} />
-        <input
-          type="hidden"
-          name={`${namePrefix}[accounting_cost_center_nr]`}
-          value={item.accounting_cost_center_nr || ""}
-        />
-        <input type="hidden" name={`${namePrefix}[vat_category_id]`} value={item.vat_category_id || ""} />
-        {item.suggested && <input type="hidden" name={`${namePrefix}[suggested]`} value="1" />}
-      </Col>
-      <Form.Group className="col-md-3 py-1">
-        <FloatingLabel label={t("activemodel.attributes.invoice/item.label")}>
-          <Form.Control
-            type="text"
-            name={`${namePrefix}[label]`}
-            required
-            value={item.label || ""}
-            onChange={(event) => handleChange({ label: event.target.value })}
-          />
-        </FloatingLabel>
-      </Form.Group>
-      <Form.Group className="col-lg-5 col-md-3 py-1">
-        {nonTextItemType && (
-          <FloatingLabel label={t("activemodel.attributes.invoice/item.breakdown")}>
-            <Form.Control
-              type="text"
-              required
-              value={item.breakdown || ""}
-              name={`${namePrefix}[breakdown]`}
-              onChange={(event) => handleChange({ breakdown: event.target.value })}
-            />
-          </FloatingLabel>
-        )}
-      </Form.Group>
-      <Form.Group className="col-lg-2 col-md-3 py-1">
-        {nonTextItemType && (
-          <FloatingLabel
-            label={
-              vatCategory
-                ? t("activemodel.attributes.invoice/item.amount_with_vat", {
-                    vat_percentage: vatCategory.percentage,
-                    vat_label: vatCategory.label,
-                  })
-                : t("activemodel.attributes.invoice/item.amount")
-            }
-          >
-            <Form.Control
-              type="text"
-              required
-              inputMode="numeric"
-              value={item.amount || ""}
-              name={`${namePrefix}[amount]`}
-              className="text-end"
-              onChange={(event) => handleChange({ amount: event.target.value })}
-              onBlur={(event) =>
-                handleChange({
-                  amount: Number.isNaN(+event.target.value) ? undefined : (+event.target.value).toFixed(2),
-                })
-              }
-            />
-          </FloatingLabel>
-        )}
-      </Form.Group>
-      <div className="col-lg-1 col-md-2 d-flex justify-content-end align-items-center">
-        <div className="btn-group">
-          {nonTextItemType && (
-            <button
-              disabled={disabled}
-              type="button"
-              className="btn btn-default"
-              title={t("edit")}
-              onClick={handleEdit}
-            >
-              <span className="fa fa-pencil" />
-            </button>
+    <li ref={setNodeRef} style={style} {...draggableAttributes} className="list-group-item">
+      <Row>
+        <Col md={1} ref={setActivatorNodeRef} {...draggableListeners} className="align-items-center d-flex">
+          <span className="fa fa-bars" />
+          {item.errors && Object.keys(item.errors).length > 0 && (
+            <span className="fa fa-exclamation-circle text-danger fs-5 ms-3" />
           )}
-          <button
-            disabled={disabled}
-            type="button"
-            className="btn btn-default"
-            title={t("destroy")}
-            onClick={() => onRemove?.(item)}
-          >
-            <span className="fa fa-trash" />
-          </button>
-        </div>
-      </div>
-      <Modal show={editing} onHide={() => setEditing(false)}>
-        <Modal.Body>
-          <Form.Group className="mb-3">
-            <Form.Label>{t("activemodel.attributes.invoice/item.label")}</Form.Label>
+          {item.suggested && (
+            <span
+              title={t("activemodel.attributes.invoice/item.suggested")}
+              className="fa fa-lightbulb-o ms-3 text-warning fs-4"
+            />
+          )}
+          <input type="hidden" name={`${namePrefix}[id]`} value={item.id} />
+          <input type="hidden" name={`${namePrefix}[type]`} value={item.type} />
+          <input type="hidden" name={`${namePrefix}[usage_id]`} value={item.usage_id} />
+          <input type="hidden" name={`${namePrefix}[deposit_id]`} value={item.deposit_id} />
+          <input type="hidden" name={`${namePrefix}[accounting_account_nr]`} value={item.accounting_account_nr || ""} />
+          <input
+            type="hidden"
+            name={`${namePrefix}[accounting_cost_center_nr]`}
+            value={item.accounting_cost_center_nr || ""}
+          />
+          <input type="hidden" name={`${namePrefix}[vat_category_id]`} value={item.vat_category_id || ""} />
+          {item.suggested && <input type="hidden" name={`${namePrefix}[suggested]`} value="1" />}
+        </Col>
+        <Form.Group className="col-md-3 py-1">
+          <FloatingLabel label={t("activemodel.attributes.invoice/item.label")}>
             <Form.Control
               type="text"
               name={`${namePrefix}[label]`}
@@ -183,92 +121,172 @@ export default function InvoiceItemElement({
               value={item.label || ""}
               onChange={(event) => handleChange({ label: event.target.value })}
             />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            {nonTextItemType && (
-              <>
-                <Form.Label>{t("activemodel.attributes.invoice/item.breakdown")}</Form.Label>
-                <Form.Control
-                  type="text"
-                  required
-                  value={item.breakdown || ""}
-                  name={`${namePrefix}[breakdown]`}
-                  onChange={(event) => handleChange({ breakdown: event.target.value })}
-                />
-              </>
-            )}
-          </Form.Group>
-          <Form.Group className="mb-3">
-            {nonTextItemType && (
-              <>
-                <Form.Label>
-                  {vatCategory
-                    ? t("activemodel.attributes.invoice/item.amount_with_vat", {
-                        vat_percentage: vatCategory.percentage,
-                        vat_label: vatCategory.label,
-                      })
-                    : t("activemodel.attributes.invoice/item.amount")}
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  required
-                  inputMode="numeric"
-                  value={item.amount || ""}
-                  name={`${namePrefix}[amount]`}
-                  className="text-end"
-                  onChange={(event) => handleChange({ amount: event.target.value })}
-                  onBlur={(event) =>
-                    handleChange({
-                      amount: Number.isNaN(+event.target.value) ? undefined : (+event.target.value).toFixed(2),
+          </FloatingLabel>
+        </Form.Group>
+        <Form.Group className="col-lg-5 col-md-3 py-1">
+          {nonTextItemType && (
+            <FloatingLabel label={t("activemodel.attributes.invoice/item.breakdown")}>
+              <Form.Control
+                type="text"
+                required
+                value={item.breakdown || ""}
+                name={`${namePrefix}[breakdown]`}
+                onChange={(event) => handleChange({ breakdown: event.target.value })}
+              />
+            </FloatingLabel>
+          )}
+        </Form.Group>
+        <Form.Group className="col-lg-2 col-md-3 py-1">
+          {nonTextItemType && (
+            <FloatingLabel
+              label={
+                vatCategory
+                  ? t("activemodel.attributes.invoice/item.amount_with_vat", {
+                      vat_percentage: vatCategory.percentage,
+                      vat_label: vatCategory.label,
                     })
-                  }
-                />
-              </>
-            )}
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>{t("activemodel.attributes.invoice/item.accounting_account_nr")}</Form.Label>
-            <Form.Control
-              type="text"
-              value={item.accounting_account_nr}
-              onChange={(event) => handleChange({ accounting_account_nr: event.target.value })}
-              isInvalid={!!item.errors?.accounting_account_nr}
-            />
-            <Form.Control.Feedback type="invalid">
-              {Array.from(item.errors?.accounting_account_nr || []).join(",")}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>{t("activemodel.attributes.invoice/item.accounting_cost_center_nr")}</Form.Label>
-            <Form.Control
-              type="text"
-              value={item.accounting_cost_center_nr}
-              onChange={(event) => handleChange({ accounting_cost_center_nr: event.target.value })}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>{t("activerecord.models.vat_category.one")}</Form.Label>
-            <Form.Select
-              value={item.vat_category_id}
-              onChange={(event) => handleChange({ vat_category_id: event.target.value })}
-              isInvalid={!!item.errors?.vat_category_id}
+                  : t("activemodel.attributes.invoice/item.amount")
+              }
             >
-              <option />
-              {Array.from(optionsForSelect.vatCategories).map(({ id, label, percentage }) => (
-                <option key={id} value={id}>
-                  {label} ({percentage}%)
-                </option>
-              ))}
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              {Array.from(item.errors?.vat_category_id || []).join(",")}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Button variant="primary" type="button" onClick={() => setEditing(false)}>
-            {t("helpers.submit.update")}
-          </Button>
-        </Modal.Body>
-      </Modal>
-    </Row>
+              <Form.Control
+                type="text"
+                required
+                inputMode="numeric"
+                value={item.amount || ""}
+                name={`${namePrefix}[amount]`}
+                className="text-end"
+                onChange={(event) => handleChange({ amount: event.target.value })}
+                onBlur={(event) =>
+                  handleChange({
+                    amount: Number.isNaN(+event.target.value) ? undefined : (+event.target.value).toFixed(2),
+                  })
+                }
+              />
+            </FloatingLabel>
+          )}
+        </Form.Group>
+        <div className="col-lg-1 col-md-2 d-flex justify-content-end align-items-center">
+          <div className="btn-group">
+            {nonTextItemType && (
+              <button
+                disabled={disabled}
+                type="button"
+                className="btn btn-default"
+                title={t("edit")}
+                onClick={handleEdit}
+              >
+                <span className="fa fa-pencil" />
+              </button>
+            )}
+            <button
+              disabled={disabled}
+              type="button"
+              className="btn btn-default"
+              title={t("destroy")}
+              onClick={() => onRemove?.(item)}
+            >
+              <span className="fa fa-trash" />
+            </button>
+          </div>
+        </div>
+        <Modal show={editing} onHide={() => setEditing(false)}>
+          <Modal.Body>
+            <Form.Group className="mb-3">
+              <Form.Label>{t("activemodel.attributes.invoice/item.label")}</Form.Label>
+              <Form.Control
+                type="text"
+                name={`${namePrefix}[label]`}
+                required
+                value={item.label || ""}
+                onChange={(event) => handleChange({ label: event.target.value })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              {nonTextItemType && (
+                <>
+                  <Form.Label>{t("activemodel.attributes.invoice/item.breakdown")}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    required
+                    value={item.breakdown || ""}
+                    name={`${namePrefix}[breakdown]`}
+                    onChange={(event) => handleChange({ breakdown: event.target.value })}
+                  />
+                </>
+              )}
+            </Form.Group>
+            <Form.Group className="mb-3">
+              {nonTextItemType && (
+                <>
+                  <Form.Label>
+                    {vatCategory
+                      ? t("activemodel.attributes.invoice/item.amount_with_vat", {
+                          vat_percentage: vatCategory.percentage,
+                          vat_label: vatCategory.label,
+                        })
+                      : t("activemodel.attributes.invoice/item.amount")}
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    required
+                    inputMode="numeric"
+                    value={item.amount || ""}
+                    name={`${namePrefix}[amount]`}
+                    className="text-end"
+                    onChange={(event) => handleChange({ amount: event.target.value })}
+                    onBlur={(event) =>
+                      handleChange({
+                        amount: Number.isNaN(+event.target.value) ? undefined : (+event.target.value).toFixed(2),
+                      })
+                    }
+                  />
+                </>
+              )}
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>{t("activemodel.attributes.invoice/item.accounting_account_nr")}</Form.Label>
+              <Form.Control
+                type="text"
+                value={item.accounting_account_nr}
+                onChange={(event) => handleChange({ accounting_account_nr: event.target.value })}
+                isInvalid={!!item.errors?.accounting_account_nr}
+              />
+              <Form.Control.Feedback type="invalid">
+                {Array.from(item.errors?.accounting_account_nr || []).join(",")}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>{t("activemodel.attributes.invoice/item.accounting_cost_center_nr")}</Form.Label>
+              <Form.Control
+                type="text"
+                value={item.accounting_cost_center_nr}
+                onChange={(event) => handleChange({ accounting_cost_center_nr: event.target.value })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>{t("activerecord.models.vat_category.one")}</Form.Label>
+              <Form.Select
+                value={item.vat_category_id}
+                onChange={(event) => handleChange({ vat_category_id: event.target.value })}
+                isInvalid={!!item.errors?.vat_category_id}
+              >
+                <option />
+                {Array.from(optionsForSelect.vatCategories).map(({ id, label, percentage }) => (
+                  <option key={id} value={id}>
+                    {label} ({percentage}%)
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {Array.from(item.errors?.vat_category_id || []).join(",")}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Button variant="primary" type="button" onClick={() => setEditing(false)}>
+              {t("helpers.submit.update")}
+            </Button>
+          </Modal.Body>
+        </Modal>
+      </Row>
+    </li>
   );
 }

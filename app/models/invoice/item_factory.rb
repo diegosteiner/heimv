@@ -38,7 +38,8 @@ class Invoice
       amount = deposit_balance - unassigned_payments_amount
       return if amount.zero?
 
-      build_item(class: ::Invoice::Items::Balance, label: I18n.t('invoice_items.balance_breakdown'),
+      build_item(class: ::Invoice::Items::Balance,
+                 label: I18n.t('invoice_items.balance_breakdown'),
                  amount:, accounting_cost_center_nr: :home,
                  vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
                  accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr)
@@ -57,18 +58,23 @@ class Invoice
       booking.invoices.deposits.kept.where.not(id: invoice.id)
     end
 
-    def build_from_deposits # rubocop:disable Metrics/AbcSize
+    def build_from_deposits
       return if !deposits.exists? || invoice.supersede_invoice.present?
 
       [
         build_item(class: ::Invoice::Items::Title, label: Invoices::Deposit.model_name.human(count: 2)),
-        deposits.map do |deposit|
-          build_item(label: "#{deposit.model_name.human} #{deposit.ref}", breakdown: I18n.l(deposit.issued_at&.to_date),
-                     amount: -deposit.amount, accounting_cost_center_nr: :home, deposit_id: deposit.id,
-                     vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
-                     accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr)
-        end
+        deposits.map { build_from_deposit(it) }
       ]
+    end
+
+    def build_from_deposit(deposit)
+      build_item(label: "#{deposit.model_name.human} #{deposit.ref}",
+                 breakdown: I18n.l(deposit.issued_at&.to_date),
+                 amount: -deposit.amount,
+                 accounting_cost_center_nr: :home,
+                 deposit_id: deposit.id,
+                 vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
+                 accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr)
     end
 
     def build_from_supersede_invoice

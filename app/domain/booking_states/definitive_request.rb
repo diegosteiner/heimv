@@ -7,8 +7,8 @@ module BookingStates
     include Rails.application.routes.url_helpers
 
     def checklist
-      BookingStateChecklistItem.prepare(:responsibilities_assigned, :tarifs_chosen, :deposit_created,
-                                        :contract_created, booking:)
+      BookingStateChecklistItem.prepare(booking, :responsibilities_assigned, :tarifs_chosen, :deposit_created,
+                                        :contract_created, :contract_sent)
     end
 
     def self.to_sym

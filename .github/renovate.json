@@ -27,6 +27,14 @@
       "automerge": false
     },
     {
+      "matchPackageNames": ["connection_pool"],
+      "groupName": "connection_pool",
+      "separateMajorMinor": true,
+      "separateMinorPatch": true,
+      "rebaseWhen": "explicit",
+      "automerge": false
+    },
+    {
       "matchPackageNames": ["ttfunk", "prawn"],
       "groupName": "ttfunk-and-prawn",
       "separateMajorMinor": true,

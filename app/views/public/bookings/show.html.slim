@@ -105,6 +105,7 @@
                 = button_to public_booking_invoke_action_path(@booking.token, id: booking_action.key), \
                   method: invokable_with[:prepare] ? :get : :post, \
                   params: { locale: current_locale }.merge(invokable_with[:params].to_h), \
+                  disabled: invokable_with[:disabled], \
                   data: { confirm: invokable_with[:confirm], disable_with: label }.compact, \
                   class: "btn btn-outline-#{invokable_with[:variant] || :primary}"
                   = label

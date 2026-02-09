@@ -454,7 +454,7 @@ de:
         accounting_account_nr: Buchhaltungskonto
         accounting_cost_center_nr: Kostenstelle
         amount: Betrag
-        confirm: Zahlungsbestätigung automatisch verschicken
+        confirm: Zahlungsbestätigung automatisch versenden
         invoice_id: Rechnung
         paid_at: Bezahlt am
         remarks: Bemerkungen
@@ -915,15 +915,15 @@ de:
       label_committed: Stornieren
       label_request: Anfrage ablehnen
     email_contract:
-      confirm: Den Vertrag wirklich ohne Akontorechnung verschicken?
+      confirm: Den Vertrag wirklich ohne Akontorechnung versenden?
       label: Vertrag versenden
-      label_with_invoice: Vertrag und Akontorechnung/Offerte verschicken
-      label_without_invoice: Vertrag ohne Akontorechnung/Offerte verschicken
+      label_with_invoice: Vertrag und Akontorechnung/Offerte versenden
+      label_without_invoice: Vertrag ohne Akontorechnung/Offerte versenden
     email_invoice:
-      label: Rechnung verschicken
-      label_with_ref: "%{type} %{ref} verschicken"
+      label: Rechnung versenden
+      label_with_ref: "%{type} %{ref} versenden"
     email_offer:
-      label: Offerte verschicken
+      label: Offerte versenden
     mark_contract_sent:
       label: Vertrag als versendet markieren
     mark_contract_signed:
@@ -984,6 +984,7 @@ de:
         locale: Sprache
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
+    contract_sent: Vertrag versenden
     contract_signed: Vertrag unterzeichnet
     credit_issued: Gutschrift ausbezahlt
     deposit_created: Akontorechnung erstellen (optional)
@@ -991,6 +992,7 @@ de:
     invoice_created: Endabrechnung erstellen
     invoice_paid: "%{invoice} bezahlt"
     invoice_refunded: "%{invoice} erstattet"
+    invoice_sent: Rechnung versenden
     invoices_paid: Rechnungen beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen (optional)
@@ -1206,7 +1208,7 @@ de:
         header: Einladung schicken
         submit_button: Einladung schicken
       no_invitations_remaining: Es gibt keine weiteren Einladungen
-      send_instructions: Eine Einladung wurde an %{email} verschickt.
+      send_instructions: Eine Einladung wurde an %{email} versendet.
       updated: Dein Passwort wurde gesetzt. Du bist nun angemeldet.
       updated_not_active: Dein Passwort wurde gesetzt.
     mailer:
@@ -1605,7 +1607,7 @@ de:
         title: Buchungsprozess
     payments:
       form:
-        save_and_confirm: Speichern und Zahlungsbestätigung verschicken
+        save_and_confirm: Speichern und Zahlungsbestätigung versenden
       index:
         new_import: Zahlungen aus CAMT.054-Datei importieren
       new_import:
@@ -2444,7 +2446,7 @@ de:
       default_body: |
         <p>Hallo</p>
 
-        <p>Der Vertrag für die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> wurde verschickt.</p>
+        <p>Der Vertrag für die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> wurde versendet.</p>
 
         <p><strong>Reservationsdetails</strong></p>
 
@@ -2466,13 +2468,13 @@ de:
           <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
           <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
         </p>
-      default_title: Vertrag/Akontorechnung verschickt
+      default_title: Vertrag/Akontorechnung versendet
       description: Benachrichtigung für Versand Vertrag/Akontorechnung (Funktionär)
     operator_email_invoice_notification:
       default_body: |
         <p>Hallo</p>
 
-        <p>Eine Rechnung für die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> wurde verschickt.</p>
+        <p>Eine Rechnung für die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> wurde versendet.</p>
 
         <p><strong>Reservationsdetails</strong></p>
 
@@ -2494,7 +2496,7 @@ de:
           <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
           <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
         </p>
-      default_title: Rechnung verschickt
+      default_title: Rechnung versendet
       description: Benachrichtigung für Versand Rechnung (Funktionär)
     operator_payment_confirmation_notification:
       default_body: |

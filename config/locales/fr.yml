@@ -970,6 +970,7 @@ fr:
         locale: Langue
   booking_state_checklist_item:
     contract_created: Créer un contrat
+    contract_sent: Envoyer le contrat
     contract_signed: Contrat signé
     credit_issued:
     deposit_created: Anzahlung erstellen
@@ -977,6 +978,7 @@ fr:
     invoice_created: Établir le décompte final
     invoice_paid:
     invoice_refunded:
+    invoice_sent: Envoyer une facture
     invoices_paid: Rechnung beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Attribuer des responsabilités (facultatif)

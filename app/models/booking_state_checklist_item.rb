@@ -60,6 +60,11 @@ class BookingStateChecklistItem
       BookingStateChecklistItem.new(key: :contract_created, context: { booking: }, checked:, url:)
     end,
 
+    contract_sent: lambda do |booking|
+      checked = booking.contract&.sent?
+      BookingStateChecklistItem.new(key: :contract_sent, context: { booking: }, checked:)
+    end,
+
     deposit_created: lambda do |booking|
       checked = Invoices::Deposit.of(booking).kept.exists?
       url = if checked
@@ -95,7 +100,15 @@ class BookingStateChecklistItem
       checked = booking.usages.any?(&:updated_after_past?) || Invoices::Invoice.of(booking).kept.exists?
       BookingStateChecklistItem.new(key: :usages_entered, context: { booking: }, checked:,
                                     url: proc { manage_booking_usages_path(it.booking) })
+    end,
+
+    invoice_sent: lambda do |booking|
+      invoices = booking.invoices.where(type: %w[Invoices::Deposit Invoices::Invoice Invoices::LateNotice])
+      unsent_invoices = invoices.unsent
+      BookingStateChecklistItem.new(key: :invoice_sent, context: { booking: },
+                                    checked: invoices.exists? && !unsent_invoices.exists?)
     end
+
   }.freeze
 
   attribute :key
@@ -112,7 +125,7 @@ class BookingStateChecklistItem
     context&.fetch(:booking, nil)
   end
 
-  def self.prepare(*items, booking:)
+  def self.prepare(booking, *items)
     self[*items].flat_map { |key, item_proc| item_proc.call(booking) if items.include?(key) }.compact_blank
   end
 

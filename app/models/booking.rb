@@ -206,7 +206,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
                   tenant || build_tenant(email: self[:email], organisation:, locale:)
 
     tenant.organisation = organisation
-    tenant.email ||= self[:email]
+    tenant.email = self[:email] if tenant.email.blank? || email_changed?
   end
 
   def occupancy_color
