@@ -547,6 +547,14 @@ de:
         accounting_vat_code: Buchhaltungscode
         label: Bezeichnung
         percentage: Satz
+      season:
+        label: Bezeichnung
+        begins_at: Beginn
+        ends_at: Ende
+        max_bookings: max. Anzahl Buchungen
+        max_occupied_days: max. Anzahl belegter Tage
+        public_occupancy_visibility: Sichtbarkeit von Belegungen
+        status: Status
     enums:
       booking:
         committed_request:
@@ -675,6 +683,11 @@ de:
         sort:
           "-paid_at": Bezahlt am (neuste zuerst)
           paid_at: Bezahlt am (älteste zuerst)
+      season: 
+       statuses: 
+         private: Intern
+         open: Offen
+         closed: Geschlossen
       tarif:
         prefill_usage_methods:
           days: "× Tage"

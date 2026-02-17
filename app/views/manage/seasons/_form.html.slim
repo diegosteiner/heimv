@@ -1,0 +1,29 @@
+= form_with(model: [:manage, @season], local: true) do |f|
+
+  fieldset
+    ul.nav.nav-tabs.mt-4 role="tablist"
+      - I18n.available_locales.each do |locale|
+        - current_locale = locale == I18n.locale
+        li.nav-item
+          = link_to locale.upcase, "#title-#{locale}-tab",
+            class: "nav-link #{'active' if current_locale}",
+            aria: { controls: "title-#{locale}-tab", selected: current_locale },
+            data: { "bs-toggle": 'tab' }, role: 'tab'
+    .tab-content
+      - I18n.available_locales.each do |locale|
+        - current_locale = locale == I18n.locale
+        .tab-pane.pt-3[id="label-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="label-#{locale}-tab" role='tabpanel']
+          = f.text_field "label_#{locale.to_s}", label: Season.human_attribute_name(:label)
+
+    = f.select :status, enum_options_for_select(Season, :statuses, @season.status), include_blank: true
+    = f.collection_check_boxes :public_occupancy_visibility, Season.public_occupancy_visibilities.keys, :itself, ->(key) { Occupancy.human_enum(:occupancy_type, key) }
+    
+    fieldset.row.d-none
+      .col-md-6
+        = f.text_field :max_occupied_days, step: 1, inputmode: "numeric" 
+      .col-md-6
+        = f.text_field :max_bookings, step: 1, inputmode: "numeric" 
+
+  .form-actions.pt-4.mt-3
+    = f.submit class: 'btn btn-primary'
+    = link_to t(:back), manage_seasons_path, class: 'btn btn-default'

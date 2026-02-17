@@ -6,7 +6,8 @@ module Public
 
     association :occupiables, blueprint: Public::OccupiableSerializer
     association :occupancies, blueprint: Public::OccupancySerializer
+    association :seasons, blueprint: Public::SeasonSerializer
 
-    fields :window_from, :window_to
+    field :window_from, :window_to
   end
 end

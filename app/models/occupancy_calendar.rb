@@ -7,17 +7,14 @@ class OccupancyCalendar
 
   attribute :organisation
   attribute :occupiables
-  attribute :window_from, default: -> { Time.zone.today.beginning_of_day }
-  attribute :window_to
-
-  def initialize(attributes)
-    super
-    self.window_to ||= organisation.settings.booking_window.from_now
-  end
+  attribute :seasons
 
   def occupancies
-    @occupancies ||= Occupancy.occupancy_calendar.where(occupiable: occupiables)
-                              .at(from: window_from, to: window_to)
+    @occupancies ||= Occupancy.occupancy_calendar.where(occupiable: occupiables, season: seasons)
                               .includes(occupiable: [:organisation], booking: %i[deadline organisation])
+  end
+
+  def seasons
+    @seasons ||= organisation.seasons.future.where(status: :open)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_03_155856) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -224,6 +224,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
     t.string "purpose_description"
     t.string "ref"
     t.text "remarks"
+    t.bigint "season_id"
     t.integer "sequence_number"
     t.integer "sequence_year"
     t.json "state_data", default: {}
@@ -237,6 +238,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
     t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
+    t.index ["season_id"], name: "index_bookings_on_season_id"
     t.index ["token"], name: "index_bookings_on_token", unique: true
   end
 
@@ -582,6 +584,21 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
     t.index ["type"], name: "index_rich_text_templates_on_type"
   end
 
+  create_table "seasons", force: :cascade do |t|
+    t.datetime "begins_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "discarded_at"
+    t.datetime "ends_at", null: false
+    t.jsonb "label_i18n", default: {}
+    t.integer "max_bookings"
+    t.integer "max_occupied_days"
+    t.bigint "organisation_id", null: false
+    t.integer "public_occupancy_visibility", null: false
+    t.integer "status", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisation_id"], name: "index_seasons_on_organisation_id"
+  end
+
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
     t.string "concurrency_key", null: false
     t.datetime "created_at", null: false
@@ -845,6 +862,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
   add_foreign_key "booking_state_transitions", "bookings"
   add_foreign_key "booking_validations", "organisations"
   add_foreign_key "bookings", "organisations"
+  add_foreign_key "bookings", "seasons"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "contracts", "notifications", column: "sent_with_notification_id"
   add_foreign_key "data_digest_templates", "organisations"
@@ -875,6 +893,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
   add_foreign_key "payments", "invoices"
   add_foreign_key "plan_b_backups", "organisations"
   add_foreign_key "rich_text_templates", "organisations"
+  add_foreign_key "seasons", "organisations"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

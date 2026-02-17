@@ -43,6 +43,7 @@
 #  booking_category_id          :integer
 #  home_id                      :integer          not null
 #  organisation_id              :bigint           not null
+#  season_id                    :bigint
 #  tenant_id                    :integer
 #
 
@@ -62,6 +63,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
                         booking_question_responses: :booking_question }].freeze
 
   belongs_to :home
+  belongs_to :season, optional: true, inverse_of: :bookings
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, autosave: true
   belongs_to :category, inverse_of: :bookings, class_name: 'BookingCategory', optional: true,
@@ -146,7 +148,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES).joins(most_recent_transition_join) }
 
-  before_validation :clear_invoice_address, :assert_tenant!, :sequence_number, :update_occupancies
+  before_validation :clear_invoice_address, :assert_tenant!, :sequence_number, :update_occupancies, :set_season
   before_create :generate_ref
   after_save :apply_transitions, :update_booking_state_cache!, :touch_conflicting_bookings
   after_touch :apply_transitions, :update_booking_state_cache!
@@ -288,6 +290,12 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def clear_invoice_address
     self.invoice_address = nil unless use_invoice_address
+  end
+
+  def set_season
+    return unless organisation.present? && (begins_at_changed? || ends_at_changed? || season.blank?)
+
+    self.season = organisation.seasons.ordered.at(from: begins_at, to: ends_at).take
   end
 
   # if `occupiable_ids =` or `occupiable_ids <<` is called on a persisted booking, it will raise

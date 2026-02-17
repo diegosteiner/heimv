@@ -43,6 +43,7 @@
 #  booking_category_id          :integer
 #  home_id                      :integer          not null
 #  organisation_id              :bigint           not null
+#  season_id                    :bigint
 #  tenant_id                    :integer
 #
 

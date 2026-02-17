@@ -5,7 +5,7 @@ module Public
     identifier :id
     association :occupiable, blueprint: Public::OccupiableSerializer
 
-    fields :begins_at, :ends_at, :occupancy_type, :occupiable_id, :remarks, :nights, :color
+    fields :begins_at, :ends_at, :occupancy_type, :occupiable_id, :remarks, :nights, :color, :season_id
 
     field :ref do |occupancy|
       occupancy.booking&.ref
