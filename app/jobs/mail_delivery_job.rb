@@ -6,7 +6,7 @@ class MailDeliveryJob < ActionMailer::MailDeliveryJob
 
   after_discard do |job, exception|
     Rails.logger.error(exception.message)
-    ExceptionNotifier.notify_exception(exception, data: job.serialize) if defined?(ExceptionNotifier)
+    ExceptionNotifier.notify_exception(exception, data: job.serialize)
     raise exception
   end
 end

@@ -1020,12 +1020,13 @@ de:
     cancelled:
       label: Storniert
     cancelled_request:
-      description: Die Frist ist abgelaufen oder der Mieter hat die Anfrage zurückgezogen
-      label: Mietanfrage (zurückgezogen/abgelaufen)
+      description: Der Mieter hat die Anfrage zurückgezogen
+      label: Mietanfrage (zurückgezogen)
     completed:
       label: Belegung (abgeschlossen)
     declined_request:
-      label: Mietanfrage (abgelehnt)
+      description: Die Verwaltung hat die Mietanfrage abgelehnt oder die Frist ist abglaufen
+      label: Mietanfrage (abgelehnt/abgelaufen)
     definitive_request:
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
       label: Mietanfrage (definitiv)
@@ -2283,7 +2284,7 @@ de:
       default_body: |
         <p>Hallo</p>
 
-        <p>Die Reservationsanfrage {{ booking.ref }} wurde storniert</p>
+        <p>Die Reservationsanfrage {{ booking.ref }} wurde vom Mieter oder Vermittler zurückgezogen.</p>
 
         <p><strong>Reservationsdetails</strong></p>
 
@@ -2297,8 +2298,8 @@ de:
         </ul>
 
         <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
-      default_title: Stornierung Reservationsanfrage {{ booking.ref }}
-      description: Benachrichtigung für stornierte Reservationsanfrage (Verwaltung)
+      default_title: Reservationsanfrage {{ booking.ref }} zurückgezogen
+      description: Benachrichtigung für zurückgezogene Reservationsanfrage (Verwaltung)
     manage_contract_signed_notification:
       default_body: |
         <p>Hallo</p>
@@ -2319,6 +2320,26 @@ de:
         <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
       default_title: Unterzeichneten Vertrag erhalten
       description: Benachrichtigung für Vertragseingang (Verwaltung)
+    manage_declined_request_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Die Reservationsanfrage {{ booking.ref }} ist abgelaufen oder wurde durch die Verwaltung storniert.
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietzweck: <strong>{{ booking.category.title }}: {{ booking.purpose_description }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+        </ul>
+
+        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
+      default_title: Stornierung Reservationsanfrage {{ booking.ref }}
+      description: Benachrichtigung für stornierte Reservationsanfrage (Verwaltung)
     manage_definitive_request_notification:
       default_body: |
         <p>Hallo</p>

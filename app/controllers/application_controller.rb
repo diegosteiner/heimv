@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   default_form_builder BootstrapForm::FormBuilder
   before_action :prepare_exception_notification_context, :current_locale, :set_default_meta_tags
-  helper_method :current_locale, :current_organisation, :current_organisation_user, :home_path
+  helper_method :current_locale, :current_organisation, :current_organisation_user, :user_home_path
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.role_admin?
   end
@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
     @current_organisation_user ||= current_user&.in_organisation(current_organisation)
   end
 
-  def home_path
+  def user_home_path
     if current_organisation
       return manage_root_path if current_organisation_user&.role?(:admin, :manager, :readonly)
 
@@ -102,7 +102,7 @@ class ApplicationController < ActionController::Base
   end
 
   def return_to_path(default = nil)
-    params[:return_to].presence || default || home_path
+    params[:return_to].presence || default || user_home_path
   end
 
   def after_sign_in_path_for(_resource)
@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
 
   def require_organisation!
     return if current_organisation
-    return redirect_to home_path if current_user&.default_organisation
+    return redirect_to user_home_path if current_user&.default_organisation
     return unauthorized if current_user.blank?
 
     raise ActionController::RoutingError, 'Not found'

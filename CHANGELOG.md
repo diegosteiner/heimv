@@ -1,5 +1,11 @@
 # Changelog
 
+## 26.2.2
+
+unreleased
+
+- Fix: Fix incosistent actions
+
 ## 26.2.1
 
 Released 02.02.2026

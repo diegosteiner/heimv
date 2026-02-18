@@ -5,7 +5,8 @@ module BookingActions
     def invoke!(current_user: nil)
       booking.errors.clear
       booking.update!(occupancy_type: :free, transition_to:)
-      Result.success
+      home_id = booking.home_id # required assignment for closure to work
+      Result.success redirect_proc: proc { home_path(home_id) }
     end
 
     def transition_to

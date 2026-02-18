@@ -3,6 +3,7 @@
 module BookingStates
   class DeclinedRequest < Base
     use_mail_template(:declined_request_notification, context: %i[booking])
+    use_mail_template(:manage_declined_request_notification, context: %i[booking])
 
     def checklist
       []
@@ -15,6 +16,7 @@ module BookingStates
     after_transition do |booking|
       booking.update!(occupancy_type: :free, concluded: true)
       booking.deadline&.clear!
+      MailTemplate.use(:manage_declined_request_notification, booking, to: :administration, &:autodeliver!)
       MailTemplate.use(:declined_request_notification, booking,
                        to: booking.agent_booking ? :booking_agent : :tenant, &:autodeliver!)
     end

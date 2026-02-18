@@ -9,14 +9,14 @@ module Public
         nil unless booking_action
       end
 
-      def invoke # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
+      def invoke # rubocop:disable Metrics/AbcSize
         @result = booking_action.invoke(**booking_action_params, current_user:)
 
-        if @result&.success
+        if @result&.success?
           write_booking_log
           redirect_to @result.redirect_proc || public_booking_path(@booking.token), notice: t('.success')
         else
-          ExceptionNotifier.notify_exception(@result&.error) if defined?(ExceptionNotifier)
+          ExceptionNotifier.notify_exception(StandardError.new(@result&.error), data: { result: @result.inspect })
           redirect_to public_booking_path(@booking.token), alert: @result&.error.presence || t('.failure')
         end
       end
