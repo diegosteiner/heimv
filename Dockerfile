@@ -31,8 +31,8 @@ ENV BINDING=0.0.0.0
 FROM development AS test
 
 COPY --chown=rails:rails Gemfile Gemfile.lock ./
-RUN --mount=type=cache,id=gems,target=/bundle-cache,uid=1000,gid=1000 \
-    BUNDLE_CACHE_PATH=/bundle-cache bundle install && \
+RUN --mount=type=cache,id=gems,target=/usr/local/bundle/cache,uid=1000,gid=1000 \
+    bundle install && \
     bundle exec bootsnap precompile --gemfile
 
 COPY --chown=rails:rails package.json yarn.lock ./
@@ -57,8 +57,8 @@ ENV RAILS_ENV="production" \
     APP_HOST="localhost"
 
 COPY --chown=rails:rails Gemfile Gemfile.lock ./
-RUN --mount=type=cache,id=gems,target=/bundle-cache,uid=1000,gid=1000 \
-    BUNDLE_CACHE_PATH=/bundle-cache bundle install && \
+RUN --mount=type=cache,id=gems,target=/usr/local/bundle/cache,uid=1000,gid=1000 \
+    bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 

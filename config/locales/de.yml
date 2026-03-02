@@ -2537,7 +2537,7 @@ de:
         </ul>
 
         <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
-      default_title: Unterzeichneten Vertrag erhalten
+      default_title: Zahlung eingegangen
       description: Benachrichtigung für Zahlungseingang (Funktionär)
     operator_upcoming_notification:
       default_body: |
