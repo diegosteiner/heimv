@@ -24,7 +24,7 @@ module BookingStates
       MailTemplate.use(:booking_agent_request_notification, booking, to: :booking_agent, &:autodeliver!)
     end
 
-    infer_transition(to: :cancelled_request) do |booking|
+    infer_transition(to: :declined_request) do |booking|
       booking.deadline&.exceeded?
     end
 

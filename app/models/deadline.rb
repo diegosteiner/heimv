@@ -28,8 +28,8 @@ class Deadline < ApplicationRecord
   attribute :length
 
   def length=(duration)
-    self.armed = duration.present? && !duration.zero?
-    self.at = duration&.from_now unless duration&.zero?
+    self.armed = duration&.positive?
+    self.at = duration&.from_now if duration&.positive?
   end
 
   def exceeded?(other = Time.zone.now)

@@ -1,5 +1,5 @@
 = form_with(model: [:manage, organisation], url: manage_organisation_path(org: params[:org]), local: true) do |f|
-  = f.fields_for :settings, @organisation.settings || OrganisationSettings.new do |sf|  
+  = f.fields_for :settings, @organisation.settings.presence || OrganisationSettings.new do |sf|  
     - settings = sf.object
 
     fieldset
@@ -11,7 +11,7 @@
           = f.file_field :logo, help: organisation.logo.present? && organisation.logo.persisted? && image_tag(organisation.logo, width: 120)
           = f.select :locale, organisation.locales.map { [it.upcase, it.downcase] }
           = sf.label :locales
-          = sf.collection_check_boxes :locales, Organisation.locales.keys.map(&:to_s), :downcase, :upcase, inline: true, skip_label: true
+          = sf.collection_check_boxes :locales, Organisation.locales.keys, :downcase, :upcase, inline: true , skip_label: true
     
     fieldset
       h3.mt-5= Notification.model_name.human(count: 2)

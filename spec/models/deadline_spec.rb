@@ -62,5 +62,14 @@ RSpec.describe Deadline do
         expect(deadline.at).to be_nil
       end
     end
+
+    context 'with length set to -1' do
+      let(:length) { -1 }
+
+      it 'creates unarmed deadline' do
+        expect(deadline.armed).to be_falsy
+        expect(deadline.at).to be_nil
+      end
+    end
   end
 end
