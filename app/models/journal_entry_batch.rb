@@ -67,7 +67,7 @@ class JournalEntryBatch < ApplicationRecord
   end
 
   def to_s
-    "##{id}@#{date}[#{trigger}]: #{text}\n" + entries.map(&:to_s).join("\n")
+    "##{id}@#{date}[#{trigger}]: #{text}\n" + entries.join("\n")
   end
 
   def processed?

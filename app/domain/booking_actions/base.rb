@@ -13,7 +13,7 @@ module BookingActions
 
     delegate :label, to: :class
 
-    Result = Struct.new(:success, :redirect_proc, :error, keyword_init: true) do
+    Result = Struct.new(:success, :redirect_proc, :error) do
       def self.success(**)
         new(success: true, **)
       end

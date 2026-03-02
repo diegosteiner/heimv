@@ -10,7 +10,7 @@ module Export
         date: ->(value) { value.strftime('%d.%m.%Y') },
         string: ->(value) { "\"#{value.gsub(/["']/, '""')}\"" },
         symbol: ->(value) { value.to_s },
-        vector: ->(value) { "[#{value.to_a.map(&:to_s).join(',')}]" },
+        vector: ->(value) { "[#{value.to_a.join(',')}]" },
         value: ->(value) { value }
       }.freeze
 

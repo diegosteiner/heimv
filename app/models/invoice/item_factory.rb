@@ -80,7 +80,7 @@ class Invoice
     def build_from_supersede_invoice
       return unless invoice.new_record?
 
-      items = invoice.supersede_invoice&.items&.filter { !it.is_a?(::Invoice::Items::Balance) }
+      items = invoice.supersede_invoice&.items&.grep_v(::Invoice::Items::Balance)
       items&.map(&:dup)
     end
 

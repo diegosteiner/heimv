@@ -18,7 +18,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
   describe 'JournalEntryBatches::Invoice' do
     subject(:blocks) { Array.wrap(described_class.build_with_journal_entry_batch(journal_entry_batch)) }
 
-    let(:taf) { blocks.map(&:to_s).join("\n\n") }
+    let(:taf) { blocks.join("\n\n") }
     let(:invoice) { booking.invoices.last }
     let(:journal_entry_batch) { JournalEntryBatch.where(booking:, invoice:, payment: nil).last }
     let(:booking) do
