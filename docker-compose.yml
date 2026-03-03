@@ -36,7 +36,7 @@ services:
           - "app.test"
 
   selenium:
-    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:133.0}
+    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:145.0}
     shm_size: 2g
     networks:
       selenium:
