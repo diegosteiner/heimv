@@ -288,8 +288,8 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.18.1)
-    json-schema (6.1.0)
+    json (2.19.0)
+    json-schema (6.2.0)
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
     jwt (3.1.2)
@@ -323,7 +323,7 @@ GEM
       net-smtp
     marcel (1.1.0)
     matrix (0.4.3)
-    mcp (0.7.1)
+    mcp (0.8.0)
       json-schema (>= 4.1)
     memory_profiler (1.1.0)
     meta-tags (2.22.3)
@@ -487,7 +487,7 @@ GEM
       tsort
     redis (5.4.1)
       redis-client (>= 0.22.0)
-    redis-client (0.26.4)
+    redis-client (0.27.0)
       connection_pool
     regexp_parser (2.11.3)
     reline (0.6.3)

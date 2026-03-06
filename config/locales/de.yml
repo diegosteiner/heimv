@@ -2739,7 +2739,7 @@ de:
       default_body: |
         <p>{{ booking.tenant.salutation }}</p>
 
-        <p>Wir haben den von Dir unterzeichneten Vertrag und die Akontorechnung erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Pfadihaus.</p>
+        <p>Wir haben alle benötigten Unterlagen für deine Reservation erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Pfadihaus.</p>
 
         <p><strong>Reservationsdetails</strong></p>
 
@@ -2750,7 +2750,7 @@ de:
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietzweck: {{ booking.category.title }}: {{ booking.purpose_description }}</li>
         </ul>
-      default_title: Akontorechnung und unterzeichneten Vertrag eingegangen
+      default_title: Reservation komplett
       description: Benachrichtigung für zukünftige Belegung (Mieter)
     upcoming_soon_notification:
       default_body: |
