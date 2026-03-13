@@ -17,7 +17,7 @@
       = f.fields_for :booking, (@agent_booking.booking || @agent_booking.build_booking) do |bf|
         h4.mt-0= Occupancy.model_name.human
         fieldset
-          - if @agent_booking.booking.deadline
+          - if @agent_booking.booking.deadline&.armed
             .mb-3
               label=Booking.human_attribute_name(:deadline)
               div

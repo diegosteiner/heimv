@@ -8,6 +8,8 @@ class DurationType < ActiveModel::Type::Value
   end
 
   def cast_value(value)
+    return if value.blank?
+
     case value
     when Integer
       ActiveSupport::Duration.build(value)

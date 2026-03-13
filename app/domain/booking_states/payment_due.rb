@@ -16,7 +16,7 @@ module BookingStates
       booking.deadline&.clear!
       outstanding_invoices = booking.invoices.kept.sent.outstanding.ordered
       payable_until = outstanding_invoices.filter_map(&:payable_until).max
-      next if payable_until.blank?
+      next if payable_until.blank? || booking.organisation.deadline_settings.payment_overdue_deadline.blank?
 
       booking.create_deadline(at: payable_until + booking.organisation.deadline_settings.payment_overdue_deadline,
                               postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,

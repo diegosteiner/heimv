@@ -32,7 +32,7 @@ RSpec.describe Deadline do
     end
   end
 
-  describe '#create' do
+  describe '#set_deadline' do
     subject(:deadline) { booking.create_deadline(length:) }
 
     context 'with length set' do
@@ -48,7 +48,7 @@ RSpec.describe Deadline do
     context 'with length not set' do
       let(:length) { nil }
 
-      it 'creates unarmed deadline' do
+      it 'does not create deadline' do
         expect(deadline.armed).to be_falsy
         expect(deadline.at).to be_nil
       end
@@ -58,8 +58,8 @@ RSpec.describe Deadline do
       let(:length) { 0 }
 
       it 'creates unarmed deadline' do
-        expect(deadline.armed).to be_falsy
-        expect(deadline.at).to be_nil
+        expect(deadline.armed).to be_truthy
+        expect(deadline.at).not_to be_nil
       end
     end
 
