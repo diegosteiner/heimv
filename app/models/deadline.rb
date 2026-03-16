@@ -28,7 +28,7 @@ class Deadline < ApplicationRecord
   before_validation :set_at
 
   def set_at # rubocop:disable Metrics/CyclomaticComplexity,Metrics/AbcSize,Metrics/PerceivedComplexity
-    return unless at_changed?
+    return unless at_changed? || new_record?
 
     now = Time.zone.now
     value = at
@@ -37,7 +37,7 @@ class Deadline < ApplicationRecord
     value = now + value if value.is_a?(ActiveSupport::Duration)
 
     self.at = value
-    self.armed = value.present? && !(value - now).negative?
+    self.armed = value.present? && !(value - now).negative? unless armed_changed?
   end
 
   def exceeded?(other = Time.zone.now)
@@ -61,5 +61,9 @@ class Deadline < ApplicationRecord
 
   def clear!
     update_columns(armed: false) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def arm!
+    update_columns(armed: true) # rubocop:disable Rails/SkipsModelValidations
   end
 end
