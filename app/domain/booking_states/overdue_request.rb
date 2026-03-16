@@ -14,7 +14,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear!
-      booking.create_deadline(length: :overdue_request_deadline, remarks: booking.booking_state.t(:label))
+      booking.create_deadline(at: :overdue_request_deadline, remarks: booking.booking_state.t(:label))
 
       invoices = booking.invoices.kept.outstanding
       MailTemplate.use(:overdue_request_notification, booking, to: :tenant, context: { invoices: })&.tap do |mail|

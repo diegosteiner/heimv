@@ -24,18 +24,20 @@ class Deadline < ApplicationRecord
   scope :after, ->(at = Time.zone.now) { where(arel_table[:at].gteq(at)) }
   scope :next, -> { armed.ordered }
 
-  attribute :length
-
   validates :at, presence: true, if: :armed
+  before_validation :set_at
 
-  before_validation :apply_length
+  def set_at # rubocop:disable Metrics/CyclomaticComplexity,Metrics/AbcSize,Metrics/PerceivedComplexity
+    return unless at_changed?
 
-  def apply_length # rubocop:disable Metrics/AbcSize
-    self.length = booking&.organisation&.deadline_settings&.try(length) if length.is_a?(Symbol)
-    return if length.nil?
+    now = Time.zone.now
+    value = at
+    value = booking&.organisation&.deadline_settings&.try(value) if value.is_a?(Symbol)
+    value = value.seconds if value.is_a?(Integer)
+    value = now + value if value.is_a?(ActiveSupport::Duration)
 
-    self.armed = length.positive? || length.zero?
-    self.at = length.seconds.from_now
+    self.at = value
+    self.armed = value.present? && !(value - now).negative?
   end
 
   def exceeded?(other = Time.zone.now)
