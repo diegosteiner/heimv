@@ -81,7 +81,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
           expect(bookings.first.category).to eq(booking_category)
           expect(bookings.first.ref).to eq('0815')
           expect(bookings.first.remarks).to eq('Bemerkung')
-          expect(bookings.first.notifications_enabled).to be false
+          expect(bookings.first.deliver_notifications).to be false
           expect(bookings.first.booking_state).to be_a(BookingStates::OpenRequest)
         end
       end

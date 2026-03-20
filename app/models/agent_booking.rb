@@ -67,7 +67,7 @@ class AgentBooking < ApplicationRecord
   end
 
   def booking
-    super || self.booking = build_booking(committed_request: false, notifications_enabled: true,
+    super || self.booking = build_booking(committed_request: false, deliver_notifications: true,
                                           organisation:, email: self[:tenant_email].presence)
   end
 

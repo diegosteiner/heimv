@@ -17,7 +17,7 @@
       h3.mt-5= Notification.model_name.human(count: 2)
       .card.shadow-sm 
         .card-body
-          = f.check_box :notifications_enabled
+          = f.check_box :deliver_notifications
           = f.email_field :email
           = f.email_field :bcc
 

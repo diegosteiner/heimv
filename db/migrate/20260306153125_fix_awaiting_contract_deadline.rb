@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixAwaitingContractDeadline < ActiveRecord::Migration[8.1]
   def change
     Organisation.find_each do |organisation|

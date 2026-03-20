@@ -24,7 +24,7 @@
 require 'rails_helper'
 
 RSpec.describe Payment do
-  let(:booking) { create(:booking, notifications_enabled: true) }
+  let(:booking) { create(:booking, deliver_notifications: true) }
   let(:payment) { create(:payment, booking:, invoice: nil, confirm: true) }
 
   before do

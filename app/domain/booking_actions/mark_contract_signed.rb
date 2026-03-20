@@ -13,7 +13,7 @@ module BookingActions
       booking.update!(committed_request: true)
 
       mail = MailTemplate.use(:contract_signed_notification, booking, to: :tenant)
-      send_operator_notification
+      notify_operators
 
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
@@ -34,7 +34,7 @@ module BookingActions
 
     protected
 
-    def send_operator_notification
+    def notify_operators
       Notification.dedup(booking, to: %i[billing home_handover home_return]) do |to|
         MailTemplate.use(:operator_contract_signed_notification, booking, to:)&.autodeliver!
       end

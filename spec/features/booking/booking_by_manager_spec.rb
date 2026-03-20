@@ -13,7 +13,7 @@ describe 'Booking by tenant', :devise do
     build(:booking,
           begins_at:, ends_at: begins_at + 1.week + 4.hours + 15.minutes,
           organisation:, home:, tenant: nil, committed_request: false,
-          notifications_enabled: false)
+          deliver_notifications: false)
   end
 
   let(:expected_notifications) do
@@ -60,7 +60,7 @@ describe 'Booking by tenant', :devise do
     visit new_manage_booking_path(org:)
     fill_request_form(email: booking.email, begins_at: booking.begins_at, ends_at: booking.ends_at, home: booking.home)
     fill_tenant_form(tenant)
-    uncheck 'booking_notifications_enabled'
+    uncheck 'booking_deliver_notifications'
     submit_form
 
     expect(page).to have_content(I18n.t('flash.actions.create.notice', resource_name: Booking.model_name.human))
@@ -76,7 +76,7 @@ describe 'Booking by tenant', :devise do
   end
 
   def check_booking
-    expect(@booking.notifications_enabled).to be_falsey
+    expect(@booking.deliver_notifications).to be_falsey
     expect(@booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)
   end
 end

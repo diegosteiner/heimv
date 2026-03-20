@@ -241,6 +241,7 @@ de:
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         deadline: Frist bis
+        deliver_notifications: Aus der Applikation generierte Emails versenden
         editable: Durch Mieter bearbeitbar
         ends_at: Ende der Belegung
         home_id: Hauptmietobjekt
@@ -249,7 +250,6 @@ de:
         invoice_address: Rechnungsadresse
         locale: Sprache
         nights: Nächte
-        notifications_enabled: Aus der Applikation generierte Emails versenden
         occupancies: Belegungen
         occupancy_color: Farbe im Kalender
         occupancy_type: Art der Belegungen
@@ -425,6 +425,7 @@ de:
         cors_origins: CORS Origins
         currency: Währung
         default_payment_info_type: Standartzahlungsteil
+        deliver_notifications: Nachrichten aktiviert
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
         esr_ref_prefix: Referenznummer Präfix
         iban: IBAN
@@ -437,7 +438,6 @@ de:
         mail_from: Absender von Emails
         name: Name
         nickname_label: Bezeichnung des Übernamens
-        notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
         qr_bill_creditor_address: Zahlbar an QR-Rechnungen
         representative_address: Adresse der Vertretung für Verträge

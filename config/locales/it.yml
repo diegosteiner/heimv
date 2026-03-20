@@ -237,6 +237,7 @@ it:
         committed_request: Natura vincolante della richiesta di affitto
         created_at: Creato il
         deadline: Scadenza fino a
+        deliver_notifications: Inviare le e-mail generate dall'applicazione
         editable: Modificabile dagli inquilini
         ends_at: Fine dell'occupazione
         home_id: Oggetto principale di affitto
@@ -245,7 +246,6 @@ it:
         invoice_address: Indirizzo di fatturazione (se diverso)
         locale: Lingua
         nights: Notti
-        notifications_enabled: Inviare le e-mail generate dall'applicazione
         occupancies: Occupazioni
         occupancy_color: Colore nel calendario
         occupancy_type: Tipo di occupazione
@@ -421,6 +421,7 @@ it:
         cors_origins:
         currency: Valuta
         default_payment_info_type: Parte di pagamento standard
+        deliver_notifications: Messaggi abilitati
         esr_beneficiary_account:
         esr_ref_prefix: Numero di identificazione del PVR / prefisso
         iban: IBAN
@@ -433,7 +434,6 @@ it:
         mail_from: Mittente di e-mail
         name: Nome
         nickname_label:
-        notifications_enabled: Messaggi abilitati
         privacy_statement_pdf: Informativa sulla privacy
         qr_bill_creditor_address:
         representative_address: Indirizzo della rappresentanza per i contratti

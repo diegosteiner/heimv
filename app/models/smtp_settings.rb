@@ -11,6 +11,7 @@ class SmtpSettings
   attribute :tls, :boolean, default: false
   attribute :authentication, :string
   attribute :enable_starttls, default: -> { 'auto' }
+  attribute :starttls
   attribute :open_timeout, :integer, default: 5
   attribute :read_timeout, :integer, default: 5
 

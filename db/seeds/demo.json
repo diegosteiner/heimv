@@ -99,7 +99,7 @@
   "mail_from": "info@heimv.local",
   "name": "Heimverein Development",
   "nickname_label_i18n": {},
-  "notifications_enabled": true,
+  "deliver_notifications": true,
   "settings": {
     "default_calendar_view": "months",
     "tenant_birth_date_required": true,

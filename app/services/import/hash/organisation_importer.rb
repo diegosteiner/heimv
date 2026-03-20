@@ -6,7 +6,7 @@ module Import
       use_attributes(*%w[slug address booking_flow_type settings accounting_settings booking_state_settings
                          booking_ref_template country_code currency email esr_beneficiary_account iban
                          invoice_payment_ref_template invoice_ref_template location deadline_settings
-                         mail_from name nickname_label_i18n notifications_enabled tenant_ref_template])
+                         mail_from name nickname_label_i18n deliver_notifications tenant_ref_template])
 
       def initialize_record(_hash)
         Organisation.new

@@ -23,7 +23,7 @@ describe 'Booking by agent', :devise do
   let(:booking) do
     begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
     build(:booking, begins_at:, ends_at: begins_at + 1.week + 4.hours + 15.minutes, organisation:,
-                    home:, tenant: nil, committed_request: false, notifications_enabled: true)
+                    home:, tenant: nil, committed_request: false, deliver_notifications: true)
   end
 
   let(:expected_notifications) do

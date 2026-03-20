@@ -237,6 +237,7 @@ fr:
         committed_request: Caractère obligatoire de la demande de location
         created_at: Créé le
         deadline: Délai jusqu'au
+        deliver_notifications: Envoyer des e-mails générés par l'application
         editable: Possibilité de traitement par le locataire
         ends_at: Fin de la location
         home_id: Principal objet de location
@@ -245,7 +246,6 @@ fr:
         invoice_address: adresse complète de facturation (si différente)
         locale: Langue
         nights: Nuits
-        notifications_enabled: Envoyer des e-mails générés par l'application
         occupancies: Locations
         occupancy_color: Couleur dans le calendrier
         occupancy_type: Type de locations
@@ -421,6 +421,7 @@ fr:
         cors_origins:
         currency: Währung
         default_payment_info_type: Partie paiement standard
+        deliver_notifications: Messages activés
         esr_beneficiary_account: Numéro de participant BVR / compte postal
         esr_ref_prefix: Numéro d'identification BVR / Préfixe
         iban: IBAN
@@ -433,7 +434,6 @@ fr:
         mail_from: Expéditeur des e-mails
         name: Nom
         nickname_label: Désignation du surnom
-        notifications_enabled: Messages activés
         privacy_statement_pdf: Déclaration de confidentialité
         qr_bill_creditor_address:
         representative_address: Adresse de la suppléance pour les contrats

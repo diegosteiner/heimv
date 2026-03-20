@@ -16,6 +16,7 @@
 #  committed_request            :boolean
 #  concluded                    :boolean          default(FALSE)
 #  conditions_accepted_at       :datetime
+#  deliver_notifications        :boolean          default(FALSE)
 #  editable                     :boolean
 #  email                        :string
 #  ends_at                      :datetime
@@ -25,7 +26,6 @@
 #  invoice_address              :jsonb
 #  invoice_cc                   :string
 #  locale                       :string
-#  notifications_enabled        :boolean          default(FALSE)
 #  occupancy_color              :string
 #  occupancy_type               :integer          default("pending"), not null
 #  purpose_description          :string
@@ -56,7 +56,7 @@ FactoryBot.define do
     tenant_organisation { Faker::Company.name }
     committed_request { [true, false].sample }
     approximate_headcount { rand(1..30) }
-    notifications_enabled { true }
+    deliver_notifications { true }
     purpose_description { 'Pfadilager Test' }
     skip_infer_transitions { true }
     home { association(:home, organisation:) }

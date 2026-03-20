@@ -45,7 +45,7 @@ class Notification < ApplicationRecord
   end
 
   def deliverable?
-    valid? && organisation.notifications_enabled? && booking.notifications_enabled? && deliver_to.present?
+    valid? && organisation.deliver_notifications? && booking.deliver_notifications? && deliver_to.present?
   end
 
   def deliver
