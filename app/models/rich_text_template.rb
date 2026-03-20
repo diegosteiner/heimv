@@ -141,7 +141,7 @@ class RichTextTemplate < ApplicationRecord
     false
   end
 
-  def load_locale_defaults(key: self.key, locales: I18n.available_locales)
+  def load_defaults(key: self.key, locales: I18n.available_locales)
     locales = Array.wrap(locales).map(&:to_sym)
     defaults = self.class.defaults_for_key(key:, locales:)
     title_i18n.merge!(defaults[:title_i18n].slice(*locales).stringify_keys)
@@ -151,7 +151,7 @@ class RichTextTemplate < ApplicationRecord
   def self.defaults_for_key(key:, locales: I18n.available_locales)
     { title_i18n: {}, body_i18n: {} }.tap do |defaults|
       locales.map do |locale|
-        key_in_locale = I18n.t(key, scope: [:rich_text_templates], locale:, default: nil)
+        key_in_locale = RichTextTemplateService.defaults.dig(locale.to_s, key.to_s)
         defaults[:title_i18n][locale] = key_in_locale&.fetch(:default_title, nil)
         defaults[:body_i18n][locale] = key_in_locale&.fetch(:default_body, nil)
       end

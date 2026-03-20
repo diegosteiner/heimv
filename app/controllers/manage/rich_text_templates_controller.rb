@@ -36,9 +36,9 @@ module Manage
     end
 
     def update
-      load_locale_defaults = params.dig(:rich_text_template, :load_locale_defaults)
+      load_defaults = params.dig(:rich_text_template, :load_defaults)
       @rich_text_template.assign_attributes(rich_text_template_params)
-      @rich_text_template.load_locale_defaults(locales: load_locale_defaults) if load_locale_defaults.present?
+      @rich_text_template.load_defaults(locales: load_defaults) if load_defaults.present?
       @rich_text_template.save
       respond_with :manage, @rich_text_template.becomes(RichTextTemplate)
     end

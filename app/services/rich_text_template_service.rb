@@ -9,29 +9,28 @@ class RichTextTemplateService
     @organisation = organisation
   end
 
-  def load_defaults_from_organisation!
-    load_defaults_from_organisation.each_pair do |locale_file, yaml|
-      File.open(locale_file, 'wb') { it.write yaml.to_yaml }
+  def save_defaults_from_organisation!
+    build_defaults_from_organisation.each_pair do |locale, defaults_hash|
+      locale_file = Rails.root.join("config/locales/rich_text_templates.#{locale}.yml")
+      File.open(locale_file, 'wb') { it.write({ locale => defaults_hash }.to_yaml) }
     end
   end
 
-  def load_defaults_from_organisation
-    Rails.root.glob('config/locales/*.yml').to_h do |locale_file|
-      yaml = YAML.load_file(locale_file)
-      locale = yaml.keys.first
-      set_rich_text_template_defaults(yaml, locale)
-      [locale_file, yaml]
+  def build_defaults_from_organisation
+    defaults = Hash.new { |hash, key| hash[key] = hash.dup.clear }
+    organisation.rich_text_templates.find_each do |rich_text_template|
+      build_default_from_organisation(defaults, rich_text_template)
     end
+    defaults.freeze
   end
 
-  def set_rich_text_template_defaults(yaml, locale)
-    organisation.rich_text_templates.each do |rich_text_template|
-      key = rich_text_template.key
-      title = rich_text_template.title_i18n[locale]
-      body = rich_text_template.body_i18n[locale]
-
-      yaml[locale]['rich_text_templates'][key]['default_title'] = title if title
-      yaml[locale]['rich_text_templates'][key]['default_body'] = body if body
+  def build_default_from_organisation(defaults, rich_text_template, locales:)
+    key = rich_text_template.key
+    I18n.available_locales.each do |locale|
+      title = rich_text_template.title_i18n[locale.to_s]
+      body = rich_text_template.body_i18n[locale.to_s]
+      defaults[locale.to_s][key]['default_title'] = title if title
+      defaults[locale.to_s][key]['default_body'] = body if body
     end
   end
 
@@ -53,7 +52,7 @@ class RichTextTemplateService
     enabled ||= !definition.fetch(:optional, false)
     template = RichTextTemplate.new({ key: definition[:key], type: definition[:type].to_s, organisation:,
                                       autodeliver: definition.fetch(:autodeliver, true), enabled: })
-    template.load_locale_defaults
+    template.load_defaults
     template
   end
 
@@ -67,5 +66,11 @@ class RichTextTemplateService
 
   def find_in_templates(search, scope: @organisation.rich_text_templates)
     @organisation.rich_text_templates.merge(scope).to_a.filter { it.include?(search) }
+  end
+
+  def self.defaults
+    @defaults ||= Rails.root.glob('config/locales/rich_text_templates.*.yml').reduce({}) do |yaml, locale_file|
+      yaml.merge(YAML.load_file(locale_file))
+    end.with_indifferent_access.freeze
   end
 end

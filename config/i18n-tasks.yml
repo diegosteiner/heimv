@@ -18,7 +18,7 @@ data:
     ## Default:
     - config/locales/%{locale}.yml
     ## More files:
-    - config/locales/*.%{locale}.yml
+    # - config/locales/*.%{locale}.yml
     ## Another gem (replace %#= with %=):
     # - "<%#= %x[bundle show vagrant].chomp %>/templates/locales/%{locale}.yml"
 
@@ -96,7 +96,6 @@ ignore_missing:
   - "number.precision.format.delimiter"
   - "number.nth.*"
   - "{devise,simple_form}.*"
-  - "rich_text_templates.*.{default_title,default_body}"
   - "{amount,creditor_account}"
   - "i18n.transliterate.*"
   - "faker.*"
@@ -113,7 +112,7 @@ ignore_unused:
   - "locales.*"
   - "flash.*"
   - "titles.*"
-  - "{booking_flows,booking_states,booking_actions,rich_text_templates,booking_conditions}.*"
+  - "{booking_flows,booking_states,booking_actions,booking_conditions}.*"
   - "faker.*"
   - "export.*"
   - "occupancy_calendar.*"
@@ -135,9 +134,6 @@ ignore_eq_base:
     - "{activerecord, activemodel}.errors.format"
     - errors.format
     - support.array.words_connector
-  fr,it,en:
-    - rich_text_templates.*.default_body
-    - rich_text_templates.*.default_title
 ## Ignore these keys completely:
 # ignore:
 #  - kaminari.*

@@ -84,8 +84,8 @@ RSpec.describe RichTextTemplate do
     end
   end
 
-  describe '#load_locale_defaults' do
-    subject(:load_locale_defaults) { rich_text_template.load_locale_defaults }
+  describe '#load_defaults' do
+    subject(:load_defaults) { rich_text_template.load_defaults }
 
     let(:key) { :email_contract_notification }
     let(:not_default_text) { 'Not the default' }
@@ -95,7 +95,7 @@ RSpec.describe RichTextTemplate do
     it do
       expect(rich_text_template.body).to eq not_default_text
       expect(rich_text_template.title).to eq not_default_text
-      load_locale_defaults
+      load_defaults
       expect(rich_text_template.save).to be_truthy
       expect(rich_text_template.title).not_to eq not_default_text
     end
