@@ -67,10 +67,4 @@ class RichTextTemplateService
   def find_in_templates(search, scope: @organisation.rich_text_templates)
     @organisation.rich_text_templates.merge(scope).to_a.filter { it.include?(search) }
   end
-
-  def self.defaults
-    @defaults ||= Rails.root.glob('config/locales/rich_text_templates.*.yml').reduce({}) do |yaml, locale_file|
-      yaml.merge(YAML.load_file(locale_file))
-    end.with_indifferent_access.freeze
-  end
 end

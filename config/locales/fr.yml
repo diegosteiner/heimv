@@ -1696,6 +1696,101 @@ fr:
           'false': Non
           'true': Oui
   reset: Réinitialiser
+  rich_text_templates:
+    awaiting_tenant_notification:
+      description: Notification d'informations manquantes sur le locataire ayant fait une demande de transmission (locataire)
+    booking_agent_cancelled_notification:
+      description: Notification de demande de transmission annulée (intermédiaire)
+    booking_agent_request_accepted_notification:
+      description: Notification de demande de transmission confirmée (intermédiaire)
+    booking_agent_request_notification:
+      description: Notification de nouvelle demande de transmission (intermédiaire)
+    cancelled_notification:
+      description: Notification d'une réservation annulée (locataire)
+    cancelled_request_notification:
+      description: Notification de demande de réservation retirée (locataire)
+    completed_notification:
+      description: Notification de clôture de la réservation (locataire)
+    contract_sent_notification:
+      description:
+    contract_signed_notification:
+      description: Notification de réception de contrat (locataire)
+    contract_text:
+      description: Texte pour le contrat
+    declined_request_notification:
+      description: Notification de demande de réservation refusée (locataire)
+    definitive_request_notification:
+      description: Notification de demande de location définitive (locataire)
+    email_contract_notification:
+      description:
+    email_invoice_notification:
+      description:
+    email_offer_notification:
+      description: Notification pour l'envoi de l'offre (locataire)
+    foreign_payment_info_text:
+      description: Texte pour les informations de paiement pour les locataires étrangers
+    invoices_deposit_text:
+      description: Texte pour la facture d’acompte
+    invoices_invoice_text:
+      description: Texte pour facture de rappel
+    invoices_late_notice_text:
+      description: Texte pour facture de rappel
+    invoices_offer_text:
+      description: Texte pour l'offre
+    manage_cancelation_pending_notification:
+      description:
+    manage_cancelled_request_notification:
+      description: Notification de demande de réservation annulée (administration)
+    manage_contract_signed_notification:
+      description:
+    manage_definitive_request_notification:
+      description: Notification de demande de location définitive (administration)
+    manage_new_booking_notification:
+      description: Notification de nouvelle demande de location (administration)
+    notification_footer:
+      description: Pied de page pour les notifications
+    open_booking_agent_request_notification:
+      description: Notification de demande de location ouverte (locataire)
+    open_request_notification:
+      description: Notification de demande de location ouverte (locataire)
+    operator_cancelation_pending_notification:
+      description: Notification pour location annulée (propriétaire)
+    operator_contract_signed_notification:
+      description:
+    operator_email_contract_notification:
+      description:
+    operator_email_invoice_notification:
+      description:
+    operator_payment_confirmation_notification:
+      description:
+    operator_upcoming_notification:
+      description: Notification pour location annulée (propriétaire)
+    operator_upcoming_soon_notification:
+      description: Notification pour location prochaine (propriétaire)
+    overdue_notification:
+      description: Notification de réservation en retard, contrat manquant (locataire)
+    overdue_request_notification:
+      description: Notification de demande de réservation en retard (locataire)
+    past_notification:
+      description: Notification pour location prochaine (propriétaire)
+    payment_confirmation_notification:
+      description: Notification de confirmation de paiement
+    payment_overdue_notification:
+      description: Notification de facture en retard (locataire)
+    provisional_request_notification:
+      description: Notification de demande de location provisoire (locataire)
+    text_payment_info_text:
+      description: Texte pour les informations de paiement
+    unconfirmed_request_notification:
+      description: Notification de demande de location non-confirmée (locataire)
+    upcoming_notification:
+      description: Notification pour location future (locataire)
+    upcoming_soon_notification:
+      description: Notification pour location prochaine (locataire)
+    usage_report_text:
+      description: Texte pour le formulaire de consommation
+    waitlisted_request_notification:
+      description: Notification de demande de location sur liste d'attente (locataire)
   show: Annonces
   support:
     array:

@@ -1643,6 +1643,101 @@ it:
           'false':
           'true':
   reset: Reset
+  rich_text_templates:
+    awaiting_tenant_notification:
+      description: Notifica per informazioni mancanti sull'inquilino di una richiesta di affitto (inquilino)
+    booking_agent_cancelled_notification:
+      description: Notifica per richiesta di collocamento annullata (mediatore)
+    booking_agent_request_accepted_notification:
+      description: Notifica per richiesta di collocamento confermata (mediatore)
+    booking_agent_request_notification:
+      description: Notifica di una nuova richiesta di mediazione (mediatore)
+    cancelled_notification:
+      description: Notifica di prenotazione annullata (inquilino)
+    cancelled_request_notification:
+      description: Notifica per richiesta di prenotazione ritirata (inquilino)
+    completed_notification:
+      description: Notifica di completamento della prenotazione (inquilino)
+    contract_sent_notification:
+      description:
+    contract_signed_notification:
+      description: Notifica di ricezione del contratto (inquilino)
+    contract_text:
+      description: Testo per il contratto
+    declined_request_notification:
+      description: Notifica di richiesta di prenotazione rifiutata (inquilino)
+    definitive_request_notification:
+      description: Notifica per richiesta di affitto definitiva (inquilino)
+    email_contract_notification:
+      description:
+    email_invoice_notification:
+      description:
+    email_offer_notification:
+      description:
+    foreign_payment_info_text:
+      description: Testo per le informazioni di pagamento per gli inquilini stranieri
+    invoices_deposit_text:
+      description: Testo per la fattura (acconto)
+    invoices_invoice_text:
+      description: Testo per la fattura
+    invoices_late_notice_text:
+      description: Testo per la fattura (promemoria)
+    invoices_offer_text:
+      description: Testo per l'offerta
+    manage_cancelation_pending_notification:
+      description:
+    manage_cancelled_request_notification:
+      description:
+    manage_contract_signed_notification:
+      description:
+    manage_definitive_request_notification:
+      description: Notifica per richiesta di affitto definitivo (amministrazione)
+    manage_new_booking_notification:
+      description: Notifica di una nuova richiesta di affitto (amministrazione)
+    notification_footer:
+      description: Piè di pagina per le notifiche
+    open_booking_agent_request_notification:
+      description:
+    open_request_notification:
+      description: Notifica per richiesta di affitto aperta (inquilino)
+    operator_cancelation_pending_notification:
+      description: Notifica di occupazione annullata (funzionario)
+    operator_contract_signed_notification:
+      description:
+    operator_email_contract_notification:
+      description:
+    operator_email_invoice_notification:
+      description:
+    operator_payment_confirmation_notification:
+      description:
+    operator_upcoming_notification:
+      description:
+    operator_upcoming_soon_notification:
+      description: Notifica di occupazione anticipata (funzionario)
+    overdue_notification:
+      description: Notifica per prenotazione in ritardo, contratto mancante (inquilino)
+    overdue_request_notification:
+      description: Notifica per richiesta di prenotazione in ritardo (inquilino)
+    past_notification:
+      description: Notifica di occupazione anticipata (funzionario)
+    payment_confirmation_notification:
+      description: Notifica di conferma del pagamento
+    payment_overdue_notification:
+      description: Notifica di fattura scaduta (inquilino)
+    provisional_request_notification:
+      description: Notifica di richiesta di affitto provvisoria (inquilino)
+    text_payment_info_text:
+      description: Testo per informazioni sul pagamento
+    unconfirmed_request_notification:
+      description: Notifica per richiesta di affitto non confermata (inquilino)
+    upcoming_notification:
+      description: Notifica di occupazione futura (inquilino)
+    upcoming_soon_notification:
+      description: Notifica di occupazione nel prossimo futuro (inquilino)
+    usage_report_text:
+      description: Testo per il modulo di consumo
+    waitlisted_request_notification:
+      description:
   show: Mostrare
   support:
     array:

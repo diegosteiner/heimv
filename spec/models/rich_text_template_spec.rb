@@ -102,7 +102,7 @@ RSpec.describe RichTextTemplate do
   end
 
   describe '::defautls_for_key' do
-    subject(:defaults) { described_class.defaults_for_key(key:) }
+    subject(:defaults) { described_class.defaults_for_key(key) }
 
     let(:key) { :email_contract_notification }
 

@@ -1939,6 +1939,104 @@ de:
           'false': Nein
           'true': Ja
   reset: Zurücksetzen
+  rich_text_templates:
+    awaiting_tenant_notification:
+      description: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
+    booking_agent_cancelled_notification:
+      description: Benachrichtigung für annullierte Vermittlungsanfrage (Vermittler)
+    booking_agent_request_accepted_notification:
+      description: Benachrichtigung für bestätigte Vermittlungsanfrage (Vermittler)
+    booking_agent_request_notification:
+      description: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
+    cancelled_notification:
+      description: Benachrichtigung für annullierte Reservation (Mieter)
+    cancelled_request_notification:
+      description: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
+    completed_notification:
+      description: Benachrichtigung für den Abschluss der Buchung (Mieter)
+    contract_sent_notification:
+      description: Benachrichtigung für per Post versendeten Vertrag (Mieter)
+    contract_signed_notification:
+      default_body: ''
+      description: Benachrichtigung für Vertragseingang (Mieter)
+    contract_text:
+      description: Text für Vertrag
+    declined_request_notification:
+      description: Benachrichtigung für abgelehnte Reservationsanfrage (Mieter)
+    definitive_request_notification:
+      description: Benachrichtigung für definitive Mietanfrage (Mieter)
+    email_contract_notification:
+      description: Benachrichtigung für Versand Vertrag/Akontorechnung (Mieter)
+    email_invoice_notification:
+      description: Benachrichtigung für Versand Rechnung (Mieter)
+    email_offer_notification:
+      description: Benachrichtigung für Versand Offerte (Mieter)
+    foreign_payment_info_text:
+      description: Text für Zahlunginformationen für ausländische Mieter
+    invoices_deposit_text:
+      description: Text für Rechnung (Akontorechnung)
+    invoices_invoice_text:
+      description: Text für Rechnung
+    invoices_late_notice_text:
+      description: Text für Rechnung (Mahnung)
+    invoices_offer_text:
+      description: Text für Offerte
+    manage_cancelation_pending_notification:
+      description: Benachrichtigung für stornierte Reservation (Verwaltung)
+    manage_cancelled_request_notification:
+      description: Benachrichtigung für zurückgezogene Reservationsanfrage (Verwaltung)
+    manage_contract_signed_notification:
+      description: Benachrichtigung für Vertragseingang (Verwaltung)
+    manage_declined_request_notification:
+      description: Benachrichtigung für stornierte Reservationsanfrage (Verwaltung)
+    manage_definitive_request_notification:
+      description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
+    manage_new_booking_notification:
+      description: Benachrichtigung für neue Mietanfrage (Verwaltung)
+    notification_footer:
+      description: Fusszeile für Benachrichtigungen
+    open_booking_agent_request_notification:
+      description: Benachrichtigung für offene Mietanfrage (Vermittler)
+    open_request_notification:
+      description: Benachrichtigung für offene Mietanfrage (Mieter)
+    operator_cancelation_pending_notification:
+      description: Benachrichtigung für abgesagte Belegung (Funktionär)
+    operator_contract_signed_notification:
+      description: Benachrichtigung für Vertragseingang (Funktionär)
+    operator_email_contract_notification:
+      description: Benachrichtigung für Versand Vertrag/Akontorechnung (Funktionär)
+    operator_email_invoice_notification:
+      description: Benachrichtigung für Versand Rechnung (Funktionär)
+    operator_payment_confirmation_notification:
+      description: Benachrichtigung für Zahlungseingang (Funktionär)
+    operator_upcoming_notification:
+      description: Benachrichtigung für Belegung (Funktionär)
+    operator_upcoming_soon_notification:
+      description: Benachrichtigung für baldige Belegung (Funktionär)
+    overdue_notification:
+      description: Benachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
+    overdue_request_notification:
+      description: Benachrichtigung für überfällige Reservationsanfrage (Mieter)
+    past_notification:
+      description: Benachrichtigung für vergangene Belegung (Mieter)
+    payment_confirmation_notification:
+      description: Benachrichtigung für Zahlungseingang (Mieter)
+    payment_overdue_notification:
+      description: Benachrichtigung für überfällige Rechnung (Mieter)
+    provisional_request_notification:
+      description: Benachrichtigung für provisorische Mietanfrage (Mieter)
+    text_payment_info_text:
+      description: Text für Zahlunginformationen
+    unconfirmed_request_notification:
+      description: Benachrichtigung für unbestätigte Mietanfrage (Mieter)
+    upcoming_notification:
+      description: Benachrichtigung für zukünftige Belegung (Mieter)
+    upcoming_soon_notification:
+      description: Benachrichtigung für baldige Belegung (Mieter)
+    usage_report_text:
+      description: Text für Verbrauchsformular
+    waitlisted_request_notification:
+      description: Benachrichtigung für Mietanfrage auf der Warteliste (Mieter)
   show: Anzeigen
   support:
     array:
