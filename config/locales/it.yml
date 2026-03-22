@@ -413,12 +413,12 @@ it:
         remarks: Osservazioni
         responsibility: Responsabilità
       organisation:
-        account_address:
         address: Indirizzo
         bcc: BCC
         booking_ref_template:
         contract_signature: Immagine della firma del contratto
         cors_origins:
+        creditor_address:
         currency: Valuta
         default_payment_info_type: Parte di pagamento standard
         deliver_notifications: Messaggi abilitati

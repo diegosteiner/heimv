@@ -5,7 +5,6 @@
 # Table name: organisations
 #
 #  id                           :bigint           not null, primary key
-#  account_address              :string
 #  accounting_settings          :jsonb
 #  address                      :text
 #  bcc                          :string
@@ -89,7 +88,6 @@ class Organisation < ApplicationRecord
   validates :locale, presence: true
   validate do
     errors.add(:creditor_address, :invalid) if creditor_address&.lines&.count&.> 3
-    errors.add(:account_address, :invalid) if account_address&.lines&.count&.> 3
     errors.add(:iban, :invalid) if iban.present? && !iban.valid?
   end
 

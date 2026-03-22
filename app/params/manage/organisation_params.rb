@@ -4,7 +4,7 @@ module Manage
   class OrganisationParams < ApplicationParams
     def self.permitted_keys
       %i[name address logo location bcc cors_origins iban esr_ref_prefix
-         mail_from locale default_payment_info_type creditor_address account_address
+         mail_from locale default_payment_info_type creditor_address
          representative_address contract_signature email deliver_notifications] +
         I18n.available_locales.map { |locale| ["nickname_label_#{locale}"] }.flatten +
         [{ deadline_settings: deadline_settings_permitted_keys,

@@ -413,12 +413,12 @@ fr:
         remarks: Remarques
         responsibility: Responsabilité
       organisation:
-        account_address: Adresse du compte pour les factures QR (si différente)
         address: Adresse
         bcc: BCC
         booking_ref_template:
         contract_signature: Image de signature de contrat
         cors_origins:
+        creditor_address: Adresse du compte pour les factures QR (si différente)
         currency: Währung
         default_payment_info_type: Partie paiement standard
         deliver_notifications: Messages activés

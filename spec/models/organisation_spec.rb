@@ -5,7 +5,6 @@
 # Table name: organisations
 #
 #  id                           :bigint           not null, primary key
-#  account_address              :string
 #  accounting_settings          :jsonb
 #  address                      :text
 #  bcc                          :string

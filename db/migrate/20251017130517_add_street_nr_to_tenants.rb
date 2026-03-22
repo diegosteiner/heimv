@@ -17,9 +17,9 @@ class AddStreetNrToTenants < ActiveRecord::Migration[8.0]
 
     reversible do |direction|
       direction.up do
-        migrate_organisations
-        migrate_tenants
-        migrate_invoice_addresses
+        # migrate_organisations
+        # migrate_tenants
+        # migrate_invoice_addresses
       end
     end
   end
