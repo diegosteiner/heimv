@@ -35,10 +35,19 @@ module Tarifs
   class GroupMinimum < Tarif
     Tarif.register_subtype self
 
-    def breakdown(usage)
-      minimum = number_to_currency(minimum_price(usage)&.last || 0, unit: organisation.currency)
-      I18n.t(:minimum, scope: 'invoice_items.breakdown', unit:, minimum:,
-                       group_price: number_to_currency(group_price(usage) || 0, unit: organisation.currency))
+    def breakdown(usage) # rubocop:disable Metrics/CyclomaticComplexity
+      applicable_minimum = minimum_price(usage)&.first
+      minimum = case applicable_minimum
+                when :minimum_usage_total, :minimum_usage_per_night
+                  try(applicable_minimum) || 0
+                when :minimum_price_total, :minimum_price_per_night
+                  number_to_currency(try(applicable_minimum) || 0, unit: organisation.currency)
+                end
+
+      difference = number_to_currency(usage.price || 0, unit: organisation.currency)
+
+      I18n.t(applicable_minimum, scope: 'invoice_items.breakdown', unit:, minimum:, difference:,
+                                 group_price: number_to_currency(group_price(usage) || 0, unit: organisation.currency))
     end
 
     def usages_in_group(usage)

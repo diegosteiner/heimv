@@ -1507,6 +1507,10 @@ de:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
+      minimum_price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
+      minimum_price_total: Differenz zum Mindestbetrag (%{minimum})
+      minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{unit} / Nacht)
+      minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{unit})
   invoices:
     total: Total
     vat_title: in den Preisen enhaltene MwSt.

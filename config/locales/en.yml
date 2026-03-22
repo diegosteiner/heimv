@@ -284,6 +284,7 @@ en:
       booking_question:
         applying_conditions: Bedingungen
         booking_agent_mode: Eingabemodus für Vermittler
+        default_value: Standardwert
         description: Beschreibung
         key: Schlüssel
         label: Bezeichnung
@@ -735,6 +736,9 @@ en:
       booking_questions/check_box:
         one: Zusätzliche Angabe als Checkbox
         other: Other
+      booking_questions/country_code:
+        one: Zusätzliche Angabe als Ländercode
+        other: Other
       booking_questions/date:
         one: Zusätzliche Angabe als Datum
         other: Other
@@ -980,6 +984,7 @@ en:
         locale: Sprache
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
+    contract_sent: Vertrag versenden
     contract_signed: Vertrag unterschieben
     credit_issued: Gutschrift ausbezahlt
     deposit_created: Akontorechnung erstellen
@@ -987,6 +992,7 @@ en:
     invoice_created: Rechnung stellen
     invoice_paid: "%{invoice} bezahlt"
     invoice_refunded: "%{invoice} erstattet"
+    invoice_sent: Rechnung versenden
     invoices_paid: Rechnungen beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen
@@ -1019,6 +1025,7 @@ en:
     completed:
       label: Belegung (abgeschlossen)
     declined_request:
+      description: Die Verwaltung hat die Mietanfrage abgelehnt oder die Frist ist abglaufen
       label: Mietanfrage (abgelehnt)
     definitive_request:
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
@@ -1486,6 +1493,10 @@ en:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
+      minimum_price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
+      minimum_price_total: Differenz zum Mindestbetrag (%{minimum})
+      minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{unit} / Nacht)
+      minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{unit})
   invoices:
     total: Total
     vat_title: in den Preisen enhaltene MwSt.
@@ -1593,6 +1604,403 @@ en:
       new_import:
         camt_file: CAMT.054-Datei (.xml)
         exception: 'Zahlungsdatei konnte nicht verarbeitet werden: %{errors}'
+    rich_text_templates:
+      form:
+        help_lead: |
+          <h5>Variabeln im Text verwenden</h5>
+          <pre>Hallo {{ booking.tenant.first_name }}!</pre>
+
+          <h5>Logik im Text verwenden</h5>
+          <pre>{% if booking.home_id contains 1 %}Passage nur sichtbar, wenn ID des Hauptmietobjekts der Buchung gleich 1 ist{% endif %}</pre>
+          <pre>
+          {% if booking.category.key == 'camp' %}
+            Wir wünschen euch viel Spass in eurem Lager in unserem Heim!
+          {% else %}
+            Wir wünschen Ihnen einen schönen Aufenthalt in unserem Heim!
+          {% endif %}
+          </pre>
+        help_title: Hilfe zu Variabeln
+        load_defaults: Standard-Text für diese Sprache wiederherstellen
+        template_context:
+          booking: |-
+            <h5>Buchung</h5>
+            <dl>
+              <dt>Beginn der Belegung</dt>
+              <dd><pre>{{ booking.begins_at | datetime_format }}</pre></dd>
+              <dd><pre>{{ booking.begins_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
+              <dt>Ende der Belegung</dt>
+              <dd><pre>{{ booking.ends_at | datetime_format }}</pre></dd>
+              <dd><pre>{{ booking.ends_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
+              <dt>Erwartete Anzahl Personen</dt>
+              <dd><pre>{{ booking.approximate_headcount }}</pre></dd>
+              <dt>Annulierungsgrund</dt>
+              <dd><pre>{{ booking.cancellation_reason }}</pre></dd>
+              <dt>Verbindlichkeit der Mietanfrage</dt>
+              <dd><pre>{{ booking.committed_request }}</pre></dd>
+              <dt>ID des Hauptmietobjekts</dt>
+              <dd><pre>{{ booking.home.id }}</pre></dd>
+              <dt>IDs aller belegten Mietobjekte</dt>
+              <dd><pre>{{ booking.occupiable_ids }}</pre></dd>
+              <dt>Name des Hauptmietobjekts</dt>
+              <dd><pre>{{ booking.home.name }}</pre></dd>
+              <dt>Adresse des Hauptmietobjekts</dt>
+              <dd><pre>{{ booking.home.description }}</pre></dd>
+              <dt>Name aller belegten Mietobjekte</dt>
+              <dd><pre>{{ booking.occupiables | map: "name" | join: ", " }}</pre></dd>
+              <dt>Liste belegten Hauptmietobjekte</dt>
+              <dd><pre><ul>{% for home in booking.occupiables %}<li>{{ home.name }}</li>{% endfor %}</ul></pre></dd>
+              <dt>Rechnungsadresse</dt>
+              <dd><pre>{{ booking.invoice_address }}</pre></dd>
+              <dt>Frist bis Datum / Uhrzeit</dt>
+              <dd><pre>{{ booking.deadline.at | datetime_format }}</pre></dd>
+              <dt>Frist Verlängerbar für n Sekunden</dt>
+              <dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>
+              <dt>Link für den Mieter</dt>
+              <dd><pre>{{ booking.links.show }}</pre></dd>
+              <dt>Link für den Vermieter</dt>
+              <dd><pre>{{ booking.links.manage }}</pre></dd>
+              <dt>Belegungstyp</dt>
+              <dd><pre>{{ booking.occupancy_type }}</pre></dd>
+              <dt>Schlüssel der Mietkategorie</dt>
+              <dd><pre>{{ booking.category.key }}</pre></dd>
+              <dt>Bezeichnung der Mietkategorie</dt>
+              <dd><pre>{{ booking.category.title }}</pre></dd>
+              <dt>Beschreibung der Mietkategorie</dt>
+              <dd><pre>{{ booking.category.description }}</pre></dd>
+              <dt>Beschreibung der Mietzwecks</dt>
+              <dd><pre>{{ booking.purpose_description }}</pre></dd>
+              <dt>Referenznummer der Buchung</dt>
+              <dd><pre>{{ booking.ref }}</pre></dd>
+              <dt>Bemerkungen des Mieters</dt>
+              <dd><pre>{{ booking.remarks }}</pre></dd>
+              <dt>Adresszusatz des Mieters</dt>
+              <dd><pre>{{ booking.tenant.address_addon }}</pre></dd>
+              <dt>Ort des Mieters</dt>
+              <dd><pre>{{ booking.tenant.city }}</pre></dd>
+              <dt>E-Mail des Mieters</dt>
+              <dd><pre>{{ booking.tenant.email }}</pre></dd>
+              <dt>Vorname des Mieters</dt>
+              <dd><pre>{{ booking.tenant.first_name }}</pre></dd>
+              <dt>Nachname des Mieters</dt>
+              <dd><pre>{{ booking.tenant.last_name }}</pre></dd>
+              <dt>Übername des Mieters</dt>
+              <dd><pre>{{ booking.tenant.nickname }}</pre></dd>
+              <dt>Anrede mit Name des Mieters</dt>
+              <dd><pre>{{ booking.tenant.salutation }}</pre></dd>
+              <dt>Anredeform des Mieters</dt>
+              <dd><pre>{{ booking.tenant.salutation_form }}</pre></dd>
+              <dt>Adresse des Mieters</dt>
+              <dd><pre>{{ booking.tenant.street_address }}</pre></dd>
+              <dt>PLZ des Mieters</dt>
+              <dd><pre>{{ booking.tenant.zipcode }}</pre></dd>
+              <dt>Mieter Organisation / Gruppenname</dt>
+              <dd><pre>{{ booking.tenant_organisation }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Hausübergabe</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Hausübergabe</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Hausübergabe</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Hausrücknahme</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Hausrücknahme</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Hausrücknahme</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>
+              <dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>
+              <dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>
+              <dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Verrechnung</dt>
+              <dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Verrechnung</dt>
+              <dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt>
+              <dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>
+            </dl>
+          contract: |-
+            <h5>Vertrag</h5>
+            <dl>
+              <dt>Vertragsdatum</dt>
+              <dd><pre>{{ contract.issued_at | date_format }}</pre></dd>
+            </dl>
+          invoice: |-
+            <h5>Rechnung</h5>
+            <dl>
+              <dt>Rechnungsnummer</dt>
+              <dd><pre>{{ invoice.ref }}</pre></dd>
+              <dt>Betrag</dt>
+              <dd><pre>{{ invoice.amount | currency }}</pre></dd>
+              <dt>Rechnungsdatum</dt>
+              <dd><pre>{{ invoice.issued_at | date_format }}</pre></dd>
+            </dl>
+          invoices: |-
+            <h5>Rechnungen</h5>
+            <dl>
+              <dt>Rechnungsnummer</dt>
+              <dd><pre>{{ invoices[0].ref }}</pre></dd>
+              <dt>Betrag</dt>
+              <dd><pre>{{ invoices[0].amount | currency }}</pre></dd>
+              <dt>Rechnungsdatum</dt>
+              <dd><pre>{{ invoices[0].issued_at | date_format }}</pre></dd>
+            </dl>
+          organisation: |-
+            <h5>Organisation</h5>
+            <dl>
+              <dt>Adresse der Organisation, Sitz</dt>
+              <dd><pre>{{ organisation.address }}</pre></dd>
+              <dt>Liste aller Mietkategorien der Organisation</dt>
+              <dd><pre>{{ organisation.booking_categories }}</pre></dd>
+              <dt>E-Mail der Organisation</dt>
+              <dd><pre>{{ organisation.email }}</pre></dd>
+              <dt>PC-Kontonummer</dt>
+              <dd><pre>{{ organisation.esr_beneficiary_account }}</pre></dd>
+              <dt>IBAN</dt>
+              <dd><pre>{{ organisation.iban }}</pre></dd>
+              <dt>Link zur Datenschutzerklärung</dt>
+              <dd><pre>{{ organisation.links.privacy_statement_pdf }}</pre></dd>
+              <dt>Link zu den AGB</dt>
+              <dd><pre>{{ organisation.links.terms_pdf }}</pre></dd>
+              <dt>Name der Organisation</dt>
+              <dd><pre>{{ organisation.name }}</pre></dd>
+            </dl>
+          other: |-
+            <h5>Tarife</h5>
+            <dl>
+              <dt>Tarife (nur für Vertrag und Rechnung)</dt> <dd><pre>{{ TARIFS }}</pre></dd></dt>
+            </dl>
+            <h5>Kosten</h5>
+            <dl>
+              <dt>Verbrauch</dt><dd><pre>{{ costs.used | currency }}</pre></dd>
+              <dt>Verrechnet</dt><dd><pre>{{ costs.invoiced | currency }}</pre></dd>
+              <dt>Akontorechnung</dt><dd><pre>{{ costs.invoiced_deposits | currency }}</pre></dd>
+            </dl>
+      index:
+        booking_action: Aktion
+        booking_state: Buchungsstatus
+        create_missing: Fehlende Textvorlagen automatisch hinzufügen
+        created_missing: "%{count} fehlende Textvorlagen wurden hinuzgefügt: %{list}"
+        document: Dokument
+        missing_templates: "%{count} Textvorlagen fehlen."
+        rich_text_templates_by_booking_action: Aktionen
+        rich_text_templates_by_booking_state: Buchungsstatus
+        rich_text_templates_by_document: Dokumente
+        rich_text_templates_by_rest: Sonstige
+    tarifs:
+      form:
+        minimum: Minimum
+  nav:
+    edit_account: Account verwalten
+    manage: Verwaltung
+    sign_in: Anmelden
+    sign_out: Abmelden
+  no_records_yet: Es sind noch keine %{model_name} erstellt worden.
+  number:
+    currency:
+      format:
+        delimiter: "'"
+        format: "%u %n"
+        precision: '2'
+        separator: "."
+        significant: Significant
+        strip_insignificant_zeros: Strip insignificant zeros
+        unit: CHF
+    format:
+      delimiter: "'"
+      precision: '2'
+      round_mode: default
+      separator: "."
+      significant: Significant
+      strip_insignificant_zeros: Strip insignificant zeros
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion:
+            one: Milliarde
+            other: Milliarden
+          million:
+            one: Million
+            other: Millionen
+          quadrillion:
+            one: Billiarde
+            other: Billiarden
+          thousand: Tausend
+          trillion:
+            one: Billion
+            other: Billionen
+      format:
+        precision: '1'
+        significant: 'true'
+        strip_insignificant_zeros: 'true'
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          eb: EB
+          gb: GB
+          kb: KB
+          mb: MB
+          pb: PB
+          tb: TB
+    percentage:
+      format:
+        format: "%n%"
+        precision: '1'
+  occupancy_calendar:
+    months: '["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
+    next: "→"
+    prev: "←"
+    weekdays: '["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]'
+  optional: optional
+  or: oder
+  payable_by: Zahlbar durch
+  payment_part_title: Payment part title
+  public:
+    agent_bookings:
+      edit:
+        title: Reservation bearbeiten
+      form:
+        tenant_email_help: Bitte NICHT die E-Mail Adresse des Vermittlers verwenden. Wir benötigen die E-Mail Adresse des Mieters erst wenn die Anfrage definitiv wird, damit wir den Kontakt aufnehmen können.
+        tenant_infos_help: Name der verantwortlichen Person, weitere Informationen zur Vermittlung
+      new:
+        title: Reservation
+    bookings:
+      booking_actions:
+        invoke:
+          failure: Aktion fehlgeschlagen
+          success: Aktion erfolgreich
+      confirm:
+        title: Bitte E-Mail Adresse bestätigen
+      edit:
+        title: Reservation bearbeiten
+      form:
+        booking_details: Angaben zur Reservation
+        committed_request_definitive_request_help: Verbindliche Zusage. Vertrag wird vorbereitet und zugestellt, sofern die Verwaltung die Anfrage akzeptiert
+        committed_request_provisional_request_help: Unverbindliche Anfrage. Zu- oder Absage innert der angegebenen Frist
+        last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
+      new:
+        accept_conditions_html: Ich bin mit %{conditions_html} einverstanden
+        privacy_policy_condition_html: den <a href="%{url}" target="_blank">Datenschutzbestimmungen</a>
+        problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
+        submit: Reservationsanfrage abschicken
+        terms_condition_html: den <a href="%{url}" target="_blank">AGB</a>
+        title: Reservation
+    occupancies:
+      span:
+        nights:
+          one: 1 Nacht
+          other: "%{count} Nächte"
+          zero: ohne Übernachtung
+  ref: Ref
+  renderables:
+    booking_questions:
+      check_box:
+        value:
+          'false': Nein
+          'true': Ja
+  reset: Zurücksetzen
+  rich_text_templates:
+    awaiting_tenant_notification:
+      description: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
+    booking_agent_cancelled_notification:
+      description: Benachrichtigung für annullierte Vermittlungsanfrage (Vermittler)
+    booking_agent_request_accepted_notification:
+      description: Benachrichtigung für bestätigte Vermittlungsanfrage (Vermittler)
+    booking_agent_request_notification:
+      description: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
+    cancelled_notification:
+      description: Benachrichtigung für annullierte Reservation (Mieter)
+    cancelled_request_notification:
+      description: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
+    completed_notification:
+      description: Benachrichtigung für den Abschluss der Buchung (Mieter)
+    contract_sent_notification:
+      description: Benachrichtigung für per Post versendeten Vertrag (Mieter)
+    contract_signed_notification:
+      description: Benachrichtigung für Vertragseingang (Mieter)
+    contract_text:
+      description: Text für Vertrag
+    declined_request_notification:
+      description: Benachrichtigung für abgelehnte Reservationsanfrage (Mieter)
+    definitive_request_notification:
+      description: Benachrichtigung für definitive Mietanfrage (Mieter)
+    email_contract_notification:
+      description: Benachrichtigung für Versand Vertrag/Akontorechnung (Mieter)
+    email_invoice_notification:
+      description: Benachrichtigung für Versand Rechnung (Mieter)
+    email_offer_notification:
+      description: Benachrichtigung für Versand Offerte (Mieter)
+    foreign_payment_info_text:
+      description: Text für Zahlunginformationen für ausländische Mieter
+    invoices_deposit_text:
+      description: Text für Rechnung (Akontorechnung)
+    invoices_invoice_text:
+      description: Text für Rechnung
+    invoices_late_notice_text:
+      description: Text für Rechnung (Mahnung)
+    invoices_offer_text:
+      description: Text für Offerte
+    manage_cancelation_pending_notification:
+      description: Benachrichtigung für stornierte Reservation (Verwaltung)
+    manage_cancelled_request_notification:
+      description: Benachrichtigung für zurückgezogene Reservationsanfrage (Verwaltung)
+    manage_contract_signed_notification:
+      description: Benachrichtigung für Vertragseingang (Verwaltung)
+    manage_declined_request_notification:
+      description: Benachrichtigung für stornierte Reservationsanfrage (Verwaltung)
+    manage_definitive_request_notification:
+      description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
+    manage_new_booking_notification:
+      description: Benachrichtigung für neue Mietanfrage (Verwaltung)
+    notification_footer:
+      description: Fusszeile für Benachrichtigungen
+    open_booking_agent_request_notification:
+      description: Benachrichtigung für offene Mietanfrage (Vermittler)
+    open_request_notification:
+      description: Benachrichtigung für offene Mietanfrage (Mieter)
+    operator_cancelation_pending_notification:
+      description: Benachrichtigung für abgesagte Belegung (Funktionär)
+    operator_contract_signed_notification:
+      description: Benachrichtigung für Vertragseingang (Funktionär)
+    operator_email_contract_notification:
+      description: Benachrichtigung für Versand Vertrag/Akontorechnung (Funktionär)
+    operator_email_invoice_notification:
+      description: Benachrichtigung für Versand Rechnung (Funktionär)
+    operator_payment_confirmation_notification:
+      description: Benachrichtigung für Zahlungseingang (Funktionär)
+    operator_upcoming_notification:
+      description: Benachrichtigung für Belegung (Funktionär)
+    operator_upcoming_soon_notification:
+      description: Benachrichtigung für baldige Belegung (Funktionär)
+    overdue_notification:
+      description: Benachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
+    overdue_request_notification:
+      description: Benachrichtigung für überfällige Reservationsanfrage (Mieter)
+    past_notification:
+      description: Benachrichtigung für vergangene Belegung (Mieter)
+    payment_confirmation_notification:
+      description: Benachrichtigung für Zahlungseingang (Mieter)
+    payment_overdue_notification:
+      description: Benachrichtigung für überfällige Rechnung (Mieter)
+    provisional_request_notification:
+      description: Benachrichtigung für provisorische Mietanfrage (Mieter)
+    text_payment_info_text:
+      description: Text für Zahlunginformationen
+    unconfirmed_request_notification:
+      description: Benachrichtigung für unbestätigte Mietanfrage (Mieter)
+    upcoming_notification:
+      description: Benachrichtigung für zukünftige Belegung (Mieter)
+    upcoming_soon_notification:
+      description: Benachrichtigung für baldige Belegung (Mieter)
+    usage_report_text:
+      description: Text für Verbrauchsformular
+    waitlisted_request_notification:
+      description: Benachrichtigung für Mietanfrage auf der Warteliste (Mieter)
   show: Anzeigen
   support:
     array:
