@@ -46,7 +46,7 @@ class Tenant < ApplicationRecord
 
   validates :email, allow_blank: true, uniqueness: { scope: :organisation_id }
   validates :email, presence: true, on: :public_update
-  validates :first_name, :last_name, :street, :street_nr, :zipcode, :city, presence: true, on: :public_update
+  validates :first_name, :last_name, :street, :zipcode, :city, presence: true, on: :public_update
   validates :street, length: { maximum: 255 }
   validates :street_nr, length: { maximum: 25 }
   validates :phone, presence: true, length: { minimum: 10, maximum: 255 }, on: :public_update

@@ -302,7 +302,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def reject_tenant_attributes?(tenant_attributes)
     (tenant_id_changed? && tenant_id_was.present?) ||
-      tenant_attributes.slice(:email, :first_name, :last_name, :street, :street_nr, :zipcode,
-                              :city).values.all?(&:blank?)
+      tenant_attributes.slice(:email, :first_name, :last_name, :street, :zipcode, :city).values.all?(&:blank?)
   end
 end

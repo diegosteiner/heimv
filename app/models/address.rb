@@ -45,11 +45,11 @@ class Address
   end
 
   def complete?
-    attributes.slice(*%w[recipient street street_nr postalcode city country_code]).values.all?(&:present?)
+    attributes.slice(*%w[recipient street postalcode city country_code]).values.all?(&:present?)
   end
 
   def blank?
-    attributes.slice(*%w[recipient street street_nr postalcode city]).values.all?(&:blank?)
+    attributes.slice(*%w[recipient street postalcode city]).values.all?(&:blank?)
   end
 
   def self.clean(**attributes)

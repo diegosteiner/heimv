@@ -1957,7 +1957,6 @@ de:
     contract_sent_notification:
       description: Benachrichtigung für per Post versendeten Vertrag (Mieter)
     contract_signed_notification:
-      default_body: ''
       description: Benachrichtigung für Vertragseingang (Mieter)
     contract_text:
       description: Text für Vertrag
