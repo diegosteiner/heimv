@@ -70,10 +70,13 @@
     = f.text_field :tenant_organisation
 
     h5.mt-4= Invoice.model_name.human
+
     = f.check_box :use_invoice_address, data: { 'bs-toggle' => 'collapse', 'bs-target' => "#invoice_address_fields" }
     fieldset#invoice_address_fields.border.p-3.collapse.rounded[class=(@booking.use_invoice_address || @booking.invoice_address.present? ? "show" : "")]
       = f.fields_for :invoice_address, @booking.invoice_address || Address.new(country_code: current_organisation.country_code) do |iaf|
         = render partial: Address.to_partial_path('form_fields'), locals: { f: iaf }
+    
+    = f.email_field :invoice_cc
 
   fieldset
     h5.mt-4= Booking.model_name.human

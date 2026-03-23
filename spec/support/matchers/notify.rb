@@ -3,14 +3,15 @@
 require 'rspec/expectations'
 
 RSpec::Matchers.define :notify do |mail_template|
-  def matching_notification(booking, key, to)
+  def matching_notification(booking, key, to, cc = nil)
     notifications = booking.notifications.joins(:mail_template).where(mail_template: { key: })
     notifications = notifications.where(to:) if to.present?
+    notifications = notifications.where(cc:) if cc.present?
     notifications.take
   end
 
   match do |actual|
-    notification = matching_notification(actual, mail_template, @to)
+    notification = matching_notification(actual, mail_template, @to, @cc)
     next false if notification.blank? || !notification.valid?
     next false if (@save || @deliver) && !notification.persisted?
     next false if @deliver && notification.instance_variable_get(:@message_delivery).blank?
@@ -19,7 +20,7 @@ RSpec::Matchers.define :notify do |mail_template|
   end
 
   failure_message do |booking|
-    notification = matching_notification(booking, mail_template, @to)
+    notification = matching_notification(booking, mail_template, @to, @cc)
     next "Notification '#{mail_template}' to #{@to} not found for booking #{booking.to_param}" if notification.blank?
     next "Notification '#{mail_template}' to #{@to} not valid" unless notification.valid?
 
@@ -36,5 +37,9 @@ RSpec::Matchers.define :notify do |mail_template|
 
   chain :to do |to|
     @to = to.to_sym
+  end
+
+  chain :cc do |cc|
+    @cc = cc.to_sym
   end
 end

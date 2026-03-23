@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_22_123112) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_22_165732) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -396,7 +396,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_22_123112) do
   create_table "notifications", force: :cascade do |t|
     t.text "body"
     t.uuid "booking_id"
+    t.string "cc"
     t.datetime "created_at", precision: nil, null: false
+    t.string "deliver_cc", default: [], array: true
     t.string "deliver_to", default: [], array: true
     t.datetime "delivered_at"
     t.bigint "mail_template_id"

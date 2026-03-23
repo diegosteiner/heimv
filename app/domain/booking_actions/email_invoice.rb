@@ -38,7 +38,8 @@ module BookingActions
 
     def notify_tenant(invoice)
       context = { invoice:, invoices: [invoice] }
-      MailTemplate.use!(:email_invoice_notification, booking, to: :tenant, context:).tap do |mail|
+      MailTemplate.use!(:email_invoice_notification, booking,
+                        to: :tenant, cc: booking.invoice_cc, context:).tap do |mail|
         mail.attach(invoice)
         mail.save!
         invoice.update!(sent_with_notification: mail)

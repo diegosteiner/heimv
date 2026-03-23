@@ -248,6 +248,7 @@ de:
         ignore_conflicting: Terminkonflikte ignorieren
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse
+        invoice_cc: Rechnungskopie als CC
         locale: Sprache
         nights: Nächte
         occupancies: Belegungen

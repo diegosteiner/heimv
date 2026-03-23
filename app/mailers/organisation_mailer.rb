@@ -18,7 +18,7 @@ class OrganisationMailer < ApplicationMailer
 
     set_headers
     attach_active_storage_attachments(notification.attachments)
-    mail(to: notification.deliver_to, bcc: notification.deliver_bcc,
+    mail(to: notification.deliver_to, cc: notification.deliver_cc, bcc: notification.deliver_bcc,
          subject: notification.subject) do |format|
       format.text { render plain: @notification.text }
       format.html { render html:  @notification.html }

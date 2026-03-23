@@ -1,10 +1,12 @@
 # Changelog
 
-## 26.2.2
+## 26.3.1
 
 unreleased
 
 - Fix: Fix incosistent actions
+- Fix: Fix deadline settings and allow disabling deadlines
+- Refactor: Extract RichText Template defaults into seperate files
 
 ## 26.2.1
 
