@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 describe 'Booking by tenant', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
@@ -244,7 +246,7 @@ describe 'Booking by tenant', :devise do
       end
     end
 
-    context 'with waitlist_enabled' do
+    context 'with waitlist enabled' do
       before { organisation.tap { it.booking_state_settings.enable_waitlist = true }.save! }
 
       it 'returns no error' do
@@ -256,13 +258,14 @@ describe 'Booking by tenant', :devise do
       end
     end
 
-    context 'with waitlist_enabled and conflicting booking' do
+    context 'with waitlist disabled and conflicting booking' do
+      let(:tenant) { create(:tenant, organisation:) }
       let(:conflicting_booking) do
         create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
                          occupancy_type: :occupied, initial_state: :upcoming)
       end
 
-      before { organisation.tap { it.booking_state_settings.enable_waitlist = true }.save! }
+      before { organisation.tap { it.booking_state_settings.enable_waitlist = false }.save! }
 
       it 'returns error' do
         conflicting_booking

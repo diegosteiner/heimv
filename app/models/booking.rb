@@ -124,9 +124,11 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validate do
     errors.add(:occupiable_ids, :blank) if occupancies.none?
     next if ignore_conflicting || free?
+    next if organisation.booking_state_settings.enable_waitlist && pending? && agent_booking.blank?
 
-    if agent_booking || !organisation.booking_state_settings.enable_waitlist
-      next unless conflicting?(%i[tentative occupied closed])
+    case validation_context
+    when :agent_create, :agent_update, :public_create, :public_update, :manage_create, :manage_update
+      next unless conflicting?(%i[tentative occupied closed reserved])
     else
       next unless conflicting?(%i[occupied closed])
     end
@@ -135,14 +137,16 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   validate on: %i[public_create public_update agent_create agent_update] do
-    next if ignore_conflicting || free? || !conflicting?(%i[occupied closed reserved])
-
-    errors.add(:occupiable_ids, :occupancy_conflict)
-  end
-
-  validate on: %i[public_create public_update agent_create agent_update] do
     window = organisation.settings.booking_window
     errors.add(:begins_at, :too_far_in_future) if begins_at_changed? && window && begins_at&.>(window.from_now)
+  end
+
+  validate do
+    Array.wrap(transition_to).each do |transition|
+      next if transition.blank? || can_transition_to?(transition)
+
+      errors.add(:transition_to, :invalid_transition, transition:)
+    end
   end
 
   scope :ordered, -> { order(begins_at: :ASC) }
@@ -240,13 +244,10 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def apply_transitions(transitions = transition_to, metadata: nil, infer_transitions: !skip_infer_transitions)
-    self.applied_transitions = Array.wrap(transitions).compact_blank.map do |transition|
-      next transition if can_transition_to?(transition) && booking_flow.transition_to(transition, metadata:)
-
-      errors.add(:transition_to, :invalid_transition, transition:)
-      return false
-    end
     self.transition_to = nil
+    self.applied_transitions = Array.wrap(transitions).select do |transition|
+      transition.present? && can_transition_to?(transition) && booking_flow.transition_to(transition, metadata:)
+    end
     self.applied_transitions += booking_flow.infer if infer_transitions
     applied_transitions
   end

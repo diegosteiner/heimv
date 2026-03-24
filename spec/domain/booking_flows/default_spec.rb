@@ -20,7 +20,7 @@ describe BookingFlows::Default do
 
       it do
         is_expected.to transition_to(:unconfirmed_request).from(:initial)
-        expect(booking).to be_tentative
+        expect(booking).to be_pending
         expect(booking).to notify(:unconfirmed_request_notification).to(:tenant)
       end
     end
@@ -34,7 +34,7 @@ describe BookingFlows::Default do
         is_expected.to transition_to(:open_request).from(:unconfirmed_request)
         expect(booking).to notify(:manage_new_booking_notification).to(:administration)
         expect(booking).to notify(:open_request_notification).to(:tenant)
-        expect(booking).to be_tentative
+        expect(booking).to be_pending
       end
     end
 
@@ -51,7 +51,7 @@ describe BookingFlows::Default do
         it do
           is_expected.to transition_to(:waitlisted_request).from(:open_request)
           expect(booking).to notify(:waitlisted_request_notification).to(:tenant)
-          expect(booking).to be_tentative
+          expect(booking).to be_pending
           expect(booking.deadline).not_to be_present
         end
       end
@@ -117,7 +117,7 @@ describe BookingFlows::Default do
 
       it do
         is_expected.to transition_to(:booking_agent_request).from(:open_request)
-        expect(booking).to be_tentative
+        expect(booking).to be_pending
         expect(booking.deadline).to be_armed
         expect(booking).to notify(:booking_agent_request_notification).to(:booking_agent)
       end

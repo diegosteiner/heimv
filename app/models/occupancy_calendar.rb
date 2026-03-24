@@ -16,7 +16,8 @@ class OccupancyCalendar
   end
 
   def occupancies
-    @occupancies ||= Occupancy.occupancy_calendar.where(occupiable: occupiables)
+    @occupancies ||= Occupancy.where(occupiable: occupiables)
+                              .where(occupancy_type: organisation.settings.public_occupancy_visibility)
                               .at(from: window_from, to: window_to)
                               .includes(occupiable: [:organisation], booking: %i[deadline organisation])
   end

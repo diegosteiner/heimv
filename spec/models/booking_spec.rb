@@ -150,8 +150,8 @@ describe Booking do
     let(:target_state) { :open_request }
 
     it 'add an error when trying to transition into invalid state' do
-      # booking.skip_infer_transitions = true
-      expect(booking.apply_transitions(:nonexistent)).to be_falsy
+      booking.transition_to = :nonexistant
+      expect(booking).not_to be_valid
       expect(booking.errors[:transition_to]).not_to be_empty
     end
 

@@ -83,7 +83,7 @@
           = sf.text_field :booking_window, value: settings.booking_window&.iso8601
           = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
 
-          = sf.select :default_calendar_view, %i[months year].map { |view| [view, view] }
+          = sf.collection_select :public_occupancy_visibility, Occupancy.occupancy_types.keys, :itself, ->(key) { Occupancy.human_enum(:occupancy_type, key) }, multiple: true
 
     = f.fields_for :deadline_settings, @organisation.deadline_settings || DeadlineSettings.new do |df|  
       - deadline_settings = @organisation.deadline_settings
