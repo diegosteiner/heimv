@@ -7,6 +7,9 @@ unreleased
 - Fix: Fix incosistent actions
 - Fix: Fix deadline settings and allow disabling deadlines
 - Refactor: Extract RichText Template defaults into seperate files
+- Improve: Handle waitlist also for occupied dates and for agent bookings
+- Feature: Add CC for invoice notifications
+- Fix: Count LI as CH for QR invoices
 
 ## 26.2.1
 
