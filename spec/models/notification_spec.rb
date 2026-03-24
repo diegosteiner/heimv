@@ -159,7 +159,7 @@ RSpec.describe Notification do
 
       it do
         expect(notification).not_to be_valid
-        expect(notification.errors[:cc]).to be_present
+        expect(notification.errors).to be_added(:cc, :invalid)
       end
     end
   end

@@ -149,10 +149,10 @@ describe Booking do
   describe '#apply_transitions' do
     let(:target_state) { :open_request }
 
-    it 'add an error when trying to transition into invalid state' do
+    it 'adds an error when trying to transition into invalid state' do
       booking.transition_to = :nonexistant
       expect(booking).not_to be_valid
-      expect(booking.errors[:transition_to]).not_to be_empty
+      expect(booking.errors).to be_added(:transition_to, :invalid_transition, transition: :nonexistant)
     end
 
     it 'transitions into valid state' do
@@ -161,6 +161,17 @@ describe Booking do
       expect(booking.apply_transitions(target_state)).not_to be_falsy
       expect(booking).to have_state(target_state)
       expect(booking.booking_state.to_s).to eq(target_state.to_s)
+    end
+
+    it 'applies only valid transitions and clears transition_to' do
+      expect(booking.save).to be true
+
+      booking.transition_to = %i[open_request nonexistant]
+      applied = booking.apply_transitions(booking.transition_to, infer_transitions: false)
+
+      expect(applied).to contain_exactly(:open_request)
+      expect(booking.transition_to).to be_nil
+      expect(booking).to have_state(:open_request)
     end
   end
 
@@ -183,7 +194,7 @@ describe Booking do
     end
 
     context 'with non-conflicting occupancy' do
-      it 'fails validation with :occupancy_conflict' do
+      it 'is valid' do
         conflicting_occupancy.pending!
         expect(booking).to be_valid
       end
@@ -192,10 +203,11 @@ describe Booking do
     context 'with waitlist_enabled' do
       before { allow(organisation.booking_state_settings).to receive(:enable_waitlist).and_return(true) }
 
-      it 'fails validation with :occupancy_conflict' do
+      it 'fails validation with :occupancy_conflict for occupied and allows tentative conflicts' do
         conflicting_occupancy
         expect(booking).not_to be_valid
         expect(booking.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+
         conflicting_occupancy.tentative!
         expect(booking).to be_valid
       end

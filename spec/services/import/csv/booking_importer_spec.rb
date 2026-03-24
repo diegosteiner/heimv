@@ -32,7 +32,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
       end
 
       it { expect(result).not_to be_ok }
-      it { expect(result.errors[:base]).to eq(["Any value after quoted field isn't allowed in line 5."]) }
+      it { expect(result.errors).to be_added(:base, :invalid) }
     end
 
     context 'with invalid booking' do
