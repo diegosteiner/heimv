@@ -18,6 +18,7 @@
 #  organisation_id      :bigint           not null
 #
 class DesignatedDocument < ApplicationRecord
+  MAX_SIZE = 2.megabytes.freeze
   include StoreModel::NestedAttributes
 
   belongs_to :organisation, inverse_of: :designated_documents
@@ -42,6 +43,11 @@ class DesignatedDocument < ApplicationRecord
 
   validates :file, presence: true
   validates :attaching_conditions, store_model: true, allow_nil: true
+  validate do
+    next unless file && file.blob.byte_size > MAX_SIZE
+
+    errors.add(:file, :less_than_or_equal_to, count: ActiveSupport::NumberHelper.number_to_human_size(MAX_SIZE))
+  end
 
   accepts_nested_attributes_for :attaching_conditions, allow_destroy: true
 

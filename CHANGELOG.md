@@ -10,6 +10,7 @@ unreleased
 - Improve: Handle waitlist also for occupied dates and for agent bookings
 - Feature: Add CC for invoice notifications
 - Fix: Count LI as CH for QR invoices
+- Improve: Add size limit for dedicated documents to ensure deliverability
 
 ## 26.2.1
 

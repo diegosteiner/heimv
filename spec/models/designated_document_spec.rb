@@ -43,6 +43,17 @@ RSpec.describe DesignatedDocument do
       expect(document.save).to be_truthy
       expect(document.file).to be_attached
     end
+
+    context 'when file exceeds MAX_SIZE' do
+      let(:file) { StringIO.new('x' * (DesignatedDocument::MAX_SIZE + 1)) }
+
+      it 'is invalid' do
+        document.file.attach(io: file, filename: 'large.txt', content_type: 'text/plain')
+        expect(document).not_to be_valid
+        max_size = ActiveSupport::NumberHelper.number_to_human_size(DesignatedDocument::MAX_SIZE)
+        expect(document.errors).to be_added(:file, :less_than_or_equal_to, count: max_size)
+      end
+    end
   end
 
   describe '::locale' do
