@@ -15,6 +15,7 @@
         namePrefix: 'booking', \ 
         required: true, \
         disabled: false, \
+        checkOverlaps: :warn, \
         defaultBeginsAtTime: current_organisation&.settings&.default_begins_at_time, \
         defaultEndsAtTime: current_organisation&.settings&.default_ends_at_time, \
         occupiableInvalidFeedback: @booking.errors.to_hash(true).slice(:occupiable_ids, :home_id).values.flatten.to_sentence, \

@@ -116,7 +116,6 @@ fr:
         closed_occupancy_color: Couleur pour les clôtures
         contract_sign_by_click_enabled: Signature du contrat "en cochant" par le locataire
         default_begins_at_time: Heure de début de l'occupation par défaut
-        default_calendar_view: Affichage du calendrier par défaut
         default_ends_at_time: Heure de fin d'occupation par défaut
         last_minute_warning: Délai pour les demandes de réservation de dernière minute
         locales: Langues

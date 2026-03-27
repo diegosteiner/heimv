@@ -1,12 +1,12 @@
 export type Organisation = {
-  slug: string | null;
+  slug: string | undefined;
   address: string;
   // booking_agents: boolean;
   booking_categories: BookingCategory[];
   // booking_flow_type: string;
   currency: string;
   // designated_documents: TranslatedString;
-  email: string;
+  email: string | undefined;
   homes: Home[];
   // invoice_ref_strategy_type: string;
   // links: Links;

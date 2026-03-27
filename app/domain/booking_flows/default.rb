@@ -56,6 +56,7 @@ module BookingFlows
       {
         accept: BookingActions::Accept,
         put_on_waitlist: BookingActions::PutOnWaitlist,
+        promote_from_waitlist: BookingActions::PromoteFromWaitlist,
         email_contract: BookingActions::EmailContract,
         mark_contract_sent: BookingActions::MarkContractSent,
         mark_invoices_refunded: BookingActions::MarkInvoicesRefunded,

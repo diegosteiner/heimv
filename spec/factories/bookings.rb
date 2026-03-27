@@ -71,8 +71,9 @@ FactoryBot.define do
       booking.occupiables = [booking.home] if booking.occupancies.none?
     end
 
-    before(:create) do |booking|
-      booking.home.save!
+    before(:create) do |booking, evaluator|
+      booking.skip_infer_transitions = evaluator.initial_state.present?
+      booking.home.save! if booking.home.new_record?
     end
 
     after(:create) do |booking, evaluator|
@@ -97,6 +98,7 @@ FactoryBot.define do
         if evaluator.prepaid_amount&.positive?
           create(:payment, booking:, invoice: nil, amount: evaluator.prepaid_amount)
         end
+
         invoice = Invoice::Factory.new(booking).build(issued_at: booking.ends_at)
         invoice.items = Invoice::ItemFactory.new(invoice).build
         invoice.recalculate

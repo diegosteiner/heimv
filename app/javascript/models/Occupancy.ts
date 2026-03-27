@@ -3,6 +3,7 @@ import type { Occupiable } from "../types";
 
 export type Occupancy = {
   id: string;
+  bookingId?: string;
   beginsAt: Date;
   endsAt: Date;
   occupancyType: "pending" | "tentative" | "occupied" | "closed" | "free" | "reserved";
@@ -15,6 +16,8 @@ export type Occupancy = {
 };
 
 export type OccupancyJson = {
+  id?: string;
+  booking_id?: string;
   begins_at: string;
   ends_at: string;
   deadline?: string;
@@ -24,9 +27,11 @@ export type OccupancyJson = {
 };
 
 export function parse(json: OccupancyJson): Partial<Occupancy> {
-  const { begins_at, ends_at, deadline, occupiable_id, occupancy_type, ...rest } = json;
+  const { id, booking_id, begins_at, ends_at, deadline, occupiable_id, occupancy_type, ...rest } = json;
 
   return {
+    id,
+    bookingId: booking_id,
     ...rest,
     beginsAt: parseISOorUndefined(begins_at),
     endsAt: parseISOorUndefined(ends_at),

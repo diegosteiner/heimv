@@ -112,13 +112,14 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   validate on: :public_create do
-    errors.add(:email, :invalid) unless EmailAddress.valid?(email)
+    next if !Rails.env.production? || EmailAddress.valid?(email, host_validation: :mx, dns_lookup: :mx)
+
+    errors.add(:email, :invalid)
   end
 
   validate do
-    errors.add(:email, :invalid) unless email.blank? || EmailAddress.valid?(email, host_validation: :syntax)
-    errors.add(:invoice_cc, :invalid) unless invoice_cc.blank? || EmailAddress.valid?(invoice_cc,
-                                                                                      host_validation: :syntax)
+    errors.add(:email, :invalid) unless email.blank? || EmailAddress.valid?(email)
+    errors.add(:invoice_cc, :invalid) unless invoice_cc.blank? || EmailAddress.valid?(invoice_cc)
   end
 
   validate do
@@ -154,7 +155,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   before_validation :clear_invoice_address, :assert_tenant!, :sequence_number, :update_occupancies
   before_create :generate_ref
-  after_save :apply_transitions, :update_booking_state_cache!, :touch_conflicting_bookings
+  after_save :apply_transitions, :update_booking_state_cache!, :bump_waitlisted_requests
   after_touch :apply_transitions, :update_booking_state_cache!
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -266,8 +267,8 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     occupancies.flat_map { it.conflicting(conflicting_occupancy_types)&.map(&:booking) }.compact.uniq
   end
 
-  def touch_conflicting_bookings
-    conflicting_bookings(%i[occupied tentative closed free reserved]).each(&:touch)
+  def bump_waitlisted_requests
+    conflicting_bookings(Occupancy::OCCUPANCY_TYPES.keys).each(&:touch)
   end
 
   def booking_flow_class

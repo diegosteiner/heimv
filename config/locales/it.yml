@@ -116,7 +116,6 @@ it:
         closed_occupancy_color: Colore per le chiusure
         contract_sign_by_click_enabled: Vertrag «per Klick» durch Mieter unterschreiben
         default_begins_at_time: Standardzeit für den Beginn der Belegung
-        default_calendar_view: Standard Kalenderansicht
         default_ends_at_time: Standardzeit für das Ende der Belegung
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
         locales: Sprachen

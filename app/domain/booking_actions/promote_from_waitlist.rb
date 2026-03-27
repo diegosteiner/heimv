@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module BookingActions
-  class Accept < Base
+  class PromoteFromWaitlist < Base
     def invoke!(current_user: nil)
       Result.new success: booking.update(transition_to:)
     end
 
     def invokable?(current_user: nil)
-      booking.in_state?(:open_request) && transition_to.present?
+      booking.in_state?(:waitlisted_request) && transition_to.present?
     end
 
     def invokable_with(current_user: nil)

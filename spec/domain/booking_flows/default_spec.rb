@@ -52,7 +52,7 @@ describe BookingFlows::Default do
           is_expected.to transition_to(:waitlisted_request).from(:open_request)
           expect(booking).to notify(:waitlisted_request_notification).to(:tenant)
           expect(booking).to be_pending
-          expect(booking.deadline).not_to be_present
+          expect(booking.deadline).not_to be_armed
         end
       end
 

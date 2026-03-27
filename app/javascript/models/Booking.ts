@@ -1,6 +1,7 @@
 import { parseISOorUndefined } from "../services/date";
 
 export type Booking = {
+  id: string;
   beginsAt: Date;
   endsAt: Date;
   homeId: number;
@@ -9,6 +10,7 @@ export type Booking = {
 };
 
 export type BookingJson = {
+  id?: string;
   begins_at?: string;
   ends_at?: string;
   home_id?: number;
@@ -16,9 +18,10 @@ export type BookingJson = {
 };
 
 export function parse(json: BookingJson): Partial<Booking> {
-  const { begins_at, ends_at, home_id, occupiable_ids } = json;
+  const { id, begins_at, ends_at, home_id, occupiable_ids } = json;
 
   return {
+    id,
     beginsAt: parseISOorUndefined(begins_at),
     endsAt: parseISOorUndefined(ends_at),
     homeId: home_id,

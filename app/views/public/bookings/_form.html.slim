@@ -36,6 +36,7 @@
         namePrefix: 'booking', \ 
         required: true, \
         disabled: !@booking.editable?, \
+        checkOverlaps: current_organisation.booking_state_settings.enable_waitlist ? :warn : :error, \
         defaultBeginsAtTime: current_organisation&.settings&.default_begins_at_time, \
         defaultEndsAtTime: current_organisation&.settings&.default_ends_at_time, \
         beginsAtTimes: current_organisation&.settings&.available_begins_at_times, \
@@ -91,11 +92,13 @@
     h5= Invoice.model_name.human
 
     = f.check_box :use_invoice_address, data: { 'bs-toggle' => 'collapse', 'bs-target' => "#invoice_address_fields" }, disabled: !@booking.editable?
-    fieldset#invoice_address_fields.border.p-3.collapse.rounded[class=(@booking.use_invoice_address || @booking.invoice_address.present? ? "show" : "") disabled=!@booking.editable?]
+    fieldset#invoice_address_fields.border.p-3.mb-3.collapse.rounded[class=(@booking.use_invoice_address || @booking.invoice_address.present? ? "show" : "") disabled=!@booking.editable?]
       = f.fields_for :invoice_address, @booking.invoice_address || Address.new(country_code: current_organisation.country_code) do |iaf|
         = render partial: Address.to_partial_path('form_fields'), locals: { f: iaf }
 
-    = f.email_field :invoice_cc
+    = f.check_box :invoice_cc, checked: @booking.invoice_cc.present?, data: { 'bs-toggle' => 'collapse', 'bs-target' => "#invoice_cc_fields" }, class: 'mb-0', disabled: !@booking.editable?
+    fieldset#invoice_cc_fields.collapse[class=(@booking.invoice_cc.present? ? "show" : "") disabled=!@booking.editable?]
+      = f.email_field :invoice_cc, hide_label: true
 
 
   fieldset
