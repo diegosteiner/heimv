@@ -44,7 +44,7 @@ RSpec.describe OccupancyCalendar do
       let(:calendar) { described_class.new(organisation:, occupiables: [occupiable], public_visibility: false) }
 
       it 'returns all occupancy types in the selected window' do
-        is_expected.to match_array(occupancies.except(:invisible_other_occupancy).values)
+        is_expected.to match_array(occupancies.except(:invisible_other_occupancy, :invisible_future).values)
       end
     end
   end

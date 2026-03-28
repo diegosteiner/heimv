@@ -44,7 +44,7 @@
 class Organisation < ApplicationRecord
   extend Mobility
 
-  has_many :bookings, dependent: :restrict_with_error, inverse_of: :organisation
+  has_many :bookings, dependent: :restrict_with_error, inverse_of: :organisation, autosave: false
   has_many :homes, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :tenants, -> { ordered }, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :rich_text_templates, inverse_of: :organisation, dependent: :destroy

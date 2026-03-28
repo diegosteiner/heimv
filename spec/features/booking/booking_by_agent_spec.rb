@@ -154,7 +154,7 @@ describe 'Booking by agent', :devise do
 
     context 'with waitlist_enabled' do
       before do
-        organisation.booking_state_settings.enable_waitlist = true
+        organisation.update!(booking_state_settings: { enable_waitlist: true })
         organisation.save!
       end
 

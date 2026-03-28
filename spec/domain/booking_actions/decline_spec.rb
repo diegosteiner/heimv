@@ -15,7 +15,7 @@ describe BookingActions::Decline do
     subject(:invoke) { action.invoke(current_user:) }
 
     before do
-      organisation.booking_state_settings.enable_waitlist = true
+      organisation.update!(booking_state_settings: { enable_waitlist: true })
       create(:booking, initial_state: :upcoming, committed_request: true, occupancy_type: :occupied,
                        begins_at: booking.begins_at, ends_at: booking.ends_at, occupiables: [occupiable])
     end

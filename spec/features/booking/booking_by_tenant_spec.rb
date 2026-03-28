@@ -268,7 +268,7 @@ describe 'Booking by tenant', :devise do
                          occupancy_type: :occupied, initial_state: :upcoming)
       end
 
-      before { organisation.tap { it.booking_state_settings.enable_waitlist = false }.save! }
+      before { organisation.reload.update!(booking_state_settings: { enable_waitlist: false }) }
 
       it 'returns error' do
         conflicting_booking

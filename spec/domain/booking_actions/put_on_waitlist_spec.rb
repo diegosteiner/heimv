@@ -15,7 +15,7 @@ describe BookingActions::PutOnWaitlist, :pending do # rubocop:disable RSpec/Pend
     subject(:invoke) { action.invoke(current_user:) }
 
     before do
-      organisation.booking_state_settings.enable_waitlist = true
+      organisation.update!(booking_state_settings: { enable_waitlist: true })
     end
 
     it do
