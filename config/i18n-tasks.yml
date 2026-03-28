@@ -17,6 +17,8 @@ data:
   read:
     ## Default:
     - config/locales/%{locale}.yml
+    - config/locales/localization.%{locale}.yml
+    - config/locales/translation.%{locale}.yml
     ## More files:
     # - config/locales/*.%{locale}.yml
     ## Another gem (replace %#= with %=):

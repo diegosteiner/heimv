@@ -5,7 +5,7 @@ describe BookingFlows::Default do
   subject(:booking_flow) { described_class.new(booking) }
 
   let(:home) { create(:home) }
-  let(:conflicting) do
+  let(:conflicting_booking) do
     create(:booking, organisation:, home:, begins_at: booking.begins_at, ends_at: booking.ends_at,
                      initial_state: :upcoming, occupancy_type: :occupied, remarks: 'conflicting')
   end
@@ -88,7 +88,7 @@ describe BookingFlows::Default do
       context 'with enable_waitlist' do
         let(:enable_waitlist) { true }
 
-        before { conflicting }
+        before { conflicting_booking }
 
         it { is_expected.not_to transition_to(:provisional_request).from(:open_request) }
       end
@@ -119,7 +119,7 @@ describe BookingFlows::Default do
       end
 
       context 'with existing booking at the same date' do
-        before { conflicting }
+        before { conflicting_booking }
 
         it { is_expected.not_to transition_to(:booking_agent_request).from(:initial) }
         it { is_expected.not_to transition_to(:booking_agent_request).from(:open_request) }
@@ -184,7 +184,7 @@ describe BookingFlows::Default do
         end
 
         context 'with existing booking at the same date' do
-          before { conflicting }
+          before { conflicting_booking }
 
           it { is_expected.not_to transition_to(:definitive_request).from(:provisional_request) }
           it { is_expected.not_to transition_to(:definitive_request).from(:waitlisted_request) }
