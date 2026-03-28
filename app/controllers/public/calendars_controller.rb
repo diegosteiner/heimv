@@ -51,9 +51,8 @@ module Public
     end
 
     def load_calendar(organisation_user)
-      window_from = organisation_user.present? ? 4.months.ago : Time.zone.now.beginning_of_day
-
-      @calendar = OccupancyCalendar.new(organisation: current_organisation, occupiables: @occupiable, window_from:)
+      @calendar = OccupancyCalendar.new(organisation: current_organisation, occupiables: @occupiable,
+                                        public_visibility: organisation_user.blank?)
     end
   end
 end

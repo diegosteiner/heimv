@@ -39,7 +39,7 @@ module Manage
 
     def calendar
       calendar = OccupancyCalendar.new(organisation: current_organisation, occupiables: @occupiable,
-                                       window_from: 1.year.ago, window_to: nil)
+                                       public_visibility: false)
       render json: Public::OccupancyCalendarSerializer.render(calendar)
     end
 
