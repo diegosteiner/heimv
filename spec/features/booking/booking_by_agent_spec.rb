@@ -169,7 +169,9 @@ describe 'Booking by agent', :devise do
         fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
         fill_in 'agent_booking_booking_agent_ref', with: agent_ref
         submit_form
-        expect(page).to have_no_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+
+        # Don't allow agent bookings onto the waitlist
+        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
   end

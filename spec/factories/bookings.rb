@@ -69,11 +69,7 @@ FactoryBot.define do
       booking.tenant = evaluator.tenant if evaluator.tenant.present?
       booking.category ||= booking.organisation.booking_categories.sample
       booking.occupiables = [booking.home] if booking.occupancies.none?
-    end
-
-    before(:create) do |booking, evaluator|
-      booking.skip_infer_transitions = evaluator.initial_state.present?
-      booking.home.save! if booking.home.new_record?
+      booking.occupancies.each { it.remarks ||= booking.remarks }
     end
 
     after(:create) do |booking, evaluator|
@@ -81,7 +77,7 @@ FactoryBot.define do
 
       Booking::StateTransition.initial_for(booking, evaluator.initial_state)
       booking.booking_flow.current_state(force_reload: true)
-      booking.apply_transitions
+      booking.skip_infer_transitions = false
       booking.touch # rubocop:disable Rails/SkipsModelValidations
     end
 

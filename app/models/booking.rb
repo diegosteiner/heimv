@@ -48,18 +48,16 @@
 
 class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   include Timespanable
-  include Statesman::Adapters::ActiveRecordQueries[transition_class: Booking::StateTransition,
-                                                   initial_state: :initial,
+  include Statesman::Adapters::ActiveRecordQueries[transition_class: Booking::StateTransition, initial_state: :initial,
                                                    transition_name: :state_transition]
 
   VALIDATION_CONTEXTS = %i[public_create public_update agent_create agent_update manage_create manage_update].freeze
   ROLES = (%i[organisation tenant booking_agent] + OperatorResponsibility::RESPONSIBILITIES.keys).freeze
   LIMIT = ENV.fetch('RECORD_LIMIT', 250)
   DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      :category, :logs, :home,
-                      { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
-                        agent_booking: %i[booking_agent organisation],
-                        booking_question_responses: :booking_question }].freeze
+                      :category, :logs, :home, { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
+                                                 agent_booking: %i[booking_agent organisation],
+                                                 booking_question_responses: :booking_question }].freeze
 
   belongs_to :home
   belongs_to :organisation, inverse_of: :bookings
@@ -155,7 +153,8 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   before_validation :clear_invoice_address, :assert_tenant!, :sequence_number, :update_occupancies
   before_create :generate_ref
-  after_save :apply_transitions, :update_booking_state_cache!, :bump_waitlisted_requests
+  after_save :apply_transitions, :update_booking_state_cache!
+  after_save :bump_conflicting_requests, if: :concluded?
   after_touch :apply_transitions, :update_booking_state_cache!
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -267,7 +266,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     occupancies.flat_map { it.conflicting(conflicting_occupancy_types)&.map(&:booking) }.compact.uniq
   end
 
-  def bump_waitlisted_requests
+  def bump_conflicting_requests
     conflicting_bookings(Occupancy::OCCUPANCY_TYPES.keys).each(&:touch)
   end
 

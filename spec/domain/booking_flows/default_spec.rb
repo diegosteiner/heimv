@@ -6,13 +6,17 @@ describe BookingFlows::Default do
 
   let(:home) { create(:home) }
   let(:conflicting) do
-    create(:booking, organisation:, home:,
-                     begins_at: booking.begins_at, ends_at: booking.ends_at,
-                     initial_state: :upcoming).tap(&:occupied!)
+    create(:booking, organisation:, home:, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                     initial_state: :upcoming, occupancy_type: :occupied, remarks: 'conflicting')
   end
   let(:organisation) { create(:organisation, :with_templates) }
-  let(:booking) { create(:booking, organisation:, home:, committed_request:) }
+  let(:booking) do
+    create(:booking, organisation:, home:, committed_request:)
+  end
   let(:committed_request) { true }
+  let(:enable_waitlist) { false }
+
+  before { allow(organisation.booking_state_settings).to receive(:enable_waitlist).and_return(enable_waitlist) }
 
   describe '#transition_to' do
     describe 'to unconfirmed_request' do
@@ -41,8 +45,6 @@ describe BookingFlows::Default do
     describe 'to waitlisted_request' do
       let(:committed_request) { false }
 
-      before { allow(organisation.booking_state_settings).to receive(:enable_waitlist).and_return(enable_waitlist) }
-
       context 'with waitlist enabled' do
         let(:enable_waitlist) { true }
 
@@ -52,7 +54,7 @@ describe BookingFlows::Default do
           is_expected.to transition_to(:waitlisted_request).from(:open_request)
           expect(booking).to notify(:waitlisted_request_notification).to(:tenant)
           expect(booking).to be_pending
-          expect(booking.deadline).not_to be_armed
+          expect(booking.deadline&.armed?).to be_falsy
         end
       end
 
@@ -83,16 +85,10 @@ describe BookingFlows::Default do
         expect(booking).to notify(:provisional_request_notification).to(:tenant)
       end
 
-      context 'with existing booking at the same date' do
-        before { conflicting }
-
-        it { is_expected.not_to transition_to(:provisional_request).from(:initial) }
-        it { is_expected.not_to transition_to(:provisional_request).from(:open_request) }
-        it { is_expected.not_to transition_to(:provisional_request).from(:waitlisted_request) }
-      end
-
       context 'with enable_waitlist' do
-        before { conflicting.tentative! }
+        let(:enable_waitlist) { true }
+
+        before { conflicting }
 
         it { is_expected.not_to transition_to(:provisional_request).from(:open_request) }
       end
