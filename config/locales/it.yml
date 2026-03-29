@@ -1377,9 +1377,6 @@ it:
       minimum_price_total:
       minimum_usage_per_night:
       minimum_usage_total:
-  invoices:
-    total: Totale
-    vat_title:
   layouts:
     footer:
       legal:
@@ -1606,8 +1603,6 @@ it:
     - Sab.
   optional: opzionale
   or: O
-  payable_by: Pagabile da
-  payment_part_title:
   public:
     agent_bookings:
       edit:
@@ -1645,7 +1640,6 @@ it:
           one:
           other:
           zero:
-  ref: Ref
   renderables:
     booking_questions:
       check_box:

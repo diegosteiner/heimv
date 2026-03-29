@@ -1412,9 +1412,6 @@ fr:
       minimum_price_total:
       minimum_usage_per_night:
       minimum_usage_total:
-  invoices:
-    total: Total
-    vat_title: TVA incluse dans les prix
   layouts:
     footer:
       legal:
@@ -1659,8 +1656,6 @@ fr:
     - sam
   optional: facultatif
   or: Or
-  payable_by: Payable par
-  payment_part_title: Titre de la partie paiement
   public:
     agent_bookings:
       edit:
@@ -1698,7 +1693,6 @@ fr:
           one: 1 nuit
           other: "%{count} Nuits"
           zero: sans nuitée
-  ref: Ref
   renderables:
     booking_questions:
       check_box:

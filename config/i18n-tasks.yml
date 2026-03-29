@@ -73,6 +73,7 @@ search:
     - "*.xcf"
     - app/domain/booking_actions/*
     - app/domain/booking_states/*
+    - app/services/export/pdf/renderables/invoice/*
 
   ## Alternatively, the only files or `File.fnmatch patterns` to search in `paths`:
   ## If specified, this settings takes priority over `exclude`, but `exclude` still applies.
@@ -116,7 +117,7 @@ ignore_unused:
   - "titles.*"
   - "{booking_flows,booking_states,booking_actions,booking_conditions}.*"
   - "faker.*"
-  - "export.*"
+  - "export.pdf.renderables.invoice.qr_bill.*"
   - "occupancy_calendar.*"
   - "booking_states.*"
   - "manage.rich_text_templates.index.group_*"

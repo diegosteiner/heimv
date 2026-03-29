@@ -1495,9 +1495,6 @@ en:
       minimum_price_total: Differenz zum Mindestbetrag (%{minimum})
       minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{unit} / Nacht)
       minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{unit})
-  invoices:
-    total: Total
-    vat_title: in den Preisen enhaltene MwSt.
   layouts:
     footer:
       legal:
@@ -1856,8 +1853,6 @@ en:
     weekdays: '["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]'
   optional: optional
   or: oder
-  payable_by: Zahlbar durch
-  payment_part_title: Payment part title
   public:
     agent_bookings:
       edit:
@@ -1894,7 +1889,6 @@ en:
           one: 1 Nacht
           other: "%{count} Nächte"
           zero: ohne Übernachtung
-  ref: Ref
   renderables:
     booking_questions:
       check_box:

@@ -52,11 +52,13 @@ module Export
 
           def render_amount(left, bottom)
             bounding_box([left, bottom], width: 40) do
+              # i18n-tasks-use t('export.pdf.renderables.invoice.qr_bill.currency')
               text translate('currency'), size: 6, style: :bold
               move_down 3
               text qr_bill.currency
             end
             bounding_box([left + 50, bottom], width: 100) do
+              # i18n-tasks-use t('export.pdf.renderables.invoice.qr_bill.amount')
               text translate('amount'), size: 6, style: :bold
               move_down 3
               text qr_bill.formatted_amount
