@@ -1368,8 +1368,8 @@ it:
   import: Importazione
   import_records: importa %{model_name}.
   invoice_items:
-    balance_breakdown:
     breakdown:
+      balance:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
       minimum: Importo minimo %{minimum}

@@ -1486,8 +1486,8 @@ en:
   import: Import
   import_records: "%{model_name} importieren"
   invoice_items:
-    balance_breakdown: Saldo aus Anzahlungen
     breakdown:
+      balance: Saldo aus Anzahlungen
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
