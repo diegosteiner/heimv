@@ -880,9 +880,6 @@ it:
         one:
         other:
   add_record: aggiungere %{model_name}
-  awaiting_tenant_notification:
-    default_body:
-    default_title: Info per favore
   back: Indietro
   booking_actions:
     accept:
@@ -943,29 +940,6 @@ it:
       label:
     skip_invoice:
       label: Saltare il conto finale
-  booking_agent_cancelled_notification:
-    default_body:
-    default_title: Mediazione annullata
-  booking_agent_request_accepted_notification:
-    default_body:
-    default_title: Richiesta di mediatore accettata
-  booking_agent_request_notification:
-    default_body: |-
-      <p>Gentile Signora, gentile Signore</p>
-
-      <p>Grazie per la sua prenotazione.</p>
-
-      <ul>
-        <li>Il nostro riferimento: {{ booking.ref }}</li>
-        <li>Il vostro riferimento: {{ booking.booking_agent_ref }}</li>
-        <li>Casa: {{booking.home.name}}</li>
-        <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-        <li><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></li>
-      </ul>
-
-      <p>La richiesta è stata accettata. È possibile utilizzare il seguente link per estendere, cancellare o dichiarare definitiva la prenotazione. La prenotazione provvisoria è valida per 10 giorni e può essere prolungata per altri 3 giorni. Se desiderate prolungare la prenotazione, inviateci un'e-mail con la data.</p>
-      <p><a href="{{booking.agent_booking.links.edit}}">{{booking.agent_booking.links.edit}}</a></p>
-    default_title: Conferma della richiesta di mediazione
   booking_conditions:
     booking_attribute:
       attributes:
@@ -1094,24 +1068,8 @@ it:
       label:
       public_info:
       relevant_time: Presentato %{time}
-  cancelled_notification:
-    default_body:
-    default_title: Risoluzione del contratto / Annullamento della prenotazione
-  cancelled_request_notification:
-    default_body:
-    default_title: La richiesta di prenotazione è stata annullata
   clone:
-  completed_notification:
-    default_title: Prenotazione completata
   confirm: Sind sie sicher?
-  contract_sent_notification:
-    default_title:
-  contract_signed_notification:
-    default_body:
-    default_title: Contratto firmato ricevuto
-  contract_text:
-    default_body:
-    default_title: Contratto
   contracts:
     header_reference:
     issuer_signature_label: Data, luogo, firma del propietario
@@ -1220,12 +1178,6 @@ it:
       month: Mese
       second: Secondi
       year: Anno
-  declined_request_notification:
-    default_body:
-    default_title: Richiesta di prenotazione respinta
-  definitive_request_notification:
-    default_body:
-    default_title: Prenotazione definitiva confermata
   destroy: Cancellare
   destroy_record: Cancellare %{model_name}
   devise:
@@ -1324,15 +1276,6 @@ it:
         one: "(minimo %{count} carattere)"
         other: "(minimo %{count} caratteri)"
   edit: Bearbeiten
-  email_contract_notification:
-    default_body:
-    default_title: Contratto per la prenotazione
-  email_invoice_notification:
-    default_body:
-    default_title:
-  email_offer_notification:
-    default_body:
-    default_title:
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: L'input non può essere elaborato, riprova.
@@ -1416,8 +1359,6 @@ it:
           notice: 'La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un''e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l''e-mail, controllate lo spam o contattate l''amministrazione:  %{mailto_organisation}. '
         update:
           notice: La richiesta di prenotazione è stata aggiornata. Potete chiudere la finestra del browser.
-  foreign_payment_info_text:
-    default_body:
   from: da
   helpers:
     select:
@@ -1441,18 +1382,6 @@ it:
   invoices:
     total: Totale
     vat_title:
-  invoices_deposit_text:
-    default_body:
-    default_title: Acconto
-  invoices_invoice_text:
-    default_body:
-    default_title: Fattura
-  invoices_late_notice_text:
-    default_body:
-    default_title: Promemoria
-  invoices_offer_text:
-    default_body:
-    default_title: Offerta
   layouts:
     footer:
       legal:
@@ -1583,24 +1512,6 @@ it:
     tarifs:
       form:
         minimum:
-  manage_cancelation_pending_notification:
-    default_body:
-    default_title:
-  manage_cancelled_request_notification:
-    default_body:
-    default_title:
-  manage_contract_signed_notification:
-    default_body:
-    default_title: Contratto firmato ricevuto
-  manage_declined_request_notification:
-    default_body:
-    default_title:
-  manage_definitive_request_notification:
-    default_body:
-    default_title: Richiesta di affitto {{ booking.ref }} definitiva
-  manage_new_booking_notification:
-    default_body:
-    default_title:
   nav:
     edit_account: Gestione dell'account
     manage: Amministrazione
@@ -1695,55 +1606,10 @@ it:
     - Gio.
     - Ven.
     - Sab.
-  open_booking_agent_request_notification:
-    default_body:
-    default_title: Conferma della richiesta di affitto
-  open_request_notification:
-    default_body:
-    default_title: Conferma della richiesta di affitto
-  operator_cancelation_pending_notification:
-    default_body:
-    default_title: Occupazione annullata
-  operator_contract_signed_notification:
-    default_body:
-    default_title: Contratto firmato ricevuto
-  operator_email_contract_notification:
-    default_body:
-    default_title:
-  operator_email_invoice_notification:
-    default_body:
-    default_title:
-  operator_payment_confirmation_notification:
-    default_body:
-    default_title:
-  operator_upcoming_notification:
-    default_body:
-    default_title: Occupazione
-  operator_upcoming_soon_notification:
-    default_body:
-    default_title: Occupazione a breve
   optional: opzionale
   or: O
-  overdue_notification:
-    default_body:
-    default_title: Contratto scaduto
-  overdue_request_notification:
-    default_body:
-    default_title: Richiesta in ritardo
-  past_notification:
-    default_body:
-    default_title: Occupazione a breve
   payable_by: Pagabile da
-  payment_confirmation_notification:
-    default_body:
-    default_title: Ricevuta di pagamento
-  payment_overdue_notification:
-    default_body:
-    default_title: 'Promemoria: fattura per il soggiorno nella casa scout'
   payment_part_title:
-  provisional_request_notification:
-    default_body:
-    default_title: Prenotazione provvisoria confermata
   public:
     agent_bookings:
       edit:
@@ -1892,23 +1758,6 @@ it:
       last_word_connector: " e "
       two_words_connector: " e "
       words_connector: ", "
-  text_payment_info_text:
-    default_body: |-
-      <p><strong>Numero di conto</strong>:
-      {{ payment_info.esr_beneficiary_account }}</p>
-
-      <p><strong>IBAN</strong>:
-      {{ payment_info.iban }}</p>
-
-      <p><strong>Importo della fattura</strong>:
-      CHF {{ payment_info.formatted_amount }}</p>
-
-      <p><strong>Numero di riferimento</strong>:
-      {{ payment_info.formatted_ref }}</p>
-
-      <p><strong>Scopo del pagamento</strong>:
-      {{ payment_info.booking_ref }}</p>
-    default_title: Informazioni sul pagamento
   time:
     am: am
     formats:
@@ -1927,23 +1776,5 @@ it:
     application: HeimV %{organisation}
   too_many_records:
   unauthorized: Non sei autorizzato a visualizzare questa pagina. Effettuare il login per favore.
-  unconfirmed_request_notification:
-    default_body: |-
-      <p>Salve</p>
-
-      <p>Hai appena inviato una richiesta di affitto per {{ booking.home.name }}}.
-      Cliccate sul link sottostante per confermare il vostro indirizzo e-mail e completare la richiesta di affitto.</p>
-
-      <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
-    default_title: Confermate il vostro indirizzo e-mail!
   unsupported:
   until: fino a
-  upcoming_notification:
-    default_body:
-    default_title:
-  upcoming_soon_notification:
-    default_body:
-    default_title: Ultime informazioni sulla vostra visita a {{booking.home.name}}
-  waitlisted_request_notification:
-    default_body:
-    default_title:

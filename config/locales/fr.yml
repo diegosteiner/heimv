@@ -880,9 +880,6 @@ fr:
         one:
         other:
   add_record: Ajouter %{model_name}
-  awaiting_tenant_notification:
-    default_body:
-    default_title: Informations s'il vous plaît
   back: Retour
   booking_actions:
     accept:
@@ -943,15 +940,6 @@ fr:
       label:
     skip_invoice:
       label: Sauter le décompte final
-  booking_agent_cancelled_notification:
-    default_body:
-    default_title: Transmission annulée
-  booking_agent_request_accepted_notification:
-    default_body:
-    default_title: Demande de transmission acceptée
-  booking_agent_request_notification:
-    default_body:
-    default_title: Confirmation de ta demande de transmission
   booking_conditions:
     booking_attribute:
       attributes:
@@ -1080,24 +1068,12 @@ fr:
       label: Demande de location (liste d'attente)
       public_info:
       relevant_time: Déposé %{time}
-  cancelled_notification:
-    default_body:
-    default_title: Résiliation du contrat/annulation de ta réservation
-  cancelled_request_notification:
-    default_body:
-    default_title: Votre demande de réservation a été annulée
   clone: Dupliquer
   completed_notification:
     default_title: Réservation terminée
   confirm: Êtes-vous sûr ?
   contract_sent_notification:
     default_title: Contrat envoyé
-  contract_signed_notification:
-    default_body:
-    default_title: Recevoir le contrat signé
-  contract_text:
-    default_body:
-    default_title: Contrat
   contracts:
     header_reference:
     issuer_signature_label: Date, lieu, signature du bailleur
@@ -1206,12 +1182,6 @@ fr:
       month: Mois
       second: Seconde
       year: Année
-  declined_request_notification:
-    default_body:
-    default_title: Demande de réservation refusée
-  definitive_request_notification:
-    default_body:
-    default_title: Réservation définitive confirmée
   destroy: Supprimer
   destroy_record: Supprimer %{model_name}
   devise:
@@ -1310,15 +1280,6 @@ fr:
         one: "(%{count} caractère au moins)"
         other: "(%{count} caractères au moins)"
   edit: Modifier
-  email_contract_notification:
-    default_body:
-    default_title: Contrat pour ta réservation
-  email_invoice_notification:
-    default_body:
-    default_title:
-  email_offer_notification:
-    default_body:
-    default_title:
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: L'entrée n'a pas pu être traitée, veuillez réessayer.
@@ -1402,8 +1363,6 @@ fr:
           notice: 'Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n''avez pas reçu le mail, vérifiez dans les spams ou contactez l''administration: %{mailto_organisation}'
         update:
           notice: Votre demande de réservation a été mise à jour. Vous pouvez fermer la fenêtre de votre navigateur.
-  foreign_payment_info_text:
-    default_body:
   from: de
   helpers:
     select:
@@ -1462,18 +1421,6 @@ fr:
   invoices:
     total: Total
     vat_title: TVA incluse dans les prix
-  invoices_deposit_text:
-    default_body:
-    default_title: Acompte
-  invoices_invoice_text:
-    default_body:
-    default_title: Facture
-  invoices_late_notice_text:
-    default_body:
-    default_title: Rappel
-  invoices_offer_text:
-    default_body:
-    default_title: Offre
   layouts:
     footer:
       legal:
@@ -1622,24 +1569,6 @@ fr:
     tarifs:
       form:
         minimum: Minimum
-  manage_cancelation_pending_notification:
-    default_body:
-    default_title:
-  manage_cancelled_request_notification:
-    default_body:
-    default_title:
-  manage_contract_signed_notification:
-    default_body:
-    default_title: Recevoir le contrat signé
-  manage_declined_request_notification:
-    default_body:
-    default_title: Annulation Demande de réservation {{ booking.ref }}
-  manage_definitive_request_notification:
-    default_body:
-    default_title: Demande de location {{ booking.ref }} définitive
-  manage_new_booking_notification:
-    default_body:
-    default_title:
   nav:
     edit_account: Gérer le compte
     manage: Administration
@@ -1733,71 +1662,10 @@ fr:
     - jeu
     - ven
     - sam
-  open_booking_agent_request_notification:
-    default_body:
-    default_title: Confirmation de votre demande de location
-  open_request_notification:
-    default_body:
-    default_title: Confirmation de votre demande de location
-  operator_cancelation_pending_notification:
-    default_body:
-    default_title: Location annulée
-  operator_contract_signed_notification:
-    default_body:
-    default_title: Recevoir le contrat signé
-  operator_email_contract_notification:
-    default_body:
-    default_title:
-  operator_email_invoice_notification:
-    default_body:
-    default_title: Facture envoyée
-  operator_payment_confirmation_notification:
-    default_body:
-    default_title:
-  operator_upcoming_notification:
-    default_body:
-    default_title: Location
-  operator_upcoming_soon_notification:
-    default_body:
-    default_title: Location prochaine
   optional: facultatif
   or: Or
-  overdue_notification:
-    default_body:
-    default_title: Contrat en retard
-  overdue_request_notification:
-    default_body:
-    default_title: Demande en retard
-  past_notification:
-    default_body:
-    default_title: Location prochaine
   payable_by: Payable par
-  payment_confirmation_notification:
-    default_body:
-    default_title: Réception du paiement
-  payment_overdue_notification:
-    default_body:
-    default_title: Rappel de paiement pour ta facture Pfadihaus
   payment_part_title: Titre de la partie paiement
-  provisional_request_notification:
-    default_body: |-
-      <p>{{ booking.tenant.salutation }}</p>
-
-      <p>Merci beaucoup pour ta demande de location. Nous avons vérifié tes données et avons établi une réservation provisoire. Celle-ci est valable jusqu'au <strong>{{ booking.deadline.at | datetime_format }}</strong>, après quoi elle expire et l'entrepôt est remis à disposition. En cliquant sur le lien suivant, tu peux prolonger ta réservation, l'annuler ou la déclarer définitive.</p>
-
-      <p><a href="{{booking.links.show}}">{{booking.links.show}}</a></p>
-
-      <p><strong>Détails de la réservation</strong></p>
-
-      <ul>
-        <li>Référence de la réservation : {{ booking.ref }}</li>
-        <li>Entrepôt : {{booking.home.name}}</li>
-        <li>Réservation : {{ booking.begins_at | datetime_format }} à {{ booking.ends_at | datetime_format }}</li>
-        <li>Organisation : {{ booking.tenant_organisation }}</li>
-        <li>Objet de la location : {{ booking.category.title }} : {{ booking.purpose_description }}</li>
-        <li>Remarques : {{ booking.remarks }}</li>
-      </ul>
-    default_title: Réservation provisoire confirmée
   public:
     agent_bookings:
       edit:
@@ -1946,23 +1814,6 @@ fr:
       last_word_connector: " et "
       two_words_connector: " et "
       words_connector: ", "
-  text_payment_info_text:
-    default_body: |-
-      <p><strong>Numéro de compte</strong>:
-      {{ payment_info.esr_beneficiary_account }}</p>
-
-      <p><strong>IBAN</strong>:
-      {{ payment_info.iban }}</p>
-
-      <p><strong>Montant de la facture</strong>:
-      CHF {{ payment_info.formatted_amount }}</p>
-
-      <p><strong>Numéro de référence</strong>:
-      {{ payment_info.formatted_ref }}</p>
-
-      <p><strong>Motif du paiement</strong>:
-      {{ payment_info.booking_ref }}</p>
-    default_title: Informations sur le paiement
   time:
     am: am
     formats:
@@ -1981,23 +1832,5 @@ fr:
     application: HeimV %{organisation}
   too_many_records:
   unauthorized: Tu n'as pas l'autorisation d'accéder à cette page.
-  unconfirmed_request_notification:
-    default_body: |-
-      <p>Bonjour</p>
-
-      <p>Vous venez d'initier une demande de location pour {{ booking.home.name }}.
-      Veuillez cliquer sur le lien ci-dessous pour confirmer votre adresse e-mail et finaliser votre demande de location.</p>
-
-      <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
-    default_title: Confirmer votre adresse e-mail !
   unsupported:
   until: jusqu'à
-  upcoming_notification:
-    default_body:
-    default_title:
-  upcoming_soon_notification:
-    default_body:
-    default_title: Dernières informations sur votre visite au {{booking.home.name}}
-  waitlisted_request_notification:
-    default_body:
-    default_title:

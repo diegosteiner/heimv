@@ -11,7 +11,7 @@ class RichTextTemplateService
 
   def save_defaults_from_organisation!
     build_defaults_from_organisation.each_pair do |locale, defaults_hash|
-      locale_file = Rails.root.join("config/locales/rich_text_templates.#{locale}.yml")
+      locale_file = Rails.root.join("config/rich_text_templates/#{locale}.yml")
       File.open(locale_file, 'wb') { it.write({ locale => defaults_hash }.to_yaml) }
     end
   end

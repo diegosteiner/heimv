@@ -149,7 +149,7 @@ class RichTextTemplate < ApplicationRecord
   end
 
   def self.defaults
-    @defaults ||= Rails.root.glob('config/locales/rich_text_templates.*.yml').reduce({}) do |yaml, locale_file|
+    @defaults ||= Rails.root.glob('config/rich_text_templates/*.yml').reduce({}) do |yaml, locale_file|
       yaml.merge(YAML.load_file(locale_file))
     end.with_indifferent_access.freeze
   end
