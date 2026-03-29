@@ -1069,18 +1069,13 @@ fr:
       public_info:
       relevant_time: Déposé %{time}
   clone: Dupliquer
-  completed_notification:
-    default_title: Réservation terminée
   confirm: Êtes-vous sûr ?
-  contract_sent_notification:
-    default_title: Contrat envoyé
   contracts:
     header_reference:
     issuer_signature_label: Date, lieu, signature du bailleur
     page_numbering:
     represented_by: Représenté par
     tenant_signature_label: Date, lieu, signature du locataire
-  currency: Monnaie
   data_digests:
     period_short: "%{period_from} - %{period_to}"
   date:
@@ -1311,7 +1306,6 @@ fr:
         other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
       odd: doit être impair
       other_than: doit être différent de %{count}
-      password_too_long:
       present: doit être vide
       required: doit exister
       taken: est déjà utilisé(e)
@@ -1580,6 +1574,7 @@ fr:
       format:
         delimiter: "'"
         format: "%n %u"
+        negative_format: "-%n %u"
         precision: 2
         separator: "."
         significant: false

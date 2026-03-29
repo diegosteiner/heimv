@@ -1090,7 +1090,6 @@ de:
     page_numbering: "%{page}/%{total}"
     represented_by: vertreten durch
     tenant_signature_label: Datum, Ort, Unterschrift Mieter
-  currency: Currency
   data_digests:
     period_short: "%{period_from} - %{period_to}"
   date:
@@ -1820,6 +1819,7 @@ de:
       format:
         delimiter: "'"
         format: "%u %n"
+        negative_format: "-%n %u"
         precision: 2
         separator: "."
         significant: false

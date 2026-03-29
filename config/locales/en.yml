@@ -1085,7 +1085,6 @@ en:
     page_numbering: "%{page}/%{total}"
     represented_by: vertreten durch
     tenant_signature_label: Datum, Unterschrift Mieter
-  currency: Currency
   data_digests:
     period_short: "%{period_from} - %{period_to}"
   date:
