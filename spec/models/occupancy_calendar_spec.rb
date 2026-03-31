@@ -21,8 +21,8 @@ RSpec.describe OccupancyCalendar do
                                             begins_at: 5.weeks.from_now, ends_at: 6.weeks.from_now),
         visible_reserved: create(:occupancy, occupiable:, occupancy_type: :reserved, remarks: :visible_reserved,
                                              begins_at: 7.weeks.from_now, ends_at: 8.weeks.from_now),
-        visible_free: create(:occupancy, occupiable:, occupancy_type: :free, remarks: :visible_free,
-                                         begins_at: 9.weeks.from_now, ends_at: 10.weeks.from_now),
+        invisible_free: create(:occupancy, occupiable:, occupancy_type: :free, remarks: :visible_free,
+                                           begins_at: 9.weeks.from_now, ends_at: 10.weeks.from_now),
         invisible_other_occupancy: create(:occupancy, occupiable: other_occupiable, occupancy_type: :occupied,
                                                       begins_at: 11.weeks.from_now, ends_at: 12.weeks.from_now),
         invisible_past: create(:occupancy, occupiable:, occupancy_type: :occupied, remarks: :invisible_past,
@@ -50,7 +50,7 @@ RSpec.describe OccupancyCalendar do
 
       it 'returns all occupancy types in the selected window' do
         is_expected.to match_array(occupancies.except(:invisible_other_occupancy, :invisible_future,
-                                                      :invisible_concluded).values)
+                                                      :invisible_concluded, :invisible_free).values)
       end
     end
   end

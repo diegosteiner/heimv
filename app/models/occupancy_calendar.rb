@@ -13,17 +13,10 @@ OccupancyCalendar = Data.define(:organisation, :occupiables, :public_visibility,
 
   def occupancies
     occupancies = Occupancy.where(occupiable: occupiables).at(from: window_from, to: window_to)
-                           .where(free_without_booking_arel)
+                           .where.not(occupancy_type: :free)
                            .includes(occupiable: [:organisation], booking: %i[deadline organisation])
     return occupancies unless public_visibility
 
     occupancies.where(occupancy_type: organisation.settings.public_occupancy_visibility)
-  end
-
-  private
-
-  def free_without_booking_arel
-    Occupancy.arel_table[:occupancy_type].not_eq(Occupancy.occupancy_types[:free])
-             .or(Occupancy.arel_table[:booking_id].eq(nil))
   end
 end

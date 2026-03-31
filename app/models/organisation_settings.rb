@@ -37,8 +37,8 @@ class OrganisationSettings
     errors.add(:available_begins_at_times, :invalid) unless available_begins_at_times&.compact_blank&.all? do
       self.class.available_times.include?(it)
     end
-    errors.add(:public_occupancy_visibility, :invalid) unless public_occupancy_visibility&.compact_blank&.all? do
-      Occupancy.occupancy_types.key?(it.to_s)
+    errors.add(:public_occupancy_visibility, :invalid) unless public_occupancy_visibility&.all? do
+      Occupancy.occupancy_types.except('free').key?(it.to_s)
     end
   end
 
