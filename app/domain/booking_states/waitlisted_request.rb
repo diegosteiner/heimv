@@ -21,6 +21,10 @@ module BookingStates
       booking.organisation.booking_state_settings.enable_waitlist
     end
 
+    infer_transition(to: :declined_request) do |booking|
+      booking.today? || booking.past?
+    end
+
     def relevant_time
       booking.created_at
     end

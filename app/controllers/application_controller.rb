@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
 
   def user_home_path
     if current_organisation
-      return manage_root_path if current_organisation_user&.role?(:admin, :manager, :readonly)
+      return manage_root_path if current_organisation_user.present?
 
       return organisation_path
     end

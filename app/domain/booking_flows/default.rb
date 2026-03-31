@@ -30,6 +30,7 @@ module BookingFlows
     state BookingStates::PaymentDue, to: %i[cancelation_pending payment_overdue completed]
     state BookingStates::PaymentOverdue, to: %i[cancelation_pending completed]
 
+    # Terminal states
     state BookingStates::Completed
     state BookingStates::CancelledRequest, to: %i[open_request]
     state BookingStates::DeclinedRequest, to: %i[open_request]
