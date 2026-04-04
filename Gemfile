@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '4.0.1'
+ruby '4.0.2'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
