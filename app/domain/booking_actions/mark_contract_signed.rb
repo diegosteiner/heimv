@@ -6,8 +6,9 @@ module BookingActions
     use_mail_template(:operator_contract_signed_notification, context: %i[booking], optional: true)
 
     def invoke!(signed_pdf: nil, current_user: nil) # rubocop:disable Metrics/AbcSize
+      contract_was_signed = booking.contract.signed?
       booking.contract.signed_pdf.attach(signed_pdf) if signed_pdf.present?
-      return Result.success if booking.contract.signed?
+      return Result.success if contract_was_signed
 
       booking.contract.update!(signed_at: Time.zone.now)
       booking.update!(committed_request: true)
