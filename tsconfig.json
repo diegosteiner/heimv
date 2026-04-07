@@ -3,9 +3,12 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["ES2024", "dom"],
+    "lib": [
+      "ES2024",
+      "dom"
+    ],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "sourceMap": true,
     "target": "ES6",
     "jsx": "react-jsx",
@@ -14,7 +17,15 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["app/javascript/**/*.ts", "app/javascript/**/*.tsx"],
-  "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
+  "include": [
+    "app/javascript/**/*.ts",
+    "app/javascript/**/*.tsx"
+  ],
+  "exclude": [
+    "**/*.spec.ts",
+    "node_modules",
+    "vendor",
+    "public"
+  ],
   "compileOnSave": false
 }

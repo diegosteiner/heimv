@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '4.0.1'
+ruby '4.0.2'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
@@ -52,6 +52,7 @@ gem 'responders'
 gem 'rqrcode'
 gem 'rubyzip'
 gem 'sentry-rails'
+gem 'sentry-ruby'
 gem 'slim-rails'
 gem 'solid_queue'
 gem 'stackprof'

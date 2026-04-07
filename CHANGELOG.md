@@ -1,16 +1,17 @@
 # Changelog
 
-## 26.3.1
+## 26.4.1
 
-unreleased
+Released 07.04.2026
 
+- Feature: Add CC for invoice notifications
+- Feature: Control what occupancy types are shown on calendar
+- Improve: Handle waitlist also for occupied dates and for agent bookings
+- Improve: Add size limit for dedicated documents to ensure deliverability
+- Refactor: Extract RichText Template defaults into seperate files
 - Fix: Fix incosistent actions
 - Fix: Fix deadline settings and allow disabling deadlines
-- Refactor: Extract RichText Template defaults into seperate files
-- Improve: Handle waitlist also for occupied dates and for agent bookings
-- Feature: Add CC for invoice notifications
 - Fix: Count LI as CH for QR invoices
-- Improve: Add size limit for dedicated documents to ensure deliverability
 
 ## 26.2.1
 

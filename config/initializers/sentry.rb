@@ -6,11 +6,10 @@ Sentry.init do |config|
   config.dsn = ENV.fetch('SENTRY_DSN', nil)
   config.environment = ENV.fetch('SENTRY_ENVIRONMENT', Rails.env)
   config.release = Rails.root.join('VERSION').read.strip
-
+  config.breadcrumbs_logger = %i[active_support_logger http_logger]
   config.send_default_pii = false
   config.traces_sample_rate = 0.1
   config.profiles_sample_rate = 0.0
-
   config.excluded_exceptions += %w[
     ActiveRecord::RecordNotFound
     ActionController::RoutingError
