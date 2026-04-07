@@ -16,7 +16,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear!
-      booking.tentative!
+      booking.pending!
       booking.update(concluded: false) # in case it's reinstated from declined or cancelled
 
       OperatorResponsibility.assign(booking, :administration, :billing)
@@ -26,14 +26,6 @@ module BookingStates
         MailTemplate.use(:open_booking_agent_request_notification, booking, to: :booking_agent, &:autodeliver!)
       else
         MailTemplate.use(:open_request_notification, booking, to: :tenant, &:autodeliver!)
-      end
-    end
-
-    guard_transition do |booking|
-      if booking.organisation.booking_state_settings.enable_waitlist
-        !booking.conflicting?
-      else
-        !booking.conflicting?(%i[occupied tentative closed])
       end
     end
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 describe 'Booking by tenant', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
@@ -32,7 +34,7 @@ describe 'Booking by tenant', :devise do
   let(:booking) do
     begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
     build(:booking, begins_at:, ends_at: begins_at + 1.week + 4.hours + 15.minutes,
-                    organisation:, home:, tenant: nil, committed_request: false, notifications_enabled: true)
+                    organisation:, home:, tenant: nil, committed_request: false, deliver_notifications: true)
   end
 
   let(:expected_notifications) do
@@ -229,40 +231,46 @@ describe 'Booking by tenant', :devise do
   end
 
   describe 'check conflicting bookings' do
-    before do
+    let(:conflicting_booking) do
       create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
                        occupancy_type: :tentative, initial_state: :provisional_request)
     end
 
     context 'without waitlist_enabled' do
       it 'returns error' do
+        conflicting_booking
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
+        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
         submit_form
         expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
 
-    context 'with waitlist_enabled' do
-      before { organisation.tap { it.booking_state_settings.enable_waitlist = true }.save! }
+    context 'with waitlist enabled' do
+      before { organisation.reload.update!(booking_state_settings: { enable_waitlist: true }) }
 
       it 'returns no error' do
+        conflicting_booking
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
+
+        expect(page).to have_content(I18n.t('public.bookings.form.occupancy_conflict_warning'))
         submit_form
         expect(page).to have_no_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
 
-    context 'with waitlist_enabled and conflicting booking' do
+    context 'with waitlist disabled and conflicting booking' do
+      let(:tenant) { create(:tenant, organisation:) }
       let(:conflicting_booking) do
         create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
                          occupancy_type: :occupied, initial_state: :upcoming)
       end
 
-      before { organisation.tap { it.booking_state_settings.enable_waitlist = true }.save! }
+      before { organisation.reload.update!(booking_state_settings: { enable_waitlist: false }) }
 
       it 'returns error' do
         conflicting_booking

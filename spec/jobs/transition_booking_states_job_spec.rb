@@ -16,7 +16,7 @@ RSpec.describe TransitionBookingStatesJob do
       end
 
       before do
-        booking.create_deadline(at: 15.minutes.ago, armed: true)
+        booking.create_deadline(at: 15.minutes.ago).arm!
       end
 
       it { expect(transitions).to eq({ booking.id => %w[overdue_request] }) }

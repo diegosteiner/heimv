@@ -1,0 +1,125 @@
+---
+fr:
+  email_contract_notification:
+    default_title: Contrat pour ta réservation
+  operator_email_invoice_notification:
+    default_title: Facture envoyée
+  contract_sent_notification:
+    default_title: Contrat envoyé
+  contract_signed_notification:
+    default_title: Recevoir le contrat signé
+  operator_contract_signed_notification:
+    default_title: Recevoir le contrat signé
+  cancelled_request_notification:
+    default_title: Votre demande de réservation a été annulée
+  manage_cancelled_request_notification:
+    default_title: Annulation Demande de réservation {{ booking.ref }}
+  declined_request_notification:
+    default_title: Demande de réservation refusée
+  operator_cancelation_pending_notification:
+    default_title: Location annulée
+  cancelled_notification:
+    default_title: Résiliation du contrat/annulation de ta réservation
+  booking_agent_cancelled_notification:
+    default_title: Transmission annulée
+  manage_contract_signed_notification:
+    default_title: Recevoir le contrat signé
+  unconfirmed_request_notification:
+    default_title: Confirmer votre adresse e-mail !
+    default_body: |
+      <p>Bonjour</p>
+
+      <p>Vous venez d'initier une demande de location pour {{ booking.home.name }}.
+      Veuillez cliquer sur le lien ci-dessous pour confirmer votre adresse e-mail et finaliser votre demande de location.</p>
+
+      <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
+  manage_new_booking_notification:
+    default_title: Nouvelle demande de location
+  open_booking_agent_request_notification:
+    default_title: Confirmation de votre demande de location
+  open_request_notification:
+    default_title: Confirmation de votre demande de location
+  booking_agent_request_notification:
+    default_title: Confirmation de ta demande de transmission
+  provisional_request_notification:
+    default_title: Réservation provisoire confirmée
+    default_body: |
+      <p>{{ booking.tenant.salutation }}</p>
+
+      <p>Merci beaucoup pour ta demande de location. Nous avons vérifié tes données et avons établi une réservation provisoire. Celle-ci est valable jusqu'au <strong>{{ booking.deadline.at | datetime_format }}</strong>, après quoi elle expire et l'entrepôt est remis à disposition. En cliquant sur le lien suivant, tu peux prolonger ta réservation, l'annuler ou la déclarer définitive.</p>
+
+      <p><a href="{{booking.links.show}}">{{booking.links.show}}</a></p>
+
+      <p><strong>Détails de la réservation</strong></p>
+
+      <ul>
+        <li>Référence de la réservation : {{ booking.ref }}</li>
+        <li>Entrepôt : {{booking.home.name}}</li>
+        <li>Réservation : {{ booking.begins_at | datetime_format }} à {{ booking.ends_at | datetime_format }}</li>
+        <li>Organisation : {{ booking.tenant_organisation }}</li>
+        <li>Objet de la location : {{ booking.category.title }} : {{ booking.purpose_description }}</li>
+        <li>Remarques : {{ booking.remarks }}</li>
+      </ul>
+  overdue_request_notification:
+    default_title: Demande en retard
+  definitive_request_notification:
+    default_title: Réservation définitive confirmée
+  manage_definitive_request_notification:
+    default_title: Demande de location {{ booking.ref }} définitive
+  awaiting_tenant_notification:
+    default_title: Informations s'il vous plaît
+  booking_agent_request_accepted_notification:
+    default_title: Demande de transmission acceptée
+  overdue_notification:
+    default_title: Contrat en retard
+  upcoming_notification:
+    default_title: Acompte et contrat signé reçus
+  operator_upcoming_notification:
+    default_title: Location
+  upcoming_soon_notification:
+    default_title: Dernières informations sur votre visite au {{booking.home.name}}
+  operator_upcoming_soon_notification:
+    default_title: Location prochaine
+  past_notification:
+    default_title: Location prochaine
+  payment_overdue_notification:
+    default_title: Rappel de paiement pour ta facture Pfadihaus
+  completed_notification:
+    default_title: Réservation terminée
+  contract_text:
+    default_title: Contrat
+    default_body: |
+      <h2>Contrat</h2>
+
+      <p>(veuillez adapter le modèle de contrat)</p>
+
+      {{ tarifs_table_placeholder }}
+  payment_confirmation_notification:
+    default_title: Réception du paiement
+  operator_payment_confirmation_notification:
+    default_title: Recevoir le contrat signé
+  invoices_deposit_text:
+    default_title: Acompte
+  invoices_invoice_text:
+    default_title: Facture
+  invoices_offer_text:
+    default_title: Offre
+  invoices_late_notice_text:
+    default_title: Rappel
+  text_payment_info_text:
+    default_title: Informations sur le paiement
+    default_body: |
+      <p><strong>Numéro de compte</strong>:
+      {{ payment_info.esr_beneficiary_account }}</p>
+
+      <p><strong>IBAN</strong>:
+      {{ payment_info.iban }}</p>
+
+      <p><strong>Montant de la facture</strong>:
+      CHF {{ payment_info.formatted_amount }}</p>
+
+      <p><strong>Numéro de référence</strong>:
+      {{ payment_info.formatted_ref }}</p>
+
+      <p><strong>Motif du paiement</strong>:
+      {{ payment_info.booking_ref }}</p>

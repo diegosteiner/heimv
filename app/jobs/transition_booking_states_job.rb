@@ -15,7 +15,7 @@ class TransitionBookingStatesJob < ApplicationJob
       Rails.logger.warn(e.message)
 
       # Wait for to be fixed https://github.com/kmcphillips/exception_notification/issues/10
-      # ExceptionNotifier.notify_exception(e, data: booking.attributes) if defined?(ExceptionNotifier)
+      # ExceptionNotifier.notify_exception(e, data: booking.attributes)
     end
 
     job_transitions.compact_blank

@@ -16,13 +16,14 @@ services:
       E2E_TARGET_HOST: "app.test:3001"
       SELENIUM_HOST: "selenium:4444"
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
-      SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
+      SMTP_SETTINGS: '{ "address":"mail", "port": 1025, "starttls": 0 }'
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
       REDIS_URL: "redis://valkey/0"
       TRANSLATION_IO_API_KEY: ${TRANSLATION_IO_API_KEY}
       PRIVACY_STATEMENT_URL: ${PRIVACY_STATEMENT_URL}
       GITHUB_URL: ${GITHUB_URL}
       RAILS_PERFORM_CACHING: ${RAILS_PERFORM_CACHING}
+      SENTRY_DSN: ${SENTRY_DSN}
     depends_on:
       - db
       - mail

@@ -30,7 +30,7 @@ class BookingCondition
   def evaluate(booking)
     evaluate!(booking)
   rescue StandardError => e
-    ExceptionNotifier.notify_exception(e) if defined?(ExceptionNotifier)
+    ExceptionNotifier.notify_exception(e)
     nil
   end
 

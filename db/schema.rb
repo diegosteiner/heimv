@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_31_120207) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -207,6 +207,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
     t.boolean "concluded", default: false
     t.datetime "conditions_accepted_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
+    t.boolean "deliver_notifications", default: false
     t.boolean "editable"
     t.string "email"
     t.datetime "ends_at"
@@ -217,7 +218,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
     t.jsonb "invoice_address"
     t.string "invoice_cc"
     t.string "locale"
-    t.boolean "notifications_enabled", default: false
     t.string "occupancy_color"
     t.integer "occupancy_type", default: 0, null: false
     t.bigint "organisation_id", null: false
@@ -396,7 +396,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
   create_table "notifications", force: :cascade do |t|
     t.text "body"
     t.uuid "booking_id"
+    t.string "cc"
     t.datetime "created_at", precision: nil, null: false
+    t.string "deliver_cc", default: [], array: true
     t.string "deliver_to", default: [], array: true
     t.datetime "delivered_at"
     t.bigint "mail_template_id"
@@ -503,7 +505,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
   end
 
   create_table "organisations", force: :cascade do |t|
-    t.string "account_address"
     t.jsonb "accounting_settings", default: {}
     t.text "address"
     t.string "bcc"
@@ -517,6 +518,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
     t.string "currency", default: "CHF"
     t.jsonb "deadline_settings", default: {}
     t.string "default_payment_info_type"
+    t.boolean "deliver_notifications", default: true
     t.string "email"
     t.string "esr_beneficiary_account"
     t.string "esr_ref_prefix"
@@ -529,7 +531,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_143942) do
     t.string "mail_from"
     t.string "name"
     t.jsonb "nickname_label_i18n", default: {}
-    t.boolean "notifications_enabled", default: true
     t.jsonb "qr_bill_creditor_address"
     t.string "representative_address"
     t.jsonb "settings", default: {}

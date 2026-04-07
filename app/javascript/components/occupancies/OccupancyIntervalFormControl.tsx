@@ -1,10 +1,22 @@
 import { cx } from "@emotion/css";
-import { addYears, format, getHours, getMinutes, getYear, isValid, parse, setHours, setMinutes } from "date-fns";
-import { useState } from "react";
+import {
+  addYears,
+  areIntervalsOverlapping,
+  format,
+  getHours,
+  getMinutes,
+  getYear,
+  isValid,
+  parse,
+  setHours,
+  setMinutes,
+} from "date-fns";
+import { use, useMemo, useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { closestNumber, formatISOorUndefined } from "../../services/date";
 import OccupancyIntervalCalendar from "./OccupancyIntervalCalendar";
+import { OccupancyWindowContext } from "./OccupancyWindowContext";
 
 export const availableMinutes = [0, 15, 30, 45];
 export const availableHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
@@ -60,6 +72,7 @@ type ControlDateValue = {
 
 type OccupancyIntervalFormControlProps = {
   namePrefix?: string;
+  bookingId?: string;
   required?: boolean;
   disabled?: boolean;
   months?: number;
@@ -70,10 +83,12 @@ type OccupancyIntervalFormControlProps = {
   beginsAtTimes?: (string | number)[];
   endsAtTimes?: (string | number)[];
   invalidFeedback?: string | undefined;
+  checkOverlaps?: "error" | "warn" | "none";
 };
 
 export function OccupancyIntervalFormControl({
   namePrefix,
+  bookingId,
   required,
   disabled,
   months,
@@ -84,6 +99,7 @@ export function OccupancyIntervalFormControl({
   beginsAtTimes,
   endsAtTimes,
   invalidFeedback,
+  checkOverlaps,
 }: OccupancyIntervalFormControlProps) {
   const [showModal, setShowModal] = useState(false);
   const initialBeginsAtTime = initialBeginsAt && format(initialBeginsAt, "HH:mm");
@@ -95,12 +111,29 @@ export function OccupancyIntervalFormControl({
     buildControlDateValue({ date: initialEndsAt, time: initialEndsAt ? initialEndsAtTime : defaultEndsAtTime }),
   );
   const { t } = useTranslation();
+  const occupancyWindow = use(OccupancyWindowContext);
   const beginsAtTimeOptions = new Set(
     [initialBeginsAtTime, ...(beginsAtTimes || availableTimes)].filter((time) => time).sort(),
   );
   const endsAtTimeOptions = new Set(
     [initialEndsAtTime, ...(endsAtTimes || availableTimes)].filter((time) => time).sort(),
   );
+
+  const isOverlapping = useMemo(() => {
+    if (disabled || !checkOverlaps || !beginsAt.date || !endsAt.date || !occupancyWindow) return false;
+
+    return occupancyWindow.occupancies.some(
+      (occupancy) =>
+        (!bookingId || occupancy.bookingId !== bookingId) &&
+        areIntervalsOverlapping(
+          { start: beginsAt.date as Date, end: endsAt.date as Date },
+          { start: occupancy.beginsAt, end: occupancy.endsAt },
+          { inclusive: false },
+        ),
+    );
+  }, [disabled, checkOverlaps, bookingId, beginsAt, endsAt, occupancyWindow]);
+
+  const isInvalid = !!invalidFeedback || (checkOverlaps === "error" && isOverlapping);
 
   return (
     <>
@@ -114,7 +147,7 @@ export function OccupancyIntervalFormControl({
                 id={"booking_begins_at_date"}
                 required={required}
                 disabled={disabled}
-                isInvalid={!!invalidFeedback || (beginsAt.text.length > 0 && !beginsAt.date)}
+                isInvalid={isInvalid || (beginsAt.text.length > 0 && !beginsAt.date)}
                 onChange={(event) => setBeginsAt((prev) => ({ ...prev, text: event.target.value }))}
                 onBlur={(event) =>
                   setBeginsAt((prev) =>
@@ -136,7 +169,7 @@ export function OccupancyIntervalFormControl({
               id={"booking_begins_at_time"}
               required={required}
               disabled={disabled}
-              isInvalid={!!invalidFeedback}
+              isInvalid={isInvalid}
               onChange={(event) =>
                 setBeginsAt((prev) =>
                   buildControlDateValue({
@@ -172,7 +205,7 @@ export function OccupancyIntervalFormControl({
                 id={"booking_ends_at_date"}
                 required={required}
                 disabled={disabled}
-                isInvalid={!!invalidFeedback || (endsAt.text.length > 0 && !endsAt.date)}
+                isInvalid={isInvalid || (endsAt.text.length > 0 && !endsAt.date)}
                 onChange={(event) => setEndsAt((prev) => ({ ...prev, text: event.target.value }))}
                 onBlur={(event) =>
                   setEndsAt((prev) =>
@@ -194,7 +227,7 @@ export function OccupancyIntervalFormControl({
               id={"booking_ends_at_time"}
               required={required}
               disabled={disabled}
-              isInvalid={!!invalidFeedback}
+              isInvalid={isInvalid}
               onChange={(event) =>
                 setEndsAt((prev) =>
                   buildControlDateValue({
@@ -220,6 +253,14 @@ export function OccupancyIntervalFormControl({
           value={formatISOorUndefined(endsAt.date)}
         />
         {invalidFeedback && <div className="invalid-feedback d-block">{invalidFeedback}</div>}
+        {isOverlapping && checkOverlaps === "warn" && (
+          <div className="invalid-feedback d-block text-warning">
+            {t("public.bookings.form.occupancy_conflict_warning")}
+          </div>
+        )}
+        {isOverlapping && checkOverlaps === "error" && (
+          <div className="invalid-feedback d-block">{t("activerecord.errors.messages.occupancy_conflict")}</div>
+        )}
       </div>
 
       <Modal size="lg" show={showModal} onHide={() => setShowModal(false)}>

@@ -9,15 +9,14 @@ module BookingActions
 
     def invoke!(invoice_ids: invoices.map(&:id), current_user: nil)
       invoices = self.invoices.where(id: invoice_ids)
-      mail = send_tenant_notification(invoices)
-
-      send_operator_notification(invoices)
+      mail = notify_tenant(invoices)
+      notify_operators(invoices)
 
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
 
     def invokable?(invoice_ids: nil, current_user: nil)
-      booking.valid? && booking.notifications_enabled && MailTemplate.enabled?(:email_contract_notification, booking) &&
+      booking.valid? && MailTemplate.enabled?(:email_contract_notification, booking) &&
         contract.present? && !contract.sent? && booking.email.present?
     end
 
@@ -44,7 +43,7 @@ module BookingActions
 
     protected
 
-    def send_tenant_notification(invoices)
+    def notify_tenant(invoices)
       context = { contract:, invoices: }
       MailTemplate.use!(:email_contract_notification, booking, to: :tenant, context:) do |mail|
         mail.attach :contract, invoices
@@ -54,7 +53,7 @@ module BookingActions
       end
     end
 
-    def send_operator_notification(invoices)
+    def notify_operators(invoices)
       context = { contract:, invoices: }
       Notification.dedup(booking, to: %i[billing home_handover home_return]) do |to|
         MailTemplate.use(:operator_email_contract_notification, booking, to:, context:)&.tap do |mail|

@@ -6,7 +6,7 @@ module Public
 
     def home
       return redirect_to new_user_session_path if current_user.blank? && current_organisation.blank?
-      return redirect_to home_path if current_organisation || current_user.default_organisation
+      return redirect_to user_home_path if current_organisation || current_user.default_organisation
 
       @organisations = Organisation.accessible_by(current_ability).ordered
     end

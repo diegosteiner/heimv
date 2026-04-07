@@ -5,18 +5,16 @@ module BookingActions
     use_mail_template(:contract_signed_notification, context: %i[booking], autodeliver: false)
     use_mail_template(:operator_contract_signed_notification, context: %i[booking], optional: true)
 
-    def invoke!(signed_pdf: nil, current_user: nil) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    def invoke!(signed_pdf: nil, current_user: nil) # rubocop:disable Metrics/AbcSize
       booking.contract.signed_pdf.attach(signed_pdf) if signed_pdf.present?
-      Rails.logger.info "MarkContractSigned #{booking.contract.id} pdf attached"
+      return Result.success if booking.contract.signed?
+
       booking.contract.update!(signed_at: Time.zone.now)
-      Rails.logger.info "MarkContractSigned #{booking.contract.id} contract signed"
       booking.update!(committed_request: true)
-      Rails.logger.info "MarkContractSigned #{booking.contract.id} booking updated"
 
       mail = MailTemplate.use(:contract_signed_notification, booking, to: :tenant)
-      Rails.logger.info "MarkContractSigned #{booking.contract.id} mail prepared: #{mail.inspect}"
-      send_operator_notification
-      Rails.logger.info "MarkContractSigned #{booking.contract.id} operators notified"
+      notify_operators
+
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
 
@@ -27,16 +25,16 @@ module BookingActions
     end
 
     def invokable?(signed_pdf: nil, current_user: nil)
-      booking.contract&.sent? && !booking.contract&.signed? && booking.valid_with_attributes?(committed_request: true)
+      booking.contract&.sent? && booking.valid_with_attributes?(committed_request: true)
     end
 
     def invokable_with(current_user: nil)
-      { prepare: true } if invokable?(current_user:)
+      { prepare: true } if invokable?(current_user:) && !booking.contract&.signed?
     end
 
     protected
 
-    def send_operator_notification
+    def notify_operators
       Notification.dedup(booking, to: %i[billing home_handover home_return]) do |to|
         MailTemplate.use(:operator_contract_signed_notification, booking, to:)&.autodeliver!
       end

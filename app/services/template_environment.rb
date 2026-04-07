@@ -20,6 +20,14 @@ class TemplateEnvironment
       nil
     end
 
+    def relative_time(value)
+      value = DateTime.iso8601(value) unless value.respond_to?(:strftime)
+
+      ApplicationController.helpers.time_ago_in_words(value)
+    rescue Date::Error, TypeError
+      nil
+    end
+
     def link(value, text)
       "<a href=\"#{value}\">#{text.presence || value}</a>"
     end

@@ -5,7 +5,6 @@
 # Table name: organisations
 #
 #  id                           :bigint           not null, primary key
-#  account_address              :string
 #  accounting_settings          :jsonb
 #  address                      :text
 #  bcc                          :string
@@ -18,6 +17,7 @@
 #  currency                     :string           default("CHF")
 #  deadline_settings            :jsonb
 #  default_payment_info_type    :string
+#  deliver_notifications        :boolean          default(TRUE)
 #  email                        :string
 #  esr_beneficiary_account      :string
 #  esr_ref_prefix               :string
@@ -30,7 +30,6 @@
 #  mail_from                    :string
 #  name                         :string
 #  nickname_label_i18n          :jsonb
-#  notifications_enabled        :boolean          default(TRUE)
 #  qr_bill_creditor_address     :jsonb
 #  representative_address       :string
 #  settings                     :jsonb
@@ -45,7 +44,7 @@
 class Organisation < ApplicationRecord
   extend Mobility
 
-  has_many :bookings, dependent: :restrict_with_error, inverse_of: :organisation
+  has_many :bookings, dependent: :restrict_with_error, inverse_of: :organisation, autosave: false
   has_many :homes, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :tenants, -> { ordered }, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :rich_text_templates, inverse_of: :organisation, dependent: :destroy
@@ -89,7 +88,6 @@ class Organisation < ApplicationRecord
   validates :locale, presence: true
   validate do
     errors.add(:creditor_address, :invalid) if creditor_address&.lines&.count&.> 3
-    errors.add(:account_address, :invalid) if account_address&.lines&.count&.> 3
     errors.add(:iban, :invalid) if iban.present? && !iban.valid?
   end
 

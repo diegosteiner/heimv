@@ -24,17 +24,25 @@ class Deadline < ApplicationRecord
   scope :after, ->(at = Time.zone.now) { where(arel_table[:at].gteq(at)) }
   scope :next, -> { armed.ordered }
 
-  # validates :at, presence: true
-  attribute :length
+  validates :at, presence: true, if: :armed
+  before_validation :set_at
 
-  def length=(duration)
-    self.armed = duration.present? && !duration.zero?
-    self.at = duration&.from_now unless duration&.zero?
+  def set_at # rubocop:disable Metrics/CyclomaticComplexity,Metrics/AbcSize,Metrics/PerceivedComplexity
+    return unless at_changed? || new_record?
+
+    now = Time.zone.now
+    value = at
+    value = booking&.organisation&.deadline_settings&.try(value) if value.is_a?(Symbol)
+    value = value.seconds if value.is_a?(Integer)
+    value = now + value if value.is_a?(ActiveSupport::Duration)
+
+    self.at = value
+    self.armed = value.present? && !(value - now).negative? unless armed_changed?
   end
 
   def exceeded?(other = Time.zone.now)
     reload
-    armed? && other > at
+    at && armed? && other > at
   end
 
   def postponable_until
@@ -53,5 +61,9 @@ class Deadline < ApplicationRecord
 
   def clear!
     update_columns(armed: false) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def arm!
+    update_columns(armed: true) # rubocop:disable Rails/SkipsModelValidations
   end
 end

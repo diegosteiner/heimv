@@ -48,7 +48,7 @@ class Invoice
 
       booking = invoice.booking
       country_code = booking.tenant&.country_code&.upcase
-      return PaymentInfos::ForeignPaymentInfo if country_code && country_code != booking.organisation.country_code
+      return PaymentInfos::ForeignPaymentInfo if country_code && %w[CH LI].exclude?(country_code)
 
       booking.organisation.default_payment_info_type || PaymentInfos::QrBill
     end

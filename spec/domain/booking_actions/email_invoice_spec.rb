@@ -27,5 +27,13 @@ describe BookingActions::EmailInvoice do
     it { expect(booking_after_invoke).to notify(:email_invoice_notification).to(:tenant) }
     it { expect(booking_after_invoke.notifications.last.attachments).to be_present }
     it { expect(booking_after_invoke.invoices.find(invoice.id)).to be_sent }
+
+    context 'with cc recipients' do
+      let(:cc) { 'cc@heimverwaltung.local' }
+
+      before { booking.update(invoice_cc: cc) }
+
+      it { expect(booking_after_invoke).to notify(:email_invoice_notification).cc(cc) }
+    end
   end
 end

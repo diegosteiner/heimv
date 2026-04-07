@@ -116,7 +116,6 @@ en:
         closed_occupancy_color: Farbe für Schliessungen
         contract_sign_by_click_enabled: Vertrag «per Klick» durch Mieter unterschreiben
         default_begins_at_time: Standardzeit für den Beginn der Belegung
-        default_calendar_view: Standard Kalenderansicht
         default_ends_at_time: Standardzeit für das Ende der Belegung
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
         locales: Sprachen
@@ -241,6 +240,7 @@ en:
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         deadline: Frist bis
+        deliver_notifications: Aus der Applikation generierte Emails versenden
         editable: Durch Mieter bearbeitbar
         ends_at: Ende der Belegung
         home_id: Hauptmietobjekt
@@ -249,7 +249,6 @@ en:
         invoice_address: Rechnungsadresse (falls abweichend)
         locale: Sprache
         nights: Nächte
-        notifications_enabled: Aus der Applikation generierte Emails versenden
         occupancies: Belegungen
         occupancy_color: Farbe im Kalender
         occupancy_type: Art der Belegungen
@@ -284,6 +283,7 @@ en:
       booking_question:
         applying_conditions: Bedingungen
         booking_agent_mode: Eingabemodus für Vermittler
+        default_value: Standardwert
         description: Beschreibung
         key: Schlüssel
         label: Bezeichnung
@@ -416,14 +416,15 @@ en:
         remarks: Bemerkungen
         responsibility: Verantwortlichkeit
       organisation:
-        account_address: Adresse des Kontos für QR-Rechnungen (falls abweichend)
         address: Adresse
         bcc: BCC
         booking_ref_template: Buchungreferenz Format
         contract_signature: Vertragsunterschrift Bild
         cors_origins: CORS Origins
+        creditor_address: Adresse des Kontos für QR-Rechnungen (falls abweichend)
         currency: Währung
         default_payment_info_type: Standartzahlungsteil
+        deliver_notifications: Nachrichten aktiviert
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
         esr_ref_prefix: ESR Identifikationsnummer / Präfix
         iban: IBAN
@@ -436,7 +437,6 @@ en:
         mail_from: Absender von Emails
         name: Name
         nickname_label: Bezeichnung des Übernamens
-        notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
         qr_bill_creditor_address: Zahlbar an QR-Rechnungen
         representative_address: Adresse der Vertretung für Verträge
@@ -735,6 +735,9 @@ en:
       booking_questions/check_box:
         one: Zusätzliche Angabe als Checkbox
         other: Other
+      booking_questions/country_code:
+        one: Zusätzliche Angabe als Ländercode
+        other: Other
       booking_questions/date:
         one: Zusätzliche Angabe als Datum
         other: Other
@@ -980,6 +983,7 @@ en:
         locale: Sprache
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
+    contract_sent: Vertrag versenden
     contract_signed: Vertrag unterschieben
     credit_issued: Gutschrift ausbezahlt
     deposit_created: Akontorechnung erstellen
@@ -987,6 +991,7 @@ en:
     invoice_created: Rechnung stellen
     invoice_paid: "%{invoice} bezahlt"
     invoice_refunded: "%{invoice} erstattet"
+    invoice_sent: Rechnung versenden
     invoices_paid: Rechnungen beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen
@@ -1019,6 +1024,7 @@ en:
     completed:
       label: Belegung (abgeschlossen)
     declined_request:
+      description: Die Verwaltung hat die Mietanfrage abgelehnt oder die Frist ist abglaufen
       label: Mietanfrage (abgelehnt)
     definitive_request:
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
@@ -1079,7 +1085,6 @@ en:
     page_numbering: "%{page}/%{total}"
     represented_by: vertreten durch
     tenant_signature_label: Datum, Unterschrift Mieter
-  currency: Currency
   data_digests:
     period_short: "%{period_from} - %{period_to}"
   date:
@@ -1481,14 +1486,15 @@ en:
   import: Import
   import_records: "%{model_name} importieren"
   invoice_items:
-    balance_breakdown: Saldo aus Anzahlungen
     breakdown:
+      balance: Saldo aus Anzahlungen
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
-  invoices:
-    total: Total
-    vat_title: in den Preisen enhaltene MwSt.
+      minimum_price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
+      minimum_price_total: Differenz zum Mindestbetrag (%{minimum})
+      minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{unit} / Nacht)
+      minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{unit})
   layouts:
     footer:
       legal:
@@ -1609,7 +1615,7 @@ en:
           {% endif %}
           </pre>
         help_title: Hilfe zu Variabeln
-        load_locale_defaults: Standard-Text für diese Sprache wiederherstellen
+        load_defaults: Standard-Text für diese Sprache wiederherstellen
         template_context:
           booking: |-
             <h5>Buchung</h5>
@@ -1679,7 +1685,7 @@ en:
               <dt>Anredeform des Mieters</dt>
               <dd><pre>{{ booking.tenant.salutation_form }}</pre></dd>
               <dt>Adresse des Mieters</dt>
-              <dd><pre>{{ booking.tenant.street }} {{ booking.tenant.street_nr }}</pre></dd>
+              <dd><pre>{{ booking.tenant.street_address }}</pre></dd>
               <dt>PLZ des Mieters</dt>
               <dd><pre>{{ booking.tenant.zipcode }}</pre></dd>
               <dt>Mieter Organisation / Gruppenname</dt>
@@ -1781,7 +1787,7 @@ en:
       form:
         minimum: Minimum
   nav:
-    edit_account: Passwort ändern
+    edit_account: Account verwalten
     manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden
@@ -1789,35 +1795,41 @@ en:
   number:
     currency:
       format:
-        delimiter: ","
-        format: "%u%n"
-        precision: 2
+        delimiter: "'"
+        format: "%u %n"
+        precision: '2'
         separator: "."
-        significant: false
-        strip_insignificant_zeros: false
-        unit: "$"
+        significant: Significant
+        strip_insignificant_zeros: Strip insignificant zeros
+        unit: CHF
     format:
-      delimiter: ","
-      precision: 3
+      delimiter: "'"
+      precision: '2'
       round_mode: default
       separator: "."
-      significant: false
-      strip_insignificant_zeros: false
+      significant: Significant
+      strip_insignificant_zeros: Strip insignificant zeros
     human:
       decimal_units:
         format: "%n %u"
         units:
-          billion: Billion
-          million: Million
-          quadrillion: Quadrillion
-          thousand: Thousand
-          trillion: Trillion
-          unit: ''
+          billion:
+            one: Milliarde
+            other: Milliarden
+          million:
+            one: Million
+            other: Millionen
+          quadrillion:
+            one: Billiarde
+            other: Billiarden
+          thousand: Tausend
+          trillion:
+            one: Billion
+            other: Billionen
       format:
-        delimiter: ''
-        precision: 3
-        significant: true
-        strip_insignificant_zeros: true
+        precision: '1'
+        significant: 'true'
+        strip_insignificant_zeros: 'true'
       storage_units:
         format: "%n %u"
         units:
@@ -1832,12 +1844,8 @@ en:
           tb: TB
     percentage:
       format:
-        delimiter: ''
         format: "%n%"
-        precision: 1
-    precision:
-      format:
-        delimiter: ''
+        precision: '1'
   occupancy_calendar:
     months: '["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
     next: "→"
@@ -1845,8 +1853,6 @@ en:
     weekdays: '["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]'
   optional: optional
   or: oder
-  payable_by: Zahlbar durch
-  payment_part_title: Payment part title
   public:
     agent_bookings:
       edit:
@@ -1871,7 +1877,7 @@ en:
         committed_request_provisional_request_help: Unverbindliche Anfrage. Zu- oder Absage innert der angegebenen Frist
         last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
       new:
-        accept_conditions_html: Ich bin mit den <a href="%{privacy_statement_pdf_url}" target="_blank">Datenschutzbestimmungen</a> und den <a href="%{terms_pdf_url}" target="_blank">AGB</a> einverstanden
+        accept_conditions_html: Ich bin mit %{conditions_html} einverstanden
         privacy_policy_condition_html: den <a href="%{url}" target="_blank">Datenschutzbestimmungen</a>
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         submit: Reservationsanfrage abschicken
@@ -1883,7 +1889,6 @@ en:
           one: 1 Nacht
           other: "%{count} Nächte"
           zero: ohne Übernachtung
-  ref: Ref
   renderables:
     booking_questions:
       check_box:
@@ -1917,9 +1922,9 @@ en:
     definitive_request_notification:
       description: Benachrichtigung für definitive Mietanfrage (Mieter)
     email_contract_notification:
-      description: Benachrichtigung für Vertragsaustellung und Akontorechnung (Mieter)
+      description: Benachrichtigung für Versand Vertrag/Akontorechnung (Mieter)
     email_invoice_notification:
-      description: Benachrichtigung für fällige Zahlung (Mieter)
+      description: Benachrichtigung für Versand Rechnung (Mieter)
     email_offer_notification:
       description: Benachrichtigung für Versand Offerte (Mieter)
     foreign_payment_info_text:
@@ -1935,9 +1940,11 @@ en:
     manage_cancelation_pending_notification:
       description: Benachrichtigung für stornierte Reservation (Verwaltung)
     manage_cancelled_request_notification:
-      description: Benachrichtigung für stornierte Reservationsanfrage (Verwaltung)
+      description: Benachrichtigung für zurückgezogene Reservationsanfrage (Verwaltung)
     manage_contract_signed_notification:
       description: Benachrichtigung für Vertragseingang (Verwaltung)
+    manage_declined_request_notification:
+      description: Benachrichtigung für stornierte Reservationsanfrage (Verwaltung)
     manage_definitive_request_notification:
       description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
     manage_new_booking_notification:
@@ -1957,7 +1964,7 @@ en:
     operator_email_invoice_notification:
       description: Benachrichtigung für Versand Rechnung (Funktionär)
     operator_payment_confirmation_notification:
-      description: Benachrichtigung für Vertragseingang (Funktionär)
+      description: Benachrichtigung für Zahlungseingang (Funktionär)
     operator_upcoming_notification:
       description: Benachrichtigung für Belegung (Funktionär)
     operator_upcoming_soon_notification:
@@ -1969,7 +1976,7 @@ en:
     past_notification:
       description: Benachrichtigung für vergangene Belegung (Mieter)
     payment_confirmation_notification:
-      description: Benachrichtigung für Zahlungsbestätigung
+      description: Benachrichtigung für Zahlungseingang (Mieter)
     payment_overdue_notification:
       description: Benachrichtigung für überfällige Rechnung (Mieter)
     provisional_request_notification:

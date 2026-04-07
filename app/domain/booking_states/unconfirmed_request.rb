@@ -25,18 +25,10 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.tentative!
-      booking.create_deadline(length: booking.organisation.deadline_settings.unconfirmed_request_deadline,
+      booking.pending!
+      booking.create_deadline(at: :unconfirmed_request_deadline,
                               remarks: booking.booking_state.t(:label))
       MailTemplate.use(:unconfirmed_request_notification, booking, to: :tenant, &:autodeliver!)
-    end
-
-    guard_transition do |booking|
-      if booking.organisation.booking_state_settings.enable_waitlist
-        !booking.conflicting?
-      else
-        !booking.conflicting?(%i[occupied tentative closed])
-      end
     end
 
     def relevant_time

@@ -17,14 +17,14 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.tentative!
-      booking.create_deadline(at: booking.booking_agent.request_deadline_minutes.minutes.from_now,
+      booking.pending!
+      booking.create_deadline(at: booking.booking_agent.request_deadline_minutes&.minutes,
                               postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,
                               remarks: booking.booking_state.t(:label))
       MailTemplate.use(:booking_agent_request_notification, booking, to: :booking_agent, &:autodeliver!)
     end
 
-    infer_transition(to: :cancelled_request) do |booking|
+    infer_transition(to: :declined_request) do |booking|
       booking.deadline&.exceeded?
     end
 

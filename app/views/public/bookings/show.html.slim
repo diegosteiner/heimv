@@ -1,7 +1,14 @@
 .mx-auto.w-md
-  h3 
-    = "#{Booking.model_name.human} #{@booking.ref}"
   - cache([@booking, I18n.locale, current_organisation_user&.role]) do
+    h3 
+      = "#{Booking.model_name.human} #{@booking.ref}"
+
+    - if @booking.booking_state.t(:public_info).present?
+      .alert.alert-info.d-flex.my-2
+        .me-3
+          i.fa.fa-info-circle
+        p.m-0= @booking.booking_state.t(:public_info)
+
     .card.shadow-sm
       .card-body
         .row

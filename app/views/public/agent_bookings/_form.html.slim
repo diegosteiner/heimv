@@ -17,7 +17,7 @@
       = f.fields_for :booking, (@agent_booking.booking || @agent_booking.build_booking) do |bf|
         h4.mt-0= Occupancy.model_name.human
         fieldset
-          - if @agent_booking.booking.deadline
+          - if @agent_booking.booking.deadline&.armed
             .mb-3
               label=Booking.human_attribute_name(:deadline)
               div
@@ -30,6 +30,7 @@
               namePrefix: 'agent_booking[booking_attributes]', \ 
               required: true, \
               disabled: !@agent_booking.booking.editable?, \
+              checkOverlaps: current_organisation.booking_state_settings.enable_waitlist ? :warn : :error, \
               defaultBeginsAtTime: current_organisation&.settings&.default_begins_at_time, \
               defaultEndsAtTime: current_organisation&.settings&.default_ends_at_time, \
               beginsAtTimes: current_organisation&.settings&.available_begins_at_times, \

@@ -16,6 +16,7 @@
 #  committed_request            :boolean
 #  concluded                    :boolean          default(FALSE)
 #  conditions_accepted_at       :datetime
+#  deliver_notifications        :boolean          default(FALSE)
 #  editable                     :boolean
 #  email                        :string
 #  ends_at                      :datetime
@@ -25,7 +26,6 @@
 #  invoice_address              :jsonb
 #  invoice_cc                   :string
 #  locale                       :string
-#  notifications_enabled        :boolean          default(FALSE)
 #  occupancy_color              :string
 #  occupancy_type               :integer          default("pending"), not null
 #  purpose_description          :string
@@ -56,7 +56,7 @@ FactoryBot.define do
     tenant_organisation { Faker::Company.name }
     committed_request { [true, false].sample }
     approximate_headcount { rand(1..30) }
-    notifications_enabled { true }
+    deliver_notifications { true }
     purpose_description { 'Pfadilager Test' }
     skip_infer_transitions { true }
     home { association(:home, organisation:) }
@@ -69,10 +69,7 @@ FactoryBot.define do
       booking.tenant = evaluator.tenant if evaluator.tenant.present?
       booking.category ||= booking.organisation.booking_categories.sample
       booking.occupiables = [booking.home] if booking.occupancies.none?
-    end
-
-    before(:create) do |booking|
-      booking.home.save!
+      booking.occupancies.each { it.remarks ||= booking.remarks }
     end
 
     after(:create) do |booking, evaluator|
@@ -80,7 +77,7 @@ FactoryBot.define do
 
       Booking::StateTransition.initial_for(booking, evaluator.initial_state)
       booking.booking_flow.current_state(force_reload: true)
-      booking.apply_transitions
+      booking.skip_infer_transitions = false
       booking.touch # rubocop:disable Rails/SkipsModelValidations
     end
 
@@ -97,6 +94,7 @@ FactoryBot.define do
         if evaluator.prepaid_amount&.positive?
           create(:payment, booking:, invoice: nil, amount: evaluator.prepaid_amount)
         end
+
         invoice = Invoice::Factory.new(booking).build(issued_at: booking.ends_at)
         invoice.items = Invoice::ItemFactory.new(invoice).build
         invoice.recalculate

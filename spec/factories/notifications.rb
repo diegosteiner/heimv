@@ -6,6 +6,8 @@
 #
 #  id               :bigint           not null, primary key
 #  body             :text
+#  cc               :string
+#  deliver_cc       :string           default([]), is an Array
 #  deliver_to       :string           default([]), is an Array
 #  delivered_at     :datetime
 #  sent_at          :datetime

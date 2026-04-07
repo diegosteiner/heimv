@@ -39,7 +39,7 @@ class Invoice
       return if amount.zero?
 
       build_item(class: ::Invoice::Items::Balance,
-                 label: I18n.t('invoice_items.balance_breakdown'),
+                 label: I18n.t('invoice_items.breakdown.balance'),
                  amount:, accounting_cost_center_nr: :home,
                  vat_category_id: organisation.accounting_settings.rental_yield_vat_category_id,
                  accounting_account_nr: organisation.accounting_settings.rental_yield_account_nr)
@@ -80,7 +80,7 @@ class Invoice
     def build_from_supersede_invoice
       return unless invoice.new_record?
 
-      items = invoice.supersede_invoice&.items&.filter { !it.is_a?(::Invoice::Items::Balance) }
+      items = invoice.supersede_invoice&.items&.grep_v(::Invoice::Items::Balance)
       items&.map(&:dup)
     end
 

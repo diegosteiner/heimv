@@ -37,7 +37,7 @@ module Export
 
           def render_invoice_total_table
             move_down 10
-            total_data = [[I18n.t('invoices.total'), '', organisation.currency,
+            total_data = [[::Invoice.human_attribute_name(:total), '', organisation.currency,
                            number_to_currency(invoice.amount, unit: '')]]
 
             table total_data, **table_options(borders: [:top], font_style: :bold) do
@@ -52,7 +52,7 @@ module Export
             move_down 10
             start_new_page if cursor < (vat_table_data.count + 1) * 9
             font_size(7) do
-              text I18n.t('invoices.vat_title')
+              text ::Invoice.human_attribute_name(:vat_title)
               table(vat_table_data, { cell_style: { borders: [], padding: [0, 4, 4, 0] } }) do
                 column([2, 3]).style(align: :right)
               end

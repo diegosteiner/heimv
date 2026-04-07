@@ -30,6 +30,7 @@ module BookingFlows
     state BookingStates::PaymentDue, to: %i[cancelation_pending payment_overdue completed]
     state BookingStates::PaymentOverdue, to: %i[cancelation_pending completed]
 
+    # Terminal states
     state BookingStates::Completed
     state BookingStates::CancelledRequest, to: %i[open_request]
     state BookingStates::DeclinedRequest, to: %i[open_request]
@@ -56,6 +57,7 @@ module BookingFlows
       {
         accept: BookingActions::Accept,
         put_on_waitlist: BookingActions::PutOnWaitlist,
+        promote_from_waitlist: BookingActions::PromoteFromWaitlist,
         email_contract: BookingActions::EmailContract,
         mark_contract_sent: BookingActions::MarkContractSent,
         mark_invoices_refunded: BookingActions::MarkInvoicesRefunded,

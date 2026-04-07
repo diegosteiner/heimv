@@ -1,7 +1,7 @@
 = form_with(model: @deadline, url: manage_booking_deadline_path(@booking), method: :patch, local: true) do |f|
 
   fieldset
-    = f.datetime_local_field :at, step: 1
+    = f.datetime_local_field :at, step: 1, required: false
     = f.check_box :armed
     .mt-3= f.text_field :postponable_for, inputmode: "numeric" 
     = f.text_area :remarks

@@ -16,6 +16,7 @@
 #  committed_request            :boolean
 #  concluded                    :boolean          default(FALSE)
 #  conditions_accepted_at       :datetime
+#  deliver_notifications        :boolean          default(FALSE)
 #  editable                     :boolean
 #  email                        :string
 #  ends_at                      :datetime
@@ -25,7 +26,6 @@
 #  invoice_address              :jsonb
 #  invoice_cc                   :string
 #  locale                       :string
-#  notifications_enabled        :boolean          default(FALSE)
 #  occupancy_color              :string
 #  occupancy_type               :integer          default("pending"), not null
 #  purpose_description          :string
@@ -48,18 +48,16 @@
 
 class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   include Timespanable
-  include Statesman::Adapters::ActiveRecordQueries[transition_class: Booking::StateTransition,
-                                                   initial_state: :initial,
+  include Statesman::Adapters::ActiveRecordQueries[transition_class: Booking::StateTransition, initial_state: :initial,
                                                    transition_name: :state_transition]
 
   VALIDATION_CONTEXTS = %i[public_create public_update agent_create agent_update manage_create manage_update].freeze
   ROLES = (%i[organisation tenant booking_agent] + OperatorResponsibility::RESPONSIBILITIES.keys).freeze
   LIMIT = ENV.fetch('RECORD_LIMIT', 250)
   DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      :category, :logs, :home,
-                      { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
-                        agent_booking: %i[booking_agent organisation],
-                        booking_question_responses: :booking_question }].freeze
+                      :category, :logs, :home, { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
+                                                 agent_booking: %i[booking_agent organisation],
+                                                 booking_question_responses: :booking_question }].freeze
 
   belongs_to :home
   belongs_to :organisation, inverse_of: :bookings
@@ -92,7 +90,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   timespan :begins_at, :ends_at
   enum :occupancy_type, Occupancy::OCCUPANCY_TYPES
-  normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
+  normalizes :email, :invoice_cc, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
   attribute :invoice_address, Address.to_type
 
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
@@ -112,28 +110,27 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   validate on: :public_create do
-    errors.add(:email, :invalid) unless EmailAddress.valid?(email)
+    next if !Rails.env.production? || EmailAddress.valid?(email, host_validation: :mx, dns_lookup: :mx)
+
+    errors.add(:email, :invalid)
   end
 
   validate do
-    errors.add(:email, :invalid) unless email.blank? || EmailAddress.valid?(email, host_validation: :syntax)
+    errors.add(:email, :invalid) unless email.blank? || EmailAddress.valid?(email)
+    errors.add(:invoice_cc, :invalid) unless invoice_cc.blank? || EmailAddress.valid?(invoice_cc)
   end
 
   validate do
     errors.add(:occupiable_ids, :blank) if occupancies.none?
     next if ignore_conflicting || free?
+    next if organisation.booking_state_settings.enable_waitlist && pending? && agent_booking.blank?
 
-    if agent_booking || !organisation.booking_state_settings.enable_waitlist
-      next unless conflicting?(%i[tentative occupied closed])
+    case validation_context
+    when :agent_create, :agent_update, :public_create, :public_update, :manage_create, :manage_update
+      next unless conflicting?(%i[tentative occupied closed reserved])
     else
       next unless conflicting?(%i[occupied closed])
     end
-
-    errors.add(:occupiable_ids, :occupancy_conflict)
-  end
-
-  validate on: %i[public_create public_update agent_create agent_update] do
-    next if ignore_conflicting || free? || !conflicting?(%i[occupied closed reserved])
 
     errors.add(:occupiable_ids, :occupancy_conflict)
   end
@@ -143,12 +140,21 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     errors.add(:begins_at, :too_far_in_future) if begins_at_changed? && window && begins_at&.>(window.from_now)
   end
 
+  validate do
+    Array.wrap(transition_to).each do |transition|
+      next if transition.blank? || can_transition_to?(transition)
+
+      errors.add(:transition_to, :invalid_transition, transition:)
+    end
+  end
+
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES).joins(most_recent_transition_join) }
 
   before_validation :clear_invoice_address, :assert_tenant!, :sequence_number, :update_occupancies
   before_create :generate_ref
-  after_save :apply_transitions, :update_booking_state_cache!, :touch_conflicting_bookings
+  after_save :apply_transitions, :update_booking_state_cache!
+  after_save :bump_conflicting_requests, if: :concluded?
   after_touch :apply_transitions, :update_booking_state_cache!
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -238,13 +244,10 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def apply_transitions(transitions = transition_to, metadata: nil, infer_transitions: !skip_infer_transitions)
-    self.applied_transitions = Array.wrap(transitions).compact_blank.map do |transition|
-      next transition if can_transition_to?(transition) && booking_flow.transition_to(transition, metadata:)
-
-      errors.add(:transition_to, :invalid_transition, transition:)
-      return false
-    end
     self.transition_to = nil
+    self.applied_transitions = Array.wrap(transitions).select do |transition|
+      transition.present? && can_transition_to?(transition) && booking_flow.transition_to(transition, metadata:)
+    end
     self.applied_transitions += booking_flow.infer if infer_transitions
     applied_transitions
   end
@@ -263,8 +266,8 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     occupancies.flat_map { it.conflicting(conflicting_occupancy_types)&.map(&:booking) }.compact.uniq
   end
 
-  def touch_conflicting_bookings
-    conflicting_bookings(%i[occupied tentative closed free reserved]).each(&:touch)
+  def bump_conflicting_requests
+    conflicting_bookings(Occupancy::OCCUPANCY_TYPES.keys).each(&:touch)
   end
 
   def booking_flow_class
@@ -302,7 +305,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def reject_tenant_attributes?(tenant_attributes)
     (tenant_id_changed? && tenant_id_was.present?) ||
-      tenant_attributes.slice(:email, :first_name, :last_name, :street, :street_nr, :zipcode,
-                              :city).values.all?(&:blank?)
+      tenant_attributes.slice(:email, :first_name, :last_name, :street, :zipcode, :city).values.all?(&:blank?)
   end
 end

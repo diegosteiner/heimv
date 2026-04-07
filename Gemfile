@@ -2,21 +2,21 @@
 
 source 'https://rubygems.org'
 
-ruby '4.0.1'
+ruby '4.0.2'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
 gem 'blueprinter'
 gem 'bootsnap', require: false
-gem 'bootstrap_form'
+gem 'bootstrap_form', '~> 5.6.0'
 gem 'camt_parser'
 gem 'cancancan'
 gem 'connection_pool', '~> 2.5' # https://github.com/mperham/connection_pool/issues/210
 gem 'countries'
 gem 'country_select'
 gem 'csv'
-gem 'devise', '~> 4.9.4'
+gem 'devise'
 gem 'devise_invitable'
 gem 'discard'
 gem 'dry-schema'
@@ -51,6 +51,8 @@ gem 'redis'
 gem 'responders'
 gem 'rqrcode'
 gem 'rubyzip'
+gem 'sentry-rails'
+gem 'sentry-ruby'
 gem 'slim-rails'
 gem 'solid_queue'
 gem 'stackprof'

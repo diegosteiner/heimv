@@ -22,15 +22,13 @@ class OrganisationSettings
   attribute :predefined_salutation_form, :string
   attribute :available_begins_at_times, array: true, default: -> { available_times(hours: 8..22) }
   attribute :available_ends_at_times, array: true, default: -> { available_times(hours: 8..22) }
+  attribute :public_occupancy_visibility, array: true, default: -> { %i[tentative occupied closed reserved] }
 
   validates :tentative_occupancy_color, :occupied_occupancy_color,
             :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
-
   validates :default_begins_at_time, :default_ends_at_time, format: { with: /\A\d{2}:\d{2}\z/ }, allow_blank: true
-
   validates :booking_window, :last_minute_warning, :upcoming_soon_window,
             numericality: { less_than_or_equal: 5.years, greater_than_or_equal: 0 }
-
   validates :predefined_salutation_form, inclusion: { in: Tenant.salutation_forms.keys.map(&:to_s) }, allow_blank: true
   validate do
     errors.add(:available_ends_at_times, :invalid) unless available_ends_at_times&.compact_blank&.all? do
@@ -39,11 +37,15 @@ class OrganisationSettings
     errors.add(:available_begins_at_times, :invalid) unless available_begins_at_times&.compact_blank&.all? do
       self.class.available_times.include?(it)
     end
+    errors.add(:public_occupancy_visibility, :invalid) unless public_occupancy_visibility&.all? do
+      Occupancy.occupancy_types.except('free').key?(it.to_s)
+    end
   end
 
   def occupancy_colors
     {
-      pending: nil, # no color
+      free: nil, # no color
+      pending: tentative_occupancy_color,
       tentative: tentative_occupancy_color,
       occupied: occupied_occupancy_color,
       closed: closed_occupancy_color,

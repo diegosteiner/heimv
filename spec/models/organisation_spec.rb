@@ -5,7 +5,6 @@
 # Table name: organisations
 #
 #  id                           :bigint           not null, primary key
-#  account_address              :string
 #  accounting_settings          :jsonb
 #  address                      :text
 #  bcc                          :string
@@ -18,6 +17,7 @@
 #  currency                     :string           default("CHF")
 #  deadline_settings            :jsonb
 #  default_payment_info_type    :string
+#  deliver_notifications        :boolean          default(TRUE)
 #  email                        :string
 #  esr_beneficiary_account      :string
 #  esr_ref_prefix               :string
@@ -30,7 +30,6 @@
 #  mail_from                    :string
 #  name                         :string
 #  nickname_label_i18n          :jsonb
-#  notifications_enabled        :boolean          default(TRUE)
 #  qr_bill_creditor_address     :jsonb
 #  representative_address       :string
 #  settings                     :jsonb

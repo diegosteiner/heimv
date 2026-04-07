@@ -15,6 +15,7 @@
         namePrefix: 'booking', \ 
         required: true, \
         disabled: false, \
+        checkOverlaps: :warn, \
         defaultBeginsAtTime: current_organisation&.settings&.default_begins_at_time, \
         defaultEndsAtTime: current_organisation&.settings&.default_ends_at_time, \
         occupiableInvalidFeedback: @booking.errors.to_hash(true).slice(:occupiable_ids, :home_id).values.flatten.to_sentence, \
@@ -34,7 +35,7 @@
     = f.fields_for :tenant, (@booking.tenant || @booking.build_tenant) do |cf|
       = cf.hidden_field :id
       = f.email_field :email, required: false
-      = f.check_box :notifications_enabled
+      = f.check_box :deliver_notifications
 
       .row 
         .col-sm-6.col-md-4
@@ -70,10 +71,13 @@
     = f.text_field :tenant_organisation
 
     h5.mt-4= Invoice.model_name.human
+
     = f.check_box :use_invoice_address, data: { 'bs-toggle' => 'collapse', 'bs-target' => "#invoice_address_fields" }
     fieldset#invoice_address_fields.border.p-3.collapse.rounded[class=(@booking.use_invoice_address || @booking.invoice_address.present? ? "show" : "")]
       = f.fields_for :invoice_address, @booking.invoice_address || Address.new(country_code: current_organisation.country_code) do |iaf|
         = render partial: Address.to_partial_path('form_fields'), locals: { f: iaf }
+    
+    = f.email_field :invoice_cc
 
   fieldset
     h5.mt-4= Booking.model_name.human

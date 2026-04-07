@@ -6,6 +6,8 @@
 #
 #  id               :bigint           not null, primary key
 #  body             :text
+#  cc               :string
+#  deliver_cc       :string           default([]), is an Array
 #  deliver_to       :string           default([]), is an Array
 #  delivered_at     :datetime
 #  sent_at          :datetime
@@ -18,10 +20,10 @@
 #
 
 class Notification < ApplicationRecord
+  To = Struct.new(:email, :locale)
   extend RichTextTemplate::Definition
 
   use_template(:notification_footer, context: %i[booking])
-  ArbitraryTo = Struct.new(:email, :locale)
 
   belongs_to :booking, inverse_of: :notifications
   belongs_to :mail_template, optional: true
@@ -32,20 +34,22 @@ class Notification < ApplicationRecord
   has_many :invoices, foreign_key: :sent_with_notification_id, inverse_of: :sent_with_notification, dependent: :nullify
 
   scope :unsent, -> { where(sent_at: nil) }
-  before_save :deliver_to
+  before_save :deliver_to, :deliver_cc
 
   attribute :template_context
   validates :to, :locale, presence: true
   validate do
-    next if deliver_to.present? && deliver_to.all? do
-      EmailAddress.valid?(it, host_validation: :syntax)
+    if deliver_to.blank? || !deliver_to.all? { EmailAddress.valid?(it, host_validation: :syntax) }
+      errors.add(:to, :invalid)
     end
 
-    errors.add(:to, :invalid)
+    if deliver_cc.present? && !deliver_cc.all? { EmailAddress.valid?(it, host_validation: :syntax) }
+      errors.add(:cc, :invalid)
+    end
   end
 
   def deliverable?
-    valid? && organisation.notifications_enabled? && booking.notifications_enabled? && deliver_to.present?
+    valid? && organisation.deliver_notifications? && booking.deliver_notifications? && deliver_to.present?
   end
 
   def deliver
@@ -124,14 +128,22 @@ class Notification < ApplicationRecord
   end
 
   def deliver_to
-    self[:deliver_to] = Array.wrap(super).compact_blank.presence || Array.wrap(resolve_to.try(:email)).compact_blank
+    self[:deliver_to] = Array.wrap(super).compact_blank.presence || Array.wrap(resolve_to(to).try(:email)).compact_blank
   end
 
-  def resolve_to
+  def deliver_cc=(value)
+    super(Array.wrap(value))
+  end
+
+  def deliver_cc
+    self[:deliver_cc] = Array.wrap(super).compact_blank.presence || Array.wrap(cc&.split(',')).compact_blank
+  end
+
+  def resolve_to(to = self.to)
     return if to.blank?
     return booking&.roles&.[](to.to_sym) if Booking::ROLES.include?(to.to_sym)
 
-    ArbitraryTo.new(to, booking&.locale)
+    To.new(to, booking&.locale)
   end
 
   def to=(value)

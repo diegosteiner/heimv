@@ -1,6 +1,6 @@
 ### === base === ###                 
-FROM ruby:4.0.1-alpine AS base
-RUN apk add --no-cache --update postgresql-dev yaml-dev tzdata nodejs npm git
+FROM ruby:4.0.2-alpine AS base
+RUN apk add --no-cache --update postgresql-dev yaml-dev tzdata nodejs npm git libffi-dev
 RUN gem install bundler
 
 WORKDIR /rails
@@ -10,7 +10,7 @@ WORKDIR /rails
 RUN adduser -D rails && \
     chown -R rails:rails /rails /usr/local/bundle
 
-### === development === ###                 
+### === development === ###
 FROM base AS development
 RUN apk add --update build-base \
     linux-headers \
@@ -27,15 +27,17 @@ RUN apk add --update build-base \
 USER rails:rails
 ENV BINDING=0.0.0.0
 
-### === test === ###                 
+### === test === ###
 FROM development AS test
 
 COPY --chown=rails:rails Gemfile Gemfile.lock ./
-RUN bundle install && \
+RUN --mount=type=cache,id=gems,target=/usr/local/bundle/cache,uid=1000,gid=1000 \
+    bundle install && \
     bundle exec bootsnap precompile --gemfile
 
 COPY --chown=rails:rails package.json yarn.lock ./
-RUN yarn install
+RUN --mount=type=cache,id=yarn,target=/yarn-cache,uid=1000,gid=1000 \
+    yarn install --cache-folder /yarn-cache
 
 COPY --chown=rails:rails . .
 
@@ -55,12 +57,14 @@ ENV RAILS_ENV="production" \
     APP_HOST="localhost"
 
 COPY --chown=rails:rails Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+RUN --mount=type=cache,id=gems,target=/usr/local/bundle/cache,uid=1000,gid=1000 \
+    bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
 COPY --chown=rails:rails package.json yarn.lock ./
-RUN yarn install
+RUN --mount=type=cache,id=yarn,target=/yarn-cache,uid=1000,gid=1000 \
+    yarn install --cache-folder /yarn-cache
 
 COPY --chown=rails:rails . .
 RUN bundle exec bootsnap precompile app/ lib/ && \

@@ -7,7 +7,7 @@ module BookingActions
     end
 
     def invokable?(current_user: nil)
-      booking.in_state?(:open_request, :waitlisted_request) && transition_to.present?
+      booking.in_state?(:open_request) && transition_to.present?
     end
 
     def invokable_with(current_user: nil)

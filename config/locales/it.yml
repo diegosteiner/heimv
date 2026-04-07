@@ -116,12 +116,12 @@ it:
         closed_occupancy_color: Colore per le chiusure
         contract_sign_by_click_enabled:
         default_begins_at_time:
-        default_calendar_view:
         default_ends_at_time:
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
         locales:
         occupied_occupancy_color: Colore per le occupazioni definitive
         predefined_salutation_form:
+        public_occupancy_visibility:
         tenant_birth_date_required: 'Data di nascita: inserimento obbligatorio'
         tentative_occupancy_color: Colore per le occupazioni provvisorie
         upcoming_soon_window: Periodo per l'occupazione anticipata
@@ -237,15 +237,16 @@ it:
         committed_request: Natura vincolante della richiesta di affitto
         created_at: Creato il
         deadline: Scadenza fino a
+        deliver_notifications: Inviare le e-mail generate dall'applicazione
         editable: Modificabile dagli inquilini
         ends_at: Fine dell'occupazione
         home_id: Oggetto principale di affitto
         ignore_conflicting:
         internal_remarks: Osservazioni interne
         invoice_address: Indirizzo di fatturazione (se diverso)
+        invoice_cc:
         locale: Lingua
         nights: Notti
-        notifications_enabled: Inviare le e-mail generate dall'applicazione
         occupancies: Occupazioni
         occupancy_color: Colore nel calendario
         occupancy_type: Tipo di occupazione
@@ -413,14 +414,15 @@ it:
         remarks: Osservazioni
         responsibility: Responsabilità
       organisation:
-        account_address:
         address: Indirizzo
         bcc: BCC
         booking_ref_template:
         contract_signature: Immagine della firma del contratto
         cors_origins:
+        creditor_address:
         currency: Valuta
         default_payment_info_type: Parte di pagamento standard
+        deliver_notifications: Messaggi abilitati
         esr_beneficiary_account:
         esr_ref_prefix: Numero di identificazione del PVR / prefisso
         iban: IBAN
@@ -433,7 +435,6 @@ it:
         mail_from: Mittente di e-mail
         name: Nome
         nickname_label:
-        notifications_enabled: Messaggi abilitati
         privacy_statement_pdf: Informativa sulla privacy
         qr_bill_creditor_address:
         representative_address: Indirizzo della rappresentanza per i contratti
@@ -927,6 +928,8 @@ it:
       label_with_ref:
     postpone_deadline:
       label: Prolungare il periodo
+    promote_from_waitlist:
+      label:
     put_on_waitlist:
       label:
     revert_cancel:
@@ -1011,10 +1014,12 @@ it:
     completed:
       label: Occupazione (completata)
     declined_request:
+      description:
       label: Richiesta di affitto(respinta)
     definitive_request:
       description: L'inquilino ha contrassegnato la richiesta come definitiva. È necessario stabilire le tariffe e redigere un contratto.
       label: Richiesta di affitto(definitiva)
+      public_info:
       relevant_time: Presentato %{time}
     initial:
       label: "-"
@@ -1071,7 +1076,6 @@ it:
     page_numbering:
     represented_by: rappresentato da
     tenant_signature_label: Data, luogo, firma del inquilino
-  currency: Currency
   data_digests:
     period_short: "%{period_from} - %{period_to}"
   date:
@@ -1364,14 +1368,15 @@ it:
   import: Importazione
   import_records: importa %{model_name}.
   invoice_items:
-    balance_breakdown:
     breakdown:
+      balance:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
       minimum: Importo minimo %{minimum}
-  invoices:
-    total: Totale
-    vat_title:
+      minimum_price_per_night:
+      minimum_price_total:
+      minimum_usage_per_night:
+      minimum_usage_total:
   layouts:
     footer:
       legal:
@@ -1480,7 +1485,7 @@ it:
       form:
         help_lead:
         help_title: Aiuto per le variabili
-        load_locale_defaults:
+        load_defaults:
         template_context:
           booking:
           contract:
@@ -1513,6 +1518,7 @@ it:
       format:
         delimiter: "'"
         format: "%u %n"
+        negative_format: "-%n %u"
         precision: 2
         separator: "."
         significant: false
@@ -1597,8 +1603,6 @@ it:
     - Sab.
   optional: opzionale
   or: O
-  payable_by: Pagabile da
-  payment_part_title:
   public:
     agent_bookings:
       edit:
@@ -1622,6 +1626,7 @@ it:
         committed_request_definitive_request_help:
         committed_request_provisional_request_help:
         last_minute_warning: Attenzione! La data di prenotazione è a breve termine. Si prega di contattare l'amministrazione anche per telefono o per e-mail.
+        occupancy_conflict_warning:
       new:
         accept_conditions_html: Accetto %{conditions_html}
         privacy_policy_condition_html: le <a href="%{url}" target="_blank">norme sulla protezione dei dati</a>
@@ -1635,7 +1640,6 @@ it:
           one:
           other:
           zero:
-  ref: Ref
   renderables:
     booking_questions:
       check_box:
@@ -1645,544 +1649,100 @@ it:
   reset: Reset
   rich_text_templates:
     awaiting_tenant_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Grazie per la sua richiesta di affitto. Abbiamo ancora bisogno dei vostri dati completi per finalizzare la prenotazione.
-        È possibile utilizzare il seguente link per estendere, cancellare o finalizzare la prenotazione.</p>
-
-        <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{booking.home.name}} {{ booking.home.place }}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: {{ booking.remarks }}</li>
-        </ul>
-      default_title: Info per favore
       description: Notifica per informazioni mancanti sull'inquilino di una richiesta di affitto (inquilino)
     booking_agent_cancelled_notification:
-      default_body: |
-        <p>Gentile Signora, gentile Signore</p>
-
-        <p>Le confermiamo la cancellazione della sua prenotazione:</p>
-
-        <ul>
-          <li>Il nostro riferimento: {{ booking.ref }}</li>
-          <li>Il vostro riferimento: {{ booking.booking_agent_ref }}</li>
-          <li>Casa: {{booking.home.name}}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-        </ul>
-      default_title: Mediazione annullata
       description: Notifica per richiesta di collocamento annullata (mediatore)
     booking_agent_request_accepted_notification:
-      default_body: |
-        <p>Gentile Signora, gentile Signore</p>
-
-        <p>Grazie mille per la sua mediazione.</p>
-
-        <ul>
-          <li>Il nostro riferimento: {{ booking.ref }}</li>
-          <li>Il vostro riferimento: {{ booking.agent_booking.booking_agent_ref }}</li>
-          <li>Casa: {{booking.home.name}} {{ booking.home.place }}</li>
-          <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-        </ul>
-
-        <p><a href="{{booking.links.edit}}">{{ prenotazione.link.modifica}}</a></p>
-      default_title: Richiesta di mediatore accettata
       description: Notifica per richiesta di collocamento confermata (mediatore)
     booking_agent_request_notification:
-      default_body: |
-        <p>Gentile Signora, gentile Signore</p>
-
-        <p>Grazie per la sua prenotazione.</p>
-
-        <ul>
-          <li>Il nostro riferimento: {{ booking.ref }}</li>
-          <li>Il vostro riferimento: {{ booking.booking_agent_ref }}</li>
-          <li>Casa: {{booking.home.name}}</li>
-          <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></li>
-        </ul>
-
-        <p>La richiesta è stata accettata. È possibile utilizzare il seguente link per estendere, cancellare o dichiarare definitiva la prenotazione. La prenotazione provvisoria è valida per 10 giorni e può essere prolungata per altri 3 giorni. Se desiderate prolungare la prenotazione, inviateci un'e-mail con la data.</p>
-        <p><a href="{{booking.agent_booking.links.edit}}">{{booking.agent_booking.links.edit}}</a></p>
-      default_title: Conferma della richiesta di mediazione
       description: Notifica di una nuova richiesta di mediazione (mediatore)
     cancelled_notification:
-      default_body: |
-        <p>Salve</p>
-
-        <p>Come abbiamo già discusso, il contratto per la prenotazione qui sotto non è stato concluso o lei si è ritirato dal contratto. Abbiamo pertanto annullato la prenotazione.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{booking.home.name}}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-        </ul>
-
-        <p>È possibile creare una nuova prenotazione sul nostro <a href="https://app.heimv.ch">sistema di</a> prenotazione in qualsiasi momento.</p>
-      default_title: Risoluzione del contratto / Annullamento della prenotazione
       description: Notifica di prenotazione annullata (inquilino)
     cancelled_request_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>La tua richiesta di prenotazione per {{booking.home.name}} è stata annullata perché non l'hai impostata definitivamente entro il termine o hai ritirato tu stesso la richiesta.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{booking.home.name}}, {{ booking.home.address }}</li>
-          <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: {{ booking.remarks }}</li>
-        </ul>
-
-        <p>È possibile creare una nuova prenotazione sul nostro <a href="https://app.heimv.ch">sistema di prenotazione</a> in qualsiasi momento.</p>
-
-        <p>Se avete domande o volete ulteriori informazioni, contattate il nostro amministratore dell'ostello</p>
-      default_title: La richiesta di prenotazione è stata annullata
       description: Notifica per richiesta di prenotazione ritirata (inquilino)
     completed_notification:
-      default_title: Prenotazione completata
       description: Notifica di completamento della prenotazione (inquilino)
     contract_sent_notification:
-      default_title:
       description:
     contract_signed_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Abbiamo appena ricevuto il contratto che avete firmato, grazie mille.
-        Vi preghiamo di pagare il conto il prima possibile, se non l'avete ancora fatto.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{booking.home.name}} {{ booking.home.place }}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: {{ booking.remarks }}</li>
-        </ul>
-
-        <p><strong>Dettagli del pagamento</strong>
-        {{ booking.organization.payment_information }}</p>
-      default_title: Contratto firmato ricevuto
       description: Notifica di ricezione del contratto (inquilino)
     contract_text:
-      default_body: |
-        <h2>Contratto</h2>
-
-        <p>(adattare il modello di contratto)</p>
-
-        {{ tabella_tariffe_placeholder }}
-      default_title: Contratto
       description: Testo per il contratto
     declined_request_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Grazie per la sua richiesta di affitto per {{ booking.home.name }}. Purtroppo siamo costretti a rifiutare la sua richiesta.</p>
-
-        <p>Motivo del rifiuto: {{ booking.cancellation_reason }}</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{ booking.home.name}}</li>
-          <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: {{ booking.remarks }}</li>
-        </ul>
-      default_title: Richiesta di prenotazione respinta
       description: Notifica di richiesta di prenotazione rifiutata (inquilino)
     definitive_request_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Grazie per la sua richiesta di affitto per {{ booking.home.name }}. Abbiamo controllato i vostri dati e abbiamo effettuato una prenotazione definitiva. Il nostro amministratore vi invierà il contratto di affitto nei prossimi giorni.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{booking.home.name}}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: {{ booking.remarks }}</li>
-        </ul>
-      default_title: Prenotazione definitiva confermata
       description: Notifica per richiesta di affitto definitiva (inquilino)
     email_contract_notification:
-      default_body:
-      default_title: Contratto per la prenotazione
       description:
     email_invoice_notification:
-      default_body:
-      default_title:
       description:
     email_offer_notification:
-      default_body:
-      default_title:
       description:
     foreign_payment_info_text:
-      default_body:
       description: Testo per le informazioni di pagamento per gli inquilini stranieri
     invoices_deposit_text:
-      default_body: |
-        <p>{{ booking.ref }}
-        {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</p>
-
-        <h1>Acconto{{booking.home.name}}</h1>
-      default_title: Acconto
       description: Testo per la fattura (acconto)
     invoices_invoice_text:
-      default_body: |
-        <p>{{ booking.ref }}
-        {{ prenotazione.inizia_a | datetime_format }} a { prenotazione.finisce_a | datetime_format }}</p>
-
-        <h1>Fattura {{booking.home.name}}</h1>
-      default_title: Fattura
       description: Testo per la fattura
     invoices_late_notice_text:
-      default_body: "<p>{{ booking.ref }} {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | formato_data_ora }}</p><h1> Promemoria {{booking.home.name}}</h1>"
-      default_title: Promemoria
       description: Testo per la fattura (promemoria)
     invoices_offer_text:
-      default_body: <h1 id="offerte">Offerta</h1>
-      default_title: Offerta
       description: Testo per l'offerta
     manage_cancelation_pending_notification:
-      default_body:
-      default_title:
       description:
     manage_cancelled_request_notification:
-      default_body:
-      default_title:
       description:
     manage_contract_signed_notification:
-      default_body:
-      default_title: Contratto firmato ricevuto
+      description:
+    manage_declined_request_notification:
       description:
     manage_definitive_request_notification:
-      default_body: |
-        <p>Salve</p>
-
-        <p>La richiesta di affitto {{ booking.ref }} per la casa <strong>{{ booking.home.name }}</strong> è ora definitiva.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{ booking.home.name }}</li>
-          <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: <strong>{{ booking.remarks }}</li>
-        </ul>
-
-        <p><a href="{{booking.links.manage}}">Gestisci la prenotazione</a></p>
-      default_title: Richiesta di affitto {{ booking.ref }} definitiva
       description: Notifica per richiesta di affitto definitivo (amministrazione)
     manage_new_booking_notification:
-      default_body: |
-        <p>Salve</p>
-
-        <p>È stata ricevuta una nuova richiesta di affitto per la casa <strong>{{ booking.home.name }}</strong>.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{ booking.home.name }}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: <strong>{{ booking.remarks }}</li>
-        </ul>
-
-        <p><a href="{{booking.links.manage}}">Gestisci la prenotazione</a></p>
-      default_title: Nuova richiesta di affitto
       description: Notifica di una nuova richiesta di affitto (amministrazione)
     notification_footer:
       description: Piè di pagina per le notifiche
-    offer_notification:
-      default_body:
-      default_title: La vostra offerta
     open_booking_agent_request_notification:
-      default_body:
-      default_title: Conferma della richiesta di affitto
       description:
     open_request_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Questo è per confermare la ricezione della vostra richiesta di affitto per {{ booking.home.name }}.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{ booking.home.name }}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: {{ booking.remarks }}</li>
-        </ul>
-
-        <p>La vostra richiesta è in fase di elaborazione. Il nostro amministratore vi contatterà a breve.</p>
-
-        <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
-      default_title: Conferma della richiesta di affitto
       description: Notifica per richiesta di affitto aperta (inquilino)
     operator_cancelation_pending_notification:
-      default_body: |
-        <p>Salve</p>
-
-        <p>La prenotazione {{ booking.ref }} nella casa <strong>{{ booking.home.name }}</strong> non ha luogo\</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: <strong>{{ booking.ref }}</li>
-          <li>Casa: {{ booking.home.name }}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: <strong>{{ booking.remarks }}</li>
-        </ul>
-
-        <p><a href="{{ booking.links.manage }}">Gestisci la prenotazione</a></p>
-      default_title: Occupazione annullata
       description: Notifica di occupazione annullata (funzionario)
     operator_contract_signed_notification:
-      default_body:
-      default_title: Contratto firmato ricevuto
       description:
     operator_email_contract_notification:
-      default_body:
-      default_title:
       description:
     operator_email_invoice_notification:
-      default_body:
-      default_title:
       description:
     operator_payment_confirmation_notification:
-      default_body:
-      default_title: Contratto firmato ricevuto
       description:
     operator_upcoming_notification:
-      default_body:
-      default_title: Occupazione
       description:
     operator_upcoming_soon_notification:
-      default_body: |
-        <p>Salve</p>
-
-        <p>La prenotazione {{ booking.ref }} per la casa <strong>{{ booking.home.name }}</strong> avverrà a breve</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{ booking.home.name }}</li>
-          <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: <strong>{{ booking.remarks }}</li>
-          <li>Consegna della casa: {{ booking.operator_responsibilities.home_handover.operator.name }}, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
-          <li>Ripresa della casa: {{ booking.operator_responsibilities.home_return.operator.name }}, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
-        </ul>
-
-        <p><strong>Persona di contatto</strong></p>
-
-        <p>
-          {{ booking.tenant.full_name }}<br />
-         <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
-         <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
-        </p>
-
-        <p><a href="{{booking.links.manage}}">Gestisci la prenotazione</a></p>
-      default_title: Occupazione a breve
       description: Notifica di occupazione anticipata (funzionario)
     overdue_notification:
-      default_body:
-      default_title: Contratto scaduto
       description: Notifica per prenotazione in ritardo, contratto mancante (inquilino)
     overdue_request_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Avete recentemente effettuato una prenotazione provvisoria per {{ booking.home.name }}. Una prenotazione è valida per 14 giorni. Se non viene rinnovata durante questo periodo, scadrà e la casa verrà liberata. Vi diamo altri 3 giorni per prolungare la prenotazione o renderla definitiva. Cliccate sul link sottostante.</p>
-
-        <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{booking.home.name}}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: {{ booking.remarks }}</li>
-        </ul>
-      default_title: Richiesta in ritardo
       description: Notifica per richiesta di prenotazione in ritardo (inquilino)
     past_notification:
-      default_body:
-      default_title: Occupazione a breve
       description: Notifica di occupazione anticipata (funzionario)
     payment_confirmation_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Abbiamo ricevuto e contabilizzato il vostro pagamento di {{ payment.amount | currency }} il {{ payment.paid_at | date_format }}. Grazie mille.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{ booking.home.name}}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: {{ booking.remarks }}</li>
-        </ul>
-      default_title: Ricevuta di pagamento
       description: Notifica di conferma del pagamento
     payment_overdue_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Qualche tempo fa le abbiamo inviato la fattura per la sua prenotazione della nostra casa. Il termine di pagamento di 10 giorni è scaduto, ma non abbiamo ancora ricevuto il pagamento da parte vostra. La preghiamo di pagare la fattura scaduta nei prossimi giorni.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{ booking.home.name}}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-        </ul>
-
-        <p><strong>Dettagli del pagamento</strong>
-        {{ booking.organization.payment_information }}</p>
-      default_title: 'Promemoria: fattura per il soggiorno nella casa scout'
       description: Notifica di fattura scaduta (inquilino)
     provisional_request_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Grazie per la sua richiesta di affitto. Abbiamo controllato i suoi dati e abbiamo effettuato una prenotazione provvisoria. Questa è valida fino al <strong>{{ booking.deadline.at | datetime_format }}</strong>, dopodiché scade e la casa viene nuovamente liberata. È possibile utilizzare il seguente link per estendere, cancellare o dichiarare definitiva la prenotazione.</p>
-
-        <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{booking.home.name}}</li>
-          <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Osservazioni: {{ booking.remarks }}</li>
-        </ul>
-      default_title: Prenotazione provvisoria confermata
       description: Notifica di richiesta di affitto provvisoria (inquilino)
     text_payment_info_text:
-      default_body: |
-        <p><strong>Numero di conto</strong>:
-        {{ payment_info.esr_beneficiary_account }}</p>
-
-        <p><strong>IBAN</strong>:
-        {{ payment_info.iban }}</p>
-
-        <p><strong>Importo della fattura</strong>:
-        CHF {{ payment_info.formatted_amount }}</p>
-
-        <p><strong>Numero di riferimento</strong>:
-        {{ payment_info.formatted_ref }}</p>
-
-        <p><strong>Scopo del pagamento</strong>:
-        {{ payment_info.booking_ref }}</p>
-      default_title: Informazioni sul pagamento
       description: Testo per informazioni sul pagamento
     unconfirmed_request_notification:
-      default_body: |
-        <p>Salve</p>
-
-        <p>Hai appena inviato una richiesta di affitto per {{ booking.home.name }}}.
-        Cliccate sul link sottostante per confermare il vostro indirizzo e-mail e completare la richiesta di affitto.</p>
-
-        <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
-      default_title: Confermate il vostro indirizzo e-mail!
       description: Notifica per richiesta di affitto non confermata (inquilino)
     upcoming_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Abbiamo ricevuto il contratto firmato e il pagamento in acconto. Ora nulla ostacola il vostro evento. Auguriamo a voi e al vostro gruppo un piacevole soggiorno nella nostra casa.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{ booking.home.name}}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-        </ul>
-      default_title: Acconto e contratto firmato sono stati ricevuti
       description: Notifica di occupazione futura (inquilino)
     upcoming_soon_notification:
-      default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
-
-        <p>Il vostro evento avrà presto luogo nella nostra casa scout. Auguriamo a voi e al vostro gruppo un piacevole soggiorno nella nostra casa scout.</p>
-
-        <p><strong>Dettagli della prenotazione</strong></p>
-
-        <ul>
-          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
-          <li>Casa: {{ booking.home.name}}</li>
-          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
-          <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Consegna della casa: {{ booking.operator_responsibilities.home_handover.operator.name }}, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
-          <li>Ripresa della casa: {{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
-        </ul>
-
-        <p>Si prega di concordare per tempo la data di consegna con il custode.</p>
-      default_title: Ultime informazioni sulla vostra visita a {{booking.home.name}}
       description: Notifica di occupazione nel prossimo futuro (inquilino)
     usage_report_text:
-      default_body: |
-        <h1>Occupazione {{ booking.ref }}</h1>
-
-        <p>{{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}, {{ booking.home.name }}, {{ booking.home.address }}</p>
-      default_title: Forma di consumo
       description: Testo per il modulo di consumo
     waitlisted_request_notification:
-      default_body:
-      default_title:
       description:
   show: Mostrare
   support:

@@ -32,5 +32,3 @@ RSpec.describe Booking::StateTransition do
     end
   end
 end
-
-:state

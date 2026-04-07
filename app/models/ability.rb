@@ -120,7 +120,7 @@ module Ability
 
       can %i[read embed calendar at], Occupancy, occupiable: { discarded_at: nil, organisation: }
 
-      can %i[create read update], AgentBooking, { organisation: }
+      can %i[create read update], AgentBooking, { organisation:, booking: { concluded: false } }
       can %i[create read update], Booking, { organisation:, concluded: false }
     end
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 describe 'Booking by agent', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
@@ -23,7 +25,7 @@ describe 'Booking by agent', :devise do
   let(:booking) do
     begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
     build(:booking, begins_at:, ends_at: begins_at + 1.week + 4.hours + 15.minutes, organisation:,
-                    home:, tenant: nil, committed_request: false, notifications_enabled: true)
+                    home:, tenant: nil, committed_request: false, deliver_notifications: true)
   end
 
   let(:expected_notifications) do
@@ -132,37 +134,44 @@ describe 'Booking by agent', :devise do
   describe 'check conflicting bookings' do
     before do
       create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
-                       occupancy_type: :tentative, initial_state: :provisional_request)
+                       occupancy_type: :tentative, initial_state: :provisional_request, remarks: 'conflicting')
     end
 
     context 'without waitlist_enabled' do
       it 'returns error' do
         visit new_booking_path
-        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
-                          home: booking.home)
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at, home:)
         click_on 'agent-booking-button'
 
         choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
         fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
         fill_in 'agent_booking_booking_agent_ref', with: agent_ref
+
         submit_form
         expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
 
     context 'with waitlist_enabled' do
-      before { allow(organisation.booking_state_settings).to receive(:enable_waitlist).and_return(true) }
+      before do
+        organisation.update!(booking_state_settings: { enable_waitlist: true })
+        organisation.save!
+      end
 
       it 'returns no error' do
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
         click_on 'agent-booking-button'
+        expect(page).to have_content(I18n.t('public.bookings.form.occupancy_conflict_warning'))
 
         choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
         fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
         fill_in 'agent_booking_booking_agent_ref', with: agent_ref
-        expect(page).to have_no_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        submit_form
+
+        # Don't allow agent bookings onto the waitlist
+        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
   end

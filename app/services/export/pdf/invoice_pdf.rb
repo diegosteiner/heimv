@@ -25,7 +25,7 @@ module Export
       end
 
       to_render do
-        address = organisation.creditor_address.presence || organisation.address.presence
+        address = organisation.qr_bill_creditor_address.presence || organisation.address.presence
         render Renderables::Address.new(address, label: Contract.human_attribute_name('issuer'))
       end
 

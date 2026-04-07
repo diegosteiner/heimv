@@ -13,7 +13,7 @@ module Manage
 
     fields :esr_beneficiary_account, :iban, :mail_from, :booking_ref_template, :tenant_ref_template,
            :invoice_ref_template, :booking_flow_type, :invoice_payment_ref_template,
-           :notifications_enabled, :location, :nickname_label_i18n
+           :deliver_notifications, :location, :nickname_label_i18n
 
     field :designated_documents do |organisation|
       organisation.designated_documents.pluck(:designation).map do |designation|

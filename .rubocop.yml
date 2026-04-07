@@ -73,6 +73,7 @@ Naming/MethodParameterName:
     - "to"
     - "at"
     - "as"
+    - "cc"
 
 Rails/EnvironmentVariableAccess:
   AllowReads: true

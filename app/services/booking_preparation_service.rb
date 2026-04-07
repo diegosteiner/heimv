@@ -6,7 +6,7 @@ class BookingPreparationService
   end
 
   def prepare_create(params)
-    @organisation.bookings.new(params.reverse_merge({ notifications_enabled: true })).tap do |booking|
+    @organisation.bookings.new(params.reverse_merge({ deliver_notifications: true })).tap do |booking|
       booking.home ||= booking.occupiables.first&.home
       booking.locale = derive_locale(booking)
       booking.committed_request ||= !@organisation.booking_state_settings&.enable_provisional_request

@@ -6,6 +6,8 @@
 #
 #  id               :bigint           not null, primary key
 #  body             :text
+#  cc               :string
+#  deliver_cc       :string           default([]), is an Array
 #  deliver_to       :string           default([]), is an Array
 #  delivered_at     :datetime
 #  sent_at          :datetime
@@ -126,15 +128,39 @@ RSpec.describe Notification do
     subject(:message) { notification.deliver }
 
     let(:tenant) { booking.tenant }
-    let(:notification) { create(:notification, to: :tenant, booking:, subject: 'Test', body: 'Test Body') }
+    let(:cc) { 'cc@heimverwaltung.local' }
+    let(:notification) { create(:notification, to: :tenant, booking:, subject: 'Test', body: 'Test Body', cc:) }
 
     it do
       expect(notification.sent_at).to be_nil
       expect { message }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(message).to have_attributes(to: eq([tenant.email]), subject: eq(notification.subject))
+      expect(message).to have_attributes(to: eq([tenant.email]), cc: eq([cc]),
+                                         subject: eq(notification.subject))
       expect(message.text_part.decoded).to eq(notification.body)
       notification.reload
       expect(notification.sent_at).not_to be_nil
+    end
+  end
+
+  describe '#deliver_cc' do
+    let(:notification) { build(:notification, to: :tenant, cc: cc, booking:, subject: 'Test', body: 'Test Body') }
+
+    context 'with role and email entries' do
+      let(:cc) { 'cc@heimverwaltung.local' }
+
+      it do
+        expect(notification).to be_valid
+        expect(notification.deliver_cc).to eq([cc])
+      end
+    end
+
+    context 'with invalid email entry' do
+      let(:cc) { 'invalid email' }
+
+      it do
+        expect(notification).not_to be_valid
+        expect(notification.errors).to be_added(:cc, :invalid)
+      end
     end
   end
 

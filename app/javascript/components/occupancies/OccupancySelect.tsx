@@ -9,12 +9,19 @@ import { OccupancyIntervalFormControl } from "./OccupancyIntervalFormControl";
 import { OccupancyWindowProvider } from "./OccupancyWindowContext";
 
 export type OccupancySelectProps = {
-  initial: Partial<{ beginsAt: Date; endsAt: Date; occupiableIds: number[]; homeId: number }>;
+  initial: Partial<{ id: string; beginsAt: Date; endsAt: Date; occupiableIds: number[]; homeId: number }>;
   occupiableInvalidFeedback?: string;
   occupancyInvalidFeedback?: string;
 } & Pick<
   ComponentProps<typeof OccupancyIntervalFormControl>,
-  "namePrefix" | "required" | "disabled" | "defaultBeginsAtTime" | "defaultEndsAtTime" | "beginsAtTimes" | "endsAtTimes"
+  | "namePrefix"
+  | "required"
+  | "disabled"
+  | "defaultBeginsAtTime"
+  | "defaultEndsAtTime"
+  | "beginsAtTimes"
+  | "endsAtTimes"
+  | "checkOverlaps"
 >;
 
 function inferOccupiableIds(organisation: Organisation): number[] {
@@ -40,6 +47,7 @@ export default function OccupancySelect({
   namePrefix,
   required,
   disabled,
+  checkOverlaps,
   occupancyInvalidFeedback,
   occupiableInvalidFeedback,
   defaultBeginsAtTime,
@@ -78,6 +86,7 @@ export default function OccupancySelect({
         <OccupancyIntervalFormControl
           months={9}
           namePrefix={namePrefix}
+          bookingId={initial.id}
           invalidFeedback={occupancyInvalidFeedback}
           initialBeginsAt={initial.beginsAt}
           initialEndsAt={initial.endsAt}
@@ -87,6 +96,7 @@ export default function OccupancySelect({
           endsAtTimes={endsAtTimes}
           required={required}
           disabled={disabled}
+          checkOverlaps={checkOverlaps}
         />
       </OccupancyWindowProvider>
     </Form.Group>
