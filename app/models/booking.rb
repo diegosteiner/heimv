@@ -140,7 +140,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     errors.add(:begins_at, :too_far_in_future) if begins_at_changed? && window && begins_at&.>(window.from_now)
   end
 
-  validate do
+  validate on: %i[public_create public_update agent_create agent_update manage_create manage_update] do
     Array.wrap(transition_to).each do |transition|
       next if transition.blank? || can_transition_to?(transition)
 

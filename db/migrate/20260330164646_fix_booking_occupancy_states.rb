@@ -6,8 +6,7 @@ class FixBookingOccupancyStates < ActiveRecord::Migration[8.1]
     # bookings = Booking.joins(:state_transitions)
     #           .where(state_transitions: { most_recent: true, to_state: free_states }, concluded: true)
 
-
     # Occupancy.where(occupancy_type: :free, booking_id: nil)
-    #          .update_all(occupancy_type: :reserved, ignore_conflicting: true) # rubocop:disable Rails/SkipsModelValidations
+    #          .update_all(occupancy_type: :reserved, ignore_conflicting: true)
   end
 end
