@@ -151,7 +151,7 @@ describe Booking do
 
     it 'adds an error when trying to transition into invalid state' do
       booking.transition_to = :nonexistant
-      expect(booking).not_to be_valid
+      expect(booking).not_to be_valid(:manage_update)
       expect(booking.errors).to be_added(:transition_to, :invalid_transition, transition: :nonexistant)
     end
 
