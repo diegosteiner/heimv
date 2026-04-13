@@ -1312,7 +1312,6 @@ fr:
         other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
       odd: doit être impair
       other_than: doit être différent de %{count}
-      password_too_long:
       present: doit être vide
       required: doit exister
       taken: est déjà utilisé(e)
