@@ -1312,6 +1312,7 @@ it:
         other: 'Non posso salvare questo %{resource}: %{count} errori.'
       odd: deve essere dispari
       other_than: devono essere di numero diverso da %{count}
+      password_too_long:
       present: non deve essere compilato
       required: non può essere vuoto
       taken: è già presente
