@@ -106,6 +106,7 @@ de:
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
+        occupancy_type: Belegungsart
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -787,6 +788,9 @@ de:
       data_digest_templates/meter_reading_period:
         one: Zählerstand Auszug
         other: Zählerstände Auszüge
+      data_digest_templates/occupancy:
+        one: Belegungen Auszug
+        other: Belegungen Auszüge
       data_digest_templates/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge

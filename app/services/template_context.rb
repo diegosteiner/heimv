@@ -3,6 +3,7 @@
 class TemplateContext
   SERIALIZERS = {
     Booking => Manage::BookingSerializer,
+    Occupancy => Manage::OccupancySerializer,
     Organisation => Manage::OrganisationSerializer,
     Home => Manage::HomeSerializer,
     Payment => Manage::PaymentSerializer,
