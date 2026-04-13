@@ -89,6 +89,7 @@ class RichTextTemplate < ApplicationRecord
   scope :enabled, -> { where(enabled: true) }
 
   validates :key, uniqueness: { scope: %i[key organisation_id] }
+  validates :enabled, presence: true, if: -> { definition && !definition[:optional] }
   validate { errors.add(:key, :invalid) if key && !self.class.template_key_valid?(key.to_sym) }
   validate do
     body_i18n.each do |locale, body|

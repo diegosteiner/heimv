@@ -106,6 +106,7 @@ fr:
         ends_at: Jusqu'à / jusqu'au
         ends_at_after: Fin de la location à partir du
         ends_at_before: Fin de la location jusqu'au
+        occupancy_type: Type de location
       occupiable_settings:
         accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
@@ -353,7 +354,9 @@ fr:
         ref: Numéro de facture
         sent_at: Date de la facture
         text: Texte
+        total: Total
         type: Type de facture
+        vat_title: TVA incluse dans les prix
       journal_entry_batch:
         amount: Montant
         booking_id: Réservation
@@ -780,6 +783,9 @@ fr:
       data_digest_templates/meter_reading_period:
         one: Relevé du compteur (Début)
         other: Relevés de compteurs (Fin)
+      data_digest_templates/occupancy:
+        one:
+        other:
       data_digest_templates/payment:
         one: Extrait de paiements
         other: Extrait de paiements
@@ -1306,6 +1312,7 @@ fr:
         other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
       odd: doit être impair
       other_than: doit être différent de %{count}
+      password_too_long:
       present: doit être vide
       required: doit exister
       taken: est déjà utilisé(e)

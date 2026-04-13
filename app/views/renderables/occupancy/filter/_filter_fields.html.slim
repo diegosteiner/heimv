@@ -1,0 +1,13 @@
+/ h3.my-2.text-center= Booking:.model_name.human
+.row.mt-3
+  .col
+    = f.datetime_field :begins_at_after, include_blank: true
+    = f.datetime_field :begins_at_before, include_blank: true
+  .col
+    = f.datetime_field :ends_at_after, include_blank: true
+    = f.datetime_field :ends_at_before, include_blank: true
+
+.row
+  .col
+    = f.select :occupancy_type, Occupancy.occupancy_types.keys.map { [Occupancy.human_enum(:occupancy_type, it), it] }, include_blank: true, multiple: true
+  .col

@@ -106,6 +106,7 @@ it:
         ends_at: Fino a
         ends_at_after: Fine occupazione da
         ends_at_before: Fine dell'occupazione fino a
+        occupancy_type: Tipo di occupazione
       occupiable_settings:
         accounting_cost_center_nr:
         booking_margin: Durata tra le prenotazioni
@@ -353,7 +354,9 @@ it:
         ref: Numero di riferimento
         sent_at: Data della fattura
         text: Testo
+        total: Totale
         type: Tipo di fattura
+        vat_title:
       journal_entry_batch:
         amount: Importo
         booking_id: Prenotazione
@@ -778,6 +781,9 @@ it:
         one:
         other:
       data_digest_templates/meter_reading_period:
+        one:
+        other:
+      data_digest_templates/occupancy:
         one:
         other:
       data_digest_templates/payment:
@@ -1306,6 +1312,7 @@ it:
         other: 'Non posso salvare questo %{resource}: %{count} errori.'
       odd: deve essere dispari
       other_than: devono essere di numero diverso da %{count}
+      password_too_long:
       present: non deve essere compilato
       required: non può essere vuoto
       taken: è già presente
