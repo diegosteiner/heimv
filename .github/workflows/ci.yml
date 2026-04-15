@@ -35,21 +35,26 @@ jobs:
 
       - name: docker build
         run: |
-          docker buildx bake -f docker-compose.ci.yml e2e_test --set e2e_test.tags=heimv-e2e_test:latest --load --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
-          docker buildx bake -f docker-compose.ci.yml e2e_target --set e2e_target.tags=heimv-e2e_target:latest --load --set *.cache-from=type=gha --set *.cache-to=type=gha,mode=max
+          docker buildx bake -f docker-compose.ci.yml e2e_test e2e_target \
+            --set e2e_test.tags=heimv-e2e_test:latest \
+            --set e2e_target.tags=heimv-e2e_target:latest \
+            --load \
+            --set e2e_test.cache-from=type=gha,scope=e2e_test \
+            --set e2e_test.cache-to=type=gha,mode=max,scope=e2e_test \
+            --set e2e_target.cache-from=type=gha,scope=e2e_target \
+            --set e2e_target.cache-to=type=gha,mode=max,scope=e2e_target
 
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run --rm e2e_test bin/check_ci
 
       - name: prepare e2e specs
         run: |
+          docker compose --file docker-compose.ci.yml run --rm --no-deps e2e_target bin/rails db:migrate
           docker compose --file docker-compose.ci.yml up -d e2e_target
-          docker compose --file docker-compose.ci.yml run e2e_test bin/rails db:drop
-          docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:create db:migrate
 
       - name: run e2e specs
         run: |
-          docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature
+          docker compose --file docker-compose.ci.yml run --rm e2e_test bin/rspec ./spec --tag @type:feature
 
       - if: failure()
         name: prepare artifacts
