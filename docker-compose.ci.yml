@@ -27,6 +27,12 @@ services:
       target: production
     ports:
       - "3002:3002"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3002/health"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
     environment:
       APP_HOST: "e2e_target:3002"
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e?encoding=unicode&pool=5

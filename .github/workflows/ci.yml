@@ -50,7 +50,7 @@ jobs:
       - name: prepare e2e specs
         run: |
           docker compose --file docker-compose.ci.yml run --rm --no-deps e2e_target bin/rails db:migrate
-          docker compose --file docker-compose.ci.yml up -d e2e_target
+          docker compose --file docker-compose.ci.yml up --wait e2e_target
 
       - name: run e2e specs
         run: |
