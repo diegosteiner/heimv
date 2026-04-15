@@ -66,7 +66,6 @@ module BookingFlows
         email_offer: BookingActions::EmailOffer,
         postpone_deadline: BookingActions::PostponeDeadline,
         mark_contract_signed: BookingActions::MarkContractSigned,
-        commit_request: BookingActions::CommitRequest,
         decline: BookingActions::Decline,
         revert_cancel: BookingActions::RevertCancel,
         clear_waitlist: BookingActions::ClearWaitlist
