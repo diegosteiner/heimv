@@ -12,6 +12,7 @@ services:
       RAILS_ENV: test
       NODE_ENV: test
       SELENIUM_HOST: "selenium:4444"
+      SELENIUM_BROWSER: "${SELENIUM_BROWSER:-chrome}"
       SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
       MAIL_FROM: "no-reply@heimv.local"
     command: bin/check_ci

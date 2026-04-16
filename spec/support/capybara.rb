@@ -17,9 +17,17 @@ Capybara.register_driver :selenium_chrome do |app|
                                       url: "http://#{ENV.fetch('SELENIUM_HOST', nil)}/wd/hub")
 end
 
+Capybara.register_driver :selenium_firefox do |app|
+  options = Selenium::WebDriver::Firefox::Options.new
+  options.add_argument('--width=1280')
+  options.add_argument('--height=1024')
+  Capybara::Selenium::Driver.new(app, browser: :remote, capabilities: [options],
+                                      url: "http://#{ENV.fetch('SELENIUM_HOST', nil)}/wd/hub")
+end
+
 Capybara.run_server = ENV['E2E_SERVER_PORT'].present?
 Capybara.server_port = ENV.fetch('E2E_SERVER_PORT', nil)
 Capybara.server_host = '0.0.0.0'
 Capybara.app_host = "http://#{ENV.fetch('E2E_TARGET_HOST', nil)}" if ENV['E2E_TARGET_HOST'].present?
-Capybara.default_driver = :selenium_chrome
+Capybara.default_driver = :"selenium_#{ENV.fetch('SELENIUM_BROWSER', 'chrome')}"
 Capybara.default_max_wait_time = 10

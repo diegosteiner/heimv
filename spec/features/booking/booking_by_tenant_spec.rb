@@ -142,10 +142,9 @@ describe 'Booking by tenant', :devise do
     tarifs.each do |tarif|
       expect(page).to have_content(tarif.label)
     end
-    find('input[type="checkbox"]:not(:checked)', match: :first)
     all('input[type="checkbox"]:not(:checked)').each(&:check)
     submit_form
-    expect(page).to have_content(I18n.t('flash.actions.update.success', resource_name: Usage.model_name.human))
+    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human))
   end
 
   def create_contract
@@ -189,7 +188,7 @@ describe 'Booking by tenant', :devise do
   def set_usages
     visit manage_booking_path(@booking, org:)
     find('.checklist li:nth-child(1) a').click
-    find('input[inputmode="numeric"]', match: :first)
+    first('input[inputmode="numeric"]')
     all('input[inputmode="numeric"]').each do |usage_field|
       usage_field.fill_in with: 22
     end
@@ -224,13 +223,14 @@ describe 'Booking by tenant', :devise do
     visit manage_booking_invoices_path(@booking, org:) # capybara issue
     find('.btn-group .dropdown').click
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
-    find('[type="submit"]', match: :first)
+    first('[type="submit"]')
     all('[type="submit"]').last.click
   end
 
   def check_booking
-    sleep(0.5)
-    expect(@booking.notifications.reload.map { it.mail_template.key }).to match_array(expected_notifications)
+    sleep(1)
+    @booking.reload
+    expect(@booking.notifications.map { it.mail_template.key }).to match_array(expected_notifications)
     expect(@booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)
   end
 
