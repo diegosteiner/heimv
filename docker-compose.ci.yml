@@ -20,6 +20,8 @@ services:
         condition: service_healthy
       selenium:
         condition: service_started
+      video:
+        condition: service_started
     networks:
       default:
       selenium:
@@ -74,16 +76,16 @@ services:
     ports:
       - "7900:7900"
 
-  # video:
-  #   image: selenium/video
-  #   depends_on:
-  #     - selenium
-  #   environment:
-  #     - DISPLAY_CONTAINER_NAME=selenium
-  #   volumes:
-  #     - ./videos:/videos
-  #   networks:
-  #     selenium:
+  video:
+    image: selenium/video
+    depends_on:
+      - selenium
+    environment:
+      - DISPLAY_CONTAINER_NAME=selenium
+    volumes:
+      - ./videos:/videos
+    networks:
+      selenium:
 
   db:
     image: postgres:18

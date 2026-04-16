@@ -225,8 +225,8 @@ describe 'Booking by tenant', :devise do
   end
 
   def check_booking
-    expect(@booking.notifications.reload.map { |notification| notification.mail_template.key })
-      .to match_array(expected_notifications)
+    sleep(0.5)
+    expect(@booking.notifications.reload.map { it.mail_template.key }).to match_array(expected_notifications)
     expect(@booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)
   end
 

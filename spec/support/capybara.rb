@@ -4,6 +4,7 @@ Capybara.register_driver :selenium_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
   options.add_preference(:download, prompt_for_download: false, default_directory: '/tmp/downloads')
+  options.add_preference(:'autofill.profile_enabled', false)
 
   options.add_argument('--window-size=1280,1024')
   options.add_argument('--no-default-browser-check')
