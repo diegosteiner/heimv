@@ -144,6 +144,7 @@ describe 'Booking by tenant', :devise do
     end
     find_all('input[type="checkbox"]:not(:checked)').each(&:check)
     submit_form
+    expect(page).to have_content(I18n.t('flash.actions.update.success', resource_name: Usage.model_name.human))
   end
 
   def create_contract

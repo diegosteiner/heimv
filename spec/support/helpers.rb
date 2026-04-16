@@ -3,7 +3,7 @@
 module SpecHelpers
   module Feature
     def submit_form
-      find_all('[name="commit"]').first.click
+      find('[name="commit"]', match: :first).click
     end
 
     def find_resource_in_table(resource)
