@@ -128,12 +128,14 @@ describe 'Booking by tenant', :devise do
     visit manage_booking_path(@booking, org:)
     click_button BookingActions::Accept.t(:label)
     click_button BookingActions::PostponeDeadline.t(:label)
+    expect(page).to have_content(I18n.t('manage.bookings.booking_actions.invoke.success'))
   end
 
   def commit_request
     visit public_booking_path(id: @booking.token)
     click_button BookingActions::CommitRequest.t(:label)
     page.driver.browser.switch_to.alert.accept
+    expect(page).to have_content(I18n.t('public.bookings.booking_actions.invoke.success'))
   end
 
   def choose_tarifs
@@ -152,7 +154,7 @@ describe 'Booking by tenant', :devise do
     find('.checklist a[aria-label="contract_created"]').click
     visit new_manage_booking_contract_path(@booking, org:)
     submit_form
-    # find('table tbody tr:nth-child(1) td:nth-child(1) a').click
+    expect(page).to have_content(I18n.t('flash.actions.create.notice', resource_name: Contract.model_name.human))
   end
 
   def create_deposit
@@ -172,6 +174,7 @@ describe 'Booking by tenant', :devise do
     expect(page).to have_current_path(manage_booking_prepare_action_path(@booking, id: :mark_contract_signed, org:),
                                       ignore_query: true)
     click_button BookingActions::MarkContractSigned.label # confirm
+    expect(page).to have_content(I18n.t('manage.bookings.booking_actions.invoke.success'))
   end
 
   def bide_booking
@@ -183,6 +186,7 @@ describe 'Booking by tenant', :devise do
     click_on :active
     click_on :allowed_transitions
     click_on :past
+    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human))
   end
 
   def set_usages
@@ -193,6 +197,7 @@ describe 'Booking by tenant', :devise do
       usage_field.fill_in with: 22
     end
     submit_form
+    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human))
   end
 
   def create_invoice
@@ -214,17 +219,19 @@ describe 'Booking by tenant', :devise do
     visit manage_booking_path(@booking, org:)
     find('[name="action"][value="email_invoice"]').click
     click_button I18n.t('manage.notifications.form.deliver')
-    visit manage_booking_path(@booking, org:)
+    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: Notification.model_name.human))
   end
 
   def finalize_booking
+    visit manage_booking_path(@booking, org:)
     find('[name="action"][value="postpone_deadline"]').click
+    expect(page).to have_content(I18n.t('manage.bookings.booking_actions.invoke.success'))
     visit manage_booking_invoices_path(@booking, org:)
-    visit manage_booking_invoices_path(@booking, org:) # capybara issue
     find('.btn-group .dropdown').click
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
     first('[type="submit"]')
     all('[type="submit"]').last.click
+    expect(page).to have_content(I18n.t('flash.actions.create.notice', resource_name: Payment.model_name.human))
   end
 
   def check_booking
