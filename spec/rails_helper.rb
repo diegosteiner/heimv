@@ -82,11 +82,9 @@ RSpec.configure do |config|
   end
 
   # See https://github.com/teamcapybara/capybara/issues/2800
-  config.before type: :system do |example|
-    if page.driver.respond_to?(:invalid_element_errors)
-      unless page.driver.invalid_element_errors.include?(Selenium::WebDriver::Error::UnknownError)
-        page.driver.invalid_element_errors << Selenium::WebDriver::Error::UnknownError
-      end
+  config.before type: :system do
+    if page.driver.respond_to?(:invalid_element_errors) && page.driver.invalid_element_errors.exclude?(Selenium::WebDriver::Error::UnknownError)
+      page.driver.invalid_element_errors << Selenium::WebDriver::Error::UnknownError
     end
   end
 end

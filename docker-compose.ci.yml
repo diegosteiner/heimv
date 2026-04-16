@@ -16,7 +16,10 @@ services:
       MAIL_FROM: "no-reply@heimv.local"
     command: bin/check_ci
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      selenium:
+        condition: service_started
     networks:
       default:
       selenium:
@@ -46,10 +49,14 @@ services:
       REDIS_URL: "redis://valkey/0"
       CI: "true"
     depends_on:
-      - db
-      - mail
-      - valkey
-      - selenium
+      db:
+        condition: service_healthy
+      mail:
+        condition: service_started
+      valkey:
+        condition: service_healthy
+      selenium:
+        condition: service_started
     networks:
       default:
       selenium:
@@ -83,6 +90,11 @@ services:
     environment:
       POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   mail:
     image: sj26/mailcatcher
@@ -91,6 +103,19 @@ services:
 
   valkey:
     image: valkey/valkey
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      db:
+        condition: service_healthy
+      selenium:
+        condition: service_started
+    networks:
+      default:
+      selenium:
 
 networks:
   selenium:
