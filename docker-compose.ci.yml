@@ -53,9 +53,9 @@ services:
         condition: service_healthy
       mail:
         condition: service_started
-      valkey:
-        condition: service_healthy
       selenium:
+        condition: service_started
+      valkey:
         condition: service_started
     networks:
       default:
@@ -103,11 +103,6 @@ services:
 
   valkey:
     image: valkey/valkey
-    healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     depends_on:
       db:
         condition: service_healthy
