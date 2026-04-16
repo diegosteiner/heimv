@@ -142,7 +142,8 @@ describe 'Booking by tenant', :devise do
     tarifs.each do |tarif|
       expect(page).to have_content(tarif.label)
     end
-    find_all('input[type="checkbox"]:not(:checked)').each(&:check)
+    find('input[type="checkbox"]:not(:checked)', match: :first)
+    all('input[type="checkbox"]:not(:checked)').each(&:check)
     submit_form
     expect(page).to have_content(I18n.t('flash.actions.update.success', resource_name: Usage.model_name.human))
   end
@@ -188,7 +189,8 @@ describe 'Booking by tenant', :devise do
   def set_usages
     visit manage_booking_path(@booking, org:)
     find('.checklist li:nth-child(1) a').click
-    find_all('input[inputmode="numeric"]').each do |usage_field|
+    find('input[inputmode="numeric"]', match: :first)
+    all('input[inputmode="numeric"]').each do |usage_field|
       usage_field.fill_in with: 22
     end
     submit_form
@@ -211,18 +213,19 @@ describe 'Booking by tenant', :devise do
 
   def send_invoice
     visit manage_booking_path(@booking, org:)
-    find_all('[name="action"][value="email_invoice"]').first.click
+    find('[name="action"][value="email_invoice"]').click
     click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
   end
 
   def finalize_booking
-    find_all('[name="action"][value="postpone_deadline"]').first.click
+    find('[name="action"][value="postpone_deadline"]').click
     visit manage_booking_invoices_path(@booking, org:)
     visit manage_booking_invoices_path(@booking, org:) # capybara issue
     find('.btn-group .dropdown').click
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
-    find_all('[type="submit"]').last.click
+    find('[type="submit"]', match: :first)
+    all('[type="submit"]').last.click
   end
 
   def check_booking

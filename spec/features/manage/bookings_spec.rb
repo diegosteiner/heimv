@@ -34,7 +34,7 @@ describe 'Bookings' do
   context Booking::Filter.to_s do
     it 'can search with the searchbar' do
       visit manage_root_path
-      find_by_id('searchbar_query').fill_in with: definitive_request.ref
+      fill_in 'searchbar_query', with: definitive_request.ref
       within(id: 'searchbar') { click_button }
 
       expect(page).to have_content definitive_request.ref
