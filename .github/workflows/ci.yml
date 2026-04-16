@@ -45,16 +45,13 @@ jobs:
             --set e2e_target.cache-to=type=gha,mode=max,scope=e2e_target
 
       - name: run specs
-        run: docker compose --file docker-compose.ci.yml run --rm e2e_test bin/check_ci
+        run: docker compose --file docker-compose.ci.yml run e2e_test bin/check_ci
 
       - name: prepare e2e specs
         run: |
-          docker compose --file docker-compose.ci.yml run --rm --no-deps e2e_target bin/rails db:migrate
+          docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:migrate
           docker compose --file docker-compose.ci.yml up --wait e2e_target
-
-      - name: run e2e specs
-        run: |
-          docker compose --file docker-compose.ci.yml run --rm e2e_test bin/rspec ./spec --tag @type:feature
+          docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature
 
       - if: failure()
         name: prepare artifacts

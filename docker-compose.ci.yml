@@ -28,7 +28,7 @@ services:
     ports:
       - "3002:3002"
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3002/health"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3002/health || exit 1"]
       interval: 3s
       timeout: 5s
       retries: 20
