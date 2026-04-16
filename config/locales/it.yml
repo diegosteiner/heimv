@@ -1427,7 +1427,6 @@ it:
         canned_filter_default: Vista standard
         canned_filter_upcoming: Occupazioni future
         new:
-        new_closed_occupancy:
         new_request:
         no_records_yet:
       navigation:

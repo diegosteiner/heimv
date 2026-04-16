@@ -1564,7 +1564,6 @@ de:
         canned_filter_default: Standardansicht
         canned_filter_upcoming: Zukünftige Belegungen
         new: Neu
-        new_closed_occupancy: Schliessung
         new_request: Reservationsanfrage
         no_records_yet: 'Es wurden keine Buchungen gefunden. Neue Buchung hinzufügen: %{options}.'
       navigation:

@@ -1462,7 +1462,6 @@ fr:
         canned_filter_default: Vue standard
         canned_filter_upcoming: Locations futures
         new: Nouveau
-        new_closed_occupancy: Fermeture
         new_request: Demande de réservation
         no_records_yet: 'Aucune réservation n''a été trouvée. Ajouter une nouvelle réservation : %{options}.'
       navigation:
