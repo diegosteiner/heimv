@@ -76,19 +76,6 @@ jobs:
 
       - name: run unit specs
         run: docker compose run e2e_test bin/check_ci
-      # - if: always()
-      #   name: stop
-      #   run: docker compose down --remove-orphans
-      # - if: failure()
-      #   name: cancel workflow on failure
-      #   uses: actions/github-script@v7
-      #   with:
-      #     script: |
-      #       github.rest.actions.cancelWorkflowRun({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         run_id: context.runId
-      #       })
 
   e2e:
     runs-on: ubuntu-latest
@@ -102,7 +89,7 @@ jobs:
           - name: firefox
             selenium_image: selenium/standalone-firefox
     env:
-      COMPOSE_PROJECT_NAME: heimv-${{ matrix.browser.name }}
+      # COMPOSE_PROJECT_NAME: heimv-${{ matrix.browser.name }}
       SELENIUM_IMAGE: ${{ matrix.browser.selenium_image }}
       SELENIUM_BROWSER: ${{ matrix.browser.name }}
     steps:
@@ -122,8 +109,8 @@ jobs:
         run: |
           docker pull $TEST_IMAGE
           docker pull $TARGET_IMAGE
-          docker tag $TEST_IMAGE   heimv-${{ matrix.browser.name }}-e2e_test:latest
-          docker tag $TARGET_IMAGE heimv-${{ matrix.browser.name }}-e2e_target:latest
+          docker tag $TEST_IMAGE   heimv-e2e_test:latest
+          docker tag $TARGET_IMAGE heimv-e2e_target:latest
 
       - name: run e2e specs
         run: |
@@ -145,16 +132,12 @@ jobs:
         with:
           name: artifacts-${{ matrix.browser.name }}
           path: artifacts
-      # - if: always()
-      #   name: stop
-      #   run: docker compose down --remove-orphans
 
   release:
     runs-on: ubuntu-latest
     needs: e2e
     if: github.event_name != 'pull_request'
     env:
-      TARGET_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
       REF_IMAGE: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
     steps:
       - name: checkout

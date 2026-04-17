@@ -70,9 +70,6 @@ COPY --chown=rails:rails . .
 RUN bundle exec bootsnap precompile app/ lib/ && \
     bin/vite build
 
-ARG VERSION_SUFFIX=""
-RUN if [ -n "$VERSION_SUFFIX" ]; then echo "$VERSION_SUFFIX" >> VERSION; fi
-
 ### === production === ###
 FROM base AS production
 
@@ -88,4 +85,7 @@ COPY --from=build /rails /rails
 RUN rm -rf node_modules spec coverage
 
 USER rails:rails
+
+ARG VERSION_SUFFIX=""
+RUN if [ -n "$VERSION_SUFFIX" ]; then echo "$VERSION_SUFFIX" >> VERSION; fi
 
