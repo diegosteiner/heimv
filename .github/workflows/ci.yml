@@ -155,7 +155,6 @@ jobs:
     if: github.event_name != 'pull_request'
     env:
       TARGET_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
-      TEST_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}-test
       REF_IMAGE: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
     steps:
       - name: checkout
@@ -186,12 +185,6 @@ jobs:
         run: |
           docker tag $TARGET_IMAGE ghcr.io/${{ github.repository }}:$VERSION
           docker push ghcr.io/${{ github.repository }}:$VERSION
-
-      - name: push test cache image
-        run: |
-          docker pull $TEST_IMAGE
-          docker tag $TEST_IMAGE ghcr.io/${{ github.repository }}:${{ github.ref_name }}-test
-          docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}-test
 
   cleanup:
     runs-on: ubuntu-latest
