@@ -3,22 +3,23 @@ name: Continous Integration - CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [ main, develop ]
   pull_request:
-    branches: [main, develop]
+    branches: [ main, develop ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  COMPOSE_PROJECT_NAME: heimv
+  COMPOSE_FILE: docker-compose.ci.yml
+  TARGET_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
+  TEST_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}-test
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      COMPOSE_PROJECT_NAME: heimv
-      COMPOSE_FILE: docker-compose.ci.yml
-      TEST_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}-test
-      TARGET_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
     steps:
       - name: checkout
         uses: actions/checkout@v6
@@ -54,6 +55,22 @@ jobs:
             --set e2e_target.cache-from=type=gha,scope=e2e_target \
             --set e2e_target.cache-to=type=gha,mode=max,scope=e2e_target
 
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: docker login
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: pull and retag for local use
         run: |
           docker pull $TEST_IMAGE
@@ -63,6 +80,17 @@ jobs:
 
       - name: run unit specs
         run: docker compose run e2e_test bin/check_ci
+
+      - if: failure()
+        name: cancel workflow on failure
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.actions.cancelWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId
+            })
 
       - if: always()
         name: stop
@@ -76,16 +104,13 @@ jobs:
       matrix:
         browser:
           - name: chrome
-            selenium_image: selenium/standalone-chrome:147.0
+            selenium_image: selenium/standalone-chrome
           - name: firefox
             selenium_image: selenium/standalone-firefox
     env:
       COMPOSE_PROJECT_NAME: heimv-${{ matrix.browser.name }}
-      COMPOSE_FILE: docker-compose.ci.yml
       SELENIUM_IMAGE: ${{ matrix.browser.selenium_image }}
       SELENIUM_BROWSER: ${{ matrix.browser.name }}
-      TEST_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}-test
-      TARGET_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
     steps:
       - name: checkout
         uses: actions/checkout@v6
@@ -119,8 +144,6 @@ jobs:
           mkdir -p artifacts
           docker compose logs > ./artifacts/docker-compose.ci.log
           docker cp $(docker compose ps -qa e2e_test | tail -n1):/rails/tmp/capybara ./artifacts/
-          docker compose stop video
-          cp -r videos ./artifacts/ 2>/dev/null || true
 
       - if: failure()
         name: upload artifacts
@@ -139,6 +162,7 @@ jobs:
     if: github.event_name != 'pull_request'
     env:
       TARGET_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
+      REF_IMAGE: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
     steps:
       - name: checkout
         uses: actions/checkout@v6
@@ -160,8 +184,8 @@ jobs:
       - name: push image
         run: |
           docker pull $TARGET_IMAGE
-          docker tag $TARGET_IMAGE ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-          docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          docker tag $TARGET_IMAGE $REF_IMAGE
+          docker push $REF_IMAGE
 
       - if: github.ref == 'refs/heads/main'
         name: push versioned image
@@ -172,11 +196,11 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     if: always()
-    needs: [build, e2e, release]
+    needs: [ build, e2e, release ]
     permissions:
       packages: write
     steps:
-      - name: Delete SHA-tagged images
+      - name: Delete build images
         uses: vlaurin/action-ghcr-prune@v0.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

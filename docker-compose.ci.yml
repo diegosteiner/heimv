@@ -13,7 +13,7 @@ services:
       NODE_ENV: test
       SELENIUM_HOST: "selenium:4444"
       SELENIUM_BROWSER: "${SELENIUM_BROWSER:-chrome}"
-      SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
+      SMTP_SETTINGS: "{ \"address\":\"mail\", \"port\": 1025 }"
       MAIL_FROM: "no-reply@heimv.local"
     command: bin/check_ci
     depends_on:
@@ -34,7 +34,7 @@ services:
     ports:
       - "3002:3002"
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:3002/health || exit 1"]
+      test: [ "CMD-SHELL", "curl -fsS http://localhost:3002/health || exit 1" ]
       interval: 3s
       timeout: 5s
       retries: 20
@@ -42,7 +42,7 @@ services:
     environment:
       APP_HOST: "e2e_target:3002"
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e?encoding=unicode&pool=5
-      SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
+      SMTP_SETTINGS: "{ \"address\":\"mail\", \"port\": 1025 }"
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
       SECRET_KEY_BASE: "test"
       RAILS_SERVE_STATIC_FILES: "true"
@@ -69,24 +69,24 @@ services:
     shm_size: 2g
     networks:
       selenium:
-    # volumes:
-    #   - /dev/shm:/dev/shm
+        # volumes:
+        #   - /dev/shm:/dev/shm
     logging:
       driver: none
     # noVNC in browser with password «secret»
     ports:
       - "7900:7900"
 
-  video:
-    image: selenium/video
-    depends_on:
-      - selenium
-    environment:
-      - DISPLAY_CONTAINER_NAME=selenium
-    volumes:
-      - ./videos:/videos
-    networks:
-      selenium:
+  # video:
+  #   image: selenium/video
+  #   depends_on:
+  #     - selenium
+  #   environment:
+  #     - DISPLAY_CONTAINER_NAME=selenium
+  #   volumes:
+  #     - ./videos:/videos
+  #   networks:
+  #     selenium:
 
   db:
     image: postgres:18
@@ -94,7 +94,7 @@ services:
       POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
