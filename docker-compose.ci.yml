@@ -21,8 +21,6 @@ services:
         condition: service_healthy
       selenium:
         condition: service_started
-      video:
-        condition: service_started
     networks:
       default:
       selenium:
