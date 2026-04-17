@@ -70,6 +70,9 @@ COPY --chown=rails:rails . .
 RUN bundle exec bootsnap precompile app/ lib/ && \
     bin/vite build
 
+ARG VERSION_SUFFIX=""
+RUN if [ -n "$VERSION_SUFFIX" ]; then echo "$VERSION_SUFFIX" >> VERSION; fi
+
 ### === production === ###
 FROM base AS production
 

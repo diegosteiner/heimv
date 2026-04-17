@@ -3,6 +3,14 @@ services:
     build:
       context: .
       target: test
+      args:
+        VERSION_SUFFIX: ${VERSION_SUFFIX:-}
+      x-bake:
+        cache-from:
+          - type=gha,scope=e2e_test
+          - type=registry,ref=ghcr.io/${GITHUB_REPOSITORY}:develop-test
+        cache-to:
+          - type=gha,mode=max,scope=e2e_test
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
@@ -29,6 +37,14 @@ services:
     build:
       context: .
       target: production
+      args:
+        VERSION_SUFFIX: ${VERSION_SUFFIX:-}
+      x-bake:
+        cache-from:
+          - type=gha,scope=e2e_target
+          - type=registry,ref=ghcr.io/${GITHUB_REPOSITORY}:develop
+        cache-to:
+          - type=gha,mode=max,scope=e2e_target
     ports:
       - "3002:3002"
     healthcheck:
