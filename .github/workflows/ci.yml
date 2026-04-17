@@ -186,6 +186,16 @@ jobs:
           docker tag $TARGET_IMAGE ghcr.io/${{ github.repository }}:$VERSION
           docker push ghcr.io/${{ github.repository }}:$VERSION
 
+      - name: summary
+        run: |
+          {
+            echo "## Released images :rocket:"
+            echo "- \`$REF_IMAGE\`"
+            if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+              echo "- \`ghcr.io/${{ github.repository }}:$VERSION\`"
+            fi
+          } >> $GITHUB_STEP_SUMMARY
+
   cleanup:
     runs-on: ubuntu-latest
     if: always()
