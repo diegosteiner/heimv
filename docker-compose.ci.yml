@@ -8,7 +8,7 @@ services:
       x-bake:
         cache-from:
           - type=gha,scope=e2e_test
-          - type=registry,ref=ghcr.io/${GITHUB_REPOSITORY}:develop-test
+          - type=registry,ref=ghcr.io/diegosteiner/heimv:develop
         cache-to:
           - type=gha,mode=max,scope=e2e_test
     environment:
@@ -42,7 +42,7 @@ services:
       x-bake:
         cache-from:
           - type=gha,scope=e2e_target
-          - type=registry,ref=ghcr.io/${GITHUB_REPOSITORY}:develop
+          - type=registry,ref=ghcr.io/diegosteiner/heimv:develop
         cache-to:
           - type=gha,mode=max,scope=e2e_target
     ports:
