@@ -123,6 +123,7 @@ de:
         occupied_occupancy_color: Farbe für definitive Belegungen
         predefined_salutation_form: Vordefinierte Anredeform
         public_occupancy_visibility: Sichtbarkeit von Belegungen im öffentlichen Kalender
+        qr_bill_creditor_address_as_invoice_address: "«Zahlbar an QR-Rechnungen» als Rechnungsadresse verwenden"
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
         tentative_occupancy_color: Farbe für provisorischen Belegungen
         upcoming_soon_window: Frist für baldige Belegung
