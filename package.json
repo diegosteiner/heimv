@@ -36,7 +36,7 @@
     "sass": "^1.97.2",
     "sortablejs": "^1.15.1",
     "tinymce": "^8.1.2",
-    "typescript": "6.0.2",
+    "typescript": "6.0.3",
     "uuid": "^13.0.0",
     "vite": "^8.0.0",
     "vite-plugin-rails": "^0.6.0",
