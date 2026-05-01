@@ -2,8 +2,8 @@
 
 module BookingStates
   class OpenRequest < Base
-    use_mail_template(:manage_new_booking_notification, context: %i[booking])
-    use_mail_template(:open_booking_agent_request_notification, context: %i[booking])
+    use_mail_template(:manage_new_booking_notification, context: %i[booking], optional: true)
+    use_mail_template(:open_booking_agent_request_notification, context: %i[booking], optional: true)
     use_mail_template(:open_request_notification, context: %i[booking])
 
     def checklist

@@ -103,10 +103,9 @@ class BookingStateChecklistItem
     end,
 
     invoice_sent: lambda do |booking|
-      invoices = booking.invoices.where(type: %w[Invoices::Deposit Invoices::Invoice Invoices::LateNotice])
-      unsent_invoices = invoices.unsent
-      BookingStateChecklistItem.new(key: :invoice_sent, context: { booking: },
-                                    checked: invoices.exists? && !unsent_invoices.exists?)
+      invoices = booking.invoices.where(type: %w[Invoices::Invoice Invoices::LateNotice])
+      checked = invoices.exists? && !invoices.unsent.exists?
+      BookingStateChecklistItem.new(key: :invoice_sent, context: { booking: }, checked:)
     end
 
   }.freeze

@@ -128,7 +128,9 @@ class Notification < ApplicationRecord
   end
 
   def deliver_to
-    self[:deliver_to] = Array.wrap(super).compact_blank.presence || Array.wrap(resolve_to(to).try(:email)).compact_blank
+    return super unless to_changed? || Array.wrap(super).compact_blank.blank?
+
+    self[:deliver_to] = Array.wrap(resolve_to(to).try(:email)).compact_blank
   end
 
   def deliver_cc=(value)

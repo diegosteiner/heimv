@@ -1002,7 +1002,7 @@ de:
     invoice_created: Endabrechnung erstellen
     invoice_paid: "%{invoice} bezahlt"
     invoice_refunded: "%{invoice} erstattet"
-    invoice_sent: Rechnung versenden
+    invoice_sent: Endabrechnung versenden
     invoices_paid: Rechnungen beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen (optional)
@@ -1746,6 +1746,8 @@ de:
               <dt>Vertragsdatum</dt>
               <dd><pre>{{ contract.issued_at | date_format }}</pre></dd>
             </dl>
+          deposit: "<p><em>siehe Rechnung</em></p>"
+          deposits: "<p><em>siehe Rechnungen</em></p>"
           invoice: |-
             <h5>Rechnung</h5>
             <dl>

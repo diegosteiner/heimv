@@ -123,6 +123,7 @@ fr:
         occupied_occupancy_color: Couleur pour les locations définitives
         predefined_salutation_form:
         public_occupancy_visibility:
+        qr_bill_creditor_address_as_invoice_address:
         tenant_birth_date_required: Date de naissance, Indication obligatoire
         tentative_occupancy_color: Couleur pour les locations provisoires
         upcoming_soon_window: Délai pour location prochaine

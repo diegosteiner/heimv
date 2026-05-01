@@ -7,7 +7,7 @@ h1.mt-0.mb-5= JournalEntryBatch.model_name.human(count: 2)
     = t(:filter)
   
   .dropdown.d-inline-block
-    button.btn.btn-outline-primary[data-bs-toggle="dropdown" type="button"]
+    button.btn.btn-outline-primary.bg-body.text-primary[data-bs-toggle="dropdown" type="button"]
       = t('.digest_and_process')
     .dropdown-menu.dropdown-menu-right
       - @data_digest_templates.each do |data_digest_template|

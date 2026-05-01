@@ -1,5 +1,15 @@
 # Changelog
 
+## 26.4.2
+
+Released 30.04.2026
+
+- Feature: Send invoices together with a single action
+- Fix: Generate journal entries for invoices with an amount of zero
+- Fix: Add more error context for failed actions
+- Fix: Add more variables for invoices/deposits within notifications
+- Fix: Allow transition to upcoming from more states
+
 ## 26.4.1
 
 Released 07.04.2026
