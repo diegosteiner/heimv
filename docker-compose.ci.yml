@@ -3,6 +3,13 @@ services:
     build:
       context: .
       target: test
+      args:
+        VERSION_SUFFIX: ${VERSION_SUFFIX:-}
+      x-bake:
+        cache-from:
+          - type=registry,ref=ghcr.io/${GITHUB_REPOSITORY}:cache-e2e-test
+        cache-to:
+          - type=registry,ref=ghcr.io/${GITHUB_REPOSITORY}:cache-e2e-test,mode=max
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
@@ -12,11 +19,15 @@ services:
       RAILS_ENV: test
       NODE_ENV: test
       SELENIUM_HOST: "selenium:4444"
-      SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
+      SELENIUM_BROWSER: "${SELENIUM_BROWSER:-chrome}"
+      SMTP_SETTINGS: "{ \"address\":\"mail\", \"port\": 1025 }"
       MAIL_FROM: "no-reply@heimv.local"
     command: bin/check_ci
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      selenium:
+        condition: service_started
     networks:
       default:
       selenium:
@@ -25,12 +36,25 @@ services:
     build:
       context: .
       target: production
+      args:
+        VERSION_SUFFIX: ${VERSION_SUFFIX:-}
+      x-bake:
+        cache-from:
+          - type=registry,ref=ghcr.io/${GITHUB_REPOSITORY}:cache-e2e-target
+        cache-to:
+          - type=registry,ref=ghcr.io/${GITHUB_REPOSITORY}:cache-e2e-target,mode=max
     ports:
       - "3002:3002"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -fsS http://localhost:3002/health || exit 1" ]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
     environment:
       APP_HOST: "e2e_target:3002"
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e?encoding=unicode&pool=5
-      SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
+      SMTP_SETTINGS: "{ \"address\":\"mail\", \"port\": 1025 }"
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
       SECRET_KEY_BASE: "test"
       RAILS_SERVE_STATIC_FILES: "true"
@@ -40,23 +64,30 @@ services:
       REDIS_URL: "redis://valkey/0"
       CI: "true"
     depends_on:
-      - db
-      - mail
-      - valkey
-      - selenium
+      db:
+        condition: service_healthy
+      mail:
+        condition: service_started
+      selenium:
+        condition: service_started
+      valkey:
+        condition: service_started
     networks:
       default:
       selenium:
 
   selenium:
-    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:133.0}
+    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:147.0}
     shm_size: 2g
     networks:
       selenium:
-    volumes:
-      - /dev/shm:/dev/shm
+        # volumes:
+        #   - /dev/shm:/dev/shm
     logging:
       driver: none
+    # noVNC in browser with password «secret»
+    ports:
+      - "7900:7900"
 
   # video:
   #   image: selenium/video
@@ -74,6 +105,11 @@ services:
     environment:
       POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   mail:
     image: sj26/mailcatcher
@@ -82,6 +118,14 @@ services:
 
   valkey:
     image: valkey/valkey
+    depends_on:
+      db:
+        condition: service_healthy
+      selenium:
+        condition: service_started
+    networks:
+      default:
+      selenium:
 
 networks:
   selenium:

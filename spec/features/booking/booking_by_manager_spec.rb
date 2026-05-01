@@ -65,7 +65,7 @@ describe 'Booking by tenant', :devise do
     uncheck 'booking_deliver_notifications'
     submit_form
 
-    expect(page).to have_content(I18n.t('flash.actions.create.notice', resource_name: Booking.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.create.notice', resource_name: Booking.model_name.human))
     expect(@booking = Booking.last).to be_present
   end
 
@@ -74,7 +74,7 @@ describe 'Booking by tenant', :devise do
     choose 'booking_committed_request_true'
     select booking.category.title, from: 'booking_booking_category_id'
     submit_form
-    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human))
   end
 
   def check_booking

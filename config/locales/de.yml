@@ -123,6 +123,7 @@ de:
         occupied_occupancy_color: Farbe für definitive Belegungen
         predefined_salutation_form: Vordefinierte Anredeform
         public_occupancy_visibility: Sichtbarkeit von Belegungen im öffentlichen Kalender
+        qr_bill_creditor_address_as_invoice_address: "«Zahlbar an QR-Rechnungen» als Rechnungsadresse verwenden"
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
         tentative_occupancy_color: Farbe für provisorischen Belegungen
         upcoming_soon_window: Frist für baldige Belegung
@@ -927,7 +928,7 @@ de:
       label_with_invoice: Vertrag und Akontorechnung/Offerte versenden
       label_without_invoice: Vertrag ohne Akontorechnung/Offerte versenden
     email_invoice:
-      label: Rechnung versenden
+      label: Rechnungen versenden
       label_with_ref: "%{type} %{ref} versenden"
     email_offer:
       label: Offerte versenden
@@ -1001,7 +1002,7 @@ de:
     invoice_created: Endabrechnung erstellen
     invoice_paid: "%{invoice} bezahlt"
     invoice_refunded: "%{invoice} erstattet"
-    invoice_sent: Rechnung versenden
+    invoice_sent: Endabrechnung versenden
     invoices_paid: Rechnungen beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen (optional)
@@ -1564,7 +1565,6 @@ de:
         canned_filter_default: Standardansicht
         canned_filter_upcoming: Zukünftige Belegungen
         new: Neu
-        new_closed_occupancy: Schliessung
         new_request: Reservationsanfrage
         no_records_yet: 'Es wurden keine Buchungen gefunden. Neue Buchung hinzufügen: %{options}.'
       navigation:
@@ -1746,6 +1746,8 @@ de:
               <dt>Vertragsdatum</dt>
               <dd><pre>{{ contract.issued_at | date_format }}</pre></dd>
             </dl>
+          deposit: "<p><em>siehe Rechnung</em></p>"
+          deposits: "<p><em>siehe Rechnungen</em></p>"
           invoice: |-
             <h5>Rechnung</h5>
             <dl>

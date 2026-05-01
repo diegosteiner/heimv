@@ -10,11 +10,11 @@ describe 'User Account', :devise do
       visit edit_account_path(user)
       fill_in :user_password, with: new_password
       submit_form
-      expect(page).to have_content I18n.t('flash.actions.update.alert', resource_name: User.model_name.human)
+      expect(page).to have_text I18n.t('flash.actions.update.alert', resource_name: User.model_name.human)
       fill_in :user_password, with: new_password
       fill_in :user_password_confirmation, with: new_password
       submit_form
-      expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: User.model_name.human)
+      expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: User.model_name.human)
     end
   end
 end

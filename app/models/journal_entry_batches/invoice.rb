@@ -38,8 +38,6 @@ module JournalEntryBatches
 
     def self.handle_save(invoice)
       previous_batch = existing_batches(invoice).processed.last
-      return true if previous_batch.blank? && invoice.amount.zero?
-
       new_batch = build_with_invoice(invoice)
       return true if new_batch.equivalent?(previous_batch)
 
@@ -55,8 +53,8 @@ module JournalEntryBatches
       previous_batch = existing_batches(invoice).processed.last
       return if previous_batch.nil? || previous_batch.trigger_invoice_discarded?
 
-      previous_batch.dup.invert.update(trigger: :invoice_discarded, date: invoice.discarded_at&.to_date,
-                                       processed_at: nil)
+      date = invoice.discarded_at&.to_date
+      previous_batch.dup.invert.update(trigger: :invoice_discarded, date:, processed_at: nil)
     end
 
     def self.handle_destroy(invoice)

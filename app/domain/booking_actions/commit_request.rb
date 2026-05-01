@@ -9,9 +9,7 @@ module BookingActions
     end
 
     def invokable?(current_user: nil)
-      return false if booking.committed_request || booking.agent_booking || booking.email.blank?
-
-      booking.valid_with_attributes?(committed_request: true)
+      !(booking.committed_request || booking.agent_booking || booking.email.blank?)
     end
 
     def invokable_with(current_user: nil)

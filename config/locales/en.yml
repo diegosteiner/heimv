@@ -1539,7 +1539,6 @@ en:
         canned_filter_default: Standardansicht
         canned_filter_upcoming: Zukünftige Belegungen
         new: Neu
-        new_closed_occupancy: Schliessung
         new_request: Reservationsanfrage
         no_records_yet: 'Es wurden keine Buchungen gefunden. Neue Buchung hinzufügen: %{options}.'
       navigation:
@@ -1797,18 +1796,18 @@ en:
       format:
         delimiter: "'"
         format: "%u %n"
-        precision: '2'
+        precision: 2
         separator: "."
-        significant: Significant
-        strip_insignificant_zeros: Strip insignificant zeros
+        significant: false
+        strip_insignificant_zeros: false
         unit: CHF
     format:
       delimiter: "'"
-      precision: '2'
+      precision: 2
       round_mode: default
       separator: "."
-      significant: Significant
-      strip_insignificant_zeros: Strip insignificant zeros
+      significant: false
+      strip_insignificant_zeros: false
     human:
       decimal_units:
         format: "%n %u"
@@ -1827,9 +1826,9 @@ en:
             one: Billion
             other: Billionen
       format:
-        precision: '1'
-        significant: 'true'
-        strip_insignificant_zeros: 'true'
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
       storage_units:
         format: "%n %u"
         units:
@@ -1845,7 +1844,7 @@ en:
     percentage:
       format:
         format: "%n%"
-        precision: '1'
+        precision: 1
   occupancy_calendar:
     months: '["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
     next: "→"

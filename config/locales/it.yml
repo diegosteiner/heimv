@@ -123,6 +123,7 @@ it:
         occupied_occupancy_color: Colore per le occupazioni definitive
         predefined_salutation_form:
         public_occupancy_visibility:
+        qr_bill_creditor_address_as_invoice_address:
         tenant_birth_date_required: 'Data di nascita: inserimento obbligatorio'
         tentative_occupancy_color: Colore per le occupazioni provvisorie
         upcoming_soon_window: Periodo per l'occupazione anticipata
@@ -1427,7 +1428,6 @@ it:
         canned_filter_default: Vista standard
         canned_filter_upcoming: Occupazioni future
         new:
-        new_closed_occupancy:
         new_request:
         no_records_yet:
       navigation:

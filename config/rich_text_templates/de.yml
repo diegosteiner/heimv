@@ -5,8 +5,8 @@ de:
     default_body: |
       <p>{{ booking.tenant.salutation }}</p>
 
-      <span>{% if invoices[0] %}</span>
-      <p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Überweise bitte auch die angegebene Akontorechnung über {{ invoices[0].balance | currency }}.</p>
+      <span>{% if deposit %}</span>
+      <p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Begleiche bitte auch die Akontorechnung über {{ deposit.balance | currency }} bis spätestens {{ deposit.payable_until | date_format }}.</p>
       <p>Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Akontorechnung und der unterzeichnete Vertrag bei uns eingetroffen sind.</p>
       <span>{% else %}</span>
       <p>Mit dieser Nachricht erhältst Du den Vertrag für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück.</p>
@@ -682,11 +682,50 @@ de:
   contract_text:
     default_title: Vertrag
     default_body: |
-      <h2>Vertrag</h2>
+      <h2>Mietvertrag</h2>
+      <h4>Angaben zur Miete</h4>
+      <table>
+        <tbody>
+          <tr>
+            <td>Mietbeginn:</td>
+            <td>{{ booking.begins_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</td>
+          </tr>
+          <tr>
+            <td>Mietende:</td>
+            <td>{{ booking.ends_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</td>
+          </tr>
+          <tr>
+            <td>Mietzweck:</td>
+            <td>{{ booking.purpose_description }}</td>
+          </tr>
+          <tr>
+            <td>Anzahl Personen:</td>
+            <td>{{ booking.approximate_headcount }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <p>(bitte Vertragsvorlage in den Textvorlagen anpassen)</p>
+      <h4>Mietobjekt</h4>
+      <p>(Was wird dem Mieter zur Miete genau überlassen?)</p>
 
-      {{ TARIFS }}
+      <h4>Mietkosten</h4>
+      <p>Es gelten die folgenden Tarife:</p>
+      <div>{{ TARIFS }}</div>
+
+      <h4>Gültigkeit</h4>
+      <p>Der vorliegende Vertrag ist erst gültig, sobald der Eingang des von beiden Parteien unterschriebenen Exemplares durch Vermieter bestätigt worden ist und alle Akontorechnungen beglichen worden sind.</p>
+
+      <h4>Hausordnung</h4>
+      <p>Die Hausordnung ist integraler Bestandteil dieses Vertrages und muss während der gesamten Mietdauer eingehalten werden.</p>
+
+      <h4>Besondere Vereinbarungen</h4>
+      <ul>
+        <li>(Besondere Vereinbarungen)</li>
+      </ul>
+
+      <h4>Schlussbestimmungen</h4>
+      <p>(Schlussbestimmungen)</p>
+
   notification_footer:
     default_title: ''
     default_body: ''

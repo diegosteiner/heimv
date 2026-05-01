@@ -6,11 +6,11 @@ module BookingFlows
                                          definitive_request open_request upcoming waitlisted_request], initial: true
     state BookingStates::UnconfirmedRequest, to: %i[cancelled_request declined_request open_request]
     state BookingStates::OpenRequest, to: %i[cancelled_request declined_request provisional_request
-                                             definitive_request booking_agent_request waitlisted_request]
+                                             definitive_request booking_agent_request waitlisted_request upcoming]
     state BookingStates::WaitlistedRequest, to: %i[cancelled_request declined_request provisional_request
-                                                   definitive_request booking_agent_request]
+                                                   definitive_request booking_agent_request upcoming]
     state BookingStates::BookingAgentRequest, to: %i[cancelled_request declined_request
-                                                     awaiting_tenant overdue_request]
+                                                     awaiting_tenant overdue_request upcoming]
     state BookingStates::ProvisionalRequest, to: %i[definitive_request overdue_request
                                                     cancelled_request declined_request]
     state BookingStates::OverdueRequest, to: %i[cancelled_request declined_request
@@ -66,7 +66,6 @@ module BookingFlows
         email_offer: BookingActions::EmailOffer,
         postpone_deadline: BookingActions::PostponeDeadline,
         mark_contract_signed: BookingActions::MarkContractSigned,
-        commit_request: BookingActions::CommitRequest,
         decline: BookingActions::Decline,
         revert_cancel: BookingActions::RevertCancel,
         clear_waitlist: BookingActions::ClearWaitlist

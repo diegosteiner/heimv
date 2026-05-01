@@ -49,7 +49,10 @@ class MailTemplate < RichTextTemplate
     def use!(key, booking, **, &)
       raise RichTextTemplate::InvalidDefinition unless definitions.key?(key)
 
-      booking.organisation.rich_text_templates.where(type: to_s).by_key!(key).use(booking, **, &)
+      template = booking.organisation.rich_text_templates.where(type: to_s).by_key!(key)
+      raise RichTextTemplate::NoTemplate unless template.enabled
+
+      template.use(booking, **, &)
     end
   end
 end

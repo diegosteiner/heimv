@@ -25,7 +25,11 @@ module Export
       end
 
       to_render do
-        address = organisation.qr_bill_creditor_address.presence || organisation.address.presence
+        address = if organisation.settings.qr_bill_creditor_address_as_invoice_address
+                    organisation.qr_bill_creditor_address.presence || organisation.address.presence
+                  else
+                    organisation.address.presence
+                  end
         render Renderables::Address.new(address, label: Contract.human_attribute_name('issuer'))
       end
 

@@ -12,10 +12,8 @@ describe BookingActions::CommitRequest do
   describe '#invoke' do
     subject(:invoke) { action.invoke(current_user:) }
 
-    it { expect(invoke.success).to be_truthy }
-
     it do
-      invoke
+      expect(invoke.success).to be_truthy
       expect(booking.committed_request).to be_truthy
     end
   end

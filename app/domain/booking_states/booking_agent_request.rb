@@ -2,7 +2,7 @@
 
 module BookingStates
   class BookingAgentRequest < Base
-    use_mail_template(:booking_agent_request_notification, context: %i[booking])
+    use_mail_template(:booking_agent_request_notification, context: %i[booking], optional: true)
 
     def checklist
       []

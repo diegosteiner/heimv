@@ -33,7 +33,7 @@ describe 'BookingCondition', :devise do
         manipulate_conditions
       end
       submit_form
-      expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Tarif.model_name.human)
+      expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: Tarif.model_name.human)
       check_conditions(tarif.reload.selecting_conditions)
     end
 
@@ -43,7 +43,7 @@ describe 'BookingCondition', :devise do
         manipulate_conditions
       end
       submit_form
-      expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Tarif.model_name.human)
+      expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: Tarif.model_name.human)
 
       page.scroll_to '#enabling_conditions'
       visit edit_manage_tarif_path(tarif, org:)
@@ -61,7 +61,7 @@ describe 'BookingCondition', :devise do
         manipulate_conditions
       end
       submit_form
-      expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: '')
+      expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: '')
       check_conditions(validation.reload.enabling_conditions)
     end
 
@@ -71,7 +71,7 @@ describe 'BookingCondition', :devise do
         manipulate_conditions
       end
       submit_form
-      expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: '')
+      expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: '')
       check_conditions(validation.reload.validating_conditions)
     end
   end
@@ -85,7 +85,7 @@ describe 'BookingCondition', :devise do
         manipulate_conditions
       end
       submit_form
-      expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: '')
+      expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: '')
       check_conditions(booking_question.reload.applying_conditions)
     end
   end
@@ -99,7 +99,7 @@ describe 'BookingCondition', :devise do
         manipulate_conditions
       end
       submit_form
-      expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: '')
+      expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: '')
       check_conditions(responsibility.reload.assigning_conditions)
     end
   end
@@ -113,7 +113,7 @@ describe 'BookingCondition', :devise do
         manipulate_conditions
       end
       submit_form
-      expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: '')
+      expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: '')
       check_conditions(document.reload.attaching_conditions)
     end
   end

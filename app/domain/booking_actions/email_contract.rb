@@ -2,20 +2,20 @@
 
 module BookingActions
   class EmailContract < Base
-    use_mail_template(:email_contract_notification, context: %i[booking contract invoices], autodeliver: false)
-    use_mail_template(:operator_email_contract_notification, context: %i[booking contract invoices], optional: true)
+    use_mail_template(:email_contract_notification, context: %i[booking contract deposits], autodeliver: false)
+    use_mail_template(:operator_email_contract_notification, context: %i[booking contract deposits], optional: true)
 
     delegate :contract, to: :booking
 
-    def invoke!(invoice_ids: invoices.map(&:id), current_user: nil)
-      invoices = self.invoices.where(id: invoice_ids)
-      mail = notify_tenant(invoices)
-      notify_operators(invoices)
+    def invoke!(deposit_ids: deposits.map(&:id), current_user: nil)
+      deposits = self.deposits.where(id: deposit_ids)
+      mail = notify_tenant(deposits)
+      notify_operators(deposits)
 
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
 
-    def invokable?(invoice_ids: nil, current_user: nil)
+    def invokable?(deposit_ids: nil, current_user: nil)
       booking.valid? && MailTemplate.enabled?(:email_contract_notification, booking) &&
         contract.present? && !contract.sent? && booking.email.present?
     end
@@ -23,41 +23,41 @@ module BookingActions
     def invokable_with(current_user: nil)
       return unless invokable?(current_user:)
 
-      invoice_ids = invoices.map(&:to_param)
-      if invoices.any?
-        { label: translate(:label_with_invoice), params: { invoice_ids: } }
+      deposit_ids = deposits.map(&:to_param)
+      if deposits.any?
+        { label: translate(:label_with_invoice), params: { deposit_ids: } }
       else
-        { label: translate(:label_without_invoice), confirm: translate(:confirm), params: { invoice_ids: [] } }
+        { label: translate(:label_without_invoice), confirm: translate(:confirm), params: { deposit_ids: [] } }
       end
     end
 
-    def invoices
-      @invoices ||= booking.invoices.kept.unsent
+    def deposits
+      @deposits ||= booking.invoices.where(type: Invoices::Deposit.to_s).kept.unsent
     end
 
     def invoke_schema
       Dry::Schema.Params do
-        optional(:invoice_ids).array(:string)
+        optional(:deposit_ids).array(:string)
       end
     end
 
     protected
 
-    def notify_tenant(invoices)
-      context = { contract:, invoices: }
+    def notify_tenant(deposits)
+      context = { contract:, deposit: deposits.one? ? deposits.first : nil, deposits: }
       MailTemplate.use!(:email_contract_notification, booking, to: :tenant, context:) do |mail|
-        mail.attach :contract, invoices
+        mail.attach :contract, deposits
         mail.save!
-        invoices.each { it.update!(sent_with_notification: mail) }
+        deposits.find_each { it.update!(sent_with_notification: mail) }
         contract.update!(sent_with_notification: mail)
       end
     end
 
-    def notify_operators(invoices)
-      context = { contract:, invoices: }
+    def notify_operators(deposits)
+      context = { contract:, deposit: deposits.one? ? deposits.first : nil, deposits: }
       Notification.dedup(booking, to: %i[billing home_handover home_return]) do |to|
         MailTemplate.use(:operator_email_contract_notification, booking, to:, context:)&.tap do |mail|
-          mail.attach contract, invoices
+          mail.attach contract, deposits
           mail.autodeliver!
         end
       end

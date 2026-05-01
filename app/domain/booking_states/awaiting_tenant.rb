@@ -2,8 +2,8 @@
 
 module BookingStates
   class AwaitingTenant < Base
-    use_mail_template(:awaiting_tenant_notification, context: %i[booking])
-    use_mail_template(:booking_agent_request_accepted_notification, context: %i[booking])
+    use_mail_template(:awaiting_tenant_notification, context: %i[booking], optional: true)
+    use_mail_template(:booking_agent_request_accepted_notification, context: %i[booking], optional: true)
 
     def checklist
       []

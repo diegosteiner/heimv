@@ -12,6 +12,13 @@ module BookingActions
         booking.valid_with_attributes?(context: :agent_update, committed_request: true)
     end
 
+    def invokable_with(current_user: nil)
+      if booking.in_state?(:booking_agent_request) && agent_booking&.booking_agent_responsible? &&
+         !booking&.committed_request_in_database
+        { confirm: translate(:confirm) }
+      end
+    end
+
     delegate :agent_booking, to: :booking
   end
 end

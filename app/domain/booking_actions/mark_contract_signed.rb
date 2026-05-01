@@ -25,7 +25,7 @@ module BookingActions
     end
 
     def invokable?(signed_pdf: nil, current_user: nil)
-      booking.contract&.sent? && booking.valid_with_attributes?(committed_request: true)
+      booking.contract&.sent?
     end
 
     def invokable_with(current_user: nil)

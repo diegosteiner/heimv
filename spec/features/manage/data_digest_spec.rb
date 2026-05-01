@@ -21,9 +21,9 @@ describe 'Data Digests', :devise do
     fill_in :data_digest_template_label, with: label
     submit_form
 
-    expect(page).to have_content I18n.t('flash.actions.create.notice',
-                                        resource_name: DataDigestTemplates::Booking.model_name.human)
-    expect(page).to have_content label
+    expect(page).to have_text I18n.t('flash.actions.create.notice',
+                                     resource_name: DataDigestTemplates::Booking.model_name.human)
+    expect(page).to have_text label
   end
 
   it 'can see a booking' do
@@ -32,7 +32,7 @@ describe 'Data Digests', :devise do
     create_list(:booking, 3, organisation:, home:)
     select I18n.t('activerecord.enums.data_digest.periods.ever'), from: :data_digest_period
     submit_form
-    expect(page).to have_content(data_digest_template.label)
+    expect(page).to have_text(data_digest_template.label)
 
     # background jobs need to run
     # sleep 1

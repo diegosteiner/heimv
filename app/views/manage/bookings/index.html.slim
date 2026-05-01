@@ -7,9 +7,9 @@ h1.my-0= Booking.model_name.human(count: 2)
     button.btn.btn-primary[type="button" data-bs-toggle="modal" data-bs-target="#filter"]
       span.fa.fa-filter<>
       = t(:filter)
-    = link_to manage_bookings_path(filter: { current_booking_states: current_organisation.booking_flow_class.displayed_by_default }), class: 'btn btn-outline-primary bg-body'
+    = link_to manage_bookings_path(filter: { current_booking_states: current_organisation.booking_flow_class.displayed_by_default }), class: 'btn btn-outline-primary bg-body text-primary'
       = t('.canned_filter_default')
-    = link_to manage_bookings_path(filter: { current_booking_states: [:upcoming, :upcoming_soon] }), class: 'btn btn-outline-primary bg-body'
+    = link_to manage_bookings_path(filter: { current_booking_states: [:upcoming, :upcoming_soon] }), class: 'btn btn-outline-primary bg-body text-primary'
       = t('.canned_filter_upcoming')
   
   .dropdown.d-inline-block
@@ -22,7 +22,7 @@ h1.my-0= Booking.model_name.human(count: 2)
       = link_to(new_public_booking_path(booking: @filter&.derive_booking_attributes), class: 'dropdown-item')
         = t('.new_request')
       = link_to(new_manage_occupancy_path(occupancy: { begins_at: @filter.at_date, occupancy_type: :closed }), class: 'dropdown-item')
-        = t('.new_closed_occupancy')
+        = Occupancy.model_name.human
       = link_to(new_public_agent_booking_path(booking: @filter&.derive_booking_attributes), class: 'dropdown-item')
         = AgentBooking.model_name.human
       = link_to(import_manage_bookings_path, class: 'dropdown-item')
