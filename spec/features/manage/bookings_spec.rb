@@ -21,13 +21,13 @@ describe 'Bookings' do
   context OccupancyCalendar.to_s do
     it do
       visit calendar_manage_bookings_path
-      expect(page).to have_content(Time.zone.now.year)
+      expect(page).to have_text(Time.zone.now.year)
 
       date_element = find("time.date[datetime='#{definitive_request.begins_at.to_date.iso8601}']")
       svg_selector = "a.date-action .occupancy-calendar-date.has-occupancies svg .occupancy-slot[fill='#e85f5f']"
       expect(date_element).to have_selector(svg_selector)
       date_element.click
-      expect(page).to have_content(definitive_request.ref)
+      expect(page).to have_text(definitive_request.ref)
     end
   end
 
@@ -37,8 +37,8 @@ describe 'Bookings' do
       fill_in 'searchbar_query', with: definitive_request.ref
       within(id: 'searchbar') { click_button }
 
-      expect(page).to have_content definitive_request.ref
-      bookings.each { expect(page).to have_no_content(it.ref) }
+      expect(page).to have_text definitive_request.ref
+      bookings.each { expect(page).to have_no_text(it.ref) }
     end
 
     it 'can search with the filter' do
@@ -50,8 +50,8 @@ describe 'Bookings' do
       end
       submit_form
 
-      expect(page).to have_content definitive_request.ref
-      bookings.each { expect(page).to have_no_content(it.ref) }
+      expect(page).to have_text definitive_request.ref
+      bookings.each { expect(page).to have_no_text(it.ref) }
     end
   end
 end

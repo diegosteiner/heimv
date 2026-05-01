@@ -928,7 +928,7 @@ de:
       label_with_invoice: Vertrag und Akontorechnung/Offerte versenden
       label_without_invoice: Vertrag ohne Akontorechnung/Offerte versenden
     email_invoice:
-      label: Rechnung versenden
+      label: Rechnungen versenden
       label_with_ref: "%{type} %{ref} versenden"
     email_offer:
       label: Offerte versenden

@@ -14,7 +14,7 @@ describe 'Booking', :devise do
 
   it 'can create new booking' do
     visit new_manage_booking_path
-    expect(page).to have_content Booking.model_name.human
+    expect(page).to have_text Booking.model_name.human
   end
 
   it 'can see a booking' do
@@ -22,13 +22,13 @@ describe 'Booking', :devise do
     visit manage_bookings_path
     click_on(booking.ref)
     expect(page).to have_current_path(manage_booking_path(booking, org: nil, locale: :de))
-    expect(page).to have_content booking.ref
+    expect(page).to have_text booking.ref
   end
 
   it 'can edit existing booking' do
     visit edit_manage_booking_path(booking, org: nil)
     # expect(page.driver.browser.manage.logs.get(:browser)).to eq([])
     submit_form
-    expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human)
+    expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human)
   end
 end

@@ -100,7 +100,7 @@ describe 'Booking by tenant', :devise do
     flash = Rails::Html::FullSanitizer.new.sanitize(I18n.t('flash.public.bookings.create.notice',
                                                            email: tenant.email,
                                                            mailto_organisation: organisation.email))
-    expect(page).to have_content(flash)
+    expect(page).to have_text(flash)
     @booking = Booking.last
   end
 
@@ -112,41 +112,41 @@ describe 'Booking by tenant', :devise do
     choose 'booking[booking_category_id]', option: booking.category.id
     fill_in 'booking_purpose_description', with: booking.purpose_description
     submit_form
-    expect(page).to have_content(I18n.t('flash.actions.update.alert', resource_name: Booking.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.update.alert', resource_name: Booking.model_name.human))
     fill_in booking_question.label, with: '10'
     submit_form
-    expect(page).to have_content(I18n.t('flash.public.bookings.update.notice'))
+    expect(page).to have_text(I18n.t('flash.public.bookings.update.notice'))
   end
 
   def visit_booking
     visit manage_bookings_path
     click_on @booking.ref
-    expect(page).to have_content(@booking.tenant.email)
+    expect(page).to have_text(@booking.tenant.email)
   end
 
   def accept_booking
     visit manage_booking_path(@booking, org:)
     click_button BookingActions::Accept.t(:label)
     click_button BookingActions::PostponeDeadline.t(:label)
-    expect(page).to have_content(I18n.t('manage.bookings.booking_actions.invoke.success'))
+    expect(page).to have_text(I18n.t('manage.bookings.booking_actions.invoke.success'))
   end
 
   def commit_request
     visit public_booking_path(id: @booking.token)
     click_button BookingActions::CommitRequest.t(:label)
     page.driver.browser.switch_to.alert.accept
-    expect(page).to have_content(I18n.t('public.bookings.booking_actions.invoke.success'))
+    expect(page).to have_text(I18n.t('public.bookings.booking_actions.invoke.success'))
   end
 
   def choose_tarifs
     visit manage_booking_path(@booking, org:)
     find('.checklist a[aria-label="tarifs_chosen"]').click
     tarifs.each do |tarif|
-      expect(page).to have_content(tarif.label)
+      expect(page).to have_text(tarif.label)
     end
     all('input[type="checkbox"]:not(:checked)').each(&:check)
     submit_form
-    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human))
   end
 
   def create_contract
@@ -154,15 +154,15 @@ describe 'Booking by tenant', :devise do
     find('.checklist a[aria-label="contract_created"]').click
     visit new_manage_booking_contract_path(@booking, org:)
     submit_form
-    expect(page).to have_content(I18n.t('flash.actions.create.notice', resource_name: Contract.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.create.notice', resource_name: Contract.model_name.human))
   end
 
   def create_deposit
     visit manage_booking_path(@booking, org:)
     find('.checklist a[aria-label="deposit_created"]').click
     submit_form
-    expect(page).to have_content(I18n.t('flash.actions.create.notice',
-                                        resource_name: Invoices::Deposit.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.create.notice',
+                                     resource_name: Invoices::Deposit.model_name.human))
   end
 
   def confirm_booking
@@ -174,7 +174,7 @@ describe 'Booking by tenant', :devise do
     expect(page).to have_current_path(manage_booking_prepare_action_path(@booking, id: :mark_contract_signed, org:),
                                       ignore_query: true)
     click_button BookingActions::MarkContractSigned.label # confirm
-    expect(page).to have_content(I18n.t('manage.bookings.booking_actions.invoke.success'))
+    expect(page).to have_text(I18n.t('manage.bookings.booking_actions.invoke.success'))
   end
 
   def bide_booking
@@ -186,7 +186,7 @@ describe 'Booking by tenant', :devise do
     click_on :active
     click_on :allowed_transitions
     click_on :past
-    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human))
   end
 
   def set_usages
@@ -197,7 +197,7 @@ describe 'Booking by tenant', :devise do
       usage_field.fill_in with: 22
     end
     submit_form
-    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human))
   end
 
   def create_invoice
@@ -219,19 +219,19 @@ describe 'Booking by tenant', :devise do
     visit manage_booking_path(@booking, org:)
     find('[name="action"][value="email_invoice"]').click
     click_button I18n.t('manage.notifications.form.deliver')
-    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: Notification.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.update.notice', resource_name: Notification.model_name.human))
   end
 
   def finalize_booking
     visit manage_booking_path(@booking, org:)
     find('[name="action"][value="postpone_deadline"]').click
-    expect(page).to have_content(I18n.t('manage.bookings.booking_actions.invoke.success'))
+    expect(page).to have_text(I18n.t('manage.bookings.booking_actions.invoke.success'))
     visit manage_booking_invoices_path(@booking, org:)
     find('.btn-group .dropdown').click
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
     first('[type="submit"]')
     all('[type="submit"]').last.click
-    expect(page).to have_content(I18n.t('flash.actions.create.notice', resource_name: Payment.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.create.notice', resource_name: Payment.model_name.human))
   end
 
   def check_booking
@@ -253,9 +253,9 @@ describe 'Booking by tenant', :devise do
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
-        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
         submit_form
-        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
 
@@ -268,9 +268,9 @@ describe 'Booking by tenant', :devise do
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
 
-        expect(page).to have_content(I18n.t('public.bookings.form.occupancy_conflict_warning'))
+        expect(page).to have_text(I18n.t('public.bookings.form.occupancy_conflict_warning'))
         submit_form
-        expect(page).to have_no_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_no_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
 
@@ -289,7 +289,7 @@ describe 'Booking by tenant', :devise do
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
         submit_form
-        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
   end

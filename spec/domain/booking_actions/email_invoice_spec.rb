@@ -14,10 +14,10 @@ describe BookingActions::EmailInvoice do
   let(:booking) { create(:booking, :invoiced, organisation:) }
   let(:invoice) { booking.invoices.last }
 
-  let(:invoke) { action.invoke(invoice_id: invoice.id) }
+  let(:invoke) { action.invoke(invoice_ids: invoice.id) }
 
   describe '#invokable?' do
-    it { expect(action).to be_invokable(invoice_id: invoice.id) }
+    it { expect(action).to be_invokable(invoice_ids: invoice.id) }
   end
 
   describe '#invoke' do

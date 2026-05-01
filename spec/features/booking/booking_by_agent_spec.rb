@@ -91,7 +91,7 @@ describe 'Booking by agent', :devise do
     fill_in 'agent_booking_booking_agent_ref', with: agent_ref
     submit_form
 
-    expect(page).to have_content(I18n.t('flash.actions.create.notice', resource_name: AgentBooking.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.create.notice', resource_name: AgentBooking.model_name.human))
     expect(@agent_booking = AgentBooking.last).to be_valid
     expect(@agent_booking.booking_agent_ref).to eq(agent_ref)
   end
@@ -103,10 +103,10 @@ describe 'Booking by agent', :devise do
     fill_in 'agent_booking_tenant_infos', with: tenant_infos.join("\n")
     fill_in 'agent_booking_tenant_email', with: tenant.email
     submit_form
-    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: AgentBooking.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.update.notice', resource_name: AgentBooking.model_name.human))
 
     click_button BookingActions::CommitBookingAgentRequest.t(:label)
-    expect(page).to have_no_content(I18n.t('flash.actions.update.alert', resource_name: AgentBooking.model_name.human))
+    expect(page).to have_no_text(I18n.t('flash.actions.update.alert', resource_name: AgentBooking.model_name.human))
   end
 
   def accept_booking
@@ -121,7 +121,7 @@ describe 'Booking by agent', :devise do
     fill_in 'booking_purpose_description', with: booking.purpose_description
     fill_tenant_form(tenant)
     submit_form
-    expect(page).to have_content(I18n.t('flash.public.bookings.update.notice'))
+    expect(page).to have_text(I18n.t('flash.public.bookings.update.notice'))
   end
 
   def check_booking
@@ -148,7 +148,7 @@ describe 'Booking by agent', :devise do
         fill_in 'agent_booking_booking_agent_ref', with: agent_ref
 
         submit_form
-        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
 
@@ -163,7 +163,7 @@ describe 'Booking by agent', :devise do
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
         click_on 'agent-booking-button'
-        expect(page).to have_content(I18n.t('public.bookings.form.occupancy_conflict_warning'))
+        expect(page).to have_text(I18n.t('public.bookings.form.occupancy_conflict_warning'))
 
         choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
         fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
@@ -171,7 +171,7 @@ describe 'Booking by agent', :devise do
         submit_form
 
         # Don't allow agent bookings onto the waitlist
-        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
   end

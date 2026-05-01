@@ -22,7 +22,7 @@ module SpecHelpers
       fill_in :user_email, with: email
       fill_in :user_password, with: password
       submit_form
-      expect(page).to have_content(I18n.t('devise.sessions.signed_in')) if verify
+      expect(page).to have_text(I18n.t('devise.sessions.signed_in')) if verify
     end
 
     def sign_out

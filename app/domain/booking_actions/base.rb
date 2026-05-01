@@ -33,11 +33,11 @@ module BookingActions
     end
 
     def invoke(**)
-      raise NotInvokable unless invokable?(**)
+      raise NotInvokable, BookingActions::Base.translate(:not_allowed) unless invokable?(**)
 
       invoke!(**)
-    rescue NotInvokable
-      Result.failure error: BookingActions::Base.translate(:not_allowed)
+    rescue NotInvokable => e
+      Result.failure error: e.message
     rescue Statesman::TransitionConflictError, StandardError => e
       raise e unless Rails.env.production?
 

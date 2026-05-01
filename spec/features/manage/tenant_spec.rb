@@ -17,18 +17,18 @@ describe 'Tenant', :devise do
     fill_in :tenant_last_name, with: new_tenant.last_name
     fill_in :tenant_email, with: new_tenant.email
     submit_form
-    expect(page).to have_content I18n.t('flash.actions.create.notice', resource_name: Tenant.model_name.human)
-    expect(page).to have_content new_tenant.first_name
-    expect(page).to have_content new_tenant.last_name
-    expect(page).to have_content new_tenant.email
+    expect(page).to have_text I18n.t('flash.actions.create.notice', resource_name: Tenant.model_name.human)
+    expect(page).to have_text new_tenant.first_name
+    expect(page).to have_text new_tenant.last_name
+    expect(page).to have_text new_tenant.email
   end
 
   it 'can see a tenant' do
     visit manage_tenants_path(org:)
     click_link tenant.name
-    expect(page).to have_content tenant.first_name
-    expect(page).to have_content tenant.last_name
-    expect(page).to have_content tenant.email
+    expect(page).to have_text tenant.first_name
+    expect(page).to have_text tenant.last_name
+    expect(page).to have_text tenant.email
   end
 
   it 'can edit existing tenant' do
@@ -38,10 +38,10 @@ describe 'Tenant', :devise do
     fill_in :tenant_last_name, with: new_tenant.last_name
     fill_in :tenant_email, with: new_tenant.email
     submit_form
-    expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Tenant.model_name.human)
-    expect(page).to have_content new_tenant.first_name
-    expect(page).to have_content new_tenant.last_name
-    expect(page).to have_content new_tenant.email
+    expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: Tenant.model_name.human)
+    expect(page).to have_text new_tenant.first_name
+    expect(page).to have_text new_tenant.last_name
+    expect(page).to have_text new_tenant.email
   end
 
   it 'can delete existing tenant' do
@@ -51,7 +51,7 @@ describe 'Tenant', :devise do
     end
 
     page.driver.browser.switch_to.alert.accept
-    expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: Tenant.model_name.human)
-    expect(page).to have_no_content tenant.full_name
+    expect(page).to have_text I18n.t('flash.actions.destroy.notice', resource_name: Tenant.model_name.human)
+    expect(page).to have_no_text tenant.full_name
   end
 end
