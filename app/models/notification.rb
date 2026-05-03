@@ -37,7 +37,7 @@ class Notification < ApplicationRecord
   before_save :deliver_to, :deliver_cc
 
   attribute :template_context
-  validates :to, :locale, presence: true
+  validates :to, :deliver_to, :locale, presence: true
   validate do
     errors.add(:to, :invalid) unless deliver_to.all? { EmailAddress.valid?(it, host_validation: :syntax) }
     errors.add(:cc, :invalid) unless deliver_cc.all? { EmailAddress.valid?(it, host_validation: :syntax) }
