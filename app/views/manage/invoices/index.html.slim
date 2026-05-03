@@ -125,8 +125,8 @@
                           = t(:add_record, model_name: Payment.model_name.human)
                       - unless invoice.sent?
                         - email_invoice_action = invoice.booking.booking_flow.manage_actions[:email_invoice]
-                        - if email_invoice_action.invokable?(invoice_ids: [invoice.id])
-                          = button_to manage_booking_invoke_action_path(invoice.booking), method: :post, params: { id: email_invoice_action.key, invoice_id: invoice.id, locale: current_locale }, class: 'dropdown-item'
+                        - if email_invoice_action.invokable?(invoice_ids: invoice.id)
+                          = button_to manage_booking_invoke_action_path(invoice.booking), method: :post, params: { id: email_invoice_action.key, invoice_ids: invoice.id, locale: current_locale }, class: 'dropdown-item'
                             = email_invoice_action.label
                         - mark_invoice_sent_action = invoice.booking.booking_flow.manage_actions[:mark_invoice_sent]
                         - if mark_invoice_sent_action.invokable?(invoice_id: invoice.id)
