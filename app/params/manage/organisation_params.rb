@@ -16,8 +16,8 @@ module Manage
 
     def self.settings_permitted_keys
       %i[tenant_birth_date_required booking_window last_minute_warning upcoming_soon_window
-         occupied_occupancy_color tentative_occupancy_color closed_occupancy_color
-         predefined_salutation_form contract_sign_by_click_enabled
+         occupied_occupancy_color tentative_occupancy_color closed_occupancy_color predefined_salutation_form
+         contract_sign_by_click_enabled qr_bill_creditor_address_as_invoice_address
          default_begins_at_time default_ends_at_time] +
         [{ locales: [], available_begins_at_times: [], available_ends_at_times: [], public_occupancy_visibility: [] }]
     end

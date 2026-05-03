@@ -26,8 +26,9 @@ class MailTemplate < RichTextTemplate
 
     booking&.notifications&.build(to:, **) do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
-      notification.destroy && return unless notification.deliverable?
+      return if notification.deliver_to.blank?
 
+      notification.validate!
       notification.attach(designated_documents.for_booking(booking))
       notification.tap(&callback) if callback.present?
     end

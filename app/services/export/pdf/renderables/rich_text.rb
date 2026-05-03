@@ -26,7 +26,7 @@ module Export
         end
 
         def render
-          @body.gsub('☐▢')
+          # @body.gsub('☐▢')
           @document.markup(@body, **markup_options)
         end
 
