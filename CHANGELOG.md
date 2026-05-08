@@ -1,5 +1,14 @@
 # Changelog
 
+## 26.5.1
+
+Released 08.05.2026
+
+- Fix: Valdiate that bookings must be longer than 0s
+- Fix: Replace default pdf font with NotoSans to support more glyphs
+- Fix: Add more french translations
+- Feature: Show sent but undelivered emails in outbox
+
 ## 26.4.2
 
 Released 30.04.2026
