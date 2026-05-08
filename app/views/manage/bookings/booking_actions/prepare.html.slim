@@ -1,6 +1,3 @@
 = render partial: 'manage/bookings/navigation', locals: { booking: @booking }
-
-- begin
-  = render partial: @booking_action.to_partial_path('prepare'), locals: { invoke_path: manage_booking_invoke_action_path(@booking), back_path: manage_booking_path(@booking) }
-- rescue ActionView::MissingTemplate
+= render_partial_or_default  @booking_action.to_partial_path('prepare'), locals: { invoke_path: manage_booking_invoke_action_path(@booking), back_path: manage_booking_path(@booking) } do 
   .alert.alert-danger= t('.missing_template')

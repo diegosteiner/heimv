@@ -1,4 +1,10 @@
-= render partial: 'manage/bookings/navigation', locals: { booking: @booking }
-
-= render partial: @booking_action.to_partial_path('prepare'), locals: { invoke_path: public_booking_invoke_action_path(@booking.token), back_path: public_booking_path(@booking.token) }
-
+= render_partial_or_default @booking_action.to_partial_path('prepare'), locals: { invoke_path: public_booking_invoke_action_path(@booking.token), back_path: public_booking_path(@booking.token) }
+  .row.justify-content-center
+    .col-lg-8
+      .card.shadow-sm
+        .card-body
+          h2.mt-0= @booking_action.label
+          = form_with(url: public_booking_invoke_action_path(@booking.token, @booking_action.key), method: :POST, local: true) do |f|
+            = f.button name: :id, value: @booking_action.key, type: :submit, class: 'btn btn-primary', data: { confirm: t(:confirm), disable_with: @booking_action.label }
+              = @booking_action.label
+            = link_to t(:back), public_booking_path(@booking.token), class: 'btn btn-outline-primary ms-2'
