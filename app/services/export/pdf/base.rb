@@ -45,11 +45,13 @@ module Export
         document.render
       end
 
-      add_font_family('OpenSans',
-                      normal: File.join(FONTS_PATH, 'OpenSans-Regular.ttf'),
-                      italic: File.join(FONTS_PATH, 'OpenSans-Italic.ttf'),
-                      bold: File.join(FONTS_PATH, 'OpenSans-Bold.ttf'),
-                      bold_italic: File.join(FONTS_PATH, 'OpenSans-BoldItalic.ttf'))
+      add_font_family('NotoSans',
+                      normal: File.join(FONTS_PATH, 'NotoSans-Regular.ttf'),
+                      italic: File.join(FONTS_PATH, 'NotoSans-Italic.ttf'),
+                      bold: File.join(FONTS_PATH, 'NotoSans-Bold.ttf'),
+                      bold_italic: File.join(FONTS_PATH, 'NotoSans-BoldItalic.ttf'))
+
+      add_font_family('NotoSansSymbols', normal: File.join(FONTS_PATH, 'NotoSansSymbols2.ttf'))
 
       def document
         @document ||= initialize_document
@@ -58,9 +60,9 @@ module Export
       def initialize_document
         Prawn::Document.new(document_options).tap do |document|
           document.font_families.update(self.class.font_families)
-          document.font('OpenSans')
+          document.fallback_fonts(%w[NotoSans NotoSansSymbols])
+          document.font('NotoSans')
           document.font_size(self.class.font_size)
-          document.default_leading(3)
         end
       end
 
