@@ -713,6 +713,7 @@ fr:
               invalid_transition: 'Changement de statut non valide : %{transition}'
           too_far_in_future: est trop loin dans le futur
           too_far_in_past: est trop loin dans le passé
+          too_short:
         tenant:
           incomplete: Données incomplètes
     models:

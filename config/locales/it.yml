@@ -713,6 +713,7 @@ it:
               invalid_transition: 'Transizione di stato non valida: %{transition}'
           too_far_in_future: è troppo lontano nel futuro
           too_far_in_past: è troppo lontano nel passato
+          too_short:
         tenant:
           incomplete: Informazioni incomplete
     models:

@@ -717,6 +717,7 @@ de:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
+          too_short: ist zu kurz
         tenant:
           incomplete: Angaben unvollständig
     models:

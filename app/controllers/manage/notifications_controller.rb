@@ -9,7 +9,7 @@ module Manage
     def index
       @notifications = @notifications.joins(:booking).where(booking: { organisation: current_organisation })
                                      .order(created_at: :DESC)
-      @notifications = @notifications.unsent if @booking.blank?
+      @notifications = @notifications.outbox if @booking.blank?
       respond_with :manage, @notifications
     end
 

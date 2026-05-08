@@ -138,6 +138,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validate on: %i[public_create public_update agent_create agent_update] do
     window = organisation.settings.booking_window
     errors.add(:begins_at, :too_far_in_future) if begins_at_changed? && window && begins_at&.>(window.from_now)
+    errors.add(:base, :too_short) if duration&.zero?
   end
 
   validate on: %i[public_create public_update agent_create agent_update manage_create manage_update] do
