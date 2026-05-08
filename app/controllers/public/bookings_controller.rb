@@ -2,7 +2,7 @@
 
 module Public
   class BookingsController < BaseController
-    before_action :set_booking, only: %i[show edit update]
+    before_action :set_booking, only: %i[show confirm edit update]
     respond_to :html
 
     def show
@@ -28,7 +28,7 @@ module Public
 
       respond_to do |format|
         if @booking.save(context: :public_create)
-          format.html { render :confirm }
+          format.html { redirect_to confirm_public_booking_path(@booking.token) }
           format.json { render json: { status: :created }, status: :created }
         else
           format.html { render :new }
@@ -36,6 +36,8 @@ module Public
         end
       end
     end
+
+    def confirm; end
 
     def update
       process_booking_question_responses

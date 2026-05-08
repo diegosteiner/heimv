@@ -1495,6 +1495,8 @@ it:
         template_context:
           booking:
           contract:
+          deposit:
+          deposits:
           invoice:
           invoices:
           organisation:

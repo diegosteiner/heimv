@@ -13,7 +13,6 @@
     },
     {
       "matchUpdateTypes": ["major"],
-      "groupName": "Major Updates",
       "prCreation": "immediate",
       "automerge": false,
       "minimumReleaseAge": "7 days"
