@@ -13,7 +13,6 @@
     },
     {
       "matchUpdateTypes": ["major"],
-      "groupName": "Major Updates",
       "prCreation": "immediate",
       "automerge": false,
       "minimumReleaseAge": "7 days"
@@ -37,14 +36,6 @@
     {
       "matchPackageNames": ["ttfunk", "prawn"],
       "groupName": "ttfunk-and-prawn",
-      "separateMajorMinor": true,
-      "separateMinorPatch": true,
-      "rebaseWhen": "explicit",
-      "automerge": false
-    },
-    {
-      "matchPackageNames": ["selenium/standalone-chrome"],
-      "groupName": "selenium",
       "separateMajorMinor": true,
       "separateMinorPatch": true,
       "rebaseWhen": "explicit",

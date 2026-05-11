@@ -240,7 +240,7 @@ de:
     default_body: |
       <p>Hallo</p>
 
-      <p>Die Buchung {{ booking.ref }} im Heim <strong>{{ booking.home.name }}</strong> findet nicht statt</p>\
+      <p>Die Buchung {{ booking.ref }} im Heim <strong>{{ booking.home.name }}</strong> findet nicht statt.</p>
 
       <p><strong>Reservationsdetails</strong></p>
 
@@ -278,7 +278,7 @@ de:
     default_body: |
       <p>{{ booking.tenant.salutation }}</p>
 
-      <p>Wie schon persönlich besprochen, ist der Vertrag für untenstehende Reservation nicht zustande gekommen oder Du bist vom Vertrag zurückgetreten. Wir haben die Reservation deshalb annulliert.</p>
+      <p>Wie bereits besprochen, ist der Vertrag für untenstehende Reservation nicht zustande gekommen oder Du bist vom Vertrag zurückgetreten. Wir haben die Reservation deshalb annulliert.</p>
 
       <p><strong>Reservationsdetails</strong></p>
 

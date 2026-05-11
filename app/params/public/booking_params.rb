@@ -6,6 +6,7 @@ module Public
       def self.permitted_keys
         [:tenant_organisation, :cancellation_reason, :locale, :committed_request, :use_invoice_address, :invoice_cc,
          :purpose_description, :booking_category_id, :approximate_headcount, :remarks, :begins_at, :ends_at,
+         :occupiable_ids,
          { tenant_attributes: TenantParams.permitted_keys.without(:email), occupiable_ids: [],
            deadlines_attributes: %i[id postpone],
            invoice_address: AddressParams.permitted_keys }]

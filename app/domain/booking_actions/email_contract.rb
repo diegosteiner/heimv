@@ -55,7 +55,9 @@ module BookingActions
 
     def notify_operators(deposits)
       context = { contract:, deposit: deposits.one? ? deposits.first : nil, deposits: }
-      Notification.dedup(booking, to: %i[billing home_handover home_return]) do |to|
+      operators = %i[home_handover home_return]
+      operators << :billing if deposits.present?
+      Notification.dedup(booking, to: operators) do |to|
         MailTemplate.use(:operator_email_contract_notification, booking, to:, context:)&.tap do |mail|
           mail.attach contract, deposits
           mail.autodeliver!

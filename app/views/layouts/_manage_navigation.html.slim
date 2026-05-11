@@ -20,7 +20,7 @@ nav.px-3
       li.nav-item
         = link_to Occupiable.model_name.human(count: 2), manage_occupiables_path, class: 'nav-link' 
 
-      - outbox_count = current_organisation.notifications.unsent.count        
+      - outbox_count = current_organisation.notifications.outbox.count
       - if outbox_count.positive?
         li.nav-item
           = link_to  manage_notifications_path, class: 'nav-link' do
