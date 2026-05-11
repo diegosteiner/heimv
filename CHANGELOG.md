@@ -2,7 +2,7 @@
 
 ## 26.5.1
 
-Released 08.05.2026
+Released 11.05.2026
 
 - Fix: Valdiate that bookings must be longer than 0s
 - Fix: Replace default pdf font with NotoSans to support more glyphs
