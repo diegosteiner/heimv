@@ -77,6 +77,7 @@ Rails.application.routes.draw do
       get 'designated_documents/:designation', to: 'designated_documents#show', as: :public_designated_document
       resources :agent_bookings, except: %i[destroy], as: :public_agent_bookings
       resources :bookings, except: :destroy, as: :public_bookings do
+        get :confirm, on: :member
         scope module: :bookings do
           post 'actions(/:id)', to: 'booking_actions#invoke', as: :invoke_action
           get 'actions(/:id)', to: 'booking_actions#prepare', as: :prepare_action

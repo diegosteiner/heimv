@@ -33,7 +33,13 @@ class Notification < ApplicationRecord
   has_many :contracts, foreign_key: :sent_with_notification_id, inverse_of: :sent_with_notification, dependent: :nullify
   has_many :invoices, foreign_key: :sent_with_notification_id, inverse_of: :sent_with_notification, dependent: :nullify
 
-  scope :unsent, -> { where(sent_at: nil) }
+  scope :unsent, -> { deliverable.where(sent_at: nil) }
+  scope :outbox, -> { unsent.or(undelivered).distinct }
+  scope :undelivered, -> { deliverable.where.not(sent_at: nil).where(delivered_at: nil) }
+  scope :deliverable, lambda {
+    where(booking: { deliver_notifications: true, organisations: { deliver_notifications: true } })
+      .joins(booking: :organisation).where.not(deliver_to: nil)
+  }
   before_save :deliver_to, :deliver_cc
 
   attribute :template_context

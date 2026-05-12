@@ -11,7 +11,6 @@ class SmtpSettings
   attribute :tls, :boolean, default: false
   attribute :authentication, :string
   attribute :enable_starttls, default: -> { 'auto' }
-  attribute :starttls
   attribute :open_timeout, :integer, default: 5
   attribute :read_timeout, :integer, default: 5
 
@@ -23,9 +22,9 @@ class SmtpSettings
     # :enable_starttls and :tls are mutually exclusive. Set :tls if you're on an SMTPS connection.
     # Set :enable_starttls if you're on an SMTP connection and using STARTTLS for secure TLS upgrade
     if tls || ssl
-      attributes.symbolize_keys.except(:enable_starttls)
+      attributes.symbolize_keys.except(:enable_starttls, :enable_starttls_auto)
     else
-      attributes.symbolize_keys.except(:tls, :ssl)
+      attributes.symbolize_keys.except(:tls, :ssl).merge(enable_starttls_auto: enable_starttls == 'auto')
     end
   end
 
