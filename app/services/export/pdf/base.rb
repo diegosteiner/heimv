@@ -51,7 +51,10 @@ module Export
                       bold: File.join(FONTS_PATH, 'NotoSans-Bold.ttf'),
                       bold_italic: File.join(FONTS_PATH, 'NotoSans-BoldItalic.ttf'))
 
-      add_font_family('NotoSansSymbols', normal: File.join(FONTS_PATH, 'NotoSansSymbols2.ttf'))
+      add_font_family('NotoSansSymbols', normal: File.join(FONTS_PATH, 'NotoSansSymbols2.ttf'),
+                                         italic: File.join(FONTS_PATH, 'NotoSansSymbols2.ttf'),
+                                         bold: File.join(FONTS_PATH, 'NotoSansSymbols2.ttf'),
+                                         bold_italic: File.join(FONTS_PATH, 'NotoSansSymbols2.ttf'))
 
       def document
         @document ||= initialize_document
