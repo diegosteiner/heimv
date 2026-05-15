@@ -63,7 +63,8 @@
       
       fieldset 
         h4= AgentBooking.model_name.human
-        = f.text_field :booking_agent_code, disabled: !@agent_booking.booking_agent_responsible?
+        - if @agent_booking.new_record?
+          = f.text_field :booking_agent_code
         = f.text_field :booking_agent_ref, required: false, disabled: !@agent_booking.booking_agent_responsible?
 
       .form-actions.pt-4.mt-3

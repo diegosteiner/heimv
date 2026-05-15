@@ -113,7 +113,7 @@ describe BookingFlows::Default do
 
       it do
         is_expected.to transition_to(:booking_agent_request).from(:open_request)
-        expect(booking).to be_pending
+        expect(booking).to be_tentative
         expect(booking.deadline).to be_armed
         expect(booking).to notify(:booking_agent_request_notification).to(:booking_agent)
       end

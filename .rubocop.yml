@@ -47,7 +47,6 @@ Naming/PredicateMethod:
 Style/ItBlockParameter:
   Enabled: false
 
-
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*"
@@ -94,7 +93,7 @@ RSpec/InstanceVariable:
     - "spec/features/booking/**/*_spec.rb"
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 10
+  Max: 12
   Exclude:
     - "spec/features/booking/**/*_spec.rb"
 
