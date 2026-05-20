@@ -1,5 +1,5 @@
 ### === base === ###
-FROM ruby:4.0.3-alpine AS base
+FROM ruby:4.0.5-alpine AS base
 RUN apk add --no-cache --update postgresql-dev yaml-dev tzdata nodejs npm libffi-dev curl && \
     gem install bundler
 
