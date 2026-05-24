@@ -6,9 +6,9 @@ describe BookingActions::PutOnWaitlist, :pending do # rubocop:disable RSpec/Pend
   subject(:action) { described_class.new(booking, :put_on_waitlist) }
 
   let(:initial_state) { :open_request }
-  let(:booking) { create(:booking, initial_state:, committed_request: false, occupiables: [occupiable]) }
+  let(:booking) { create(:booking, initial_state:, committed_request: false, home: occupiable) }
   let(:organisation) { create(:organisation) }
-  let(:occupiable) { create(:occupiable, organisation:) }
+  let(:occupiable) { create(:home, organisation:) }
   let(:current_user) { create(:organisation_user, organisation:, role: :manager) }
 
   describe '#invoke' do

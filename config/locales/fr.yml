@@ -922,6 +922,8 @@ fr:
       label_with_ref: envoyer %{type} %{ref}
     email_offer:
       label: Envoyer une offre
+    manage_commit_request:
+      label:
     mark_contract_sent:
       label: Marquer le contrat comme envoyé
     mark_contract_signed:
@@ -1314,6 +1316,7 @@ fr:
         other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
       odd: doit être impair
       other_than: doit être différent de %{count}
+      password_too_long: est trop long
       present: doit être vide
       required: doit exister
       taken: est déjà utilisé(e)

@@ -46,7 +46,7 @@ RSpec.describe BookingConditions::Occupiable do
 
     describe 'occupiable' do
       context 'with occupiable by id' do
-        let(:booking) { create(:booking, organisation:, occupiables: [occupiable], home: occupiable) }
+        let(:booking) { create(:booking, organisation:, home: occupiable) }
 
         it { is_expected.to be_truthy }
       end

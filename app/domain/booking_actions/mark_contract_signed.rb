@@ -25,11 +25,11 @@ module BookingActions
     end
 
     def invokable?(signed_pdf: nil, current_user: nil)
-      booking.contract&.sent?
+      booking.contract.present?
     end
 
     def invokable_with(current_user: nil)
-      { prepare: true } if invokable?(current_user:) && !booking.contract&.signed?
+      { prepare: true } if booking.contract&.sent? && !booking.contract.signed?
     end
 
     protected

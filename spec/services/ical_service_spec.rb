@@ -14,7 +14,7 @@ RSpec.describe IcalService, type: :model do
     let(:organisation) { create(:organisation) }
     let(:home) { create(:home, organisation:) }
     let(:bookings) do
-      create_list(:booking, 3, organisation:, home:, occupiables: [home])
+      create_list(:booking, 3, organisation:, home:)
     end
 
     it 'generates the ics file' do

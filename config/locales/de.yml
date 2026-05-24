@@ -933,6 +933,8 @@ de:
       label_with_ref: "%{type} %{ref} versenden"
     email_offer:
       label: Offerte versenden
+    manage_commit_request:
+      label: Anfrage als definitv markieren
     mark_contract_sent:
       label: Vertrag als versendet markieren
     mark_contract_signed:
