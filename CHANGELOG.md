@@ -1,5 +1,13 @@
 # Changelog
 
+## 26.5.2
+
+Released 25.05.2026
+
+- Fix: Validate homes and occipiables against eachother
+- Fix: Hide new sent notifications from the outbox
+- Fix: Readd commit action for managers
+
 ## 26.5.1
 
 Released 11.05.2026

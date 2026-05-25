@@ -922,6 +922,8 @@ it:
       label_with_ref:
     email_offer:
       label:
+    manage_commit_request:
+      label:
     mark_contract_sent:
       label:
     mark_contract_signed:
