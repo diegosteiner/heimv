@@ -922,6 +922,8 @@ fr:
       label_with_ref: envoyer %{type} %{ref}
     email_offer:
       label: Envoyer une offre
+    manage_commit_request:
+      label:
     mark_contract_sent:
       label: Marquer le contrat comme envoyé
     mark_contract_signed:

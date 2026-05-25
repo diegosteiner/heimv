@@ -68,7 +68,8 @@ module BookingFlows
         mark_contract_signed: BookingActions::MarkContractSigned,
         decline: BookingActions::Decline,
         revert_cancel: BookingActions::RevertCancel,
-        clear_waitlist: BookingActions::ClearWaitlist
+        clear_waitlist: BookingActions::ClearWaitlist,
+        manage_commit_request: BookingActions::ManageCommitRequest
       }
     end
 

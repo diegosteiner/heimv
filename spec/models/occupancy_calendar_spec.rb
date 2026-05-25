@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe OccupancyCalendar do
   let(:calendar) { described_class.new(organisation:, occupiables: [occupiable]) }
   let(:organisation) { create(:organisation, settings: { booking_window: 'P1Y' }) }
-  let(:occupiable) { create(:occupiable, organisation:) }
+  let(:occupiable) { create(:home, organisation:) }
   let(:other_occupiable) { create(:occupiable, organisation:) }
 
   describe '#occupancies' do
@@ -29,7 +29,7 @@ RSpec.describe OccupancyCalendar do
                                            begins_at: 2.weeks.ago, ends_at: 1.week.ago),
         invisible_future: create(:occupancy, occupiable:, occupancy_type: :occupied, remarks: :invisible_future,
                                              begins_at: 3.years.from_now, ends_at: (3.years + 1.week).from_now),
-        invisible_concluded: create(:booking, occupiables: [occupiable], remarks: :invisible_concluded,
+        invisible_concluded: create(:booking, home: occupiable, remarks: :invisible_concluded,
                                               occupancy_type: :free, concluded: true, initial_state: :declined_request,
                                               begins_at: 13.weeks.from_now, ends_at: 14.weeks.from_now).occupancies[0]
       }
