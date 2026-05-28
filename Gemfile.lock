@@ -104,7 +104,7 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    barnes (1.0.0)
+    barnes (1.0.1)
       json
       logger
       ostruct
@@ -122,7 +122,7 @@ GEM
     brakeman (8.0.4)
       racc
     builder (3.3.0)
-    bullet (8.1.1)
+    bullet (8.1.2)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     bundler-audit (0.9.3)
@@ -280,7 +280,7 @@ GEM
       logger
       ostruct
     ice_cube (0.17.0)
-    image_processing (2.0.0)
+    image_processing (2.0.1)
     interception (0.5)
     io-console (0.8.2)
     irb (1.18.0)
@@ -289,7 +289,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.19.5)
+    json (2.19.7)
     jwt (3.2.0)
       base64
     kramdown (2.5.2)
@@ -416,7 +416,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (8.0.1)
+    puma (8.0.2)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
@@ -538,7 +538,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
-    rubocop-rails (2.35.2)
+    rubocop-rails (2.35.3)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
