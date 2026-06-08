@@ -6,7 +6,7 @@ class Invoice
     attribute :issued_at_before, :datetime
     attribute :payable_until_after, :datetime
     attribute :payable_until_before, :datetime
-    attribute :invoice_types, default: -> { [] }
+    attribute :invoice_types
     attribute :statuses
     attribute :ref
 
@@ -23,7 +23,8 @@ class Invoice
     end
 
     filter :statuses do |invoices|
-      invoices.where(status: statuses) if statuses.present?
+      status = Array.wrap(statuses).compact_blank
+      invoices.where(status:) if status.present?
     end
 
     filter :ref do |invoices|
@@ -31,8 +32,8 @@ class Invoice
     end
 
     filter :invoice_types do |invoices|
-      invoice_types = Array.wrap(self.invoice_types).compact_blank
-      invoices.where(type: invoice_types) if invoice_types.present?
+      type = Array.wrap(invoice_types).compact_blank
+      invoices.where(type:) if type.present?
     end
   end
 end
