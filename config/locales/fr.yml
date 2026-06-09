@@ -915,8 +915,9 @@ fr:
     email_contract:
       confirm: Envoyer vraiment le contrat sans facture d'acompte ?
       label: Envoyer le contrat
-      label_with_invoice: Envoyer le contrat avec facture
-      label_without_invoice: Envoyer le contrat sans facture
+      label_contract_only: Envoyer le contrat sans facture
+      label_with_deposits: Envoyer le contrat avec facture
+      label_with_offers: Envoyer le contrat avec offre
     email_invoice:
       label: Envoyer une facture
       label_with_ref: envoyer %{type} %{ref}

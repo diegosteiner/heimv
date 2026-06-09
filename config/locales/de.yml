@@ -926,8 +926,9 @@ de:
     email_contract:
       confirm: Den Vertrag wirklich ohne Akontorechnung versenden?
       label: Vertrag versenden
-      label_with_invoice: Vertrag und Akontorechnung/Offerte versenden
-      label_without_invoice: Vertrag ohne Akontorechnung/Offerte versenden
+      label_contract_only: Vertrag ohne Akontorechnung/Offerte versenden
+      label_with_deposits: Vertrag und Akontorechnung versenden
+      label_with_offers: Vertrag und Offerte versenden
     email_invoice:
       label: Rechnungen versenden
       label_with_ref: "%{type} %{ref} versenden"

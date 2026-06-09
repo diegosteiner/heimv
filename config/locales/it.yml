@@ -915,8 +915,9 @@ it:
     email_contract:
       confirm:
       label:
-      label_with_invoice:
-      label_without_invoice:
+      label_contract_only:
+      label_with_deposits:
+      label_with_offers:
     email_invoice:
       label: Inviare la fattura
       label_with_ref:
