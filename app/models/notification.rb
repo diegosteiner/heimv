@@ -32,6 +32,9 @@ class Notification < ApplicationRecord
   has_one :organisation, through: :booking
   has_many :contracts, foreign_key: :sent_with_notification_id, inverse_of: :sent_with_notification, dependent: :nullify
   has_many :invoices, foreign_key: :sent_with_notification_id, inverse_of: :sent_with_notification, dependent: :nullify
+  has_many :notification_attached_designated_documents, dependent: :destroy, inverse_of: :notification
+  has_many :attached_designated_documents, through: :notification_attached_designated_documents,
+                                           source: :designated_document
 
   scope :unsent, -> { deliverable.where(sent_at: nil) }
   scope :outbox, -> { unsent.or(undelivered).distinct }
@@ -83,7 +86,7 @@ class Notification < ApplicationRecord
   end
 
   def attach(...)
-    @attachment_manager ||= AttachmentManager.new(booking, target: attachments)
+    @attachment_manager ||= AttachmentManager.new(self, target: attachments)
     @attachment_manager.attach_all(...)
   end
 
