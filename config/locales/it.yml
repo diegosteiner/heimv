@@ -1470,8 +1470,8 @@ it:
         unprocessed:
     notifications:
       form:
-        deliver:
-        not_sent:
+        deliver: Salvare e inviare
+        not_sent: Questo messaggio non è ancora stato inviato
     organisation_users:
       form:
         regenerate_token:
@@ -1485,7 +1485,7 @@ it:
         title: Processo di prenotazione
     payments:
       form:
-        save_and_confirm:
+        save_and_confirm: Salvare e inviare la conferma di pagamento
       index:
         new_import: Importa i pagamenti dal file CAMT.054
       new_import:
@@ -1506,19 +1506,19 @@ it:
           organisation:
           other:
       index:
-        booking_action:
+        booking_action: Azione
         booking_state:
         create_missing:
         created_missing:
         document: Documento
         missing_templates:
-        rich_text_templates_by_booking_action:
-        rich_text_templates_by_booking_state:
-        rich_text_templates_by_document:
-        rich_text_templates_by_rest:
+        rich_text_templates_by_booking_action: Azioni
+        rich_text_templates_by_booking_state: Stato della prenotazione
+        rich_text_templates_by_document: Documenti
+        rich_text_templates_by_rest: Altro
     tarifs:
       form:
-        minimum:
+        minimum: Minimo
   nav:
     edit_account: Gestione dell'account
     manage: Amministrazione
@@ -1579,8 +1579,8 @@ it:
           pb: PB
           tb: TB
     nth:
-      ordinalized:
-      ordinals:
+      ordinalized: "%{number}."
+      ordinals: "."
     percentage:
       format:
         delimiter:
@@ -1621,24 +1621,24 @@ it:
         title: Modifica della prenotazione
       form:
         tenant_email_help: NON utilizzare l'indirizzo e-mail del mediatore. Abbiamo bisogno dell'indirizzo e-mail dell'inquilino solo quando la richiesta diventa definitiva per poterla contattare.
-        tenant_infos_help:
+        tenant_infos_help: Nome della persona responsabile, ulteriori informazioni sulla mediazione
       new:
         title: Prenotazione
     bookings:
       booking_actions:
         invoke:
-          failure:
-          success:
+          failure: Azione fallita
+          success: Azione riuscita
       confirm:
-        title:
+        title: Confermare l'indirizzo e-mail
       edit:
         title: Modifica della prenotazione
       form:
         booking_details: Dettagli della prenotazione
-        committed_request_definitive_request_help:
-        committed_request_provisional_request_help:
+        committed_request_definitive_request_help: Impegno vincolante. Il contratto viene preparato e consegnato se l'amministrazione accetta la richiesta
+        committed_request_provisional_request_help: Richiesta non vincolante. Accettazione o cancellazione entro il termine stabilito
         last_minute_warning: Attenzione! La data di prenotazione è a breve termine. Si prega di contattare l'amministrazione anche per telefono o per e-mail.
-        occupancy_conflict_warning:
+        occupancy_conflict_warning: Il periodo selezionato si sovrappone a una prenotazione esistente. La richiesta verrà inserita nella lista d'attesa.
       new:
         accept_conditions_html: Accetto %{conditions_html}
         privacy_policy_condition_html: le <a href="%{url}" target="_blank">norme sulla protezione dei dati</a>
@@ -1649,15 +1649,15 @@ it:
     occupancies:
       span:
         nights:
-          one:
-          other:
-          zero:
+          one: 1 notte
+          other: "%{count} Notti"
+          zero: senza pernottamento
   renderables:
     booking_questions:
       check_box:
         value:
-          'false':
-          'true':
+          'false': 'No'
+          'true': Sì
   reset: Reset
   rich_text_templates:
     awaiting_tenant_notification:
@@ -1778,7 +1778,7 @@ it:
     pm: pm
   titles:
     application: HeimV %{organisation}
-  too_many_records:
+  too_many_records: Sono stati trovati troppi %{model_name}. Si prega di limitare la ricerca.
   unauthorized: Non sei autorizzato a visualizzare questa pagina. Effettuare il login per favore.
-  unsupported:
+  unsupported: Questa funzione è sperimentale e può causare problemi.
   until: fino a
