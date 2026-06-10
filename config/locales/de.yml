@@ -1743,6 +1743,10 @@ de:
               <dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>
               <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt>
               <dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>
+              <dt>Zusätzliche Angaben auslesen</dt>
+              <dd><pre>{{ booking.booking_question_responses.<KEY>.value }}</pre></dd>
+              <dt>Zusätzliche Angaben Checkbox als Anzeigebedingung</dt>
+              <dd><pre>{% if booking.booking_question_responses.<KEY>.value %}</pre></dd>
             </dl>
           contract: |-
             <h5>Vertrag</h5>

@@ -24,12 +24,9 @@ module Manage
     end
 
     field :booking_question_responses do |booking|
-      booking.booking_question_responses.to_h do |booking_question_response|
-        [
-          booking_question_response.booking_question_id,
-          Public::BookingQuestionResponseSerializer.render_as_hash(booking_question_response)
-        ]
-      end
+      rendered_responses = booking.booking_question_responses.index_by(&:booking_question)
+      rendered_responses.transform_values! { Public::BookingQuestionResponseSerializer.render_as_hash(it) }
+      rendered_responses.transform_keys(&:key).merge(rendered_responses.transform_keys(&:id))
     end
 
     field :current_state do |booking|

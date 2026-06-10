@@ -10,7 +10,7 @@ RSpec.describe ApplicationJob do
       discard_on StandardError
 
       def perform
-        raise StandardError, 'application job failure'
+        raise StandardError, 'it should rescue error and report message'
       end
     end)
 
@@ -23,7 +23,7 @@ RSpec.describe ApplicationJob do
   it 'reports discarded exceptions to sentry and existing notifiers' do
     expect do
       DiscardingApplicationJob.perform_now
-    end.to raise_error(StandardError, 'application job failure')
+    end.to raise_error(StandardError, 'it should rescue error and report message')
 
     expect(Rails.error).to have_received(:report).with(instance_of(StandardError))
     expect(ExceptionNotifier).to have_received(:notify_exception)
