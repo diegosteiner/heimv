@@ -77,7 +77,7 @@ services:
       selenium:
 
   selenium:
-    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:147.0}
+    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:148.0}
     shm_size: 2g
     networks:
       selenium:
