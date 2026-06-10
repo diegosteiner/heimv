@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_31_120207) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_09_075513) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -391,6 +391,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_120207) do
     t.bigint "usage_id"
     t.index ["tarif_id"], name: "index_meter_reading_periods_on_tarif_id"
     t.index ["usage_id"], name: "index_meter_reading_periods_on_usage_id"
+  end
+
+  create_table "notification_attached_designated_documents", primary_key: ["designated_document_id", "notification_id"], force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "designated_document_id", null: false
+    t.bigint "notification_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["designated_document_id"], name: "idx_on_designated_document_id_1515056c70"
+    t.index ["notification_id"], name: "idx_on_notification_id_7150f43576"
   end
 
   create_table "notifications", force: :cascade do |t|

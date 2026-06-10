@@ -55,10 +55,6 @@ class DesignatedDocument < ApplicationRecord
     super(value.presence)
   end
 
-  def to_attachable
-    { io: StringIO.new(blob.download), filename:, content_type: } if blob.present?
-  end
-
   def attach_to?(booking)
     attaching_conditions.blank? || attaching_conditions.all? { it.fullfills?(booking) }
   end

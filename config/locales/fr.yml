@@ -713,7 +713,7 @@ fr:
               invalid_transition: 'Changement de statut non valide : %{transition}'
           too_far_in_future: est trop loin dans le futur
           too_far_in_past: est trop loin dans le passé
-          too_short:
+          too_short: est trop court
         tenant:
           incomplete: Données incomplètes
     models:
@@ -780,14 +780,14 @@ fr:
         one: Extrait des postes de la facture
         other: Extraits des postes de facturation
       data_digest_templates/journal_entry:
-        one:
-        other:
+        one: Jeux d'écritures Extrait
+        other: Jeux d'écritures Extraits
       data_digest_templates/meter_reading_period:
         one: Relevé du compteur (Début)
         other: Relevés de compteurs (Fin)
       data_digest_templates/occupancy:
-        one:
-        other:
+        one: Extrait d'occupation
+        other: Occupations Extraits
       data_digest_templates/payment:
         one: Extrait de paiements
         other: Extrait de paiements
@@ -915,8 +915,9 @@ fr:
     email_contract:
       confirm: Envoyer vraiment le contrat sans facture d'acompte ?
       label: Envoyer le contrat
-      label_with_invoice: Envoyer le contrat avec facture
-      label_without_invoice: Envoyer le contrat sans facture
+      label_contract_only: Envoyer le contrat sans facture
+      label_with_deposits: Envoyer le contrat et la facture d'acompte
+      label_with_offers:
     email_invoice:
       label: Envoyer une facture
       label_with_ref: envoyer %{type} %{ref}
@@ -935,7 +936,7 @@ fr:
     mark_invoices_paid:
       label: Confirmer la réception du paiement
     mark_invoices_refunded:
-      label_with_ref:
+      label_with_ref: Rembourser le montant ouvert de %{type} %{ref}
     postpone_deadline:
       label: Prolonger le délai
     promote_from_waitlist:
@@ -966,7 +967,7 @@ fr:
         deadline:
         ends_at: Fin de la location
         now: Aujourd'hui
-        updated_at:
+        updated_at: Mise à jour de l'occupation
     duration:
       attributes:
         begins_at_to_ends_at:
