@@ -1,12 +1,21 @@
 # Changelog
 
+## 26.6.1
+
+Released 09.06.2026
+
+- Fix: Send offers with contracts if some exist
+- Fix: Advance status if deposits have been overpaid
+- Fix: Dont store duplicates of designated documents for every notification
+- Fix: Fix template errors with invoice_address
+
 ## 26.5.2
 
 Released 25.05.2026
 
 - Fix: Validate homes and occipiables against eachother
 - Fix: Hide new sent notifications from the outbox
-- Fix: Readd commit action for managers
+- Fix: Read commit action for managers
 
 ## 26.5.1
 

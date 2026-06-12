@@ -926,8 +926,9 @@ de:
     email_contract:
       confirm: Den Vertrag wirklich ohne Akontorechnung versenden?
       label: Vertrag versenden
-      label_with_invoice: Vertrag und Akontorechnung/Offerte versenden
-      label_without_invoice: Vertrag ohne Akontorechnung/Offerte versenden
+      label_contract_only: Vertrag ohne Akontorechnung/Offerte versenden
+      label_with_deposits: Vertrag und Akontorechnung versenden
+      label_with_offers: Vertrag und Offerte versenden
     email_invoice:
       label: Rechnungen versenden
       label_with_ref: "%{type} %{ref} versenden"
@@ -1742,6 +1743,10 @@ de:
               <dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>
               <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt>
               <dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>
+              <dt>Zusätzliche Angaben auslesen</dt>
+              <dd><pre>{{ booking.booking_question_responses.<KEY>.value }}</pre></dd>
+              <dt>Zusätzliche Angaben Checkbox als Anzeigebedingung</dt>
+              <dd><pre>{% if booking.booking_question_responses.<KEY>.value %}</pre></dd>
             </dl>
           contract: |-
             <h5>Vertrag</h5>

@@ -65,7 +65,7 @@ module DataDigestTemplates
     column_type :default do
       body do |booking, template_context_cache|
         context = template_context_cache[cache_key(booking)] ||=
-          TemplateContext.new(booking:, organisation: booking.organisation).to_h
+          TemplateContext.new(booking:, organisation: booking.organisation).to_liquid
         @templates[:body]&.render!(context)
       end
     end
@@ -74,7 +74,7 @@ module DataDigestTemplates
       body do |booking, template_context_cache|
         costs = CostEstimation.new(booking)
         context = template_context_cache[cache_key(booking, :costs)] ||=
-          TemplateContext.new(costs:).to_h
+          TemplateContext.new(costs:).to_liquid
         @templates[:body]&.render!(context)
       end
     end
@@ -83,7 +83,7 @@ module DataDigestTemplates
       body do |booking, template_context_cache|
         tarif = ::Tarif.find_by(id: @config[:tarif_id])
         context = template_context_cache[cache_key(booking, :usage, tarif&.id)] ||=
-          TemplateContext.new(usage: booking.usages.of_tarif(tarif).take).to_h
+          TemplateContext.new(usage: booking.usages.of_tarif(tarif).take).to_liquid
         @templates[:body]&.render!(context)
       end
     end
@@ -93,7 +93,7 @@ module DataDigestTemplates
         booking_question_id = @config[:booking_question_id] || @config[:id] # TODO: remove legacy id
         response = booking.booking_question_responses.find_by(booking_question_id:)
         context = template_context_cache[cache_key(booking, :booking_question_response, response&.id)] ||=
-          TemplateContext.new(booking_question_response: response).to_h
+          TemplateContext.new(booking_question_response: response).to_liquid
         @templates[:body]&.render!(context)
       end
     end

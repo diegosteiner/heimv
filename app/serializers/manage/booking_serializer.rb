@@ -16,6 +16,10 @@ module Manage
     fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request, :tenant_id, :locale,
            :purpose_description, :approximate_headcount, :remarks, :internal_remarks
 
+    field :invoice_address do |booking|
+      booking.invoice_address.presence && Public::AddressSerializer.render_as_hash(booking.invoice_address)
+    end
+
     field :operator_responsibilities do |booking|
       booking.operator_responsibilities.to_h do |operator_responsibility|
         [operator_responsibility.responsibility,
@@ -24,12 +28,9 @@ module Manage
     end
 
     field :booking_question_responses do |booking|
-      booking.booking_question_responses.to_h do |booking_question_response|
-        [
-          booking_question_response.booking_question_id,
-          Public::BookingQuestionResponseSerializer.render_as_hash(booking_question_response)
-        ]
-      end
+      rendered_responses = booking.booking_question_responses.index_by(&:booking_question)
+      rendered_responses.transform_values! { Public::BookingQuestionResponseSerializer.render_as_hash(it) }
+      rendered_responses.transform_keys(&:key).merge(rendered_responses.transform_keys(&:id))
     end
 
     field :current_state do |booking|

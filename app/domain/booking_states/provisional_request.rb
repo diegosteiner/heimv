@@ -2,7 +2,7 @@
 
 module BookingStates
   class ProvisionalRequest < Base
-    use_mail_template(:provisional_request_notification, context: %i[booking])
+    use_mail_template(:provisional_request_notification, context: %i[booking], optional: true)
 
     include Rails.application.routes.url_helpers
 
@@ -31,7 +31,7 @@ module BookingStates
     guard_transition do |booking|
       booking.organisation.booking_state_settings.enable_provisional_request &&
         booking.occupancies.all? do |occupancy|
-          occupancy.conflicting(%i[occupied tentative]).all? do
+          occupancy.conflicting(%i[occupied tentative])&.all? do
             it.booking&.in_state?(:open_request, :waitlisted_request)
           end
         end

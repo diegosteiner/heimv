@@ -19,23 +19,28 @@ class TemplateContext
     BookingQuestion => Public::BookingQuestionSerializer,
     BookingQuestionResponse => Public::BookingQuestionResponseSerializer,
     MeterReadingPeriod => Manage::MeterReadingPeriodSerializer,
-    VatCategory => Public::VatCategorySerializer
+    VatCategory => Public::VatCategorySerializer,
+    Address => Public::AddressSerializer
   }.freeze
 
   def initialize(context)
-    @original_context = context || {}
+    @context = context || {}
   end
 
-  def to_h
-    @to_h ||= @original_context.transform_values do |value|
+  def to_liquid
+    @to_liquid ||= @context.transform_values do |value|
       self.class.serialize_value(value)
     end.merge(Export::Pdf::Renderables::RichText::SUPPORTED_SPECIAL_TOKEN_TAGS.invert).deep_stringify_keys
   end
 
-  def self.serialize_value(value, serializer: serializer_for(value))
-    return value.map { serialize_value(it) } if value.is_a?(Array) || value.is_a?(ActiveRecord::Relation)
-
-    serializer.try(:render_as_hash, value) || value.try(:to_h) || value.try(:to_s) || value.presence
+  def self.serialize_value(value, serializer: nil)
+    case value
+    when Array, ActiveRecord::Relation
+      value.map { serialize_value(it) }
+    else
+      serializer = serializer_for(value) if serializer.nil?
+      serializer&.try(:render_as_hash, value) || value.try(:to_h) || value.try(:to_s) || value.presence
+    end
   end
 
   def self.serializer_for(value)

@@ -31,3 +31,5 @@
     ul.my-0
       - @notification.attachments.each do |attachment|
         li= link_to attachment.filename, attachment, target: :_blank
+      - @notification.attached_designated_documents.each do |document|
+        li= link_to document.file.filename, document.file, target: :_blank

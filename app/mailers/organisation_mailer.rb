@@ -14,10 +14,11 @@ class OrganisationMailer < ApplicationMailer
   def booking_email(notification)
     @organisation = notification.organisation
     @notification = notification
-    return if @notification.blank?
 
     set_headers
     attach_active_storage_attachments(notification.attachments)
+    attach_active_storage_attachments(notification.attached_designated_documents.map(&:file))
+
     mail(to: notification.deliver_to, cc: notification.deliver_cc, bcc: notification.deliver_bcc,
          subject: notification.subject) do |format|
       format.text { render plain: @notification.text }
@@ -31,11 +32,11 @@ class OrganisationMailer < ApplicationMailer
 
   protected
 
-  def attach_active_storage_attachments(values)
-    values.map do |attachment|
+  def attach_active_storage_attachments(attachments)
+    attachments.map do |attachment|
       next unless attachment.present? && attachment.filename.present?
 
-      attachments[attachment.filename.to_s] = attachment.blob.download
+      self.attachments[attachment.filename.to_s] = attachment.blob.download
     end
   end
 

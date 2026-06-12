@@ -17,16 +17,11 @@ class Contract
     protected
 
     def rich_text_template_body(contract)
+      context = { booking: contract.booking, organisation: contract.booking.organisation,
+                  contract:, costs: CostEstimation.new(contract.booking) }
       contract.organisation.rich_text_templates.enabled.by_key(:contract_text)
-              &.interpolate(template_context(contract), locale: contract.locale)
+              &.interpolate(context, locale: contract.locale)
               &.body
-    end
-
-    def template_context(contract)
-      TemplateContext.new(
-        booking: contract.booking, organisation: contract.booking.organisation,
-        contract:, costs: CostEstimation.new(contract.booking)
-      )
     end
   end
 end

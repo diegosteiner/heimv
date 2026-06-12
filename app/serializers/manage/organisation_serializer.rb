@@ -3,10 +3,8 @@
 module Manage
   class OrganisationSerializer < Public::OrganisationSerializer
     association :booking_categories, blueprint: BookingCategorySerializer
-    association :rich_text_templates, blueprint: RichTextTemplateSerializer
     association :homes, blueprint: HomeSerializer
-    # association :tenants, blueprint: TenantSerializer
-    # association :designated_documents, blueprint: DesignatedDocumentSerializer
+    association :designated_documents, blueprint: DesignatedDocumentSerializer
     association :tarifs, blueprint: TarifSerializer
     association :booking_questions, blueprint: Public::BookingQuestionSerializer
     association :vat_categories, blueprint: Public::VatCategorySerializer
@@ -44,6 +42,12 @@ module Manage
       include_view :default
 
       association :booking_categories, blueprint: BookingCategorySerializer, view: :export
+      association :rich_text_templates, blueprint: RichTextTemplateSerializer # , view: :export
+      # association :designated_documents, blueprint: DesignatedDocumentSerializer # , view: :export
+      # association :tarifs, blueprint: TarifSerializer # , view: :export
+      # association :booking_questions, blueprint: Public::BookingQuestionSerializer # , view: :export
+      # association :vat_categories, blueprint: Public::VatCategorySerializer # , view: :export
+      # association :tenants, blueprint: TenantSerializer
     end
   end
 end
