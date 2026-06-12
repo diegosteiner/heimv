@@ -53,7 +53,8 @@ module DataDigestTemplates
       body do |meter_reading_period, template_context_cache|
         booking = meter_reading_period.booking
         context = template_context_cache[cache_key(meter_reading_period)] ||=
-          TemplateContext.new(meter_reading_period:, booking:, organisation: meter_reading_period.organisation).to_h
+          TemplateContext.new(meter_reading_period:, booking:,
+                              organisation: meter_reading_period.organisation).to_liquid
         @templates[:body]&.render!(context)
       end
     end

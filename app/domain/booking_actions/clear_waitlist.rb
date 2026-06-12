@@ -19,7 +19,7 @@ module BookingActions
     end
 
     def waitlisted_requests
-      booking.occupancies.flat_map { it.conflicting(%i[occupied tentative]).map(&:booking) }.uniq
+      booking.occupancies.flat_map { it.conflicting(%i[occupied tentative])&.map(&:booking) }.uniq
     end
   end
 end

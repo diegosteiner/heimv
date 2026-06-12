@@ -49,7 +49,7 @@ module DataDigestTemplates
     column_type :default do
       body do |occupancy, template_context_cache|
         context = template_context_cache[cache_key(occupancy)] ||=
-          TemplateContext.new(occupancy:, booking: occupancy.booking, organisation: occupancy.organisation).to_h
+          TemplateContext.new(occupancy:, booking: occupancy.booking, organisation: occupancy.organisation).to_liquid
         @templates[:body]&.render!(context)
       end
     end

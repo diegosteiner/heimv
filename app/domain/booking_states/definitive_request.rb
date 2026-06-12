@@ -17,7 +17,7 @@ module BookingStates
 
     guard_transition(from: :open_request) do |booking|
       booking.occupancies.all? do |occupancy|
-        occupancy.conflicting(%i[occupied tentative]).all? do
+        occupancy.conflicting(%i[occupied tentative])&.all? do
           it.booking&.in_state?(:open_request, :waitlisted_request)
         end
       end
@@ -25,7 +25,7 @@ module BookingStates
 
     guard_transition(from: :waitlisted_request) do |booking|
       booking.occupancies.all? do |occupancy|
-        occupancy.conflicting(%i[occupied tentative]).all? do
+        occupancy.conflicting(%i[occupied tentative])&.all? do
           it.booking&.in_state?(:open_request, :waitlisted_request)
         end
       end

@@ -16,6 +16,10 @@ module Manage
     fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request, :tenant_id, :locale,
            :purpose_description, :approximate_headcount, :remarks, :internal_remarks
 
+    field :invoice_address do |booking|
+      booking.invoice_address.presence && Public::AddressSerializer.render_as_hash(booking.invoice_address)
+    end
+
     field :operator_responsibilities do |booking|
       booking.operator_responsibilities.to_h do |operator_responsibility|
         [operator_responsibility.responsibility,
