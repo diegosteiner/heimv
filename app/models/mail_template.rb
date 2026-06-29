@@ -26,7 +26,7 @@ class MailTemplate < RichTextTemplate
 
     booking&.notifications&.build(to:, **) do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
-      return if notification.deliver_to.blank?
+      return if notification.deliver_to.blank? # rubocop:disable Lint/NonLocalExitFromIterator
 
       notification.validate!
       notification.attach(designated_documents.for_booking(booking))
