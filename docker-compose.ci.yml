@@ -13,7 +13,7 @@ services:
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
-      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e?encoding=unicode&pool=5
+      DATABASE_URL: postgresql://postgres:postgres@db/heimv_e2e?encoding=unicode&pool=5
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       DISABLE_DATABASE_ENVIRONMENT_CHECK: "1"
       RAILS_ENV: test
@@ -53,7 +53,7 @@ services:
       start_period: 5s
     environment:
       APP_HOST: "e2e_target:3002"
-      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e?encoding=unicode&pool=5
+      DATABASE_URL: postgresql://postgres:postgres@db/heimv_e2e?encoding=unicode&pool=5
       SMTP_SETTINGS: "{ \"address\":\"mail\", \"port\": 1025 }"
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
       SECRET_KEY_BASE: "test"
@@ -103,7 +103,7 @@ services:
   db:
     image: postgres:18
     environment:
-      POSTGRES_DB: heimverwaltung_e2e
+      POSTGRES_DB: heimv_e2e
       POSTGRES_PASSWORD: postgres
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]

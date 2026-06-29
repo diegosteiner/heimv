@@ -61,7 +61,7 @@
           = tf.text_field :last_name, disabled: !@booking.editable?
         .col-md-4
           - if current_organisation.show_nickname?
-            = f.text_field :nickname, label: current_organisation.nickname_label, disabled: !@booking.editable?
+            = tf.text_field :nickname, label: current_organisation.nickname_label, disabled: !@booking.editable?
 
       = tf.text_field :address_addon, help: t(:optional), disabled: !@booking.editable?
 

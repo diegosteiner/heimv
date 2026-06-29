@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: heimv-web
-  annotations:
 spec:
   replicas: 1
   selector:
@@ -17,7 +16,7 @@ spec:
       containers:
         - name: heimv
           image: ghcr.io/diegosteiner/heimv:main
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           envFrom:
@@ -36,9 +35,9 @@ spec:
               path: /health
               port: 3000
               scheme: HTTP
-            initialDelaySeconds: 30
-            periodSeconds: 60
-            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               memory: 512M
@@ -63,7 +62,7 @@ spec:
               memory: 512M
             limits:
               memory: 1024M
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           command:
             - "bin/rails"
             - "db:migrate"

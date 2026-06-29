@@ -5,7 +5,8 @@ module Manage
     identifier :id
     fields :salutation, :salutation_form, :first_name, :last_name, :street, :street_nr, :nickname, :name,
            :address_addon, :zipcode, :city, :email, :full_name, :contact_info, :phone, :names, :salutations,
-           :birth_date, :country_code, :locale, :ref, :address_lines
+           :birth_date, :country_code, :locale, :ref, :address_lines,
+           :bookings_without_contract, :bookings_without_invoice
 
     # legacy fields
     field :street_address do |tenant|

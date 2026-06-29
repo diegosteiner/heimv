@@ -32,8 +32,11 @@ class BookingStateChecklistItem
     end,
 
     deposit_paid: lambda do |booking|
+      deposits = Invoices::Deposit.of(booking).kept
+      return if deposits.none?
+
       BookingStateChecklistItem.new(key: :deposit_paid, context: { booking: },
-                                    checked: Invoices::Deposit.of(booking).kept.all? { it.paid? || it.void? },
+                                    checked: deposits.all? { it.paid? || it.void? },
                                     url: proc { manage_booking_invoices_path(it.booking) })
     end,
 

@@ -25,7 +25,8 @@ module BookingActions
       return unless invokable?(current_user:)
 
       if deposits.any?
-        { label: translate(:label_with_deposits), params: { deposit_ids: deposits.filter_map(&:to_param) } }
+        { label: translate(:label_with_deposits),
+          params: { deposit_ids: deposits.filter_map(&:to_param), offer_ids: offers.filter_map(&:to_param) } }
       elsif offers.any?
         { label: translate(:label_with_offers), params: { offer_ids: offers.filter_map(&:to_param) } }
       else
