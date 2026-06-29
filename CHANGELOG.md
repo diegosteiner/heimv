@@ -1,5 +1,12 @@
 # Changelog
 
+## 26.6.2
+
+Released 29.06.2026
+
+- Fix: Count overpaid deposits as paid
+- Fix: Send offers with contract again
+
 ## 26.6.1
 
 Released 09.06.2026

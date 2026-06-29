@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Booking by tenant', :devise do
-  let(:organisation) { create(:organisation, :with_templates) }
+  let(:organisation) { create(:organisation, :with_templates, nickname_label_i18n: { de: 'Pfadiname' }) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
@@ -108,6 +108,7 @@ describe 'Booking by tenant', :devise do
     visit edit_public_booking_path(id: @booking.token)
     fill_in 'booking_approximate_headcount', with: booking.approximate_headcount
     fill_in 'booking_tenant_organisation', with: booking.tenant_organisation
+    fill_in 'booking_tenant_attributes_nickname', with: 'Stöpsel'
     choose 'booking_committed_request_false'
     choose 'booking[booking_category_id]', option: booking.category.id
     fill_in 'booking_purpose_description', with: booking.purpose_description
@@ -116,6 +117,7 @@ describe 'Booking by tenant', :devise do
     fill_in booking_question.label, with: '10'
     submit_form
     expect(page).to have_text(I18n.t('flash.public.bookings.update.notice'))
+    expect(tenant.reload.nickname).to eq('Stöpsel')
   end
 
   def visit_booking
@@ -235,7 +237,6 @@ describe 'Booking by tenant', :devise do
   end
 
   def check_booking
-    sleep(1)
     @booking.reload
     expect(@booking.notifications.map { it.mail_template.key }).to match_array(expected_notifications)
     expect(@booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)

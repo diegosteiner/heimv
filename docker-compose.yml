@@ -48,9 +48,9 @@ services:
   db:
     image: postgres:18
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/docker
     environment:
-      POSTGRES_DB: heimverwaltung_e2e
+      POSTGRES_DB: heimv_e2e
       POSTGRES_PASSWORD: postgres
     networks:
       main:

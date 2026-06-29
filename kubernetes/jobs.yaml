@@ -3,9 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: heimv-jobs
-  annotations:
-    keel.sh/match-tag: "true"
-    keel.sh/policy: force
 spec:
   replicas: 1
   selector:
@@ -19,7 +16,7 @@ spec:
       containers:
         - name: heimv
           image: ghcr.io/diegosteiner/heimv:main
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           command:
             - bin/jobs
           envFrom:
