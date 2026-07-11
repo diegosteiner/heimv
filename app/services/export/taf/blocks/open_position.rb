@@ -9,6 +9,8 @@ module Export
         end
 
         def self.build_with_invoice(invoice, **override)
+          return unless invoice
+
           op_id = override[:OpId].presence || Value.cast(invoice.ref, as: :symbol)
           pk_key = override[:PkKey].presence || Value.cast(invoice.booking.tenant.ref, as: :symbol)
 
