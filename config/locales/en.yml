@@ -106,6 +106,7 @@ en:
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
+        occupancy_type: Belegungsart
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -121,6 +122,8 @@ en:
         locales: Sprachen
         occupied_occupancy_color: Farbe für definitive Belegungen
         predefined_salutation_form: Vordefinierte Anredeform
+        public_occupancy_visibility: Sichtbarkeit von Belegungen im öffentlichen Kalender
+        qr_bill_creditor_address_as_invoice_address: "«Zahlbar an QR-Rechnungen» als Rechnungsadresse verwenden"
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
         tentative_occupancy_color: Farbe für provisorischen Belegungen
         upcoming_soon_window: Frist für baldige Belegung
@@ -247,6 +250,7 @@ en:
         ignore_conflicting: Terminkonflikte ignorieren
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
+        invoice_cc: Rechnungskopie als CC
         locale: Sprache
         nights: Nächte
         occupancies: Belegungen
@@ -355,7 +359,9 @@ en:
         ref: Referenznummer
         sent_at: Rechnungsdatum
         text: Text
+        total: Total
         type: Rechnungsart
+        vat_title: in den Preisen enhaltene MwSt.
       journal_entry_batch:
         amount: Betrag
         booking_id: Buchung
@@ -711,6 +717,7 @@ en:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
+          too_short: ist zu kurz
         tenant:
           incomplete: Angaben unvollständig
     models:
@@ -783,6 +790,9 @@ en:
       data_digest_templates/meter_reading_period:
         one: Zählerstand Auszug
         other: Zählerstände Auszüge
+      data_digest_templates/occupancy:
+        one: Belegungen Auszug
+        other: Belegungen Auszüge
       data_digest_templates/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
@@ -924,6 +934,8 @@ en:
       label_with_ref: "%{type} %{ref} verschicken"
     email_offer:
       label: Offerte verschicken
+    manage_commit_request:
+      label: Anfrage als definitv markieren
     mark_contract_sent:
       label: Vertrag als versendet markieren
     mark_contract_signed:
@@ -938,6 +950,8 @@ en:
       label_with_ref: Offener Betrag von %{type} %{ref} rückerstatten
     postpone_deadline:
       label: Frist verlängern
+    promote_from_waitlist:
+      label: Anfrage aus Warteliste befördern
     put_on_waitlist:
       label: Anfrage auf Warteliste setzen
     revert_cancel:
@@ -1030,6 +1044,7 @@ en:
     definitive_request:
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
       label: Mietanfrage (definitiv)
+      public_info: Die Mietanfrage ist definitiv und wird demnächst durch die Verwaltung geprüft und weiterbearbeitet.
       relevant_time: Eingereicht %{time}
     initial:
       label: "-"
@@ -1271,6 +1286,7 @@ en:
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
   edit: Bearbeiten
+  email: E-Mail
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
@@ -1721,6 +1737,8 @@ en:
               <dt>Vertragsdatum</dt>
               <dd><pre>{{ contract.issued_at | date_format }}</pre></dd>
             </dl>
+          deposit: "<p><em>siehe Rechnung</em></p>"
+          deposits: "<p><em>siehe Rechnungen</em></p>"
           invoice: |-
             <h5>Rechnung</h5>
             <dl>
@@ -1797,6 +1815,7 @@ en:
       format:
         delimiter: "'"
         format: "%u %n"
+        negative_format: "-%n %u"
         precision: 2
         separator: "."
         significant: false
@@ -1876,6 +1895,7 @@ en:
         committed_request_definitive_request_help: Verbindliche Zusage. Vertrag wird vorbereitet und zugestellt, sofern die Verwaltung die Anfrage akzeptiert
         committed_request_provisional_request_help: Unverbindliche Anfrage. Zu- oder Absage innert der angegebenen Frist
         last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
+        occupancy_conflict_warning: Der gewählte Zeitraum überschneidet sich mit einer bestehenden Belegung. Die Anfrage wird auf die Warteliste gesetzt.
       new:
         accept_conditions_html: Ich bin mit %{conditions_html} einverstanden
         privacy_policy_condition_html: den <a href="%{url}" target="_blank">Datenschutzbestimmungen</a>

@@ -3,6 +3,8 @@
 class SmtpSettings
   include StoreModel::Model
 
+  @serialize_empty_attributes = false
+
   attribute :address, :string
   attribute :user_name, :string
   attribute :password, :string

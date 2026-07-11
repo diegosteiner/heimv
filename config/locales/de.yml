@@ -132,6 +132,15 @@ de:
         paid_at_before: Zahlung bis
         ref: Zahlungsreferenz
         sort: Sortierung
+      smtp_settings:
+        address: Server Adresse
+        authentication: Authentifizierung
+        enable_starttls: STARTTLS
+        password: Passwort
+        port: Port
+        ssl: SSL (Legacy)
+        tls: TLS
+        user_name: Username
     model:
       invoice/items/add:
         one: Normale Rechungsposition
@@ -1301,6 +1310,7 @@ de:
         one: "(mindestens %{count} Zeichen)"
         other: "(mindestens %{count} Zeichen)"
   edit: Bearbeiten
+  email: E-Mail
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
@@ -1617,6 +1627,7 @@ de:
     organisations:
       form:
         general: Allgemein
+        smtp_settings_warning: Achtung! Einstellungen nur mit Vorsicht ändern!
     pages:
       flow:
         title: Buchungsprozess

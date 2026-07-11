@@ -132,6 +132,15 @@ it:
         paid_at_before: Pagamento fino a
         ref:
         sort:
+      smtp_settings:
+        address:
+        authentication:
+        enable_starttls:
+        password: Password
+        port:
+        ssl:
+        tls:
+        user_name:
     model:
       invoice/items/add:
         one: Voce di fattura normale
@@ -1286,6 +1295,7 @@ it:
         one: "(minimo %{count} carattere)"
         other: "(minimo %{count} caratteri)"
   edit: Bearbeiten
+  email: Email
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: L'input non può essere elaborato, riprova.
@@ -1480,6 +1490,7 @@ it:
     organisations:
       form:
         general: Generalmente
+        smtp_settings_warning:
     pages:
       flow:
         title: Processo di prenotazione

@@ -132,6 +132,15 @@ fr:
         paid_at_before: Paiement jusqu'au
         ref: Référence de paiement
         sort: Triage
+      smtp_settings:
+        address:
+        authentication:
+        enable_starttls:
+        password: Mot de passe
+        port:
+        ssl:
+        tls:
+        user_name:
     model:
       invoice/items/add:
         one: Poste de facturation normal
@@ -1286,6 +1295,7 @@ fr:
         one: "(%{count} caractère au moins)"
         other: "(%{count} caractères au moins)"
   edit: Modifier
+  email: Email
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: L'entrée n'a pas pu être traitée, veuillez réessayer.
@@ -1515,6 +1525,7 @@ fr:
     organisations:
       form:
         general: Généralités
+        smtp_settings_warning:
     pages:
       flow:
         title: Processus de réservation

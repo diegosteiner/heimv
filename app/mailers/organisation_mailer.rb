@@ -47,7 +47,7 @@ class OrganisationMailer < ApplicationMailer
 
   def set_delivery_options
     return unless Rails.env.production? && ENV.fetch('USE_ORGANISATION_SMTP', false) &&
-                  @organisation.smtp_settings.present?
+                  @organisation.smtp_settings&.address.present?
 
     mail.delivery_method.settings = @organisation.smtp_settings.to_h
   end
