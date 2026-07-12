@@ -8,7 +8,8 @@
   "runServices": [
     "db",
     "valkey",
-    "mail"
+    "mail",
+    "selenium"
   ],
   "workspaceFolder": "/rails",
   "customizations": {
