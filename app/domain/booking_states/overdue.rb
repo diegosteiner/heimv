@@ -7,7 +7,7 @@ module BookingStates
     include Rails.application.routes.url_helpers
 
     def checklist
-      BookingStateChecklistItem.prepare(booking, :deposit_paid, :contract_signed)
+      BookingStateChecklistItem.prepare(booking, :deposit_paid, :contract_confirmed)
     end
 
     def self.to_sym
@@ -20,7 +20,7 @@ module BookingStates
     end
 
     infer_transition(to: :upcoming) do |booking|
-      booking.contracts.signed.any? &&
+      booking.contracts.confirmed.any? &&
         Invoices::Deposit.of(booking).kept.all? do |deposit|
           deposit.paid? || deposit.void? || !deposit.payment_required
         end

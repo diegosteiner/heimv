@@ -308,8 +308,8 @@ en:
         locale: Sprache
         pdf: PDF
         sent_at: Vertragsdatum
-        signed_at: Von Mieter Unterschrieben am
         signed_pdf: Von Mieter Unterschriebenes PDF
+        tenant_signed_at: Von Mieter Unterschrieben am
         text: Vertragstext
         title: Titel
       data_digest:
@@ -962,7 +962,7 @@ en:
         Mit dem Klick auf den Knopf «Vertrag rechtskräftig unterzeichnen» wird der Vertrag rechtsverbindlich abgeschlossen und bestätigt, dass die Berechtigung zur Unterzeichnung vorliegt. Damit werden die geltenden Vertragsbedingungen sowie die allgemeinen Geschäftsbedingungen in ihrer jeweils aktuellen Fassung anerkannt.
         Zudem wird erklärt, dass alle erforderlichen Befugnisse vorhanden sind, um den Vertrag im eigenen Namen oder – sofern zutreffend – im Namen einer juristischen Person abzuschliessen.
         Durch die Bestätigung entsteht die Verpflichtung zur Einhaltung aller vereinbarten Pflichten und Rechte, einschliesslich möglicher Zahlungsverpflichtungen, sowie zur Beachtung aller anwendbaren gesetzlichen Bestimmungen. Falls keine Berechtigung zur Vertragsunterzeichnung besteht, kann dies rechtliche Konsequenzen nach sich ziehen.
-      label: Vertrag rechtskräftig unterzeichnen
+      label_sign_by_click: Vertrag rechtskräftig unterzeichnen
     skip_invoice:
       label: Endabrechnung überspringen
   booking_conditions:

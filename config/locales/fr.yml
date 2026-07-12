@@ -313,8 +313,8 @@ fr:
         locale: Langue
         pdf: PDF
         sent_at: Date du contrat
-        signed_at: Signé par le locataire le
         signed_pdf: PDF signé par le locataire
+        tenant_signed_at: Signé par le locataire le
         text: Texte du contrat
         title: Titre
       data_digest:
@@ -957,7 +957,7 @@ fr:
     sign_contract:
       confirm_authorization_label: Je certifie que je dispose des pouvoirs nécessaires pour signer ce contrat de manière juridiquement contraignante
       description:
-      label: Signer valablement le contrat
+      label_sign_by_click: Signer valablement le contrat
     skip_invoice:
       label: Sauter le décompte final
   booking_conditions:

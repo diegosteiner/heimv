@@ -7,11 +7,10 @@ module BookingActions
 
     def invoke!(signed_pdf: nil, current_user: nil) # rubocop:disable Metrics/AbcSize
       booking.update!(committed_request: true)
-      contract_was_signed = booking.contract.signed?
       booking.contract.signed_pdf.attach(signed_pdf) if signed_pdf.present?
-      return Result.success if contract_was_signed
+      return Result.success if booking.contract.confirmed?
 
-      booking.contract.update!(signed_at: Time.zone.now)
+      booking.contract.update!(confirmed_at: Time.zone.now)
       mail = MailTemplate.use(:contract_signed_notification, booking, to: :tenant)
       notify_operators
 
@@ -29,7 +28,7 @@ module BookingActions
     end
 
     def invokable_with(current_user: nil)
-      { prepare: true } if booking.contract&.sent? && !booking.contract.signed?
+      { prepare: true } if booking.contract&.sent? && !booking.contract.confirmed?
     end
 
     protected

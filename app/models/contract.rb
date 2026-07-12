@@ -36,9 +36,10 @@ class Contract < ApplicationRecord
   scope :sent, -> { where.not(sent_at: nil) }
   scope :unsent, -> { where(sent_at: nil) }
   scope :ordered, -> { order(valid_from: :asc) }
-  scope :signed, -> { where.not(signed_at: nil) }
+  scope :tenant_signed, -> { where.not(tenant_signed_at: nil) }
+  scope :confirmed, -> { where.not(confirmed_at: nil) }
 
-  before_save :supersede, :set_signed_at
+  before_save :supersede, :set_tenant_signed_at
   before_save :generate_pdf, if: :generate_pdf?
 
   def generate_pdf
@@ -59,7 +60,8 @@ class Contract < ApplicationRecord
     return unless was_sent? && changed.include?('text')
 
     successor = dup
-    successor.update!(**attributes, valid_from: Time.zone.now, sent_at: nil, signed_at: nil)
+    successor.update!(**attributes, valid_from: Time.zone.now, sent_at: nil, tenant_tenant_signed_at: nil,
+                                    confirmed_at: nil)
     restore_attributes
     assign_attributes(valid_until: successor.valid_from)
   end
@@ -72,8 +74,12 @@ class Contract < ApplicationRecord
     update(sent_at: Time.zone.now)
   end
 
-  def signed!
-    update(signed_at: Time.zone.now)
+  def tenant_signed!
+    update(tenant_signed_at: Time.zone.now)
+  end
+
+  def confirmed!
+    update(confirmed_at: Time.zone.now)
   end
 
   def sent?
@@ -84,8 +90,12 @@ class Contract < ApplicationRecord
     sent_at_was.present?
   end
 
-  def signed?
-    signed_at.present?
+  def tenant_signed?
+    tenant_signed_at.present?
+  end
+
+  def confirmed?
+    confirmed_at.present?
   end
 
   def superseded?
@@ -104,7 +114,7 @@ class Contract < ApplicationRecord
 
   private
 
-  def set_signed_at
-    self.signed_at ||= Time.zone.now if signed_pdf.attached?
+  def set_tenant_signed_at
+    self.tenant_signed_at ||= Time.zone.now if signed_pdf.attached?
   end
 end

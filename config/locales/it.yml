@@ -313,8 +313,8 @@ it:
         locale: Lingua
         pdf: PDF
         sent_at: Data del contratto
-        signed_at: Firmato dall'inquilino il
         signed_pdf: PDF firmato dall'inquilino
+        tenant_signed_at: Firmato dall'inquilino il
         text: Testo contrattuale
         title: Titolo
       data_digest:
@@ -957,7 +957,7 @@ it:
     sign_contract:
       confirm_authorization_label:
       description:
-      label:
+      label_sign_by_click:
     skip_invoice:
       label: Saltare il conto finale
   booking_conditions:

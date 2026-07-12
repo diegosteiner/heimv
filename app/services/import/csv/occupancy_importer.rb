@@ -50,6 +50,7 @@ module Import
 
         occupancy.assign_attributes(begins_at: parse_datetime(begins_at),
                                     ends_at: parse_datetime(ends_at),
+                                    color: row['occupancy.color'].presence,
                                     remarks: row['occupancy.remarks'].presence)
       end
 
