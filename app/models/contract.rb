@@ -5,9 +5,10 @@
 # Table name: contracts
 #
 #  id                        :bigint           not null, primary key
+#  confirmed_at              :datetime
 #  locale                    :string
 #  sent_at                   :date
-#  signed_at                 :date
+#  tenant_signed_at          :date
 #  text                      :text
 #  valid_from                :datetime
 #  valid_until               :datetime
@@ -31,6 +32,10 @@ class Contract < ApplicationRecord
   has_one_attached :signed_pdf
 
   attr_accessor :skip_generate_pdf
+
+  validates :signed_pdf, size: { less_than: 5.megabytes },
+                         content_type: { in: %w[application/pdf image/jpeg image/png image/gif] }
+  validates :pdf, size: { less_than: 5.megabytes }, content_type: { in: %w[application/pdf] }
 
   scope :valid, -> { where(valid_until: nil) }
   scope :sent, -> { where.not(sent_at: nil) }
@@ -104,7 +109,7 @@ class Contract < ApplicationRecord
 
   def usages
     @usages ||= booking&.usages&.select do |usage|
-      usage.tarif.associated_types.include?(Tarif::ASSOCIATED_TYPES.key(self.class))
+      usage.tarif.associated_types.contract?
     end
   end
 

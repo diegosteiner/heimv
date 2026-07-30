@@ -23,7 +23,7 @@
 #  esr_ref_prefix               :string
 #  homes_limit                  :integer
 #  iban                         :string
-#  invoice_payment_ref_template :string           default("%<prefix>s%<tenant_sequence_number>06d%<sequence_year>04d%<sequence_number>05d")
+#  invoice_payment_ref_template :string           default("")
 #  invoice_ref_template         :string
 #  locale                       :string
 #  location                     :string
@@ -84,7 +84,8 @@ class Organisation < ApplicationRecord
   validates :country_code, inclusion: { in: ISO3166::Country.codes }
   validates :name, :email, presence: true
   validates :slug, uniqueness: true, allow_blank: true
-  validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }
+  validates :logo, :contract_signature, size: { less_than: 2.megabytes },
+                                        content_type: { in: %w[image/png image/jpeg image/svg+xml] }
   validates :locale, presence: true
   validate do
     errors.add(:creditor_address, :invalid) if creditor_address&.lines&.count&.> 3

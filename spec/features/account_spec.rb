@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 describe 'User Account', :devise do
   let(:user) { create(:user) }
   let(:new_password) { 'test1234!' }

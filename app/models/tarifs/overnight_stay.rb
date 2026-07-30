@@ -15,6 +15,7 @@
 #  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
+#  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
@@ -36,20 +37,46 @@ module Tarifs
   class OvernightStay < ::Tarif
     Tarif.register_subtype self
 
-    def before_usage_validation(usage)
-      set_usage_details(usage)
-      set_usage_used_units(usage)
-    end
+    enum :mode, { nights: 0, days: 1 }, prefix: true, default: :nights
 
-    def set_usage_details(usage) # rubocop:disable Naming/AccessorMethodName
-      booking_dates = usage.booking.dates.map(&:iso8601)
-      usage.details = usage.details&.slice(*booking_dates)&.transform_values { it.presence&.to_f } || {}
-    end
+    validates :mode, presence: true
 
-    def set_usage_used_units(usage) # rubocop:disable Naming/AccessorMethodName
-      return unless usage.details&.values&.any?(&:present?) && usage.details_changed?
+    class Usage < ::Usage
+      before_validation :normalize_details, :set_used_units
 
-      usage.used_units = usage.details.values.compact.sum
+      def breakdown
+        return super if minimum_price?
+
+        details_values = details&.values&.compact_blank&.uniq
+        return "#{used_units} #{unit} (#{booking_dates.count} × #{details_values.first})" if details_values.count.one?
+
+        "#{used_units} #{unit} (#{booking_dates.count} × #{details_values.min} … #{details_values.min})"
+      end
+
+      def normalize_details
+        self.details = details&.slice(*booking_dates&.map(&:iso8601))&.transform_values { it.presence&.to_f } || {}
+      end
+
+      def set_used_units(force: false)
+        return unless details&.values&.any?(&:present?) && (force || details_changed?)
+
+        self.used_units = details.values.compact.sum
+      end
+
+      def booking_dates
+        return unless tarif.present? && booking&.dates.present?
+
+        dates = booking.dates.to_a
+        dates.pop if tarif.mode_nights?
+        dates
+      end
+
+      def preselect
+        super
+        self.details = booking_dates&.map(&:iso8601)&.index_with { prefill_units }
+        normalize_details
+        set_used_units(force: true)
+      end
     end
   end
 end

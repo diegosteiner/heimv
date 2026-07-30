@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Booking by tenant', :devise do
+describe 'Booking by manager', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:manager) { create(:organisation_user, :manager, organisation:) }

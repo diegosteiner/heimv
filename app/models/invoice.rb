@@ -74,6 +74,7 @@ class Invoice < ApplicationRecord
   after_save :update_payments, :update_void_deposits
   after_save :update_journal_entry_batches, unless: :skip_journal_entry_batches
 
+  validates :pdf, size: { less_than: 5.megabytes }, content_type: { in: %w[application/pdf] }
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
   validates :items, store_model: true
   validate do

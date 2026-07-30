@@ -95,6 +95,43 @@ function setupCopyToClipboard() {
   }
 }
 
+function setupUsageForms() {
+  for (const usageElement of document.querySelectorAll("[data-usage-type='Tarifs::OvernightStay::Usage']")) {
+    const summaryInput = usageElement.querySelector("input[name$='[summary]'");
+    const detailsInputs = usageElement.querySelectorAll("input[data-usage-detail]");
+    const sumOutput = usageElement.querySelector("output");
+    const calculateSummary = () => {
+      const values = Array.from(detailsInputs).map((input) => {
+        const value = Number(input.value);
+        return Number.isNaN(value) ? 0 : value;
+      });
+
+      sumOutput.innerText = values.reduce((sum, value) => sum + value, 0);
+      switch (new Set(values).size) {
+        case 0:
+          summaryInput.value = "";
+          break;
+        case 1:
+          summaryInput.value = Array.from(values)[0];
+          break;
+        default:
+          summaryInput.value = `${Math.min(...values)} … ${Math.max(...values)}`;
+      }
+    };
+
+    calculateSummary();
+    for (const input of detailsInputs) input.addEventListener("change", calculateSummary);
+
+    summaryInput.addEventListener("focus", () => summaryInput.select());
+    summaryInput.addEventListener("change", () => {
+      const value = Number(summaryInput.value);
+      if (Number.isNaN(value)) return;
+      for (const input of detailsInputs) input.value = value;
+      calculateSummary();
+    });
+  }
+}
+
 // Rails.start();
 document.addEventListener("DOMContentLoaded", () => {
   csrfForm();
@@ -105,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupOccupiableSelect();
   setupOrgChangeSelect();
   setupSubmit();
+  setupUsageForms();
   setupCopyToClipboard();
   Rails.start();
 });

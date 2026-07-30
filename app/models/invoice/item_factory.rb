@@ -2,6 +2,8 @@
 
 class Invoice
   class ItemFactory
+    include ActiveSupport::NumberHelper
+
     attr_reader :invoice
 
     delegate :booking, :organisation, to: :invoice
@@ -85,31 +87,8 @@ class Invoice
     end
 
     def build_from_usage(usage)
-      return unless usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class))
+      return unless usage.tarif&.associated_types&.invoice? && usage.apply_to_invoice?(invoice)
 
-      case usage.tarif
-      when Tarifs::OvernightStay
-        build_from_overnight_stay_usage(usage)
-      else
-        build_from_default_usage(usage)
-      end
-    end
-
-    def build_from_overnight_stay_usage(usage)
-      breakdown = usage.booking.dates.filter_map do |date|
-        amount = usage.details&.fetch(date.iso8601, nil)
-        next if amount.blank?
-
-        [
-          I18n.l(date),
-          ActiveSupport::NumberHelper.number_to_rounded(amount, precision: 2, strip_insignificant_zeros: true)
-        ].join(': ')
-      end.join("\n").presence
-
-      [build_from_default_usage(usage), (build_item(class: ::Invoice::Items::Text, label: '', breakdown:) if breakdown)]
-    end
-
-    def build_from_default_usage(usage)
       build_item(usage:, label: usage.tarif.label, vat_category: usage.tarif.vat_category,
                  breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price,
                  accounting_account_nr: usage.tarif.accounting_account_nr,

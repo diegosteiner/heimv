@@ -1,0 +1,34 @@
+- detail_element_id = "overnight_stay_#{usage.tarif_id}_usage_#{usage.id}_details"
+= render layout: 'manage/tarifs/usage_form', locals: { usage:, f: }
+  .row.align-items-center
+    .col-6.text-end
+      span.me-2= usage.booking_dates.count
+      | ×
+
+    .col-6
+      .input-group
+        input.form-control.text-end[type="text" tabindex="1" inputmode="numeric" name=f.field_name(:summary) ]
+        button.btn.btn-primary[type="button" name=f.field_name(:toggle_details) data-bs-toggle="collapse" data-bs-target="##{detail_element_id}" aria-expanded="false" aria-controls="##{detail_element_id}"]
+          - if usage.tarif.mode_days?
+            span.fa.fa-sun-o
+          - else
+            span.fa.fa-moon-o
+
+  .collapse.mt-2[id=detail_element_id]
+    - usage.booking.dates.each do |date|
+      - id = f.field_id(:detail, date.iso8601)
+      - name = f.field_name(:details, date.iso8601)
+      - value = usage.details&.fetch(date.iso8601, nil)
+
+      .d-flex
+        .col.p-2
+          label[for=id]= l(date)
+        .col.p-1
+          - if usage.booking_dates.include?(date)
+            = f.text_field :details, name: , value: , skip_label: true, id: , wrapper: false, class: 'text-end w-100 form-control-sm', tabindex: 1, inputmode: "numeric", data: { "usage-detail" => date.iso8601 }
+
+    .d-flex.fw-bold
+      .col.p-2
+        strong= t("renderables.tarifs.overnight_stay.usage.form.total")
+      .col.p-2.text-end
+        output= usage.used_units 

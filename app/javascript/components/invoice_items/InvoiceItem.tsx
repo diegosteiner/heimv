@@ -202,7 +202,7 @@ export default function InvoiceItemElement({
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              {nonTextItemType && (
+              {item.type !== InvoiceItemType.Title && (
                 <>
                   <Form.Label>{t("activemodel.attributes.invoice/item.breakdown")}</Form.Label>
                   <Form.Control

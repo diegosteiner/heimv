@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 ruby '4.0.5'
 
 gem 'active_flag'
+gem 'active_storage_validations'
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
 gem 'blueprinter'
@@ -12,7 +13,7 @@ gem 'bootsnap', require: false
 gem 'bootstrap_form' # https://github.com/bootstrap-ruby/bootstrap_form/issues?q=is%3Aissue%20collection_check_boxes
 gem 'camt_parser'
 gem 'cancancan'
-gem 'connection_pool', '~> 2.5' # https://github.com/mperham/connection_pool/issues/210
+gem 'connection_pool'
 gem 'countries'
 gem 'country_select'
 gem 'csv'

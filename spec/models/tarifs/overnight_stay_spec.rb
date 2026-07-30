@@ -33,21 +33,45 @@
 #  vat_category_id                   :bigint
 #
 
-module Tarifs
-  class Metered < Tarif
-    Tarif.register_subtype self
+require 'rails_helper'
 
-    class Usage < ::Usage
-      has_one :meter_reading_period, dependent: :nullify
+RSpec.describe Tarifs::OvernightStay do
+  let(:booking) do
+    create(:booking, begins_at: Time.zone.local(2026, 2, 27, 10), ends_at: Time.zone.local(2026, 3, 2, 16))
+  end
+  let(:usage) { tarif.build_usage(booking:) }
+  let(:tarif) { create(:tarif, type: described_class.sti_name, organisation: booking.organisation) }
 
-      accepts_nested_attributes_for :meter_reading_period, reject_if: :all_blank
-
-      before_save do
-        next if meter_reading_period.blank?
-
-        self.used_units ||= meter_reading_period.used_units
-        meter_reading_period.assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at)
+  describe 'Usage#booking_dates' do
+    context 'with mode :days' do
+      it do
+        tarif.mode_days!
+        expect(usage.booking_dates.map(&:iso8601)).to eq(%w[2026-02-27 2026-02-28 2026-03-01 2026-03-02])
       end
+    end
+
+    context 'with mode :nights' do
+      it do
+        tarif.mode_nights!
+        expect(usage.booking_dates.map(&:iso8601)).to eq(%w[2026-02-27 2026-02-28 2026-03-01])
+      end
+    end
+  end
+
+  describe 'Usage#set_used_units' do
+    it do
+      usage.update(details: { '2026-02-27' => 5, '2026-02-28' => '15', '2026-03-01' => false, 'omg' => 'wtf' })
+      expect(usage).to have_attributes(
+        details: match_array('2026-02-27' => 5, '2026-02-28' => 15, '2026-03-01' => nil),
+        used_units: 20
+      )
+    end
+  end
+
+  describe 'Usage#breakdown' do
+    it do
+      usage.update(details: { '2026-02-27' => 5, '2026-02-28' => '15' })
+      expect(usage.breakdown).to eq('1 x 2')
     end
   end
 end

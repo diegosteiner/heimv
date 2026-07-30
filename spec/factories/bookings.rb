@@ -27,7 +27,7 @@
 #  invoice_cc                   :string
 #  locale                       :string
 #  occupancy_color              :string
-#  occupancy_type               :integer          default("pending"), not null
+#  occupancy_type               :integer          default(0), not null
 #  purpose_description          :string
 #  ref                          :string
 #  remarks                      :text
@@ -89,8 +89,9 @@ FactoryBot.define do
       end
       after(:create) do |booking, evaluator|
         vat_category =  evaluator.vat_category || booking.organisation.vat_categories.first
-        create_list(:tarif, 1, :with_accounting, organisation: booking.organisation, vat_category:)
-        Usage::Factory.new(booking).build.each { it.update(used_units: 48) }
+        create_list(:tarif, 1, :with_accounting, organisation: booking.organisation, vat_category:).each do
+          it.build_usage(booking:, used_units: 48).save
+        end
         if evaluator.prepaid_amount&.positive?
           create(:payment, booking:, invoice: nil, amount: evaluator.prepaid_amount)
         end

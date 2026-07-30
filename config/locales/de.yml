@@ -275,7 +275,6 @@ de:
         tenant_id: Mieter
         tenant_organisation: Mieter Organisation / Gruppenname
         transition_to: Neuer Status
-        usage_report: Verbrauchsformular
         use_invoice_address: abweichende Rechnungsadresse
       booking/booking_question_responses:
         value: Zusätzliche Angabe
@@ -496,6 +495,7 @@ de:
         minimum_price_total: Minimaler Preis (Total)
         minimum_usage_per_night: Minimaler Verbrauch (pro Nacht)
         minimum_usage_total: Minimaler Verbrauch (Total)
+        mode: Modus
         ordinal_position: Ordnungsnummer
         pin: Preis pro Einheit einfrieren
         prefill_usage_booking_question_id: Verbrauchsvorschlag aus Angabe
@@ -696,6 +696,10 @@ de:
           headcount: "× Anzahl Personen"
           headcount_nights: "× Übernachtungen"
           nights: "× Nächte"
+      tarifs_overnight_stay:
+        modes:
+          days: Tage
+          nights: Nächte
       tenant:
         salutation_forms:
           formal_female: Sehr geehrte Frau %{last_name}
@@ -1534,8 +1538,8 @@ de:
       minimum: Mindestbetrag %{minimum}
       minimum_price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
       minimum_price_total: Differenz zum Mindestbetrag (%{minimum})
-      minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{unit} / Nacht)
-      minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{unit})
+      minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Nacht)
+      minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit})
   layouts:
     footer:
       legal:
@@ -1969,6 +1973,11 @@ de:
         value:
           'false': Nein
           'true': Ja
+    tarifs:
+      overnight_stay:
+        usage:
+          form:
+            total: Total
   reset: Zurücksetzen
   rich_text_templates:
     awaiting_tenant_notification:
@@ -2063,8 +2072,6 @@ de:
       description: Benachrichtigung für zukünftige Belegung (Mieter)
     upcoming_soon_notification:
       description: Benachrichtigung für baldige Belegung (Mieter)
-    usage_report_text:
-      description: Text für Verbrauchsformular
     waitlisted_request_notification:
       description: Benachrichtigung für Mietanfrage auf der Warteliste (Mieter)
   show: Anzeigen

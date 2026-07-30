@@ -15,6 +15,7 @@
 #  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
+#  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
@@ -36,18 +37,20 @@ module Tarifs
   class Price < Tarif
     Tarif.register_subtype self
 
-    def breakdown(usage)
-      return if usage.used_units.nil? || usage.used_units.zero?
-
-      number_to_currency(usage.used_units, unit: organisation.currency)
-    end
-
-    def presumed_units(usage)
+    def prefill_units
       self[:price_per_unit].presence
     end
 
     def price_per_unit
       nil
+    end
+
+    class Usage < ::Usage
+      def breakdown
+        return if used_units.nil? || used_units.zero?
+
+        number_to_currency(used_units, unit: organisation.currency)
+      end
     end
   end
 end

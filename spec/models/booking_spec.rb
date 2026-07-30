@@ -27,7 +27,7 @@
 #  invoice_cc                   :string
 #  locale                       :string
 #  occupancy_color              :string
-#  occupancy_type               :integer          default("pending"), not null
+#  occupancy_type               :integer          default(0), not null
 #  purpose_description          :string
 #  ref                          :string
 #  remarks                      :text

@@ -8,7 +8,7 @@ module Manage
 
       def index
         @usages = @usages.includes(tarif: %i[prefill_usage_booking_question vat_category])
-        @suggested_usages = Usage::Factory.new(@booking).build(preselect: suggest_usages?)
+        @suggested_usages = Usage.build(@booking, preselect: suggest_usages?)
 
         respond_with :manage, @booking, @usages
       end

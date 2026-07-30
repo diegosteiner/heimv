@@ -15,6 +15,7 @@
 #  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
+#  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
@@ -35,69 +36,67 @@ module Tarifs
   class GroupMinimum < Tarif
     Tarif.register_subtype self
 
-    def breakdown(usage) # rubocop:disable Metrics/CyclomaticComplexity
-      applicable_minimum = minimum_price(usage)&.first
-      minimum = case applicable_minimum
-                when :minimum_usage_total, :minimum_usage_per_night
-                  try(applicable_minimum) || 0
-                when :minimum_price_total, :minimum_price_per_night
-                  number_to_currency(try(applicable_minimum) || 0, unit: organisation.currency)
-                end
+    class Usage < ::Usage
+      def breakdown # rubocop:disable Metrics/AbcSize
+        difference = number_to_currency(price || 0, unit: organisation.currency)
+        tarif_group_price = number_to_currency(tarif_group_price || 0, unit: organisation.currency)
+        minimum = case critical_minimum
+                  when :minimum_usage_total, :minimum_usage_per_night
+                    tarif.minimums[critical_minimum] || 0
+                  when :minimum_price_total, :minimum_price_per_night
+                    number_to_currency(tarif.minimums[critical_minimum] || 0, unit: organisation.currency)
+                  end
 
-      difference = number_to_currency(usage.price || 0, unit: organisation.currency)
-
-      I18n.t(applicable_minimum, scope: 'invoice_items.breakdown', unit:, minimum:, difference:,
-                                 group_price: number_to_currency(group_price(usage) || 0, unit: organisation.currency))
-    end
-
-    def usages_in_group(usage)
-      usage.booking.usages.joins(:tarif)
-           .where(tarifs: { tarif_group: usage.tarif.tarif_group })
-           .where.not(id: usage.id)
-           .where.not(tarifs: { type: Tarifs::GroupMinimum.sti_name })
-    end
-
-    def group_price(usage)
-      usages_in_group(usage).sum(&:price)
-    end
-
-    def group_used_units(usage)
-      usages_in_group(usage).sum { it.used_units || 0 }
-    end
-
-    def minimum_prices_with_difference(usage) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
-      nights = usage&.booking&.nights || 0
-      price_per_unit = usage&.price_per_unit || 0
-      minimum_prices = minimum_prices(usage)
-      used_units = group_used_units(usage)
-
-      {
-        minimum_usage_per_night: minimum_usage_per_night &&
-          (((minimum_usage_per_night * nights) - used_units) * price_per_unit),
-        minimum_usage_total: minimum_usage_total &&
-          ((minimum_usage_total - used_units) * price_per_unit),
-        minimum_price_per_night: minimum_price_per_night &&
-          (minimum_prices[:minimum_price_per_night] - group_price(usage)),
-        minimum_price_total: minimum_price_total &&
-          (minimum_prices[:minimum_price_total] - group_price(usage))
-      }
-    end
-
-    def minimum_price(usage)
-      minimum_prices_with_difference_memo = minimum_prices_with_difference(usage)
-      if minimum_prices_with_difference_memo.values.compact.all?(&:negative?)
-        minimum_prices_with_difference_memo.filter { _2&.negative? }.min_by { _2 }
-      else
-        minimum_prices_with_difference_memo.filter { _2&.positive? }.max_by { _2 }
+        I18n.t(critical_minimum, scope: 'invoice_items.breakdown', unit:, minimum:, difference:, tarif_group_price:,
+                                 price_per_unit: number_to_currency(price_per_unit, currency: organisation.currency))
       end
-    end
 
-    def apply_usage_to_invoice?(usage, _invoice)
-      super && usage.price.positive?
-    end
+      def usages_in_tarif_group
+        booking.usages.joins(:tarif)
+               .where(tarifs: { tarif_group: tarif.tarif_group })
+               .where.not(id:)
+               .where.not(tarifs: { type: Tarifs::GroupMinimum.sti_name })
+      end
 
-    def presumed_units(usage)
-      0
+      def tarif_group_price
+        @tarif_group_price ||= usages_in_tarif_group.sum(&:price)
+      end
+
+      def tarif_group_used_units
+        @tarif_group_used_units ||= usages_in_tarif_group.sum { it.used_units || 0 }
+      end
+
+      def minimum_prices_difference # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+        nights = booking&.nights || 0
+
+        @minimum_prices_difference ||= {
+          minimum_usage_per_night:
+            tarif.minimum_usage_per_night&.*(nights)&.-(tarif_group_used_units)&.*(price_per_unit),
+          minimum_usage_total: tarif.minimum_usage_total&.-(tarif_group_used_units)&.*(price_per_unit),
+          minimum_price_per_night: tarif.minimum_price_per_night&.*(nights)&.-(tarif_group_price),
+          minimum_price_total: tarif.minimum_price_total&.-(tarif_group_price)
+        }
+      end
+
+      def minimum_price
+        @minimum_price ||= if minimum_prices_difference.values.compact.all?(&:negative?)
+                             minimum_prices_difference.values.compact.filter(&:negative?).min
+                           else
+                             minimum_prices_difference.values.compact.filter(&:positive?).max
+                           end
+      end
+
+      def critical_minimum
+        @critical_minimum ||= minimum_price.present? && minimum_prices_difference.find { minimum_price == _2 }&.first
+      end
+
+      def apply_to_invoice?(_invoice)
+        super && price.positive?
+      end
+
+      def prefill_units
+        0
+      end
     end
   end
 end

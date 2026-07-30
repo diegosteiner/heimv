@@ -33,21 +33,43 @@
 #  vat_category_id                   :bigint
 #
 
-module Tarifs
-  class Metered < Tarif
-    Tarif.register_subtype self
+require 'rails_helper'
 
-    class Usage < ::Usage
-      has_one :meter_reading_period, dependent: :nullify
+RSpec.describe Tarifs::Amount do
+  let(:booking) { create(:booking) }
 
-      accepts_nested_attributes_for :meter_reading_period, reject_if: :all_blank
+  describe 'Usage#minimum_prices' do
+    subject(:minimum_prices) { usage.minimum_prices_difference }
 
-      before_save do
-        next if meter_reading_period.blank?
+    let(:usage) { tarif.build_usage(booking:) }
+    let(:tarif) do
+      create(:tarif, type: described_class.sti_name, price_per_unit: 10, organisation: booking.organisation)
+    end
 
-        self.used_units ||= meter_reading_period.used_units
-        meter_reading_period.assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at)
+    context 'with minimums defined' do
+      before do
+        tarif.update(
+          minimum_usage_per_night: 24,
+          minimum_usage_total: 71,
+          minimum_price_per_night: 210,
+          minimum_price_total: 610
+        )
       end
+
+      it 'lists all minimum prices' do
+        expect(usage.minimum_prices).to match_array(
+          minimum_usage_per_night: (24 * booking.nights) * 10,
+          minimum_usage_total: (71 * 10),
+          minimum_price_per_night: (210 * booking.nights),
+          minimum_price_total: 610
+        )
+      end
+
+      it { expect(usage.critical_minimum).to eq(:minimum_usage_per_night) }
+    end
+
+    context 'without minimums defined' do
+      it { expect(usage.critical_minimum).to be_falsy }
     end
   end
 end

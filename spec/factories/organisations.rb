@@ -23,7 +23,7 @@
 #  esr_ref_prefix               :string
 #  homes_limit                  :integer
 #  iban                         :string
-#  invoice_payment_ref_template :string           default("%<prefix>s%<tenant_sequence_number>06d%<sequence_year>04d%<sequence_number>05d")
+#  invoice_payment_ref_template :string           default("")
 #  invoice_ref_template         :string
 #  locale                       :string
 #  location                     :string

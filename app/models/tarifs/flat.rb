@@ -15,6 +15,7 @@
 #  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
+#  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
@@ -35,10 +36,12 @@
 module Tarifs
   class Flat < Tarif
     Tarif.register_subtype self
-  end
 
-  def breakdown(usage)
-    I18n.t(:flat, scope: 'invoice_items.breakdown', unit:,
-                  price_per_unit: number_to_currency(usage.price_per_unit.presence || 0, unit: organisation.currency))
+    class Usage < ::Usage
+      def breakdown
+        I18n.t(:flat, scope: 'invoice_items.breakdown', unit:,
+                      price_per_unit: number_to_currency(price_per_unit.presence || 0, unit: organisation.currency))
+      end
+    end
   end
 end
