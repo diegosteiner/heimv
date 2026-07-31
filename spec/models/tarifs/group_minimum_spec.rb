@@ -76,7 +76,7 @@ RSpec.describe Tarifs::GroupMinimum do
       it 'lists all minimum prices' do
         expect(usage.tarif_group_price).to eq((7 * 10) + (8 * 12))
         expect(usage.tarif_group_used_units).to eq(7 + 8)
-        expect(minimum_prices).to match_array(
+        expect(minimum_prices).to match(
           minimum_usage_per_night: ((24 * 7) - 15) * 10,
           minimum_usage_total: ((71 - 15) * 10),
           minimum_price_per_night: (210 * 7) - ((7 * 10) + (8 * 12)),
@@ -98,7 +98,7 @@ RSpec.describe Tarifs::GroupMinimum do
       it 'lists all minimum prices' do
         expect(usage.tarif_group_price).to eq((7 * 10) + (8 * 12))
         expect(usage.tarif_group_used_units).to eq(7 + 8)
-        expect(minimum_prices).to match_array(
+        expect(minimum_prices).to match(
           minimum_usage_per_night: nil,
           minimum_usage_total: ((71 - 15) * 10),
           minimum_price_per_night: (210 * 7) - ((7 * 10) + (8 * 12)),

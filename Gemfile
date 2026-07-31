@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '4.0.5'
+ruby '4.0.6'
 
 gem 'active_flag'
 gem 'active_storage_validations'
@@ -28,7 +28,7 @@ gem 'faker', require: false
 gem 'faraday', require: false
 gem 'iban-tools'
 gem 'icalendar'
-gem 'image_processing'
+# gem 'image_processing'
 gem 'kramdown'
 gem 'liquid'
 gem 'matrix'

@@ -57,7 +57,7 @@ RSpec.describe Tarifs::Amount do
       end
 
       it 'lists all minimum prices' do
-        expect(usage.minimum_prices).to match_array(
+        expect(usage.minimum_prices).to match(
           minimum_usage_per_night: (24 * booking.nights) * 10,
           minimum_usage_total: (71 * 10),
           minimum_price_per_night: (210 * booking.nights),

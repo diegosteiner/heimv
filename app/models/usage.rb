@@ -44,7 +44,7 @@ class Usage < ApplicationRecord
     becomes!(tarif.class::Usage) if tarif.present? && !is_a?(tarif.class::Usage)
   end
 
-  def price(units: used_units)
+  def price(units = used_units)
     price = (units || 0.0) * (price_per_unit || 0.0)
 
     if price_per_unit&.negative?
