@@ -62,7 +62,7 @@ RSpec.describe Tarifs::OvernightStay do
     it do
       usage.update(details: { '2026-02-27' => 5, '2026-02-28' => '15', '2026-03-01' => false, 'omg' => 'wtf' })
       expect(usage).to have_attributes(
-        details: match_array('2026-02-27' => 5, '2026-02-28' => 15, '2026-03-01' => nil),
+        details: match_array('2026-02-27' => eq(5), '2026-02-28' => eq(15), '2026-03-01' => eq(0)),
         used_units: 20
       )
     end
@@ -71,7 +71,7 @@ RSpec.describe Tarifs::OvernightStay do
   describe 'Usage#breakdown' do
     it do
       usage.update(details: { '2026-02-27' => 5, '2026-02-28' => '15' })
-      expect(usage.breakdown).to eq('1 x 2')
+      expect(usage.breakdown).to eq('3 × 0 … 15 = 20 × Tag à CHF 150.00')
     end
   end
 end

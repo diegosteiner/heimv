@@ -45,7 +45,7 @@ class Usage < ApplicationRecord
   end
 
   def price(units: used_units)
-    price = (used_units || 0.0) * (price_per_unit || 0.0)
+    price = (units || 0.0) * (price_per_unit || 0.0)
 
     if price_per_unit&.negative?
       round_cents([price, minimum_price].compact.min)
@@ -128,14 +128,13 @@ class Usage < ApplicationRecord
     }
   end
 
-  def breakdown # rubocop:disable Metrics/CyclomaticComplexity
+  def breakdown
     key ||= :minimum if minimum_price?
     key ||= :default
 
-    I18n.t(key, scope: 'invoice_items.breakdown', unit: unit,
-                minimum: (minimum_price && number_to_rounded(minimum_price, precision: 2)) || nil,
-                used_units: number_to_rounded(used_units || 0, precision: 2, strip_insignificant_zeros: true),
-                price_per_unit: number_to_currency(price_per_unit.presence || 0, unit: organisation.currency))
+    I18n.t(key, scope: 'invoice_items.breakdown', unit:,
+                minimum: (minimum_price && format_price(minimum_price)) || nil,
+                used_units: format_units(used_units), price_per_unit: format_price(price_per_unit))
   end
 
   def minimum_price
@@ -165,5 +164,15 @@ class Usage < ApplicationRecord
     end
     usages.each(&:preselect) if preselect
     usages.filter(&:enabled_by_conditions?)
+  end
+
+  protected
+
+  def format_units(units, precision: 2)
+    number_to_rounded(units || 0, precision:, strip_insignificant_zeros: true)
+  end
+
+  def format_price(price = self.price)
+    number_to_currency(price_per_unit.presence || 0, unit: organisation.currency)
   end
 end

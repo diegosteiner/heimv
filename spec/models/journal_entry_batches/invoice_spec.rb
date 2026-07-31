@@ -70,7 +70,7 @@ RSpec.describe JournalEntryBatches::Invoice do
       expect(journal_entry_batches.reload).to contain_exactly(
         have_attributes(trigger: 'invoice_created', amount: 7200, processed?: be_truthy),
         have_attributes(trigger: 'invoice_reverted', amount: 7200, processed?: be_falsy),
-        have_attributes(trigger: 'invoice_updated', amount: 797, processed?: be_falsy)
+        have_attributes(trigger: 'invoice_updated', amount: 7277, processed?: be_falsy)
       )
     end
 

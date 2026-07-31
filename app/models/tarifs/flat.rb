@@ -39,8 +39,7 @@ module Tarifs
 
     class Usage < ::Usage
       def breakdown
-        I18n.t(:flat, scope: 'invoice_items.breakdown', unit:,
-                      price_per_unit: number_to_currency(price_per_unit.presence || 0, unit: organisation.currency))
+        I18n.t(:flat, scope: 'invoice_items.breakdown', unit:, price_per_unit: format_price(price_per_unit))
       end
     end
   end

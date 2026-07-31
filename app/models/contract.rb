@@ -65,7 +65,7 @@ class Contract < ApplicationRecord
     return unless was_sent? && changed.include?('text')
 
     successor = dup
-    successor.update!(**attributes, valid_from: Time.zone.now, sent_at: nil, tenant_tenant_signed_at: nil,
+    successor.update!(**attributes, valid_from: Time.zone.now, sent_at: nil, tenant_signed_at: nil,
                                     confirmed_at: nil)
     restore_attributes
     assign_attributes(valid_until: successor.valid_from)

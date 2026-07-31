@@ -97,7 +97,7 @@ function setupCopyToClipboard() {
 
 function setupUsageForms() {
   for (const usageElement of document.querySelectorAll("[data-usage-type='Tarifs::OvernightStay::Usage']")) {
-    const summaryInput = usageElement.querySelector("input[name$='[summary]'");
+    const summaryInput = usageElement.querySelector("input[name$='[summary]']");
     const detailsInputs = usageElement.querySelectorAll("input[data-usage-detail]");
     const sumOutput = usageElement.querySelector("output");
     const calculateSummary = () => {

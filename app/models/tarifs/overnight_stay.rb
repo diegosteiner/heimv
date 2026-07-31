@@ -45,16 +45,19 @@ module Tarifs
       before_validation :normalize_details, :set_used_units
 
       def breakdown
-        return super if minimum_price?
+        details_values = details&.values&.uniq || []
+        return super if details_values.empty? || minimum_price?
 
-        details_values = details&.values&.compact_blank&.uniq
-        return "#{used_units} #{unit} (#{booking_dates.count} × #{details_values.first})" if details_values.count.one?
-
-        "#{used_units} #{unit} (#{booking_dates.count} × #{details_values.min} … #{details_values.min})"
+        I18n.t(:overnight_stay, scope: 'invoice_items.breakdown', unit:, nights: booking_dates.count,
+                                details_factor: details_values.minmax.uniq.map { format_units(it) }.join(' … '),
+                                used_units: format_units(used_units), price_per_unit: format_price(price_per_unit))
       end
 
       def normalize_details
-        self.details = details&.slice(*booking_dates&.map(&:iso8601))&.transform_values { it.presence&.to_f } || {}
+        return unless details.is_a?(Hash)
+
+        keys = Array.wrap(booking_dates).map(&:iso8601)
+        self.details = keys.index_with(0).merge(details.slice(*keys).transform_values { it.try(:to_f) || 0 })
       end
 
       def set_used_units(force: false)

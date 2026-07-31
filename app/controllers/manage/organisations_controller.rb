@@ -32,7 +32,7 @@ module Manage
                     OrganisationParams.new(params[:organisation]).permitted
                   end
 
-      permitted[:smtp_settings].delete(:password) if permitted.dig(:smtp_settings, :password).blank?
+      permitted[:smtp_settings]&.delete(:password) if permitted.dig(:smtp_settings, :password).blank?
       permitted
     end
   end

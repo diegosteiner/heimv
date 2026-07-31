@@ -48,7 +48,7 @@ module Tarifs
                   end
 
         I18n.t(critical_minimum, scope: 'invoice_items.breakdown', unit:, minimum:, difference:, tarif_group_price:,
-                                 price_per_unit: number_to_currency(price_per_unit, currency: organisation.currency))
+                                 price_per_unit: number_to_currency(price_per_unit, unit: organisation.currency))
       end
 
       def usages_in_tarif_group

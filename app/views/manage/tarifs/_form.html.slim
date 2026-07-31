@@ -29,7 +29,7 @@
 
   - if @tarif.is_a?(Tarifs::OvernightStay)
     fieldset
-    = f.select :mode, enum_options_for_select(Tarifs::OvernightStay, :modes, @tarif.mode), include_blank: false
+      = f.select :mode, enum_options_for_select(Tarifs::OvernightStay, :modes, @tarif.mode), include_blank: false
 
   fieldset
     = f.text_field :price_per_unit, step: 0.01, inputmode: "numeric" 
