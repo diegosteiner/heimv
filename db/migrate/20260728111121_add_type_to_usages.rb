@@ -2,7 +2,9 @@
 
 class AddTypeToUsages < ActiveRecord::Migration[8.1]
   def change
+    add_column :tarifs, :mode, :integer, default: nil, null: true
     add_column :usages, :type, :string, null: true
+    rename_column :usages, :presumed_used_units, :quoted_units
 
     reversible do |direction|
       direction.up do
@@ -13,8 +15,6 @@ class AddTypeToUsages < ActiveRecord::Migration[8.1]
     end
 
     change_column_null :usages, :type, false
-    rename_column :usages, :presumed_used_units, :quoted_units
-    add_column :tarifs, :mode, :integer, default: nil, null: true
   end
 
   def backfill_usage_types
