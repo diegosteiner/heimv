@@ -4,16 +4,16 @@ module BookingActions
   class SignContract < Base
     use_mail_template(:manage_contract_signed_notification, context: %i[booking], autodeliver: true)
 
-    def invoke!(signed_pdf: nil, tenant_confirm_authorization: nil, current_user: nil) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    def invoke!(signed_pdf: nil, tenant_confirm_authorization: nil, current_user: nil) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize,Metrics/MethodLength
       if sign_by_click_enabled?
         return Result.failure unless tenant_confirm_authorization
       elsif signed_pdf.blank?
         return Result.failure
+      elsif !contract.update(signed_pdf:)
+        return Result.failure(error: contract.errors.full_messages.to_sentence)
       end
 
-      contract.update(signed_pdf:) if signed_pdf.present?
       booking.update(committed_request: true)
-
       mail = MailTemplate.use(:manage_contract_signed_notification, booking, to: :administration)
       mail.attach(signed_pdf) if mail.present? && signed_pdf.present?
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
@@ -45,7 +45,7 @@ module BookingActions
     protected
 
     def contract
-      booking.contract
+      @contract ||= booking.contract
     end
   end
 end

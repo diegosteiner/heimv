@@ -308,6 +308,7 @@ it:
         ordinal_position: Numero di serie
         validating_conditions:
       contract:
+        confirmed_at:
         issuer: Proprietario
         locale: Lingua
         pdf: PDF
@@ -997,6 +998,7 @@ it:
         country_code:
         locale: Lingua
   booking_state_checklist_item:
+    contract_confirmed:
     contract_created: Creare contratto
     contract_sent:
     contract_signed: Contratto firmato
@@ -1310,11 +1312,23 @@ it:
       blank: non può essere vuoto
       confirmation: non coincide con %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      content_type_invalid:
+        one:
+        other:
+      content_type_spoofed:
+        one:
+        other:
       empty: non può essere vuoto
       equal_to: deve essere uguale a %{count}
       even: deve essere pari
       exclusion: non è disponibile
       expired: è scaduto, si prega di richiederne uno nuovo
+      file_size_not_between:
+      file_size_not_equal_to:
+      file_size_not_greater_than:
+      file_size_not_greater_than_or_equal_to:
+      file_size_not_less_than:
+      file_size_not_less_than_or_equal_to:
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
       in: deve essere incluso in %{count}
@@ -1670,6 +1684,10 @@ it:
           other: "%{count} Notti"
           zero: senza pernottamento
   renderables:
+    booking_actions:
+      sign_contract:
+        prepare:
+          signed_pdf_help:
     booking_questions:
       check_box:
         value:

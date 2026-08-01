@@ -6,11 +6,13 @@ de:
       <p>{{ booking.tenant.salutation }}</p>
 
       <span>{% if deposit %}</span>
-      <p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Begleiche bitte auch die Akontorechnung über {{ deposit.balance | currency }} bis spätestens {{ deposit.payable_until | date_format }}.</p>
+      <p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und retourniere ihn <strong>innert 7 Tagen</strong> an uns zurück. Begleiche bitte auch die Akontorechnung über {{ deposit.balance | currency }} bis spätestens {{ deposit.payable_until | date_format }}.</p>
       <p>Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Akontorechnung und der unterzeichnete Vertrag bei uns eingetroffen sind.</p>
       <span>{% else %}</span>
-      <p>Mit dieser Nachricht erhältst Du den Vertrag für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück.</p>
+      <p>Mit dieser Nachricht erhältst Du den Vertrag für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und lade ihn hoch oder sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück.</p>
       <span>{% endif %}</span>
+
+      <p><a href="{{booking.links.show}}">Vertrag unterschrieben retournieren</a></p>
 
       <p><strong>Reservationsdetails</strong></p>
 

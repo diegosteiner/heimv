@@ -308,6 +308,7 @@ fr:
         ordinal_position: Position de l'affichage
         validating_conditions: Critère de validité
       contract:
+        confirmed_at:
         issuer: Propriétaire
         locale: Langue
         pdf: PDF
@@ -997,6 +998,7 @@ fr:
         country_code: Code du pays
         locale: Langue
   booking_state_checklist_item:
+    contract_confirmed:
     contract_created: Créer un contrat
     contract_sent: Envoyer le contrat
     contract_signed: Contrat signé
@@ -1310,11 +1312,23 @@ fr:
       blank: doit être rempli(e)
       confirmation: ne concorde pas avec %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      content_type_invalid:
+        one:
+        other:
+      content_type_spoofed:
+        one:
+        other:
       empty: doit être rempli(e)
       equal_to: doit être égal à %{count}
       even: doit être pair
       exclusion: n'est pas disponible
       expired: ist abgelaufen, bitte neu anfordern
+      file_size_not_between:
+      file_size_not_equal_to:
+      file_size_not_greater_than:
+      file_size_not_greater_than_or_equal_to:
+      file_size_not_less_than:
+      file_size_not_less_than_or_equal_to:
       greater_than: doit être supérieur à %{count}
       greater_than_or_equal_to: doit être supérieur ou égal à %{count}
       in: doit être inclus dans %{count}
@@ -1723,6 +1737,10 @@ fr:
           other: "%{count} Nuits"
           zero: sans nuitée
   renderables:
+    booking_actions:
+      sign_contract:
+        prepare:
+          signed_pdf_help:
     booking_questions:
       check_box:
         value:
