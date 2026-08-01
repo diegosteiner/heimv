@@ -12,14 +12,6 @@
           = f.select :locale, organisation.locales.map { [it.upcase, it.downcase] }
           = sf.label :locales
           = sf.collection_check_boxes :locales, Organisation.locales.keys, :downcase, :upcase, inline: true , skip_label: true
-    
-    fieldset
-      h3.mt-5= Notification.model_name.human(count: 2)
-      .card.shadow-sm 
-        .card-body
-          = f.check_box :deliver_notifications
-          = f.email_field :email
-          = f.email_field :bcc
 
     fieldset
       h3.mt-5= Contract.model_name.human(count: 2)
@@ -87,6 +79,46 @@
           
           - visibility_options = options_for_select(Occupancy.occupancy_types.keys.map { |key| [Occupancy.human_enum(:occupancy_type, key), key] }, selected: settings.public_occupancy_visibility , disabled: %w[free])
           = sf.select :public_occupancy_visibility, visibility_options, {}, multiple: true
+    
+    fieldset
+      h3.mt-5= Notification.model_name.human(count: 2)
+      .card.shadow-sm 
+        .card-body
+          = f.check_box :deliver_notifications
+          = f.email_field :email
+          = f.email_field :bcc
+
+          - if current_user.role_admin? || current_organisation_user.role?(:admin)
+            details
+              summary.mb-3= Organisation.human_attribute_name(:smtp_settings)
+              .alert.alert-warning[role="alert"]
+                p.m-0
+                  = t('.smtp_settings_warning')
+              .border.p-3.rounded.mb-3
+                = f.fields_for :smtp_settings, @organisation.smtp_settings || SmtpSettings.new do |sf|  
+                  .row  
+                    .col
+                      = sf.text_field :address
+                    .col-sm-3
+                      = sf.text_field :port
+                  = sf.collection_select :authentication, { "-": nil, plain: :plain, login: :login }, :last, :first
+
+                  .row  
+                    .col
+                      = sf.text_field :user_name
+                    .col
+                      = sf.password_field :password
+
+                  .d-flex.gap-3
+                    = sf.check_box :enable_starttls, {}, 'auto'
+                    = sf.check_box :tls
+                    = sf.check_box :ssl
+
+                  .row
+                    .col
+                      = sf.number_field :open_timeout
+                    .col
+                      = sf.number_field :read_timeout
 
     = f.fields_for :deadline_settings, @organisation.deadline_settings || DeadlineSettings.new do |df|  
       - deadline_settings = @organisation.deadline_settings
@@ -139,7 +171,6 @@
           .card-body
             = f.text_field :slug 
             = f.text_field :mail_from
-            div[v-pre]= f.text_area :smtp_settings, rows: 4, value: @organisation.smtp_settings.to_json
             = f.text_field :currency
             = sf.select :predefined_salutation_form, salutation_form_options_for_select(settings.predefined_salutation_form), include_blank: true
             = f.select :booking_flow_type, [BookingFlows::Default].map { [it.to_s, it.to_s] }

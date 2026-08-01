@@ -2,9 +2,10 @@
 
 source 'https://rubygems.org'
 
-ruby '4.0.5'
+ruby '4.0.6'
 
 gem 'active_flag'
+gem 'active_storage_validations'
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
 gem 'blueprinter'
@@ -12,7 +13,7 @@ gem 'bootsnap', require: false
 gem 'bootstrap_form' # https://github.com/bootstrap-ruby/bootstrap_form/issues?q=is%3Aissue%20collection_check_boxes
 gem 'camt_parser'
 gem 'cancancan'
-gem 'connection_pool', '~> 2.5' # https://github.com/mperham/connection_pool/issues/210
+gem 'connection_pool'
 gem 'countries'
 gem 'country_select'
 gem 'csv'
@@ -27,7 +28,7 @@ gem 'faker', require: false
 gem 'faraday', require: false
 gem 'iban-tools'
 gem 'icalendar'
-gem 'image_processing'
+# gem 'image_processing'
 gem 'kramdown'
 gem 'liquid'
 gem 'matrix'

@@ -27,7 +27,7 @@
 #  invoice_cc                   :string
 #  locale                       :string
 #  occupancy_color              :string
-#  occupancy_type               :integer          default("pending"), not null
+#  occupancy_type               :integer          default(0), not null
 #  purpose_description          :string
 #  ref                          :string
 #  remarks                      :text
@@ -83,7 +83,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
 
-  has_one_attached :usage_report
+  has_one_attached :home_return_report
   has_secure_token :token, length: 48
 
   attr_accessor :transition_to, :skip_infer_transitions, :applied_transitions

@@ -4,17 +4,18 @@
 #
 # Table name: usages
 #
-#  id                  :bigint           not null, primary key
-#  committed           :boolean          default(FALSE)
-#  details             :jsonb
-#  presumed_used_units :decimal(, )
-#  price_per_unit      :decimal(, )
-#  remarks             :text
-#  used_units          :decimal(, )
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  booking_id          :uuid
-#  tarif_id            :bigint
+#  id             :bigint           not null, primary key
+#  committed      :boolean          default(FALSE)
+#  details        :jsonb
+#  price_per_unit :decimal(, )
+#  quoted_units   :decimal(, )
+#  remarks        :text
+#  type           :string           not null
+#  used_units     :decimal(, )
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  booking_id     :uuid
+#  tarif_id       :bigint
 #
 
 require 'rails_helper'
@@ -31,34 +32,42 @@ RSpec.describe Usage do
     it { is_expected.to eq(6.65) }
   end
 
-  describe Usage::Factory do
-    describe 'build' do
-      subject(:factory) { described_class.new(booking) }
+  describe '::build' do
+    let(:booking) { create(:booking, organisation:, approximate_headcount: 12) }
+    let(:built_usages) { described_class.build(booking, preselect: true) }
+    let!(:tarif) do
+      selecting_conditions = [
+        BookingConditions::OccupancyDuration.new(compare_value: '1d',
+                                                 compare_operator: :>),
+        BookingConditions::BookingAttribute.new(compare_value: '10',
+                                                compare_attribute: :approximate_headcount,
+                                                compare_operator: :>)
+      ]
+      create(:tarif, organisation:, price_per_unit: 3.33, selecting_conditions:)
+    end
 
-      let(:booking) { create(:booking, organisation:, approximate_headcount: 12) }
-      let(:usages) { factory.build(preselect: true) }
-      let!(:tarif) do
-        selecting_conditions = [
-          BookingConditions::OccupancyDuration.new(compare_value: '1d',
-                                                   compare_operator: :>),
-          BookingConditions::BookingAttribute.new(compare_value: '10',
-                                                  compare_attribute: :approximate_headcount,
-                                                  compare_operator: :>)
-        ]
-        create(:tarif, organisation:, price_per_unit: 3.33, selecting_conditions:)
-      end
+    it do
+      expect(built_usages.count).to be > 0
+      usage = built_usages.first
+      expect(usage.apply).to be true
+      expect(usage.tarif).to eq(tarif)
+    end
 
-      it do
-        expect(usages.count).to be > 0
-        usage = usages.first
-        expect(usage.apply).to be true
-        expect(usage.tarif).to eq(tarif)
-      end
+    it 'respects existing usages' do
+      used_tarif = create(:tarif, organisation:, pin: true)
+      tarifs = create_list(:tarif, 3, organisation:, pin: true)
+      existing_usage = create(:usage, booking:, tarif: used_tarif)
+
+      expect(built_usages).to(be_all { |actual| actual.is_a?(described_class) })
+      tarif_ids = built_usages.map(&:tarif_id)
+
+      expect(tarif_ids).to include(*tarifs.map(&:id))
+      expect(tarif_ids).not_to include(existing_usage.tarif_id)
     end
   end
 
-  describe '#presumed_units' do
-    subject { usage.presumed_units }
+  describe '#prefill_units' do
+    subject { usage.prefill_units }
 
     let(:booking) { create(:booking) }
     let(:usage) { build(:usage, booking:, tarif:) }

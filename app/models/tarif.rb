@@ -15,6 +15,7 @@
 #  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
+#  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
@@ -43,7 +44,6 @@ class Tarif < ApplicationRecord
     headcount: -> { booking.approximate_headcount || 0 }
   }.with_indifferent_access.freeze
 
-  include ActiveSupport::NumberHelper
   extend TemplateRenderable
   include TemplateRenderable
   extend Mobility
@@ -89,37 +89,6 @@ class Tarif < ApplicationRecord
     organisation.booking_questions.ordered.where(type: booking_question_types)
   end
 
-  def presumed_units_question_factor(usage)
-    booking_question = prefill_usage_booking_question
-    return nil if booking_question.blank? || usage&.booking&.blank?
-
-    usage.booking.booking_question_responses.find_by(booking_question:)&.value.presence || 0
-  end
-
-  def presumed_units_prefill_factor(usage)
-    prefill_proc = PREFILL_METHODS[prefill_usage_method]
-    return if prefill_proc.blank?
-
-    usage.instance_exec(&prefill_proc).presence || 0
-  end
-
-  def presumed_units(usage)
-    return nil if presumed_units_prefill_factor(usage).blank? &&
-                  presumed_units_question_factor(usage).blank?
-
-    (presumed_units_prefill_factor(usage).presence || 1) * (presumed_units_question_factor(usage).presence || 1)
-  end
-
-  def breakdown(usage) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-    key ||= :minimum if usage.minimum_price?
-    key ||= :default
-    minimum = minimum_price(usage)&.last
-    I18n.t(key, scope: 'invoice_items.breakdown', unit:,
-                minimum: (minimum && number_to_rounded(minimum, precision: 2)) || nil,
-                used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
-                price_per_unit: number_to_currency(usage.price_per_unit.presence || 0, unit: organisation.currency))
-  end
-
   def <=>(other)
     ordinal <=> other.ordinal
   end
@@ -128,28 +97,20 @@ class Tarif < ApplicationRecord
     "##{ordinal}: [#{tarif_group}] #{label} (#{self.class.model_name.human})"
   end
 
-  def minimum_prices(usage) # rubocop:disable Metrics/CyclomaticComplexity
-    nights = usage&.booking&.nights || 0
-    price_per_unit = usage&.price_per_unit || 0
-
+  def minimums
     {
-      minimum_usage_per_night: minimum_usage_per_night && (minimum_usage_per_night * price_per_unit * nights),
-      minimum_usage_total: minimum_usage_total && (minimum_usage_total * price_per_unit),
-      minimum_price_per_night: minimum_price_per_night && (minimum_price_per_night * nights),
-      minimum_price_total: minimum_price_total.presence
+      minimum_usage_per_night:,
+      minimum_usage_total:,
+      minimum_price_per_night:,
+      minimum_price_total:
     }
   end
 
-  def minimum_price(usage)
-    if usage.price_per_unit&.negative?
-      minimum_prices(usage).filter { _2&.negative? }.min_by { _2 }
-    else
-      minimum_prices(usage).filter { _2&.positive? }.max_by { _2 }
-    end
+  def build_usage(**attributes)
+    self.class::Usage.new(**attributes, tarif: self)
   end
 
-  def apply_usage_to_invoice?(_usage, _invoice)
-    true
+  class Usage < ::Usage
   end
 
   private

@@ -1,19 +1,19 @@
-= render layout: 'manage/tarifs/usage_form', locals: { usage:, f: }
+= render layout: 'manage/tarifs/usage_form', locals: { usage:, f:, unit: Tarif.human_attribute_name(usage.critical_minimum) }
   - usage.valid? # trigger #before_validate
   .d-flex.gap-3.justify-content-end
-    - case usage.minimum_price&.first
+    - case usage.critical_minimum
     - when :minimum_usage_per_night
       div
         | (
 
       div
         = number_with_delimiter(usage.tarif.minimum_usage_per_night * usage.booking.nights)
-
+      
       div
         | -
 
       div
-        = number_with_delimiter(usage.tarif.group_used_units(usage))
+        = number_with_delimiter(usage.tarif_group_used_units)
 
       div
         | )
@@ -24,9 +24,6 @@
       div
         = number_to_currency(usage.price_per_unit, unit: '')
         small.d-block.text-muted= @booking.organisation.currency
-
-      div
-        | =
 
     - when :minimum_usage_total
       div
@@ -39,7 +36,7 @@
         | -
 
       div
-        = number_with_delimiter(usage.tarif.group_used_units(usage))
+        = number_with_delimiter(usage.tarif_group_used_units)
 
       div
         | )
@@ -51,9 +48,6 @@
         = number_to_currency(usage.price_per_unit, unit: '')
         small.d-block.text-muted= @booking.organisation.currency
 
-      div
-        | =
-
     - when :minimum_price_per_night
       div
         = number_to_currency(usage.tarif.minimum_price_per_night * usage.booking.nights)
@@ -62,13 +56,15 @@
         | -
 
       div
-        = number_to_currency(usage.tarif.group_price(usage))
+        = number_to_currency(usage.tarif_group_price)
 
       div
         | =
 
     - when :minimum_price_total
       - if usage.tarif.minimum_price_total.zero?
+        | –
+
       - else
         div
           = number_to_currency(usage.tarif.minimum_price_total)
@@ -77,8 +73,11 @@
           | -
 
         div
-          = number_to_currency(usage.tarif.group_price(usage))
+          = number_to_currency(usage.tarif_group_price)
 
         div
           | =
+
+    - else
+      | –
 

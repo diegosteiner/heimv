@@ -193,10 +193,6 @@ tr.disabled {
   flex-wrap: nowrap;
 }
 
-.presumed-usage {
-  background-color: #fff9e8;
-}
-
 .position-fixed-lg {
   @include media-breakpoint-up(md) {
     position: fixed;
@@ -285,5 +281,14 @@ body.react-loading .react-loading-hidden {
 input#invoice_payment_required:checked+label.form-check-label {
   &>.payment_not_required_warning {
     display: none;
+  }
+}
+
+[data-usage-type="Tarifs::OvernightStay::Usage"] {
+  &[data-usage-mode="nights"] {
+    input[data-usage-detail] {
+      position: relative;
+      top: 1.5em;
+    }
   }
 }

@@ -6,7 +6,6 @@
   fieldset
     = f.email_field :email, disabled: !@organisation_user.new_record?
     = f.select :role, OrganisationUser.roles.keys.map { |role| [OrganisationUser.human_enum(:role, role), role] }
-
 	
   - if @organisation_user.persisted?
     fieldset 

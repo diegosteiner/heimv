@@ -23,7 +23,7 @@
         tr
           th= Contract.model_name.human
           th= Contract.human_attribute_name(:sent_at)
-          th= Contract.human_attribute_name(:signed_at)
+          th= Contract.human_attribute_name(:confirmed_at)
           th
 
       tbody.shadow-sm
@@ -41,14 +41,14 @@
               - else
                 | –
             td
-              - if contract.signed? || contract.superseded?
+              - if contract.confirmed? || contract.superseded?
                 - if contract.signed_pdf.attached?
                   = link_to url_for(contract.signed_pdf), target: '_blank' do 
-                  	= Contract.human_attribute_name(:signed_at)
-                    =<> l(contract.signed_at)
+                  	= Contract.human_attribute_name(:confirmed_at)
+                    =<> l(contract.confirmed_at)
                     span.ms-2.fa.fa-print
-                - elsif contract.signed?
-                  = l(contract.signed_at)
+                - elsif contract.confirmed?
+                  = l(contract.confirmed_at)
               - else
                 | –
             td.py-1.text-end

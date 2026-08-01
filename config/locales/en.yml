@@ -106,6 +106,7 @@ en:
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
+        occupancy_type: Belegungsart
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -121,6 +122,8 @@ en:
         locales: Sprachen
         occupied_occupancy_color: Farbe für definitive Belegungen
         predefined_salutation_form: Vordefinierte Anredeform
+        public_occupancy_visibility: Sichtbarkeit von Belegungen im öffentlichen Kalender
+        qr_bill_creditor_address_as_invoice_address: "«Zahlbar an QR-Rechnungen» als Rechnungsadresse verwenden"
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
         tentative_occupancy_color: Farbe für provisorischen Belegungen
         upcoming_soon_window: Frist für baldige Belegung
@@ -129,6 +132,15 @@ en:
         paid_at_before: Zahlung bis
         ref: Zahlungsreferenz
         sort: Sortierung
+      smtp_settings:
+        address: Server Adresse
+        authentication: Authentifizierung
+        enable_starttls: STARTTLS
+        password: Passwort
+        port: Port
+        ssl: SSL (Legacy)
+        tls: TLS
+        user_name: Username
     model:
       invoice/items/add:
         one: Normale Rechungsposition
@@ -247,6 +259,7 @@ en:
         ignore_conflicting: Terminkonflikte ignorieren
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
+        invoice_cc: Rechnungskopie als CC
         locale: Sprache
         nights: Nächte
         occupancies: Belegungen
@@ -262,7 +275,6 @@ en:
         tenant_id: Mieter
         tenant_organisation: Mieter Organisation / Gruppenname
         transition_to: Neuer Status
-        usage_report: Verbrauchsformular
         use_invoice_address: abweichende Rechnungsadresse
       booking/booking_question_responses:
         value: Zusätzliche Angabe
@@ -304,8 +316,8 @@ en:
         locale: Sprache
         pdf: PDF
         sent_at: Vertragsdatum
-        signed_at: Von Mieter Unterschrieben am
         signed_pdf: Von Mieter Unterschriebenes PDF
+        tenant_signed_at: Von Mieter Unterschrieben am
         text: Vertragstext
         title: Titel
       data_digest:
@@ -355,7 +367,9 @@ en:
         ref: Referenznummer
         sent_at: Rechnungsdatum
         text: Text
+        total: Total
         type: Rechnungsart
+        vat_title: in den Preisen enhaltene MwSt.
       journal_entry_batch:
         amount: Betrag
         booking_id: Buchung
@@ -481,6 +495,7 @@ en:
         minimum_price_total: Minimaler Preis (Total)
         minimum_usage_per_night: Minimaler Preis (pro Nacht)
         minimum_usage_total: Minimaler Preis (Total)
+        mode: Modus
         ordinal_position: Ordnungsnummer
         pin: Tarif NICHT auf Buchung fixieren
         prefill_usage_booking_question_id: Verbrauchsvorschlag aus Angabe
@@ -681,6 +696,10 @@ en:
           headcount: "# Personen"
           headcount_nights: Übernachtungen
           nights: Nächte
+      tarifs_overnight_stay:
+        modes:
+          days: Tage
+          nights: Nächte
       tenant:
         salutation_forms:
           formal_female: Sehr geehrte Frau %{last_name}
@@ -711,6 +730,7 @@ en:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
+          too_short: ist zu kurz
         tenant:
           incomplete: Angaben unvollständig
     models:
@@ -783,6 +803,9 @@ en:
       data_digest_templates/meter_reading_period:
         one: Zählerstand Auszug
         other: Zählerstände Auszüge
+      data_digest_templates/occupancy:
+        one: Belegungen Auszug
+        other: Belegungen Auszüge
       data_digest_templates/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
@@ -924,6 +947,8 @@ en:
       label_with_ref: "%{type} %{ref} verschicken"
     email_offer:
       label: Offerte verschicken
+    manage_commit_request:
+      label: Anfrage als definitv markieren
     mark_contract_sent:
       label: Vertrag als versendet markieren
     mark_contract_signed:
@@ -938,6 +963,8 @@ en:
       label_with_ref: Offener Betrag von %{type} %{ref} rückerstatten
     postpone_deadline:
       label: Frist verlängern
+    promote_from_waitlist:
+      label: Anfrage aus Warteliste befördern
     put_on_waitlist:
       label: Anfrage auf Warteliste setzen
     revert_cancel:
@@ -948,7 +975,8 @@ en:
         Mit dem Klick auf den Knopf «Vertrag rechtskräftig unterzeichnen» wird der Vertrag rechtsverbindlich abgeschlossen und bestätigt, dass die Berechtigung zur Unterzeichnung vorliegt. Damit werden die geltenden Vertragsbedingungen sowie die allgemeinen Geschäftsbedingungen in ihrer jeweils aktuellen Fassung anerkannt.
         Zudem wird erklärt, dass alle erforderlichen Befugnisse vorhanden sind, um den Vertrag im eigenen Namen oder – sofern zutreffend – im Namen einer juristischen Person abzuschliessen.
         Durch die Bestätigung entsteht die Verpflichtung zur Einhaltung aller vereinbarten Pflichten und Rechte, einschliesslich möglicher Zahlungsverpflichtungen, sowie zur Beachtung aller anwendbaren gesetzlichen Bestimmungen. Falls keine Berechtigung zur Vertragsunterzeichnung besteht, kann dies rechtliche Konsequenzen nach sich ziehen.
-      label: Vertrag rechtskräftig unterzeichnen
+      label_sign_by_click: Vertrag rechtskräftig unterzeichnen
+      label_upload: Vertrag unterzeichnet hochladen
     skip_invoice:
       label: Endabrechnung überspringen
   booking_conditions:
@@ -1030,6 +1058,7 @@ en:
     definitive_request:
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
       label: Mietanfrage (definitiv)
+      public_info: Die Mietanfrage ist definitiv und wird demnächst durch die Verwaltung geprüft und weiterbearbeitet.
       relevant_time: Eingereicht %{time}
     initial:
       label: "-"
@@ -1271,6 +1300,7 @@ en:
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
   edit: Bearbeiten
+  email: E-Mail
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
@@ -1588,6 +1618,7 @@ en:
     organisations:
       form:
         general: Allgemein
+        smtp_settings_warning: Achtung! Einstellungen nur mit Vorsicht ändern!
     pages:
       flow:
         title: Buchungsprozess
@@ -1721,6 +1752,8 @@ en:
               <dt>Vertragsdatum</dt>
               <dd><pre>{{ contract.issued_at | date_format }}</pre></dd>
             </dl>
+          deposit: "<p><em>siehe Rechnung</em></p>"
+          deposits: "<p><em>siehe Rechnungen</em></p>"
           invoice: |-
             <h5>Rechnung</h5>
             <dl>
@@ -1797,6 +1830,7 @@ en:
       format:
         delimiter: "'"
         format: "%u %n"
+        negative_format: "-%n %u"
         precision: 2
         separator: "."
         significant: false
@@ -1876,6 +1910,7 @@ en:
         committed_request_definitive_request_help: Verbindliche Zusage. Vertrag wird vorbereitet und zugestellt, sofern die Verwaltung die Anfrage akzeptiert
         committed_request_provisional_request_help: Unverbindliche Anfrage. Zu- oder Absage innert der angegebenen Frist
         last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
+        occupancy_conflict_warning: Der gewählte Zeitraum überschneidet sich mit einer bestehenden Belegung. Die Anfrage wird auf die Warteliste gesetzt.
       new:
         accept_conditions_html: Ich bin mit %{conditions_html} einverstanden
         privacy_policy_condition_html: den <a href="%{url}" target="_blank">Datenschutzbestimmungen</a>
@@ -1895,6 +1930,11 @@ en:
         value:
           'false': Nein
           'true': Ja
+    tarifs:
+      overnight_stay:
+        usage:
+          form:
+            total: Total
   reset: Zurücksetzen
   rich_text_templates:
     awaiting_tenant_notification:
@@ -1989,8 +2029,6 @@ en:
       description: Benachrichtigung für zukünftige Belegung (Mieter)
     upcoming_soon_notification:
       description: Benachrichtigung für baldige Belegung (Mieter)
-    usage_report_text:
-      description: Text für Verbrauchsformular
     waitlisted_request_notification:
       description: Benachrichtigung für Mietanfrage auf der Warteliste (Mieter)
   show: Anzeigen

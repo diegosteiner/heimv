@@ -3,7 +3,7 @@
 module Manage
   class ContractParams < ApplicationParams
     def self.permitted_keys
-      %i[sent_at signed_at title text valid_from valid_until booking_id signed_pdf locale]
+      %i[sent_at tenant_signed_at title text valid_from valid_until booking_id signed_pdf confirmed_at locale]
     end
 
     sanitize do |params|

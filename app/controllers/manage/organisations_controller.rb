@@ -26,9 +26,14 @@ module Manage
     end
 
     def organisation_params
-      return params.expect(organisation: OrganisationParams.admin_permitted_keys) if current_user.role_admin?
+      permitted = if current_user.role_admin?
+                    params.expect(organisation: OrganisationParams.admin_permitted_keys)
+                  else
+                    OrganisationParams.new(params[:organisation]).permitted
+                  end
 
-      OrganisationParams.new(params[:organisation]).permitted
+      permitted[:smtp_settings]&.delete(:password) if permitted.dig(:smtp_settings, :password).blank?
+      permitted
     end
   end
 end

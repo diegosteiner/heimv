@@ -132,6 +132,15 @@ it:
         paid_at_before: Pagamento fino a
         ref:
         sort:
+      smtp_settings:
+        address:
+        authentication:
+        enable_starttls:
+        password: Password
+        port:
+        ssl:
+        tls:
+        user_name:
     model:
       invoice/items/add:
         one: Voce di fattura normale
@@ -262,7 +271,6 @@ it:
         tenant_id: Inquilino
         tenant_organisation: Inquilino (organizzazione)
         transition_to: Nuovo stato
-        usage_report: Forma di consumo
         use_invoice_address:
       booking/booking_question_responses:
         value:
@@ -300,12 +308,13 @@ it:
         ordinal_position: Numero di serie
         validating_conditions:
       contract:
+        confirmed_at:
         issuer: Proprietario
         locale: Lingua
         pdf: PDF
         sent_at: Data del contratto
-        signed_at: Firmato dall'inquilino il
         signed_pdf: PDF firmato dall'inquilino
+        tenant_signed_at: Firmato dall'inquilino il
         text: Testo contrattuale
         title: Titolo
       data_digest:
@@ -483,6 +492,7 @@ it:
         minimum_price_total:
         minimum_usage_per_night: Consumo minimo (per notte)
         minimum_usage_total: Consumo minimo (totale)
+        mode:
         ordinal_position: Numero di serie
         pin: Congelare il prezzo per unità
         prefill_usage_booking_question_id:
@@ -682,6 +692,10 @@ it:
           flat: Forfettario
           headcount: Numero di persone
           headcount_nights: Pernottamenti
+          nights: Notti
+      tarifs_overnight_stay:
+        modes:
+          days:
           nights: Notti
       tenant:
         salutation_forms:
@@ -948,7 +962,8 @@ it:
     sign_contract:
       confirm_authorization_label:
       description:
-      label:
+      label_sign_by_click:
+      label_upload:
     skip_invoice:
       label: Saltare il conto finale
   booking_conditions:
@@ -983,6 +998,7 @@ it:
         country_code:
         locale: Lingua
   booking_state_checklist_item:
+    contract_confirmed:
     contract_created: Creare contratto
     contract_sent:
     contract_signed: Contratto firmato
@@ -1286,6 +1302,7 @@ it:
         one: "(minimo %{count} carattere)"
         other: "(minimo %{count} caratteri)"
   edit: Bearbeiten
+  email: Email
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: L'input non può essere elaborato, riprova.
@@ -1295,11 +1312,23 @@ it:
       blank: non può essere vuoto
       confirmation: non coincide con %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      content_type_invalid:
+        one:
+        other:
+      content_type_spoofed:
+        one:
+        other:
       empty: non può essere vuoto
       equal_to: deve essere uguale a %{count}
       even: deve essere pari
       exclusion: non è disponibile
       expired: è scaduto, si prega di richiederne uno nuovo
+      file_size_not_between:
+      file_size_not_equal_to:
+      file_size_not_greater_than:
+      file_size_not_greater_than_or_equal_to:
+      file_size_not_less_than:
+      file_size_not_less_than_or_equal_to:
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
       in: deve essere incluso in %{count}
@@ -1388,6 +1417,7 @@ it:
       minimum_price_total:
       minimum_usage_per_night:
       minimum_usage_total:
+      overnight_stay:
   layouts:
     footer:
       legal:
@@ -1480,6 +1510,7 @@ it:
     organisations:
       form:
         general: Generalmente
+        smtp_settings_warning:
     pages:
       flow:
         title: Processo di prenotazione
@@ -1653,11 +1684,20 @@ it:
           other: "%{count} Notti"
           zero: senza pernottamento
   renderables:
+    booking_actions:
+      sign_contract:
+        prepare:
+          signed_pdf_help:
     booking_questions:
       check_box:
         value:
           'false': 'No'
           'true': Sì
+    tarifs:
+      overnight_stay:
+        usage:
+          form:
+            total: Totale
   reset: Reset
   rich_text_templates:
     awaiting_tenant_notification:
@@ -1752,8 +1792,6 @@ it:
       description: Notifica di occupazione futura (inquilino)
     upcoming_soon_notification:
       description: Notifica di occupazione nel prossimo futuro (inquilino)
-    usage_report_text:
-      description: Testo per il modulo di consumo
     waitlisted_request_notification:
       description:
   show: Mostrare

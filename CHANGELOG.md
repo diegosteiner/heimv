@@ -1,5 +1,15 @@
 # Changelog
 
+## 26.8.1
+
+Released 01.08.2026 🇨🇭
+
+- Improvement: Improve UX for overnight_stay tarifs by setting all nights at once
+- Feature: Allow switching between days and nights for overnight_stay tarifs
+- Feature: Allow tenants to upload contracts directly via heimv and let manager confirm
+- Feature: Allow admins to set smtp settings for their organisation
+- Refactor: Extract tarif specific usage methods into their own usage classes
+
 ## 26.6.2
 
 Released 29.06.2026

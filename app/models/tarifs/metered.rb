@@ -15,6 +15,7 @@
 #  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
+#  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
@@ -36,12 +37,17 @@ module Tarifs
   class Metered < Tarif
     Tarif.register_subtype self
 
-    def before_usage_save(usage)
-      meter_reading_period = usage.meter_reading_period
-      return if meter_reading_period.blank?
+    class Usage < ::Usage
+      has_one :meter_reading_period, dependent: :nullify
 
-      usage.used_units ||= meter_reading_period.used_units
-      meter_reading_period.assign_attributes(begins_at: usage.booking.begins_at, ends_at: usage.booking.ends_at)
+      accepts_nested_attributes_for :meter_reading_period, reject_if: :all_blank
+
+      before_save do
+        next if meter_reading_period.blank?
+
+        self.used_units ||= meter_reading_period.used_units
+        meter_reading_period.assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at)
+      end
     end
   end
 end

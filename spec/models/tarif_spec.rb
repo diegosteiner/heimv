@@ -15,6 +15,7 @@
 #  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
+#  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
@@ -52,7 +53,7 @@ RSpec.describe Tarif do
   end
 
   describe '#minimum_prices' do
-    subject(:minimum_prices) { usage.tarif.minimum_prices(usage) }
+    subject(:minimum_prices) { usage.minimum_prices }
 
     before do
       tarif.update({
@@ -74,8 +75,6 @@ RSpec.describe Tarif do
   end
 
   describe '#minimum_price' do
-    subject(:minimum_price) { usage.tarif.minimum_price(usage) }
-
     before do
       tarif.update({
                      minimum_usage_per_night: 24,
@@ -85,8 +84,7 @@ RSpec.describe Tarif do
                    })
     end
 
-    it 'lists all minimum prices' do
-      expect(minimum_price).to eq([:minimum_usage_per_night, 24 * 7 * 10])
-    end
+    it { expect(usage.minimum_price).to eq(24 * 7 * 10) }
+    it { expect(usage.critical_minimum).to eq(:minimum_usage_per_night) }
   end
 end

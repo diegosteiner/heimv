@@ -23,6 +23,11 @@ class ImportSeeder
     true
   end
 
+  def dump(file, organisation: Organisation.take)
+    file = FILES[file] if file.is_a?(Symbol)
+    File.write(file, Manage::OrganisationSerializer.render(organisation))
+  end
+
   private
 
   def rich_text_templates(organisation)

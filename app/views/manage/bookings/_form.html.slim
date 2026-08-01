@@ -77,7 +77,7 @@
       = f.fields_for :invoice_address, @booking.invoice_address || Address.new(country_code: current_organisation.country_code) do |iaf|
         = render partial: Address.to_partial_path('form_fields'), locals: { f: iaf }
     
-    = f.email_field :invoice_cc
+    = f.email_field :invoice_cc, placeholder: t(:email)
 
   fieldset
     h5.mt-4= Booking.model_name.human

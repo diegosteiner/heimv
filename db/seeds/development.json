@@ -64,7 +64,9 @@
       "booking_agent_request",
       "awaiting_tenant",
       "overdue_request"
-    ]
+    ],
+    "enable_waitlist": false,
+    "enable_provisional_request": true
   },
   "country_code": "CH",
   "currency": "CHF",
@@ -79,6 +81,7 @@
     "deposit_payment_deadline": "864000",
     "deadline_postponable_for": "259200"
   },
+  "deliver_notifications": true,
   "designated_documents": {},
   "email": "info@heimv.local",
   "esr_beneficiary_account": null,
@@ -99,11 +102,12 @@
   "mail_from": "info@heimv.local",
   "name": "Heimverein Development",
   "nickname_label_i18n": {},
-  "deliver_notifications": true,
   "settings": {
     "default_calendar_view": "months",
     "tenant_birth_date_required": true,
+    "contract_sign_by_click_enabled": false,
     "invoice_show_usage_details": true,
+    "qr_bill_creditor_address_as_invoice_address": true,
     "booking_window": "78892380",
     "last_minute_warning": "864000",
     "upcoming_soon_window": "1209600",

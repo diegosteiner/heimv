@@ -3,6 +3,8 @@
   = f.select :locale, I18n.available_locales.map { [it, it] }, include_blank: t('.all_locales')
   = f.text_field :name
   = f.file_field :file, required: @designated_document.file.blank?
+  - if @designated_document.file.attached?
+    .mb-3= link_to @designated_document.file.filename, rails_blob_path(@designated_document.file), download: true
   = f.text_area :remarks
 
   fieldset.mt-4#attaching_conditions

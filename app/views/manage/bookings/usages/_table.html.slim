@@ -24,7 +24,7 @@
         .border.shadow-sm.collapse.show[id=collapse_id]
           - group_usages.each do |usage|
             = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
-              = render partial: usage.tarif.to_partial_path('usage_form'), locals: { f: uf, usage: }
+              = render partial: usage.to_partial_path('form'), locals: { f: uf, usage: }
   .mt-4
     - if can?(:manage, @booking)
       button.btn.btn-primary[type=:submit name=:commit]

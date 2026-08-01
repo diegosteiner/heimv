@@ -48,7 +48,7 @@ module Import
         hash['tarifs'].each { |tarif| organisation.tarifs << importer.import(tarif) }
       end
 
-      # TODO: booking_agents
+      # TODO: booking_agents, booking_questions
     end
   end
 end

@@ -1,0 +1,39 @@
+{
+  "name": "HeimV",
+  "dockerComposeFile": [
+    "../docker-compose.yml",
+    "docker-compose.yml"
+  ],
+  "service": "app",
+  "runServices": [
+    "db",
+    "valkey",
+    "mail",
+    "selenium"
+  ],
+  "workspaceFolder": "/rails",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "sianglim.slim",
+        "DavidAnson.vscode-markdownlint",
+        "Shopify.ruby-extensions-pack",
+        "KoichiSasada.vscode-rdbg",
+        "biomejs.biome",
+        "Shopify.ruby-lsp",
+      ],
+    },
+    "settings": {
+      "editor.insertSpaces": true,
+      "editor.tabSize": 2,
+      "terminal.integrated.defaultProfile.linux": "ash",
+    },
+  },
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [
+  // 	3000
+  // ],
+  // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "rails",
+  "shutdownAction": "stopCompose",
+}

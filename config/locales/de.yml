@@ -132,6 +132,15 @@ de:
         paid_at_before: Zahlung bis
         ref: Zahlungsreferenz
         sort: Sortierung
+      smtp_settings:
+        address: Server Adresse
+        authentication: Authentifizierung
+        enable_starttls: STARTTLS
+        password: Passwort
+        port: Port
+        ssl: SSL (Legacy)
+        tls: TLS
+        user_name: Username
     model:
       invoice/items/add:
         one: Normale Rechungsposition
@@ -266,7 +275,6 @@ de:
         tenant_id: Mieter
         tenant_organisation: Mieter Organisation / Gruppenname
         transition_to: Neuer Status
-        usage_report: Verbrauchsformular
         use_invoice_address: abweichende Rechnungsadresse
       booking/booking_question_responses:
         value: Zusätzliche Angabe
@@ -304,12 +312,13 @@ de:
         ordinal_position: Ordnungsnummer
         validating_conditions: Gültigkeitskriterium
       contract:
+        confirmed_at: Retournierter Vertrag bestätigt am
         issuer: Vermieter
         locale: Sprache
         pdf: PDF
         sent_at: Vertragsdatum
-        signed_at: Von Mieter unterzeichnet am
         signed_pdf: Von Mieter unterzeichnetes PDF
+        tenant_signed_at: Von Mieter unterzeichnet am
         text: Vertragstext
         title: Titel
       data_digest:
@@ -487,6 +496,7 @@ de:
         minimum_price_total: Minimaler Preis (Total)
         minimum_usage_per_night: Minimaler Verbrauch (pro Nacht)
         minimum_usage_total: Minimaler Verbrauch (Total)
+        mode: Modus
         ordinal_position: Ordnungsnummer
         pin: Preis pro Einheit einfrieren
         prefill_usage_booking_question_id: Verbrauchsvorschlag aus Angabe
@@ -687,6 +697,10 @@ de:
           headcount: "× Anzahl Personen"
           headcount_nights: "× Übernachtungen"
           nights: "× Nächte"
+      tarifs_overnight_stay:
+        modes:
+          days: Tage
+          nights: Nächte
       tenant:
         salutation_forms:
           formal_female: Sehr geehrte Frau %{last_name}
@@ -962,7 +976,8 @@ de:
         Mit dem Klick auf den Knopf «Vertrag rechtskräftig unterzeichnen» wird der Vertrag rechtsverbindlich abgeschlossen und bestätigt, dass die Berechtigung zur Unterzeichnung vorliegt. Damit werden die geltenden Vertragsbedingungen sowie die allgemeinen Geschäftsbedingungen in ihrer jeweils aktuellen Fassung anerkannt.
         Zudem wird erklärt, dass alle erforderlichen Befugnisse vorhanden sind, um den Vertrag im eigenen Namen oder – sofern zutreffend – im Namen einer juristischen Person abzuschliessen.
         Durch die Bestätigung entsteht die Verpflichtung zur Einhaltung aller vereinbarten Pflichten und Rechte, einschliesslich möglicher Zahlungsverpflichtungen, sowie zur Beachtung aller anwendbaren gesetzlichen Bestimmungen. Falls keine Berechtigung zur Vertragsunterzeichnung besteht, kann dies rechtliche Konsequenzen nach sich ziehen.
-      label: Vertrag rechtskräftig unterzeichnen
+      label_sign_by_click: Vertrag rechtskräftig unterzeichnen
+      label_upload: Vertrag unterzeichnet retournieren
     skip_invoice:
       label: Endabrechnung überspringen
   booking_conditions:
@@ -997,6 +1012,7 @@ de:
         country_code: Ländercode
         locale: Sprache
   booking_state_checklist_item:
+    contract_confirmed: Retournierter Vertrag prüfen und bestätigen
     contract_created: Vertrag erstellen
     contract_sent: Vertrag versenden
     contract_signed: Vertrag unterzeichnet
@@ -1301,6 +1317,7 @@ de:
         one: "(mindestens %{count} Zeichen)"
         other: "(mindestens %{count} Zeichen)"
   edit: Bearbeiten
+  email: E-Mail
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
@@ -1310,11 +1327,23 @@ de:
       blank: muss ausgefüllt werden
       confirmation: stimmt nicht mit %{attribute} überein
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      content_type_invalid:
+        one: hat einen ungültigen Inhaltstyp (autorisierter Inhaltstyp ist %{authorized_human_content_types})
+        other: hat einen ungültigen Inhaltstyp (autorisierte Inhaltstypen sind %{authorized_human_content_types})
+      content_type_spoofed:
+        one: hat einen Inhaltstyp, der nicht dem entspricht, der durch seinen Inhalt erkannt wird (autorisierter Inhaltstyp ist %{authorized_human_content_types})
+        other: hat einen Inhaltstyp, der nicht dem entspricht, der durch seinen Inhalt erkannt wird (autorisierte Inhaltstypen sind %{authorized_human_content_types})
       empty: muss ausgefüllt werden
       equal_to: muss genau %{count} sein
       even: muss gerade sein
       exclusion: ist nicht verfügbar
       expired: ist abgelaufen, bitte neu anfordern
+      file_size_not_between: Dateigrösse muss zwischen %{min} und %{max} liegen (aktuelle Dateigrösse ist %{file_size})
+      file_size_not_equal_to: Dateigrösse muss gleich %{exact} sein (aktuelle Dateigrösse ist %{file_size})
+      file_size_not_greater_than: Dateigrösse muss grösser als %{min} sein (aktuelle Dateigrösse ist %{file_size})
+      file_size_not_greater_than_or_equal_to: Dateigrösse muss grösser oder gleich %{min} sein (aktuelle Dateigrösse ist %{file_size})
+      file_size_not_less_than: Dateigrösse muss kleiner als %{max} sein (aktuelle Dateigrösse ist %{file_size})
+      file_size_not_less_than_or_equal_to: Dateigrösse muss kleiner oder gleich %{max} sein (aktuelle Dateigrösse ist %{file_size})
       greater_than: muss grösser als %{count} sein
       greater_than_or_equal_to: muss grösser oder gleich %{count} sein
       in: muss in enthalten sein %{count}
@@ -1523,8 +1552,9 @@ de:
       minimum: Mindestbetrag %{minimum}
       minimum_price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
       minimum_price_total: Differenz zum Mindestbetrag (%{minimum})
-      minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{unit} / Nacht)
-      minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{unit})
+      minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Nacht)
+      minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit})
+      overnight_stay: "%{nights} × %{details_factor} = %{used_units} × %{unit} à %{price_per_unit}"
   layouts:
     footer:
       legal:
@@ -1617,6 +1647,7 @@ de:
     organisations:
       form:
         general: Allgemein
+        smtp_settings_warning: Achtung! Einstellungen nur mit Vorsicht ändern!
     pages:
       flow:
         title: Buchungsprozess
@@ -1952,11 +1983,20 @@ de:
           other: "%{count} Nächte"
           zero: ohne Übernachtung
   renderables:
+    booking_actions:
+      sign_contract:
+        prepare:
+          signed_pdf_help: als PDF oder Bild, max. 5MB
     booking_questions:
       check_box:
         value:
           'false': Nein
           'true': Ja
+    tarifs:
+      overnight_stay:
+        usage:
+          form:
+            total: Total
   reset: Zurücksetzen
   rich_text_templates:
     awaiting_tenant_notification:
@@ -2051,8 +2091,6 @@ de:
       description: Benachrichtigung für zukünftige Belegung (Mieter)
     upcoming_soon_notification:
       description: Benachrichtigung für baldige Belegung (Mieter)
-    usage_report_text:
-      description: Text für Verbrauchsformular
     waitlisted_request_notification:
       description: Benachrichtigung für Mietanfrage auf der Warteliste (Mieter)
   show: Anzeigen

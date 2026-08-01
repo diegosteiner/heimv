@@ -5,9 +5,10 @@
 # Table name: contracts
 #
 #  id                        :bigint           not null, primary key
+#  confirmed_at              :datetime
 #  locale                    :string
 #  sent_at                   :date
-#  signed_at                 :date
+#  tenant_signed_at          :date
 #  text                      :text
 #  valid_from                :datetime
 #  valid_until               :datetime
@@ -32,13 +33,18 @@ class Contract < ApplicationRecord
 
   attr_accessor :skip_generate_pdf
 
+  validates :signed_pdf, size: { less_than: 5.megabytes },
+                         content_type: { in: %w[application/pdf image/jpeg image/png image/gif] }
+  validates :pdf, size: { less_than: 5.megabytes }, content_type: { in: %w[application/pdf] }
+
   scope :valid, -> { where(valid_until: nil) }
   scope :sent, -> { where.not(sent_at: nil) }
   scope :unsent, -> { where(sent_at: nil) }
   scope :ordered, -> { order(valid_from: :asc) }
-  scope :signed, -> { where.not(signed_at: nil) }
+  scope :tenant_signed, -> { where.not(tenant_signed_at: nil) }
+  scope :confirmed, -> { where.not(confirmed_at: nil) }
 
-  before_save :supersede, :set_signed_at
+  before_save :supersede, :set_tenant_signed_at
   before_save :generate_pdf, if: :generate_pdf?
 
   def generate_pdf
@@ -59,7 +65,8 @@ class Contract < ApplicationRecord
     return unless was_sent? && changed.include?('text')
 
     successor = dup
-    successor.update!(**attributes, valid_from: Time.zone.now, sent_at: nil, signed_at: nil)
+    successor.update!(**attributes, valid_from: Time.zone.now, sent_at: nil, tenant_signed_at: nil,
+                                    confirmed_at: nil)
     restore_attributes
     assign_attributes(valid_until: successor.valid_from)
   end
@@ -72,8 +79,12 @@ class Contract < ApplicationRecord
     update(sent_at: Time.zone.now)
   end
 
-  def signed!
-    update(signed_at: Time.zone.now)
+  def tenant_signed!
+    update(tenant_signed_at: Time.zone.now)
+  end
+
+  def confirmed!
+    update(confirmed_at: Time.zone.now)
   end
 
   def sent?
@@ -84,8 +95,12 @@ class Contract < ApplicationRecord
     sent_at_was.present?
   end
 
-  def signed?
-    signed_at.present?
+  def tenant_signed?
+    tenant_signed_at.present?
+  end
+
+  def confirmed?
+    confirmed_at.present?
   end
 
   def superseded?
@@ -94,7 +109,7 @@ class Contract < ApplicationRecord
 
   def usages
     @usages ||= booking&.usages&.select do |usage|
-      usage.tarif.associated_types.include?(Tarif::ASSOCIATED_TYPES.key(self.class))
+      usage.tarif.associated_types.contract?
     end
   end
 
@@ -104,7 +119,7 @@ class Contract < ApplicationRecord
 
   private
 
-  def set_signed_at
-    self.signed_at ||= Time.zone.now if signed_pdf.attached?
+  def set_tenant_signed_at
+    self.tenant_signed_at ||= Time.zone.now if signed_pdf.attached?
   end
 end

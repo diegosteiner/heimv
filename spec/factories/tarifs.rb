@@ -15,6 +15,7 @@
 #  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
+#  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
@@ -36,9 +37,9 @@ FactoryBot.define do
   factory :tarif do
     type { Tarifs::Amount.sti_name }
     initialize_with { type.constantize.new }
-    label { 'Preis pro Übernachtung' }
-    unit { 'Übernachtung (unter 16 Jahren)' }
-    price_per_unit { 15.0 }
+    label { 'Tagesmiete' }
+    unit { 'Tag' }
+    price_per_unit { 150.0 }
     organisation
     associated_types { Tarif.associated_types.keys }
     prefill_usage_method { nil }
@@ -48,6 +49,37 @@ FactoryBot.define do
         tarif.accounting_account_nr ||= tarif.organisation.accounting_settings.rental_yield_account_nr || '6000'
         tarif.accounting_cost_center_nr ||= 'home'
       end
+    end
+
+    trait :amount do
+      type { Tarifs::Amount.sti_name }
+    end
+
+    trait :price do
+      type { Tarifs::Price.sti_name }
+      label { 'Schaden' }
+    end
+
+    trait :metered do
+      type { Tarifs::Metered.sti_name }
+      unit { 'kWh' }
+      label { 'Strom' }
+      price_per_unit { 1.0 }
+    end
+
+    trait :overnight_stay do
+      type { Tarifs::OvernightStay.sti_name }
+      label { 'Übernachtung (unter 16 Jahren)' }
+      unit { 'Übernachtung' }
+      price_per_unit { 15.0 }
+    end
+
+    trait :group_minimum do
+      type { Tarifs::GroupMinimum.sti_name }
+      label { 'Minimum' }
+      unit { 'Nacht' }
+      minimum_usage_per_night { 10 }
+      price_per_unit { 15.0 }
     end
   end
 end

@@ -98,7 +98,7 @@
 
     = f.check_box :invoice_cc, checked: @booking.invoice_cc.present?, data: { 'bs-toggle' => 'collapse', 'bs-target' => "#invoice_cc_fields" }, class: 'mb-0', disabled: !@booking.editable?
     fieldset#invoice_cc_fields.collapse[class=(@booking.invoice_cc.present? ? "show" : "") disabled=!@booking.editable?]
-      = f.email_field :invoice_cc, hide_label: true
+      = f.email_field :invoice_cc, hide_label: true, placeholder: t(:email)
 
 
   fieldset

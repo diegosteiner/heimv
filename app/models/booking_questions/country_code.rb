@@ -6,7 +6,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  applying_conditions  :jsonb
-#  booking_agent_mode   :integer          default("not_visible")
+#  booking_agent_mode   :integer          default(0)
 #  default_value        :jsonb
 #  description_i18n     :jsonb            not null
 #  discarded_at         :datetime
@@ -15,7 +15,7 @@
 #  options              :jsonb
 #  ordinal              :integer
 #  requiring_conditions :jsonb
-#  tenant_mode          :integer          default("not_visible"), not null
+#  tenant_mode          :integer          default(0), not null
 #  type                 :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null

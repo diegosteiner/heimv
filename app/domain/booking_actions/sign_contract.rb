@@ -4,21 +4,23 @@ module BookingActions
   class SignContract < Base
     use_mail_template(:manage_contract_signed_notification, context: %i[booking], autodeliver: true)
 
-    def invoke!(signed_pdf: nil, confirm_authorization: nil, current_user: nil)
-      return Result.failure unless confirm_authorization
+    def invoke!(signed_pdf: nil, tenant_confirm_authorization: nil, current_user: nil) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize,Metrics/MethodLength
+      if sign_by_click_enabled?
+        return Result.failure unless tenant_confirm_authorization
+      elsif signed_pdf.blank?
+        return Result.failure
+      elsif !contract.update(signed_pdf:)
+        return Result.failure(error: contract.errors.full_messages.to_sentence)
+      end
 
-      contract.update(signed_pdf:) if signed_pdf.present?
-      contract.signed!
       booking.update(committed_request: true)
-
       mail = MailTemplate.use(:manage_contract_signed_notification, booking, to: :administration)
       mail.attach(signed_pdf) if mail.present? && signed_pdf.present?
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
 
-    def invokable?(signed_pdf: nil, confirm_authorization: nil, current_user: nil)
-      booking.organisation.settings.contract_sign_by_click_enabled &&
-        contract&.sent? && !contract&.signed?
+    def invokable?(signed_pdf: nil, tenant_confirm_authorization: nil, current_user: nil)
+      contract&.sent? && !contract&.confirmed? && !contract&.tenant_signed?
     end
 
     def invokable_with(current_user: nil)
@@ -28,14 +30,22 @@ module BookingActions
     def invoke_schema
       Dry::Schema.Params do
         optional(:signed_pdf).value(type?: ActionDispatch::Http::UploadedFile)
-        optional(:confirm_authorization).filled(:bool)
+        optional(:tenant_confirm_authorization).filled(:bool)
       end
+    end
+
+    def sign_by_click_enabled?
+      booking.organisation.settings.contract_sign_by_click_enabled
+    end
+
+    def label
+      t(sign_by_click_enabled? ? :label_sign_by_click : :label_upload)
     end
 
     protected
 
     def contract
-      booking.contract
+      @contract ||= booking.contract
     end
   end
 end

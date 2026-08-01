@@ -13,6 +13,9 @@
           li = af.check_box :_destroy, { checked: true, wrapper: { style: 'margin-bottom: 0 !important;'} }, '0', '1' do
             = link_to af.object&.filename, af.object, target: :_blank
 
+      - @notification.attached_designated_documents.each do |document|
+        li= link_to document.file.filename, document.file, target: :_blank
+
   .form-actions.pt-4.mt-3
     - if @notification.deliverable?
       = f.button name: :'deliver', value: true, class: 'btn btn-primary'

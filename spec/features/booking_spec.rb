@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 describe 'Booking', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }

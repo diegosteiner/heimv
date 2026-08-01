@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_09_075513) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_28_111121) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -242,11 +242,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_09_075513) do
 
   create_table "contracts", force: :cascade do |t|
     t.uuid "booking_id"
+    t.datetime "confirmed_at"
     t.datetime "created_at", precision: nil, null: false
     t.string "locale"
     t.date "sent_at"
     t.bigint "sent_with_notification_id"
-    t.date "signed_at"
+    t.date "tenant_signed_at"
     t.text "text"
     t.datetime "updated_at", precision: nil, null: false
     t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
@@ -725,6 +726,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_09_075513) do
     t.decimal "minimum_price_total"
     t.decimal "minimum_usage_per_night"
     t.decimal "minimum_usage_total"
+    t.integer "mode"
     t.integer "ordinal"
     t.bigint "organisation_id", null: false
     t.boolean "pin", default: true
@@ -785,10 +787,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_09_075513) do
     t.boolean "committed", default: false
     t.datetime "created_at", precision: nil, null: false
     t.jsonb "details"
-    t.decimal "presumed_used_units"
     t.decimal "price_per_unit"
+    t.decimal "quoted_units"
     t.text "remarks"
     t.bigint "tarif_id"
+    t.string "type", null: false
     t.datetime "updated_at", precision: nil, null: false
     t.decimal "used_units"
     t.index ["booking_id"], name: "index_usages_on_booking_id"
