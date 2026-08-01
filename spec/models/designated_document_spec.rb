@@ -50,7 +50,7 @@ RSpec.describe DesignatedDocument do
       it 'is invalid' do
         document.file.attach(io: file, filename: 'large.txt', content_type: 'text/plain')
         expect(document).not_to be_valid
-        max_size = ActiveSupport::NumberHelper.number_to_human_size(DesignatedDocument::MAX_SIZE)
+        max_size = number_to_human_size(DesignatedDocument::MAX_SIZE)
         expect(document.errors).to be_added(:file, :less_than_or_equal_to, count: max_size)
       end
     end

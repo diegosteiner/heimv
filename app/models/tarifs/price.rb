@@ -37,17 +37,17 @@ module Tarifs
   class Price < Tarif
     Tarif.register_subtype self
 
-    def prefill_units
-      self[:price_per_unit].presence
-    end
-
     def price_per_unit
-      nil
+      1.0
     end
 
     class Usage < ::Usage
+      def prefill_units
+        tarif.price_per_unit.presence
+      end
+
       def breakdown
-        return if used_units.nil? || used_units.zero?
+        return if used_units.nil?
 
         number_to_currency(used_units, unit: organisation.currency)
       end

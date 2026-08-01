@@ -76,6 +76,7 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.include Rails.application.routes.url_helpers
+  config.include ActiveSupport::NumberHelper
 
   config.after(:suite) do
     SimpleCov.result.format!
