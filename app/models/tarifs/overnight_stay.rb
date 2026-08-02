@@ -57,7 +57,7 @@ module Tarifs
         return unless details.is_a?(Hash)
 
         keys = Array.wrap(booking_dates).map(&:iso8601)
-        self.details = keys.index_with(0).merge(details.slice(*keys).transform_values { it.try(:to_f) || 0 })
+        self.details = keys.index_with(0).merge(details.slice(*keys).transform_values { it.presence.try(:to_f) })
       end
 
       def set_used_units(force: false)
