@@ -1,4 +1,4 @@
-= render layout: 'manage/tarifs/usage_form', locals: { usage:, f:, unit: Tarif.human_attribute_name(usage.critical_minimum) }
+= render layout: 'manage/tarifs/usage_form', locals: { usage:, f:, unit: usage.critical_minimum && Tarif.human_attribute_name(usage.critical_minimum) }
   - usage.valid? # trigger #before_validate
   .d-flex.gap-3.justify-content-end
     - case usage.critical_minimum

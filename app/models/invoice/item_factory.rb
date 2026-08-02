@@ -87,12 +87,17 @@ class Invoice
     end
 
     def build_from_usage(usage)
-      return unless usage.tarif&.associated_types&.invoice? && usage.apply_to_invoice?(invoice)
+      return unless apply_usage_to_invoice?(usage)
 
       build_item(usage:, label: usage.tarif.label, vat_category: usage.tarif.vat_category,
                  breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price,
                  accounting_account_nr: usage.tarif.accounting_account_nr,
                  accounting_cost_center_nr: usage.tarif.accounting_cost_center_nr)
+    end
+
+    def apply_usage_to_invoice?(usage)
+      usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class)) &&
+        usage.apply_to_invoice?(invoice)
     end
   end
 end
