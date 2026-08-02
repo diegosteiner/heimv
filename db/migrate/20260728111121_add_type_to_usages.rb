@@ -22,6 +22,7 @@ class AddTypeToUsages < ActiveRecord::Migration[8.1]
       tarif_id = type.pluck(:id)
       Usage.where(tarif_id:).update_all(type: type::Usage.sti_name) # rubocop:disable Rails/SkipsModelValidations
     end
+    Usage.where(type: nil).update_all(type: ::Usage.sti_name) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def backfill_tarif_modes
