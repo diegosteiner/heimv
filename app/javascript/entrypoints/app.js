@@ -101,15 +101,14 @@ function setupUsageForms() {
     const detailsInputs = usageElement.querySelectorAll("input[data-usage-detail]");
     const sumOutput = usageElement.querySelector("output");
     const calculateSummary = () => {
-      const values = Array.from(detailsInputs)
-        .map((input) => {
-          if (!input.value) return null;
-          const value = Number(input.value);
-          return Number.isNaN(value) ? 0 : value;
-        })
-        .filter((value) => value);
+      const values = Array.from(detailsInputs).map((input) => {
+        if (!input.value) return null;
+        const value = Number(input.value);
+        return Number.isNaN(value) ? 0 : value;
+      });
 
-      sumOutput.innerText = values.reduce((sum, value) => sum + value, 0);
+      sumOutput.innerText =
+        values.filter((value) => value).length === 0 ? "" : values.reduce((sum, value) => sum + value || 0, 0);
       switch (new Set(values).size) {
         case 0:
           summaryInput.value = "";
