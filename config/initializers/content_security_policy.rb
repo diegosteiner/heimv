@@ -27,14 +27,15 @@
 # end
 Rails.application.config.content_security_policy do |policy|
   policy.default_src :self, :https
-  policy.style_src :self, :https, :unsafe_inline
+  policy.style_src :self, :https, :unsafe_inline, 'https://fonts.googleapis.com'
+  policy.font_src :self, :https, :data, 'https://fonts.gstatic.com'
   policy.img_src :self, :https, :data
   policy.script_src :self, :unsafe_inline, :unsafe_eval
 
   case Rails.env
   when 'development'
     policy.default_src :self, :unsafe_inline
-    policy.style_src(*policy.style_src, :unsafe_inline)
+    policy.style_src(*policy.style_src)
     policy.script_src(*policy.script_src, :unsafe_eval, "http://#{ViteRuby.config.host_with_port}")
     policy.connect_src(*policy.connect_src,
                        *%w[http ws].product(
