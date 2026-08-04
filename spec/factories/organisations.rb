@@ -46,7 +46,7 @@ FactoryBot.define do
     name { 'Heimverein Pfadi Stolz' }
     address { 'MyText' }
     booking_flow_type { BookingFlows::Default.to_s }
-    email { 'test@test.test' }
+    email { 'test@heimv.local' }
     esr_beneficiary_account { 'MyString' }
     deliver_notifications { true }
     slug { nil }

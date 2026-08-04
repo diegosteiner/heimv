@@ -55,7 +55,7 @@ services:
       APP_HOST: "e2e_target:3002"
       DATABASE_URL: postgresql://postgres:postgres@db/heimv_e2e?encoding=unicode&pool=5
       SMTP_SETTINGS: "{ \"address\":\"mail\", \"port\": 1025 }"
-      MAIL_FROM: "no-reply@heimverwaltung.localhost"
+      MAIL_FROM: "no-reply@heimv.local"
       SECRET_KEY_BASE: "test"
       RAILS_SERVE_STATIC_FILES: "true"
       PORT: 3002
