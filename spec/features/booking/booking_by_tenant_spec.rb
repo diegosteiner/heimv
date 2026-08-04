@@ -175,6 +175,7 @@ describe 'Booking by tenant', :devise do
     click_button BookingActions::EmailContract.translate(:label_with_deposits)
     click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
+    visit manage_booking_path(@booking, org:) # capybara issue
     click_on BookingActions::MarkContractSigned.label
     expect(page).to have_current_path(manage_booking_prepare_action_path(@booking, id: :mark_contract_signed, org:),
                                       ignore_query: true)
