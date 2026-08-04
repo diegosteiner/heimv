@@ -9,17 +9,21 @@ describe 'Booking by tenant', :devise do
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
   let(:tenant) { create(:tenant, organisation:) }
-  let(:deposit_tarifs) do
-    create(:tarif, organisation:, tarif_group: 'Akontorechnung',
+  let(:deposit_tarif) do
+    create(:tarif, organisation:, tarif_group: 'Akontorechnung', label: 'Anzahlung',
                    associated_types: %i[deposit offer contract])
   end
 
   let(:invoice_tarifs) do
-    create_list(:tarif, 2, organisation:, tarif_group: 'Übernachtungen',
-                           associated_types: %i[invoice offer contract])
+    [
+      create(:tarif, :overnight_stay, organisation:, tarif_group: 'Lager', label: 'Übernachtung U16',
+                                      associated_types: %i[invoice offer contract]),
+      create(:tarif, :overnight_stay, organisation:, tarif_group: 'Lager', label: 'Übernachtung Ü16',
+                                      associated_types: %i[invoice offer contract])
+    ]
   end
 
-  let!(:tarifs) { [deposit_tarifs, invoice_tarifs].flatten }
+  let!(:tarifs) { [deposit_tarif, invoice_tarifs].flatten }
   let!(:booking_question) do
     create(:booking_question, organisation:, type: BookingQuestions::Integer.to_s,
                               requiring_conditions: [{ type: BookingConditions::Always.to_s }].to_json,
@@ -143,9 +147,7 @@ describe 'Booking by tenant', :devise do
   def choose_tarifs
     visit manage_booking_path(@booking, org:)
     find('.checklist a[aria-label="tarifs_chosen"]').click
-    tarifs.each do |tarif|
-      expect(page).to have_text(tarif.label)
-    end
+    tarifs.each { expect(page).to have_text(it.label) }
     all('input[type="checkbox"]:not(:checked)').each(&:check)
     submit_form
     expect(page).to have_text(I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human))
@@ -162,9 +164,10 @@ describe 'Booking by tenant', :devise do
   def create_deposit
     visit manage_booking_path(@booking, org:)
     find('.checklist a[aria-label="deposit_created"]').click
+    expect(page).to have_field(with: deposit_tarif.label)
+    invoice_tarifs.each { expect(page).to have_no_field(with: it.label) }
     submit_form
-    expect(page).to have_text(I18n.t('flash.actions.create.notice',
-                                     resource_name: Invoices::Deposit.model_name.human))
+    expect(page).to have_text(I18n.t('flash.actions.create.notice', resource_name: Invoices::Deposit.model_name.human))
   end
 
   def confirm_booking
@@ -172,6 +175,7 @@ describe 'Booking by tenant', :devise do
     click_button BookingActions::EmailContract.translate(:label_with_deposits)
     click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
+    visit manage_booking_path(@booking, org:) # capybara issue
     click_on BookingActions::MarkContractSigned.label
     expect(page).to have_current_path(manage_booking_prepare_action_path(@booking, id: :mark_contract_signed, org:),
                                       ignore_query: true)
@@ -195,9 +199,7 @@ describe 'Booking by tenant', :devise do
     visit manage_booking_path(@booking, org:)
     find('.checklist li:nth-child(1) a').click
     first('input[inputmode="numeric"]')
-    all('input[inputmode="numeric"]').each do |usage_field|
-      usage_field.fill_in with: 22
-    end
+    all('input[inputmode="numeric"]').each { it.fill_in with: 22 }
     submit_form
     expect(page).to have_text(I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human))
   end
@@ -208,7 +210,7 @@ describe 'Booking by tenant', :devise do
 
     find('.checklist li:nth-child(2) a').click
     page.scroll_to(:bottom)
-    @booking.usages.each { expect(page).to have_field(with: it.tarif.label) }
+    invoice_tarifs.each { expect(page).to have_field(with: it.label) }
     submit_form
 
     deposit = @booking.invoices.reload.last

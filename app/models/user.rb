@@ -39,7 +39,7 @@ class User < ApplicationRecord
   enum :default_calendar_view, { months: 0, year: 1 }
   has_secure_token :token, length: 48
 
-  normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
+  normalizes :email, with: ->(email) { email.presence && EmailAddress.normal(email) }
 
   validates :email, presence: true
   validates :token, length: { minimum: 48 }, allow_nil: true

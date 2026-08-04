@@ -20,7 +20,7 @@ class Operator < ApplicationRecord
   belongs_to :organisation, inverse_of: :operators
   has_many :operator_responsibilities, inverse_of: :operator, dependent: :destroy
 
-  normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
+  normalizes :email, with: ->(email) { email.presence && EmailAddress.normal(email) }
 
   validates :locale, presence: true
   validate do

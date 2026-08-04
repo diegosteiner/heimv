@@ -22,7 +22,7 @@ class BookingAgent < ApplicationRecord
                             dependent: :nullify
   belongs_to :organisation, inverse_of: :booking_agents
 
-  normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
+  normalizes :email, with: ->(email) { email.presence && EmailAddress.normal(email) }
 
   validates :name, :code, :email, presence: true
   validates :code, uniqueness: { scope: %i[organisation_id] }

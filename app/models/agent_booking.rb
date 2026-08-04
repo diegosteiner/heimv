@@ -27,7 +27,7 @@ class AgentBooking < ApplicationRecord
 
   has_secure_token :token, length: 48
 
-  normalizes :tenant_email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
+  normalizes :tenant_email, with: ->(email) { email.presence && EmailAddress.normal(email) }
 
   accepts_nested_attributes_for :booking, reject_if: :all_blank, update_only: true
 

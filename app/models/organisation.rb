@@ -75,6 +75,7 @@ class Organisation < ApplicationRecord
   locale_enum default: I18n.locale
   attr_writer :booking_flow_class
 
+  normalizes :email, :mail_from, with: ->(email) { email.presence && EmailAddress.normal(email) }
   translates :nickname_label, column_suffix: '_i18n', locale_accessors: true
 
   scope :ordered, -> { order(name: :ASC) }
@@ -90,6 +91,17 @@ class Organisation < ApplicationRecord
   validate do
     errors.add(:creditor_address, :invalid) if creditor_address&.lines&.count&.> 3
     errors.add(:iban, :invalid) if iban.present? && !iban.valid?
+  end
+  validate do
+    next unless Rails.env.production? && email_changed?
+
+    errors.add(:email, :invalid) unless EmailAddress.valid?(email, host_validation: :mx, dns_lookup: :mx)
+  end
+
+  validate do
+    next unless Rails.env.production? && mail_from.present? && mail_from_changed?
+
+    errors.add(:mail_from, :invalid) unless EmailAddress.valid?(mail_from, host_validation: :mx, dns_lookup: :mx)
   end
 
   attribute :booking_flow_type, default: -> { BookingFlows::Default.to_s }

@@ -90,7 +90,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   timespan :begins_at, :ends_at
   enum :occupancy_type, Occupancy::OCCUPANCY_TYPES
-  normalizes :email, :invoice_cc, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
+  normalizes :email, :invoice_cc, with: ->(email) { email.presence && EmailAddress.normal(email) }
   attribute :invoice_address, Address.to_type
 
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }

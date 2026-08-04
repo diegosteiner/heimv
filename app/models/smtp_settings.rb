@@ -16,6 +16,9 @@ class SmtpSettings
   attribute :open_timeout, :integer, default: 30
   attribute :read_timeout, :integer, default: 30
 
+  validates :address, format: { with: /\A(?:[a-zA-Z0-9.-]+|\d{1,3}(?:\.\d{1,3}){3})\z/ }, allow_blank: true
+  validates :port, :open_timeout, :read_timeout, numericality: true
+
   def self.from_env
     from_value(ENV.fetch('SMTP_SETTINGS'))
   end

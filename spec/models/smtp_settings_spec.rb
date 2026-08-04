@@ -12,6 +12,24 @@ RSpec.describe SmtpSettings do
 
   describe 'valid?' do
     it { is_expected.to be_valid }
+
+    context 'with a hostname' do
+      let(:settings_hash) { { address: 'smtp.example.com' } }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'with an IP address' do
+      let(:settings_hash) { { address: '127.0.0.1' } }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'with an invalid address' do
+      let(:settings_hash) { { address: 'not a host' } }
+
+      it { is_expected.not_to be_valid }
+    end
   end
 
   describe '#to_config' do
