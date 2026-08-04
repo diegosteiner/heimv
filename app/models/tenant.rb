@@ -42,7 +42,7 @@ class Tenant < ApplicationRecord
   enum :salutation_form, { informal_neutral: 1, informal_female: 2, informal_male: 3, formal_neutral: 4,
                            formal_female: 5, formal_male: 6 }, prefix: :salutation_form, default: :informal_neutral
 
-  normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
+  normalizes :email, with: ->(email) { email.presence && EmailAddress.normal(email) }
 
   validates :email, allow_blank: true, uniqueness: { scope: :organisation_id }
   validates :email, presence: true, on: :public_update

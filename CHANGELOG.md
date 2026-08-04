@@ -1,5 +1,12 @@
 # Changelog
 
+## 26.8.2
+
+Released 04.08.2026
+
+- Fix: Add mail_from to the userdefined mailsettings
+- Fix: Mark signed_pdf field required when signing the pdf
+
 ## 26.8.1
 
 Released 01.08.2026 🇨🇭

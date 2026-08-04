@@ -8,7 +8,8 @@ module BookingActions
       if sign_by_click_enabled?
         return Result.failure unless tenant_confirm_authorization
       elsif signed_pdf.blank?
-        return Result.failure
+        contract.errors.add(:signed_pdf, :blank)
+        return Result.failure(error: contract.errors.full_messages_for(:signed_pdf).to_sentence)
       elsif !contract.update(signed_pdf:)
         return Result.failure(error: contract.errors.full_messages.to_sentence)
       end

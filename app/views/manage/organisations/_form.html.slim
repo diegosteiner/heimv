@@ -95,6 +95,7 @@
                 p.m-0
                   = t('.smtp_settings_warning')
               .border.p-3.rounded.mb-3
+                = f.text_field :mail_from
                 = f.fields_for :smtp_settings, @organisation.smtp_settings || SmtpSettings.new do |sf|  
                   .row  
                     .col
@@ -170,7 +171,6 @@
         .card.shadow-sm.border-danger
           .card-body
             = f.text_field :slug 
-            = f.text_field :mail_from
             = f.text_field :currency
             = sf.select :predefined_salutation_form, salutation_form_options_for_select(settings.predefined_salutation_form), include_blank: true
             = f.select :booking_flow_type, [BookingFlows::Default].map { [it.to_s, it.to_s] }
