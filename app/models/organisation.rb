@@ -93,12 +93,15 @@ class Organisation < ApplicationRecord
     errors.add(:iban, :invalid) if iban.present? && !iban.valid?
   end
   validate do
-    next unless Rails.env.production?
+    next unless Rails.env.production? && email_changed?
 
     errors.add(:email, :invalid) unless EmailAddress.valid?(email, host_validation: :mx, dns_lookup: :mx)
-    next if mail_from.blank? || EmailAddress.valid?(mail_from, host_validation: :mx, dns_lookup: :mx)
+  end
 
-    errors.add(:mail_from, :invalid)
+  validate do
+    next unless Rails.env.production? && mail_from.present? && mail_from_changed?
+
+    errors.add(:mail_from, :invalid) unless EmailAddress.valid?(mail_from, host_validation: :mx, dns_lookup: :mx)
   end
 
   attribute :booking_flow_type, default: -> { BookingFlows::Default.to_s }
