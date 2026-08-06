@@ -32,41 +32,49 @@
       = f.select :mode, enum_options_for_select(Tarifs::OvernightStay, :modes, @tarif.mode), include_blank: false
 
   fieldset
-    = f.text_field :price_per_unit, step: 0.01, inputmode: "numeric" 
-
-    details
-      summary.mb-3
-        =t('.minimum')
-        span.fa.fa-thermometer.text-danger.ms-2
-      = f.text_field :minimum_usage_per_night, step: 0.01, inputmode: "numeric" 
-      = f.text_field :minimum_usage_total, step: 0.01, inputmode: "numeric" 
-      = f.text_field :minimum_price_per_night, step: 0.01, inputmode: "numeric" 
-      = f.text_field :minimum_price_total, step: 0.01, inputmode: "numeric" 
-    
+    = f.text_field :price_per_unit, step: 0.01, inputmode: "numeric", wrapper_class: "mb-2"
     = f.check_box :pin
 
-  fieldset
-    = f.collection_check_boxes :associated_types, Tarif.associated_types.keys, :itself, ->(key) { Tarif::ASSOCIATED_TYPES[key]&.model_name&.human }
-    .row
-      .col-md-6= f.collection_select :prefill_usage_booking_question_id, @tarif.prefill_usage_booking_questions, :id, :label, include_blank: true
-      .col-md-6= f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
-    
-  - if current_organisation.accounting_settings&.enabled || @tarif.accounting_account_nr.present?
-    fieldset 
-      .row
-        .col-md-6= f.text_field :accounting_account_nr, required: false
-        .col-md-6= f.text_field :accounting_cost_center_nr
+  details 
+    summary= t('.advanced')
+    .p-3
+      fieldset
+        .row
+          .col-md-6= f.collection_select :prefill_usage_booking_question_id, @tarif.prefill_usage_booking_questions, :id, :label, include_blank: true
+          .col-md-6= f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
 
-  - if current_organisation.accounting_settings&.liable_for_vat || @tarif.vat_category.present?
-    = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true, required: false
+        .mb-3 
+          = f.label :minimum
+          .input-group
+            = f.select :minimum_mode, enum_options_for_select(Tarif, :minimum_modes, @tarif.minimum_mode), { skip_label: true, wrapper: false }, style: "max-width: 33%;" 
+            = f.text_field :minimum, step: 0.01, inputmode: "numeric", skip_label: true, wrapper: false
 
-  fieldset.mt-4#selecting_conditions
-    label.mb-2= Tarif.human_attribute_name(:selecting_conditions)
-    = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:selecting_conditions), value: @tarif.selecting_conditions }
+        .mb-3 
+          = f.label :included_units
+          .input-group
+            = f.select :included_units_mode, enum_options_for_select(Tarif, :included_units_modes, @tarif.included_units_mode), { skip_label: true, wrapper: false }, style: "max-width: 33%;" 
+            = f.text_field :included_units, step: 0.01, inputmode: "numeric", skip_label: true, wrapper: false 
 
-  fieldset.mt-4#enabling_conditions
-    label.mb-2= Tarif.human_attribute_name(:enabling_conditions)
-    = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:enabling_conditions), value: @tarif.enabling_conditions }
+      - if current_organisation.accounting_settings&.enabled || @tarif.accounting_account_nr.present?
+        fieldset 
+          .row
+            .col-md-6= f.text_field :accounting_account_nr, required: false
+            .col-md-6= f.text_field :accounting_cost_center_nr
+
+          - if current_organisation.accounting_settings&.liable_for_vat || @tarif.vat_category.present?
+            = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true, required: false
+
+      fieldset
+        = f.collection_check_boxes :associated_types, Tarif.associated_types.keys, :itself, ->(key) { Tarif::ASSOCIATED_TYPES[key]&.model_name&.human }
+  
+      fieldset.mt-3#selecting_conditions
+        label.mb-2= Tarif.human_attribute_name(:selecting_conditions)
+        = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:selecting_conditions), value: @tarif.selecting_conditions }
+
+      fieldset.mt-3#enabling_conditions
+        label.mb-2= Tarif.human_attribute_name(:enabling_conditions)
+        = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:enabling_conditions), value: @tarif.enabling_conditions }
+      
 
   .form-actions.pt-4.mt-3
     = f.submit class: 'btn btn-primary'

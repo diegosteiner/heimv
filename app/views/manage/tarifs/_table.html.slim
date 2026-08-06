@@ -40,7 +40,8 @@
                       = tarif.vat_category.percentage
                       | %
               td
-                = tf.text_field :price_per_unit, skip_label: true, wrapper: false, disabled: tarif.discarded?, inputmode: "numeric" 
+                / = tf.text_field :price_per_unit, skip_label: true, wrapper: false, disabled: tarif.discarded?, inputmode: "numeric" 
+                = number_to_currency(tarif.price_per_unit, unit: tarif.organisation.currency)
               td
                 = tarif.unit
                 small.d-block.text-muted= tarif.class.model_name.human

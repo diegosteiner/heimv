@@ -10,11 +10,11 @@
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  enabling_conditions               :jsonb
+#  included_units                    :decimal(, )
+#  included_units_mode               :integer          default(0)
 #  label_i18n                        :jsonb
-#  minimum_price_per_night           :decimal(, )
-#  minimum_price_total               :decimal(, )
-#  minimum_usage_per_night           :decimal(, )
-#  minimum_usage_total               :decimal(, )
+#  minimum                           :decimal(, )
+#  minimum_mode                      :integer          default(0)
 #  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
@@ -37,39 +37,14 @@ require 'rails_helper'
 
 RSpec.describe Tarifs::Amount do
   let(:booking) { create(:booking) }
+  let(:tarif) { create(:tarif, type: described_class.sti_name, organisation: booking.organisation) }
+  let(:usage) { tarif.build_usage(booking:) }
 
-  describe 'Usage#minimum_prices' do
-    subject(:minimum_prices) { usage.minimum_prices_difference }
-
-    let(:usage) { tarif.build_usage(booking:) }
-    let(:tarif) do
-      create(:tarif, type: described_class.sti_name, price_per_unit: 10, organisation: booking.organisation)
-    end
-
-    context 'with minimums defined' do
-      before do
-        tarif.update(
-          minimum_usage_per_night: 24,
-          minimum_usage_total: 71,
-          minimum_price_per_night: 210,
-          minimum_price_total: 610
-        )
-      end
-
-      it 'lists all minimum prices' do
-        expect(usage.minimum_prices).to match(
-          minimum_usage_per_night: (24 * booking.nights) * 10,
-          minimum_usage_total: (71 * 10),
-          minimum_price_per_night: (210 * booking.nights),
-          minimum_price_total: 610
-        )
-      end
-
-      it { expect(usage.critical_minimum).to eq(:minimum_usage_per_night) }
-    end
-
-    context 'without minimums defined' do
-      it { expect(usage.critical_minimum).to be_falsy }
+  describe '#breakdown' do
+    it do
+      usage.used_units = 15
+      expect(usage.breakdown).to eq('15 × Tag à CHF 150.00')
+      expect(usage.price).to eq(2250)
     end
   end
 end

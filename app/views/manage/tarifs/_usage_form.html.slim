@@ -31,6 +31,6 @@
     = number_to_currency(usage.price, unit: '')
     small.d-block.text-muted
       = @booking.organisation.currency
-      - if usage.minimum_price?
+      - if usage.minimum?
         span.fa.fa-thermometer-full.ms-2.text-danger
   

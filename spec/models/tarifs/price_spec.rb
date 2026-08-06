@@ -8,13 +8,13 @@
 #  accounting_account_nr             :string
 #  accounting_cost_center_nr         :string
 #  associated_types                  :integer          default(0), not null
-#  discarded_at                        :datetime
+#  discarded_at                      :datetime
 #  enabling_conditions               :jsonb
+#  included_units                    :decimal(, )
+#  included_units_mode               :integer          default(0)
 #  label_i18n                        :jsonb
-#  minimum_price_per_night           :decimal(, )
-#  minimum_price_total               :decimal(, )
-#  minimum_usage_per_night           :decimal(, )
-#  minimum_usage_total               :decimal(, )
+#  minimum                           :decimal(, )
+#  minimum_mode                      :integer          default(0)
 #  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
@@ -67,7 +67,7 @@ RSpec.describe Tarifs::Price do
 
     context 'with negative price_per_unit and minimum_price' do
       before do
-        tarif.update(price_per_unit: -10, minimum_price_total: 50)
+        tarif.update(price_per_unit: -10, minimum: 50, minimum_mode: :price_total)
         usage.update(used_units: 20)
       end
 

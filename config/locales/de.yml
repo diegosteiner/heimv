@@ -492,10 +492,10 @@ de:
         enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
-        minimum_price_per_night: Minimaler Preis (pro Nacht)
-        minimum_price_total: Minimaler Preis (Total)
-        minimum_usage_per_night: Minimaler Verbrauch (pro Nacht)
-        minimum_usage_total: Minimaler Verbrauch (Total)
+        minimum: Minimum
+        minimum_mode: Minimum Modus
+        included_units: Inklusiv-Einheiten
+        included_units_modes: Inklusiv-Einheiten Modus
         mode: Modus
         ordinal_position: Ordnungsnummer
         pin: Preis pro Einheit einfrieren
@@ -697,6 +697,17 @@ de:
           headcount: "× Anzahl Personen"
           headcount_nights: "× Übernachtungen"
           nights: "× Nächte"
+        minimum_modes:
+          usage_per_day: Verbrauch pro Tag
+          usage_per_night: Verbrauch pro Nacht
+          usage_total: Verbrauch Total
+          price_per_night: Preis pro Nacht
+          price_per_day: Preis pro Tag
+          price_total: Preis Total
+        included_units_modes:
+          usage_per_day: Verbrauch pro Tag
+          usage_per_night: Verbrauch pro Nacht
+          usage_total: Verbrauch Total
       tarifs_overnight_stay:
         modes:
           days: Tage
@@ -1547,14 +1558,17 @@ de:
   invoice_items:
     breakdown:
       balance: Saldo aus Anzahlungen
-      default: "%{used_units} × %{unit} à %{price_per_unit}"
+      default: "%{billable_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
-      minimum_price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
-      minimum_price_total: Differenz zum Mindestbetrag (%{minimum})
-      minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Nacht)
-      minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit})
-      overnight_stay: "%{nights} × %{details_factor} = %{used_units} × %{unit} à %{price_per_unit}"
+      group_minimum:
+        price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
+        price_per_day: Differenz zum Mindestbetrag (%{minimum} / Tag)
+        price_total: Differenz zum Mindestbetrag (%{minimum})
+        usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Nacht)
+        usage_per_day: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Tag)
+        usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit})
+      overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} à %{price_per_unit}"
   layouts:
     footer:
       legal:
@@ -1851,7 +1865,7 @@ de:
         rich_text_templates_by_rest: Sonstige
     tarifs:
       form:
-        minimum: Minimum
+        advanced: Erweiterte Einstellungen
   nav:
     edit_account: Account verwalten
     manage: Verwaltung
