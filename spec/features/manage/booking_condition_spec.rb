@@ -29,6 +29,7 @@ describe 'BookingCondition', :devise do
 
     it 'add selecting conditions' do
       visit edit_manage_tarif_path(tarif, org:)
+      click_on t('.manage.tarifs.form.advanced')
       within '#selecting_conditions' do
         manipulate_conditions
       end
