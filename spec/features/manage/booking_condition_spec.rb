@@ -29,7 +29,7 @@ describe 'BookingCondition', :devise do
 
     it 'add selecting conditions' do
       visit edit_manage_tarif_path(tarif, org:)
-      click_on t('.manage.tarifs.form.advanced')
+      find('summary', text: I18n.t('.manage.tarifs.form.advanced')).click
       within '#selecting_conditions' do
         manipulate_conditions
       end
@@ -40,6 +40,7 @@ describe 'BookingCondition', :devise do
 
     it 'add enabling conditions' do
       visit edit_manage_tarif_path(tarif, org:)
+      find('summary', text: I18n.t('.manage.tarifs.form.advanced')).click
       within '#enabling_conditions' do
         manipulate_conditions
       end
@@ -58,6 +59,7 @@ describe 'BookingCondition', :devise do
     it 'add enabling conditions' do
       visit edit_manage_booking_validation_path(validation, org:)
 
+      find('summary', text: I18n.t('.manage.tarifs.form.advanced')).click
       within '#enabling_conditions' do
         manipulate_conditions
       end
@@ -68,6 +70,7 @@ describe 'BookingCondition', :devise do
 
     it 'add validating conditions' do
       visit edit_manage_booking_validation_path(validation, org:)
+      find('summary', text: I18n.t('.manage.tarifs.form.advanced')).click
       within '#validating_conditions' do
         manipulate_conditions
       end

@@ -696,10 +696,12 @@ en:
           paid_at: Bezahlt am (älteste zuerst)
       tarif:
         included_units_modes:
+          none: Kein
           usage_per_day: Verbrauch pro Tag
           usage_per_night: Verbrauch pro Nacht
           usage_total: Verbrauch Total
         minimum_modes:
+          none: Kein
           price_per_day: Preis pro Tag
           price_per_night: Preis pro Nacht
           price_total: Preis Total
@@ -1403,6 +1405,7 @@ en:
       pages_not_greater_than_or_equal_to: Pages not greater than or equal to
       pages_not_less_than: Pages not less than
       pages_not_less_than_or_equal_to: Pages not less than or equal to
+      password_too_long: Password too long
       present: must be blank
       required: must exist
       taken: has already been taken
