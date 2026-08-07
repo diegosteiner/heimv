@@ -486,12 +486,16 @@ fr:
         accounting_cost_center_nr:
         associated_types: Affiché dans les documents
         enabling_conditions: Conditions de sélection autorisée
+        included_units:
+        included_units_modes:
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
-        minimum_price_per_night: Prix minimum (par nuit)
-        minimum_price_total: Prix minimum (total)
-        minimum_usage_per_night: Consommation minimale (par nuit)
-        minimum_usage_total: Consommation minimale (total)
+        minimum: Minimum
+        minimum_mode:
+        minimum_price_per_night:
+        minimum_price_total:
+        minimum_usage_per_night:
+        minimum_usage_total:
         mode:
         ordinal_position: Ordnungsnummer
         pin: Prix figer à la réservation
@@ -687,6 +691,17 @@ fr:
           "-paid_at":
           paid_at:
       tarif:
+        included_units_modes:
+          usage_per_day:
+          usage_per_night:
+          usage_total:
+        minimum_modes:
+          price_per_day:
+          price_per_night:
+          price_total:
+          usage_per_day:
+          usage_per_night:
+          usage_total:
         prefill_usage_methods:
           days: Jour
           flat: Forfait
@@ -1309,6 +1324,12 @@ fr:
     messages:
       accepted: doit être accepté(e)
       already_confirmed: was already confirmed, please try signing in
+      aspect_ratio_invalid:
+      aspect_ratio_not_landscape:
+      aspect_ratio_not_portrait:
+      aspect_ratio_not_square:
+      aspect_ratio_not_x_y:
+      attachment_missing:
       blank: doit être rempli(e)
       confirmation: ne concorde pas avec %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
@@ -1318,11 +1339,28 @@ fr:
       content_type_spoofed:
         one:
         other:
+      dimension_height_not_equal_to:
+      dimension_height_not_greater_than_or_equal_to:
+      dimension_height_not_included_in:
+      dimension_height_not_less_than_or_equal_to:
+      dimension_max_not_included_in:
+      dimension_min_not_included_in:
+      dimension_width_not_equal_to:
+      dimension_width_not_greater_than_or_equal_to:
+      dimension_width_not_included_in:
+      dimension_width_not_less_than_or_equal_to:
+      duration_not_between:
+      duration_not_equal_to:
+      duration_not_greater_than:
+      duration_not_greater_than_or_equal_to:
+      duration_not_less_than:
+      duration_not_less_than_or_equal_to:
       empty: doit être rempli(e)
       equal_to: doit être égal à %{count}
       even: doit être pair
       exclusion: n'est pas disponible
       expired: ist abgelaufen, bitte neu anfordern
+      file_not_processable:
       file_size_not_between:
       file_size_not_equal_to:
       file_size_not_greater_than:
@@ -1336,6 +1374,19 @@ fr:
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}
       less_than_or_equal_to: doit être inférieur ou égal à %{count}
+      limit_max_exceeded:
+        one:
+        other:
+        zero:
+      limit_min_not_reached:
+        one:
+        other:
+        zero:
+      limit_out_of_range:
+        one:
+        other:
+        zero:
+      media_metadata_missing:
       model_invalid: 'Validation échouée : %{errors}'
       not_a_number: n'est pas un nombre
       not_an_integer: doit être un nombre entier
@@ -1346,6 +1397,12 @@ fr:
         other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
       odd: doit être impair
       other_than: doit être différent de %{count}
+      pages_not_between:
+      pages_not_equal_to:
+      pages_not_greater_than:
+      pages_not_greater_than_or_equal_to:
+      pages_not_less_than:
+      pages_not_less_than_or_equal_to:
       present: doit être vide
       required: doit exister
       taken: est déjà utilisé(e)
@@ -1355,6 +1412,12 @@ fr:
       too_short:
         one: est trop court (au moins un caractère)
         other: est trop court (au moins %{count} caractères)
+      total_file_size_not_between:
+      total_file_size_not_equal_to:
+      total_file_size_not_greater_than:
+      total_file_size_not_greater_than_or_equal_to:
+      total_file_size_not_less_than:
+      total_file_size_not_less_than_or_equal_to:
       wrong_length:
         one: ne fait pas la bonne longueur (doit comporter un seul caractère)
         other: ne fait pas la bonne longueur (doit comporter %{count} caractères)
@@ -1447,11 +1510,18 @@ fr:
       balance: Solde des acomptes
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
+      group_minimum:
+        price_per_day:
+        price_per_night: Différence par rapport au montant minimum (%{minimum} / nuit)
+        price_total: Différence par rapport au montant minimum (%{minimum})
+        usage_per_day:
+        usage_per_night:
+        usage_total:
       minimum: Montant minimum %{minimum}
-      minimum_price_per_night: Différence par rapport au montant minimum (%{minimum} / nuit)
-      minimum_price_total: Différence par rapport au montant minimum (%{minimum})
-      minimum_usage_per_night: Différence par rapport à la consommation minimale (%{minimum} × %{unit} / nuit)
-      minimum_usage_total: Différence par rapport à la consommation minimale (%{minimum} × %{unit})
+      minimum_price_per_night:
+      minimum_price_total:
+      minimum_usage_per_night:
+      minimum_usage_total:
       overnight_stay:
   layouts:
     footer:
@@ -1602,7 +1672,10 @@ fr:
         rich_text_templates_by_rest: Autres
     tarifs:
       form:
-        minimum: Minimum
+        advanced:
+      usage_form:
+        badge_inclusive_units:
+        badge_minimum:
   nav:
     edit_account: Gérer le compte
     manage: Administration

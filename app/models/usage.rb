@@ -168,6 +168,10 @@ class Usage < ApplicationRecord
     included_units
   end
 
+  def included_units?
+    included_units&.>(0)
+  end
+
   def apply_to_invoice?(_invoice)
     true
   end

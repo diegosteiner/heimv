@@ -67,13 +67,13 @@ module Tarifs
       end
 
       def minimum_price
-        return if tarif.minimum_none? || super.blank?
+        return if tarif.minimum_none?
 
         case tarif.minimum_mode.to_sym
-        when :usage_per_night?, :usage_per_day?, :minimum_usage_total
+        when :usage_per_night, :usage_per_day, :usage_total
           [(minimum_units - tarif_group_used_units) * price_per_unit, 0].max
-        when :price_per_night?, :price_per_day?, :minimum_price_total
-          [super - tarif_group_price, 0].max
+        when :price_per_night, :price_per_day, :price_total
+          [(super || 0) - tarif_group_price, 0].max
         else
           0
         end

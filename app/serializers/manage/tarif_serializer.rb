@@ -6,7 +6,7 @@ module Manage
     association :vat_category, blueprint: Public::VatCategorySerializer
 
     fields :label, :pin, :prefill_usage_method, :price_per_unit, :tarif_group, :type, :unit, :ordinal,
-           :label_i18n, :unit_i18n, :valid_from, :valid_until, :vat_category_id,
+           :label_i18n, :unit_i18n, :valid_from, :valid_until, :vat_category_id, :mode,
            :accounting_account_nr, :accounting_cost_center_nr,
            :minimum, :minimum_mode, :included_units, :included_units_mode
 

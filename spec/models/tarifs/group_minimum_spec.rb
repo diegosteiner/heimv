@@ -70,28 +70,28 @@ RSpec.describe Tarifs::GroupMinimum do
 
     it do
       tarif.update(minimum_mode: :usage_per_night, minimum: 24)
-      expect(usage).to be_minimum_usage_per_night
+      expect(usage.tarif).to be_minimum_usage_per_night
       expect(usage.minimum_price).to eq(((24 * 7) - 15) * 10)
       expect(usage.breakdown).to eq('Differenz zum Mindestverbrauch (24 × CHF 10.00 / Nacht)')
     end
 
     it do
       tarif.update(minimum_mode: :usage_per_day, minimum: 24)
-      expect(usage).to be_minimum_usage_per_day
+      expect(usage.tarif).to be_minimum_usage_per_day
       expect(usage.minimum_price).to eq(((24 * 8) - 15) * 10)
       expect(usage.breakdown).to eq('Differenz zum Mindestverbrauch (24 × CHF 10.00 / Tag)')
     end
 
     it do
       tarif.update(minimum_mode: :usage_total, minimum: 71)
-      expect(usage).to be_minimum_usage_total
+      expect(usage.tarif).to be_minimum_usage_total
       expect(usage.breakdown).to eq('Differenz zum Mindestverbrauch (71 × CHF 10.00)')
       expect(usage.minimum_price).to eq((71 - 15) * 10)
     end
 
     it do
       tarif.update(minimum_mode: :price_per_night, minimum: 210)
-      expect(usage).to be_minimum_price_per_night
+      expect(usage.tarif).to be_minimum_price_per_night
       expect(usage.breakdown).to eq('Differenz zum Mindestbetrag (CHF 210.00 / Nacht)')
       expect(usage.minimum_price).to eq((210 * 7) - 166)
     end
@@ -99,14 +99,14 @@ RSpec.describe Tarifs::GroupMinimum do
     it do
       tarif.update(minimum_mode: :price_per_day, minimum: 210)
       expect(usage.breakdown).to eq('Differenz zum Mindestbetrag (CHF 210.00 / Tag)')
-      expect(usage).to be_minimum_price_per_day
+      expect(usage.tarif).to be_minimum_price_per_day
       expect(usage.minimum_price).to eq((210 * 8) - 166)
     end
 
     it do
       tarif.update(minimum_mode: :price_total, minimum: 610)
       expect(usage.breakdown).to eq('Differenz zum Mindestbetrag (CHF 610.00)')
-      expect(usage).to be_minimum_price_total
+      expect(usage.tarif).to be_minimum_price_total
       expect(usage.minimum_price).to eq(610 - 166)
     end
   end

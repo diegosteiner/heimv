@@ -312,6 +312,7 @@ en:
         ordinal_position: Ordnungsnummer
         validating_conditions: Kriterien der Gültigkeit
       contract:
+        confirmed_at: Retournierter Vertrag bestätigt am
         issuer: Vermieter
         locale: Sprache
         pdf: PDF
@@ -489,8 +490,12 @@ en:
         accounting_cost_center_nr: Kostenstelle
         associated_types: Ausgewiesen in Rechnungsarten
         enabling_conditions: Bedingungen für erlaubte Auswahl
+        included_units: Inklusiv-Einheiten
+        included_units_modes: Inklusiv-Einheiten Modus
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
+        minimum: Minimum
+        minimum_mode: Minimum Modus
         minimum_price_per_night: Minimaler Preis (pro Nacht)
         minimum_price_total: Minimaler Preis (Total)
         minimum_usage_per_night: Minimaler Preis (pro Nacht)
@@ -690,6 +695,17 @@ en:
           "-paid_at": Bezahlt am (neuste zuerst)
           paid_at: Bezahlt am (älteste zuerst)
       tarif:
+        included_units_modes:
+          usage_per_day: Verbrauch pro Tag
+          usage_per_night: Verbrauch pro Nacht
+          usage_total: Verbrauch Total
+        minimum_modes:
+          price_per_day: Preis pro Tag
+          price_per_night: Preis pro Nacht
+          price_total: Preis Total
+          usage_per_day: Verbrauch pro Tag
+          usage_per_night: Verbrauch pro Nacht
+          usage_total: Verbrauch Total
         prefill_usage_methods:
           days: "× Tage"
           flat: Fix
@@ -1011,6 +1027,7 @@ en:
         country_code: Ländercode
         locale: Sprache
   booking_state_checklist_item:
+    contract_confirmed: Retournierter Vertrag prüfen und bestätigen
     contract_created: Vertrag erstellen
     contract_sent: Vertrag versenden
     contract_signed: Vertrag unterschieben
@@ -1307,14 +1324,49 @@ en:
     messages:
       accepted: must be accepted
       already_confirmed: was already confirmed, please try signing in
+      aspect_ratio_invalid: Aspect ratio invalid
+      aspect_ratio_not_landscape: Aspect ratio not landscape
+      aspect_ratio_not_portrait: Aspect ratio not portrait
+      aspect_ratio_not_square: Aspect ratio not square
+      aspect_ratio_not_x_y: Aspect ratio not x y
+      attachment_missing: Attachment missing
       blank: can't be blank
       confirmation: doesn't match %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      content_type_invalid:
+        one: hat einen ungültigen Inhaltstyp (autorisierter Inhaltstyp ist %{authorized_human_content_types})
+        other: hat einen ungültigen Inhaltstyp (autorisierte Inhaltstypen sind %{authorized_human_content_types})
+      content_type_spoofed:
+        one: hat einen Inhaltstyp, der nicht dem entspricht, der durch seinen Inhalt erkannt wird (autorisierter Inhaltstyp ist %{authorized_human_content_types})
+        other: hat einen Inhaltstyp, der nicht dem entspricht, der durch seinen Inhalt erkannt wird (autorisierte Inhaltstypen sind %{authorized_human_content_types})
+      dimension_height_not_equal_to: Dimension height not equal to
+      dimension_height_not_greater_than_or_equal_to: Dimension height not greater than or equal to
+      dimension_height_not_included_in: Dimension height not included in
+      dimension_height_not_less_than_or_equal_to: Dimension height not less than or equal to
+      dimension_max_not_included_in: Dimension max not included in
+      dimension_min_not_included_in: Dimension min not included in
+      dimension_width_not_equal_to: Dimension width not equal to
+      dimension_width_not_greater_than_or_equal_to: Dimension width not greater than or equal to
+      dimension_width_not_included_in: Dimension width not included in
+      dimension_width_not_less_than_or_equal_to: Dimension width not less than or equal to
+      duration_not_between: Duration not between
+      duration_not_equal_to: Duration not equal to
+      duration_not_greater_than: Duration not greater than
+      duration_not_greater_than_or_equal_to: Duration not greater than or equal to
+      duration_not_less_than: Duration not less than
+      duration_not_less_than_or_equal_to: Duration not less than or equal to
       empty: can't be empty
       equal_to: must be equal to %{count}
       even: must be even
       exclusion: is reserved
       expired: has expired, please request a new one
+      file_not_processable: File not processable
+      file_size_not_between: Dateigrösse muss zwischen %{min} und %{max} liegen (aktuelle Dateigrösse ist %{file_size})
+      file_size_not_equal_to: Dateigrösse muss gleich %{exact} sein (aktuelle Dateigrösse ist %{file_size})
+      file_size_not_greater_than: Dateigrösse muss grösser als %{min} sein (aktuelle Dateigrösse ist %{file_size})
+      file_size_not_greater_than_or_equal_to: Dateigrösse muss grösser oder gleich %{min} sein (aktuelle Dateigrösse ist %{file_size})
+      file_size_not_less_than: Dateigrösse muss kleiner als %{max} sein (aktuelle Dateigrösse ist %{file_size})
+      file_size_not_less_than_or_equal_to: Dateigrösse muss kleiner oder gleich %{max} sein (aktuelle Dateigrösse ist %{file_size})
       greater_than: must be greater than %{count}
       greater_than_or_equal_to: must be greater than or equal to %{count}
       in: must be in %{count}
@@ -1322,6 +1374,19 @@ en:
       invalid: is invalid
       less_than: must be less than %{count}
       less_than_or_equal_to: must be less than or equal to %{count}
+      limit_max_exceeded:
+        one: One
+        other: Other
+        zero: Zero
+      limit_min_not_reached:
+        one: One
+        other: Other
+        zero: Zero
+      limit_out_of_range:
+        one: One
+        other: Other
+        zero: Zero
+      media_metadata_missing: Media metadata missing
       model_invalid: 'Validation failed: %{errors}'
       not_a_number: is not a number
       not_an_integer: must be an integer
@@ -1332,6 +1397,12 @@ en:
         other: "%{count} errors prohibited this %{resource} from being saved:"
       odd: must be odd
       other_than: must be other than %{count}
+      pages_not_between: Pages not between
+      pages_not_equal_to: Pages not equal to
+      pages_not_greater_than: Pages not greater than
+      pages_not_greater_than_or_equal_to: Pages not greater than or equal to
+      pages_not_less_than: Pages not less than
+      pages_not_less_than_or_equal_to: Pages not less than or equal to
       present: must be blank
       required: must exist
       taken: has already been taken
@@ -1341,6 +1412,12 @@ en:
       too_short:
         one: is too short (minimum is one character)
         other: is too short (minimum is %{count} characters)
+      total_file_size_not_between: Total file size not between
+      total_file_size_not_equal_to: Total file size not equal to
+      total_file_size_not_greater_than: Total file size not greater than
+      total_file_size_not_greater_than_or_equal_to: Total file size not greater than or equal to
+      total_file_size_not_less_than: Total file size not less than
+      total_file_size_not_less_than_or_equal_to: Total file size not less than or equal to
       wrong_length:
         one: is the wrong length (should be one character)
         other: is the wrong length (should be %{count} characters)
@@ -1521,11 +1598,19 @@ en:
       balance: Saldo aus Anzahlungen
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
+      group_minimum:
+        price_per_day: Differenz zum Mindestbetrag (%{minimum} / Tag)
+        price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
+        price_total: Differenz zum Mindestbetrag (%{minimum})
+        usage_per_day: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Tag)
+        usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Nacht)
+        usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit})
       minimum: Mindestbetrag %{minimum}
       minimum_price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
       minimum_price_total: Differenz zum Mindestbetrag (%{minimum})
       minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{unit} / Nacht)
       minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{unit})
+      overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} à %{price_per_unit}"
   layouts:
     footer:
       legal:
@@ -1818,7 +1903,10 @@ en:
         rich_text_templates_by_rest: Sonstige
     tarifs:
       form:
-        minimum: Minimum
+        advanced: Erweiterte Einstellungen
+      usage_form:
+        badge_inclusive_units: inkl.
+        badge_minimum: min.
   nav:
     edit_account: Account verwalten
     manage: Verwaltung
@@ -1925,6 +2013,10 @@ en:
           other: "%{count} Nächte"
           zero: ohne Übernachtung
   renderables:
+    booking_actions:
+      sign_contract:
+        prepare:
+          signed_pdf_help: als PDF oder Bild, max. 5MB
     booking_questions:
       check_box:
         value:

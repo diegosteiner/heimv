@@ -486,12 +486,16 @@ it:
         accounting_cost_center_nr:
         associated_types: Indicato nei documenti
         enabling_conditions: Condizioni per la selezione consentita
+        included_units:
+        included_units_modes:
         label: Designazione tariffa
         meter: Nome del contatore (per le tariffe in base alla lettura del contatore)
+        minimum: Minimo
+        minimum_mode:
         minimum_price_per_night:
         minimum_price_total:
-        minimum_usage_per_night: Consumo minimo (per notte)
-        minimum_usage_total: Consumo minimo (totale)
+        minimum_usage_per_night:
+        minimum_usage_total:
         mode:
         ordinal_position: Numero di serie
         pin: Congelare il prezzo per unità
@@ -687,6 +691,17 @@ it:
           "-paid_at":
           paid_at:
       tarif:
+        included_units_modes:
+          usage_per_day:
+          usage_per_night:
+          usage_total:
+        minimum_modes:
+          price_per_day:
+          price_per_night:
+          price_total:
+          usage_per_day:
+          usage_per_night:
+          usage_total:
         prefill_usage_methods:
           days:
           flat: Forfettario
@@ -1309,6 +1324,12 @@ it:
     messages:
       accepted: deve essere accettata
       already_confirmed: was already confirmed, please try signing in
+      aspect_ratio_invalid:
+      aspect_ratio_not_landscape:
+      aspect_ratio_not_portrait:
+      aspect_ratio_not_square:
+      aspect_ratio_not_x_y:
+      attachment_missing:
       blank: non può essere vuoto
       confirmation: non coincide con %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
@@ -1318,11 +1339,28 @@ it:
       content_type_spoofed:
         one:
         other:
+      dimension_height_not_equal_to:
+      dimension_height_not_greater_than_or_equal_to:
+      dimension_height_not_included_in:
+      dimension_height_not_less_than_or_equal_to:
+      dimension_max_not_included_in:
+      dimension_min_not_included_in:
+      dimension_width_not_equal_to:
+      dimension_width_not_greater_than_or_equal_to:
+      dimension_width_not_included_in:
+      dimension_width_not_less_than_or_equal_to:
+      duration_not_between:
+      duration_not_equal_to:
+      duration_not_greater_than:
+      duration_not_greater_than_or_equal_to:
+      duration_not_less_than:
+      duration_not_less_than_or_equal_to:
       empty: non può essere vuoto
       equal_to: deve essere uguale a %{count}
       even: deve essere pari
       exclusion: non è disponibile
       expired: è scaduto, si prega di richiederne uno nuovo
+      file_not_processable:
       file_size_not_between:
       file_size_not_equal_to:
       file_size_not_greater_than:
@@ -1336,6 +1374,19 @@ it:
       invalid: non è valido
       less_than: deve essere minore di %{count}
       less_than_or_equal_to: deve essere minore o uguale a %{count}
+      limit_max_exceeded:
+        one:
+        other:
+        zero:
+      limit_min_not_reached:
+        one:
+        other:
+        zero:
+      limit_out_of_range:
+        one:
+        other:
+        zero:
+      media_metadata_missing:
       model_invalid: 'Validazione fallita: %{errors}'
       not_a_number: non è un numero
       not_an_integer: non è un numero intero
@@ -1346,6 +1397,12 @@ it:
         other: 'Non posso salvare questo %{resource}: %{count} errori.'
       odd: deve essere dispari
       other_than: devono essere di numero diverso da %{count}
+      pages_not_between:
+      pages_not_equal_to:
+      pages_not_greater_than:
+      pages_not_greater_than_or_equal_to:
+      pages_not_less_than:
+      pages_not_less_than_or_equal_to:
       present: non deve essere compilato
       required: non può essere vuoto
       taken: è già presente
@@ -1355,6 +1412,12 @@ it:
       too_short:
         one: è troppo corto (il minimo è 1 carattere)
         other: è troppo corto (il minimo è %{count} caratteri)
+      total_file_size_not_between:
+      total_file_size_not_equal_to:
+      total_file_size_not_greater_than:
+      total_file_size_not_greater_than_or_equal_to:
+      total_file_size_not_less_than:
+      total_file_size_not_less_than_or_equal_to:
       wrong_length:
         one: è della lunghezza sbagliata (deve essere di 1 carattere)
         other: è della lunghezza sbagliata (deve essere di %{count} caratteri)
@@ -1412,6 +1475,13 @@ it:
       balance:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
+      group_minimum:
+        price_per_day:
+        price_per_night:
+        price_total:
+        usage_per_day:
+        usage_per_night:
+        usage_total:
       minimum: Importo minimo %{minimum}
       minimum_price_per_night:
       minimum_price_total:
@@ -1549,7 +1619,10 @@ it:
         rich_text_templates_by_rest: Altro
     tarifs:
       form:
-        minimum: Minimo
+        advanced:
+      usage_form:
+        badge_inclusive_units:
+        badge_minimum:
   nav:
     edit_account: Gestione dell'account
     manage: Amministrazione

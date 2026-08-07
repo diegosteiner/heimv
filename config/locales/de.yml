@@ -490,12 +490,16 @@ de:
         accounting_cost_center_nr: Kostenstelle
         associated_types: Ausgewiesen in Dokumenten
         enabling_conditions: Bedingungen für erlaubte Auswahl
+        included_units: Inklusiv-Einheiten
+        included_units_modes: Inklusiv-Einheiten Modus
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum: Minimum
         minimum_mode: Minimum Modus
-        included_units: Inklusiv-Einheiten
-        included_units_modes: Inklusiv-Einheiten Modus
+        minimum_price_per_night: Minimum price per night
+        minimum_price_total: Minimum price total
+        minimum_usage_per_night: Consumo minimo (per notte)
+        minimum_usage_total: Consumo minimo (totale)
         mode: Modus
         ordinal_position: Ordnungsnummer
         pin: Preis pro Einheit einfrieren
@@ -691,23 +695,23 @@ de:
           "-paid_at": Bezahlt am (neuste zuerst)
           paid_at: Bezahlt am (älteste zuerst)
       tarif:
+        included_units_modes:
+          usage_per_day: Verbrauch pro Tag
+          usage_per_night: Verbrauch pro Nacht
+          usage_total: Verbrauch Total
+        minimum_modes:
+          price_per_day: Preis pro Tag
+          price_per_night: Preis pro Nacht
+          price_total: Preis Total
+          usage_per_day: Verbrauch pro Tag
+          usage_per_night: Verbrauch pro Nacht
+          usage_total: Verbrauch Total
         prefill_usage_methods:
           days: "× Tage"
           flat: "× 1"
           headcount: "× Anzahl Personen"
           headcount_nights: "× Übernachtungen"
           nights: "× Nächte"
-        minimum_modes:
-          usage_per_day: Verbrauch pro Tag
-          usage_per_night: Verbrauch pro Nacht
-          usage_total: Verbrauch Total
-          price_per_night: Preis pro Nacht
-          price_per_day: Preis pro Tag
-          price_total: Preis Total
-        included_units_modes:
-          usage_per_day: Verbrauch pro Tag
-          usage_per_night: Verbrauch pro Nacht
-          usage_total: Verbrauch Total
       tarifs_overnight_stay:
         modes:
           days: Tage
@@ -1335,6 +1339,12 @@ de:
     messages:
       accepted: muss akzeptiert werden
       already_confirmed: was already confirmed, please try signing in
+      aspect_ratio_invalid: hat ein ungültiges Seitenverhältnis (gültige Seitenverhältnisse sind %{authorized_aspect_ratios})
+      aspect_ratio_not_landscape: muss landschaftlich sein (aktuelle Datei ist %{width}x%{height}px)
+      aspect_ratio_not_portrait: muss Porträt sein (aktuelle Datei ist %{width}x%{height}px)
+      aspect_ratio_not_square: muss quadratisch sein (aktuelle Datei ist %{width}x%{height}px)
+      aspect_ratio_not_x_y: muss %{authorized_aspect_ratios} sein (aktuelle Datei ist %{width}x%{height}px)
+      attachment_missing: hat keine angehängte Datei
       blank: muss ausgefüllt werden
       confirmation: stimmt nicht mit %{attribute} überein
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
@@ -1344,11 +1354,28 @@ de:
       content_type_spoofed:
         one: hat einen Inhaltstyp, der nicht dem entspricht, der durch seinen Inhalt erkannt wird (autorisierter Inhaltstyp ist %{authorized_human_content_types})
         other: hat einen Inhaltstyp, der nicht dem entspricht, der durch seinen Inhalt erkannt wird (autorisierte Inhaltstypen sind %{authorized_human_content_types})
+      dimension_height_not_equal_to: Bildhöhe muss genau %{length} Pixel sein
+      dimension_height_not_greater_than_or_equal_to: Bildhöhe muss grösser oder gleich %{length} Pixel sein
+      dimension_height_not_included_in: Bildhöhe muss zwischen %{min} und %{max} Pixel liegen
+      dimension_height_not_less_than_or_equal_to: Höhe muss kleiner oder gleich %{length} Pixel sein
+      dimension_max_not_included_in: muss kleiner oder gleich %{width} x %{height} Pixel sein
+      dimension_min_not_included_in: muss grösser oder gleich %{width} x %{height} Pixel sein
+      dimension_width_not_equal_to: Bildbreite muss genau %{length} Pixel sein
+      dimension_width_not_greater_than_or_equal_to: Bildbreite muss grösser oder gleich %{length} Pixel sein
+      dimension_width_not_included_in: Bildbreite muss zwischen %{min} und %{max} Pixel liegen
+      dimension_width_not_less_than_or_equal_to: Breite muss kleiner oder gleich %{length} Pixel sein
+      duration_not_between: Die Dauer muss zwischen %{min} und %{max} liegen (die aktuelle Dauer beträgt %{duration})
+      duration_not_equal_to: Die Dauer muss gleich %{exact} sein (die aktuelle Dauer beträgt %{duration})
+      duration_not_greater_than: Die Dauer muss grösser als %{min} sein (die aktuelle Dauer beträgt %{duration})
+      duration_not_greater_than_or_equal_to: Die Dauer muss grösser oder gleich %{min} sein (die aktuelle Dauer beträgt %{duration})
+      duration_not_less_than: Die Dauer muss kleiner als %{max} sein (die aktuelle Dauer beträgt %{duration})
+      duration_not_less_than_or_equal_to: Die Dauer muss kleiner oder gleich %{max} sein (die aktuelle Dauer beträgt %{duration})
       empty: muss ausgefüllt werden
       equal_to: muss genau %{count} sein
       even: muss gerade sein
       exclusion: ist nicht verfügbar
       expired: ist abgelaufen, bitte neu anfordern
+      file_not_processable: wird nicht als gültige Mediendatei identifiziert
       file_size_not_between: Dateigrösse muss zwischen %{min} und %{max} liegen (aktuelle Dateigrösse ist %{file_size})
       file_size_not_equal_to: Dateigrösse muss gleich %{exact} sein (aktuelle Dateigrösse ist %{file_size})
       file_size_not_greater_than: Dateigrösse muss grösser als %{min} sein (aktuelle Dateigrösse ist %{file_size})
@@ -1362,6 +1389,19 @@ de:
       invalid: ist nicht gültig
       less_than: muss kleiner als %{count} sein
       less_than_or_equal_to: muss kleiner oder gleich %{count} sein
+      limit_max_exceeded:
+        one: zu viele angehängte Dateien (maximal %{max} Dateien, %{count})
+        other: Zu viele angehängte Dateien (maximal %{max} Dateien, %{count})
+        zero: Keine Dateien angehängt (maximal %{max} Dateien)
+      limit_min_not_reached:
+        one: Nur 1 Datei ist angehängt (müssen mindestens %{min} Dateien haben)
+        other: "%{count} Dateien angehängt (müssen mindestens %{min} Dateien haben)"
+        zero: Keine Dateien angehängt (müssen mindestens %{min} Dateien haben)
+      limit_out_of_range:
+        one: Nur 1 Datei ist angehängt (müssen zwischen %{min} und %{max} Dateien haben)
+        other: Die Gesamtzahl der Dateien muss zwischen %{min} und %{max} liegen (es sind Dateien mit %{count} angehängt).
+        zero: Keine Dateien angehängt (müssen zwischen %{min} und %{max} Dateien haben)
+      media_metadata_missing: ist keine gültige Mediendatei
       model_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
       not_a_number: ist keine Zahl
       not_an_integer: muss ganzzahlig sein
@@ -1372,6 +1412,12 @@ de:
         other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
       odd: muss ungerade sein
       other_than: darf nicht gleich %{count} sein
+      pages_not_between: Die Seitenanzahl muss zwischen %{min} und %{max} liegen (die aktuelle Seitenanzahl beträgt %{pages}).
+      pages_not_equal_to: Die Seitenanzahl muss gleich %{exact} sein (die aktuelle Seitenanzahl beträgt %{pages}).
+      pages_not_greater_than: Die Seitenanzahl muss grösser als %{min} sein (die aktuelle Seitenanzahl beträgt %{pages}).
+      pages_not_greater_than_or_equal_to: Die Seitenanzahl muss grösser oder gleich %{min} sein (die aktuelle Seitenanzahl beträgt %{pages}).
+      pages_not_less_than: Die Seitenanzahl muss kleiner als %{max} sein (die aktuelle Seitenanzahl beträgt %{pages}).
+      pages_not_less_than_or_equal_to: Die Seitenanzahl muss kleiner oder gleich %{max} sein (die aktuelle Seitenanzahl beträgt %{pages}).
       present: darf nicht ausgefüllt werden
       required: muss ausgefüllt werden
       taken: ist bereits vergeben
@@ -1381,6 +1427,12 @@ de:
       too_short:
         one: ist zu kurz (weniger als ein Zeichen)
         other: ist zu kurz (weniger als %{count} Zeichen)
+      total_file_size_not_between: Die gesamte Dateigrösse muss zwischen %{min} und %{max} liegen (aktuelle Dateigrösse ist %{total_file_size})
+      total_file_size_not_equal_to: Die gesamte Dateigrösse muss gleich %{exact} sein (aktuelle Dateigrösse ist %{total_file_size})
+      total_file_size_not_greater_than: Die gesamte Dateigrösse muss grösser als %{min} sein (aktuelle Dateigrösse ist %{total_file_size})
+      total_file_size_not_greater_than_or_equal_to: Die gesamte Dateigrösse muss grösser oder gleich %{min} sein (aktuelle Dateigrösse ist %{total_file_size})
+      total_file_size_not_less_than: Die gesamte Dateigrösse muss kleiner als %{max} sein (aktuelle Dateigrösse ist %{total_file_size})
+      total_file_size_not_less_than_or_equal_to: Die gesamte Dateigrösse muss kleiner oder gleich %{max} sein (aktuelle Dateigrösse ist %{total_file_size})
       wrong_length:
         one: hat die falsche Länge (muss genau ein Zeichen haben)
         other: hat die falsche Länge (muss genau %{count} Zeichen haben)
@@ -1560,14 +1612,18 @@ de:
       balance: Saldo aus Anzahlungen
       default: "%{billable_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
-      minimum: Mindestbetrag %{minimum}
       group_minimum:
-        price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
         price_per_day: Differenz zum Mindestbetrag (%{minimum} / Tag)
+        price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
         price_total: Differenz zum Mindestbetrag (%{minimum})
-        usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Nacht)
         usage_per_day: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Tag)
+        usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Nacht)
         usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit})
+      minimum: Mindestbetrag %{minimum}
+      minimum_price_per_night: Minimum price per night
+      minimum_price_total: Minimum price total
+      minimum_usage_per_night: Minimum usage per night
+      minimum_usage_total: Minimum usage total
       overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} à %{price_per_unit}"
   layouts:
     footer:
@@ -1866,6 +1922,9 @@ de:
     tarifs:
       form:
         advanced: Erweiterte Einstellungen
+      usage_form:
+        badge_inclusive_units: inkl.
+        badge_minimum: min.
   nav:
     edit_account: Account verwalten
     manage: Verwaltung
