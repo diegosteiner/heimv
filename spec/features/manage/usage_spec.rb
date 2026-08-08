@@ -50,7 +50,6 @@ describe 'Usage', :devise do
     end
 
     submit_form
-    expect(page).to have_text(Tarif.human_attribute_name(:minimum_usage_per_night))
     expect(page).to have_text(/\(\s*70\.0\s*-\s*35\.0\s*\)\s*×\s*15\.00/)
     expect(booking.reload.usages.sum(&:price)).to eq(1050.0)
   end

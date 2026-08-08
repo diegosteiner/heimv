@@ -1,4 +1,3 @@
-= render layout: 'manage/tarifs/usage_form', locals: { usage:, f:, unit: !usage.tarif.minimum_none? && Tarif.human_enum(:minimum_modes, usage.tarif.minimum_mode) }
 = render layout: 'manage/tarifs/usage_form', locals: { usage:, f:, unit: (Tarif.human_enum(:minimum_modes, usage.tarif.minimum_mode) unless usage.tarif.minimum_none?) }
   - usage.valid? # trigger #before_validate
   .d-flex.gap-3.justify-content-end

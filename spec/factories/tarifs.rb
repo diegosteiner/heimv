@@ -78,7 +78,8 @@ FactoryBot.define do
       type { Tarifs::GroupMinimum.sti_name }
       label { 'Minimum' }
       unit { 'Nacht' }
-      minimum_usage_per_night { 10 }
+      minimum { 10 }
+      minimum_mode { :usage_per_night }
       price_per_unit { 15.0 }
     end
   end
