@@ -23,7 +23,7 @@ class ImportSeeder
     true
   end
 
-  def dump(file, organisation: Organisation.take)
+  def dump(file = Rails.env.to_sym, organisation: Organisation.take)
     file = FILES[file] if file.is_a?(Symbol)
     File.write(file, Manage::OrganisationSerializer.render(organisation))
   end

@@ -70,7 +70,7 @@ RSpec.describe Usage do
     subject { usage.prefill_units }
 
     let(:booking) { create(:booking) }
-    let(:usage) { build(:usage, booking:, tarif:) }
+    let(:usage) { tarif.build_usage(booking:) }
     let(:booking_question) { create(:booking_question, organisation:) }
     let(:booking_question_response) do
       booking_question.booking_question_responses.create(booking:, value: 25)
@@ -105,10 +105,74 @@ RSpec.describe Usage do
     end
   end
 
+  describe '#minimum_price' do
+    subject(:minimum_price) { usage.minimum_price }
+
+    let(:booking) { create(:booking, organisation:) }
+    let(:tarif) { create(:tarif, organisation:, price_per_unit: 10) }
+    let(:usage) { tarif.build_usage(booking:) }
+
+    it do
+      tarif.update(minimum_mode: :usage_per_night, minimum: 24)
+      is_expected.to eq(24 * 7 * 10)
+    end
+
+    it do
+      tarif.update(minimum_mode: :usage_per_day, minimum: 24)
+      is_expected.to eq(24 * 8 * 10)
+    end
+
+    it do
+      tarif.update(minimum_mode: :usage_total, minimum: 71)
+      is_expected.to eq(71 * 10)
+    end
+
+    it do
+      tarif.update(minimum_mode: :price_per_night, minimum: 210)
+      is_expected.to eq(210 * 7)
+    end
+
+    it do
+      tarif.update(minimum_mode: :price_per_day, minimum: 210)
+      is_expected.to eq(210 * 8)
+    end
+
+    it do
+      tarif.update(minimum_mode: :price_total, minimum: 610)
+      is_expected.to eq(610)
+    end
+  end
+
   describe '#save' do
     let(:booking) { create(:booking) }
     let(:usage) { build(:usage, booking:, tarif:) }
 
     it { expect(usage.save!).to be true }
+  end
+
+  describe '#billable_units' do
+    let(:booking) { create(:booking) }
+    let(:usage) { tarif.build_usage(booking:) }
+
+    it do
+      tarif.update(included_units: 5, included_units_mode: :usage_total)
+      usage.used_units = 12
+      usage.tarif.included_units_usage_total?
+      expect(usage.billable_units).to eq(7)
+    end
+
+    it do
+      tarif.update(included_units: 10, included_units_mode: :usage_per_night)
+      usage.used_units = 0
+      usage.tarif.included_units_usage_per_night?
+      expect(usage.billable_units).to eq(0)
+    end
+
+    it do
+      tarif.update(included_units: 5, included_units_mode: :usage_per_day)
+      usage.used_units = 1000
+      usage.tarif.included_units_usage_per_day?
+      expect(usage.billable_units).to eq(960)
+    end
   end
 end

@@ -1,73 +1,59 @@
-= render layout: 'manage/tarifs/usage_form', locals: { usage:, f:, unit: usage.critical_minimum && Tarif.human_attribute_name(usage.critical_minimum) }
+= render layout: 'manage/tarifs/usage_form', locals: { usage:, f:, unit: (Tarif.human_enum(:minimum_modes, usage.tarif.minimum_mode) unless usage.tarif.minimum_none?) }
   - usage.valid? # trigger #before_validate
   .d-flex.gap-3.justify-content-end
-    - case usage.critical_minimum
-    - when :minimum_usage_per_night
-      div
-        | (
-
-      div
-        = number_with_delimiter(usage.tarif.minimum_usage_per_night * usage.booking.nights)
-      
-      div
-        | -
-
-      div
-        = number_with_delimiter(usage.tarif_group_used_units)
-
-      div
-        | )
-
-      div
-        | ×
-        
-      div
-        = number_to_currency(usage.price_per_unit, unit: '')
-        small.d-block.text-muted= @booking.organisation.currency
-
-    - when :minimum_usage_total
-      div
-        | (
-
-      div
-        = number_with_delimiter(usage.tarif.minimum_usage_total)
-
-      div
-        | -
-
-      div
-        = number_with_delimiter(usage.tarif_group_used_units)
-
-      div
-        | )
-
-      div
-        | ×
-        
-      div
-        = number_to_currency(usage.price_per_unit, unit: '')
-        small.d-block.text-muted= @booking.organisation.currency
-
-    - when :minimum_price_per_night
-      div
-        = number_to_currency(usage.tarif.minimum_price_per_night * usage.booking.nights)
-
-      div
-        | -
-
-      div
-        = number_to_currency(usage.tarif_group_price)
-
-      div
-        | =
-
-    - when :minimum_price_total
-      - if usage.tarif.minimum_price_total.zero?
-        | –
-
-      - else
+    - unless usage.minimum?
+      | –
+    - else
+      - case usage.tarif.minimum_mode.to_sym
+      - when :usage_per_night, :usage_per_day
         div
-          = number_to_currency(usage.tarif.minimum_price_total)
+          | (
+
+        div
+          = number_with_delimiter(usage.tarif.minimum * usage.minimum_factor)
+        
+        div
+          | -
+
+        div
+          = number_with_delimiter(usage.tarif_group_used_units)
+
+        div
+          | )
+
+        div
+          | ×
+          
+        div
+          = number_to_currency(usage.price_per_unit, unit: '')
+          small.d-block.text-muted= @booking.organisation.currency
+
+      - when :usage_total
+        div
+          | (
+
+        div
+          = number_with_delimiter(usage.tarif.minimum)
+
+        div
+          | -
+
+        div
+          = number_with_delimiter(usage.tarif_group_used_units)
+
+        div
+          | )
+
+        div
+          | ×
+          
+        div
+          = number_to_currency(usage.price_per_unit, unit: '')
+          small.d-block.text-muted= @booking.organisation.currency
+
+      - when :price_per_night, :price_per_day
+        div
+          = number_to_currency(usage.tarif.minumum * usage.minimum_factor)
 
         div
           | -
@@ -78,6 +64,15 @@
         div
           | =
 
-    - else
-      | –
+      - when :price_total
+        div
+          = number_to_currency(usage.tarif.minimum)
 
+        div
+          | -
+
+        div
+          = number_to_currency(usage.tarif_group_price)
+
+        div
+          | =

@@ -1,5 +1,12 @@
 # Changelog
 
+## 26.8.3
+
+unreleased
+
+- Feature: Add included units to tarifs
+- Feature: Add booking from tenant show
+
 ## 26.8.2
 
 Released 04.08.2026
