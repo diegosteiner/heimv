@@ -10,11 +10,11 @@
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  enabling_conditions               :jsonb
+#  included_units                    :decimal(, )
+#  included_units_mode               :integer          default(0)
 #  label_i18n                        :jsonb
-#  minimum_price_per_night           :decimal(, )
-#  minimum_price_total               :decimal(, )
-#  minimum_usage_per_night           :decimal(, )
-#  minimum_usage_total               :decimal(, )
+#  minimum                           :decimal(, )
+#  minimum_mode                      :integer          default(0)
 #  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
@@ -45,12 +45,13 @@ module Tarifs
       before_validation :normalize_details, :set_used_units
 
       def breakdown
-        details_values = details&.values&.uniq || []
-        return super if details_values.compact.empty? || minimum_price?
+        details_values = details&.values&.uniq&.compact || []
+        return super if details_values.empty? || minimum?
 
-        I18n.t(:overnight_stay, scope: 'invoice_items.breakdown', unit:, nights: booking_dates.count,
+        I18n.t(:overnight_stay, scope: 'invoice_items.breakdown', unit:, mode_factor: booking_dates.count,
                                 details_factor: details_values.minmax.uniq.map { format_units(it) }.join(' … '),
-                                used_units: format_units(used_units), price_per_unit: format_price(price_per_unit))
+                                billable_units: format_units(billable_units),
+                                price_per_unit: format_price(price_per_unit))
       end
 
       def normalize_details

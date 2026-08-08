@@ -14,10 +14,10 @@ it:
         city: Località
         country_code: Paese
         postalcode: CAP
-        recipient:
-        street:
-        street_nr:
-        suffix:
+        recipient: Destinatario
+        street: Strada
+        street_nr: N.
+        suffix: Informazioni aggiuntive sull'indirizzo
       booking/filter:
         begins_at: Da
         begins_at_after: Inizio occupazione da
@@ -31,7 +31,7 @@ it:
         homes: Principali proprietà in affitto
         occupiables: Proprietà in affitto
         previous_booking_states: Stato passato
-        q:
+        q: Riferimento della prenotazione, inquilino, organizzazione
       booking_condition:
         compare_attribute:
         compare_operator:
@@ -59,7 +59,7 @@ it:
         issued_at_before: Data di fatturazione precedente
         payable_until_after: Pagabile fino a dopo
         payable_until_before: Pagabile fino a prima di
-        ref:
+        ref: Numero di riferimento
         statuses: stato
       invoice/item:
         accounting_account_nr: Conto contabile
@@ -72,7 +72,7 @@ it:
         suggested:
         type: Tipo di voce della fattura
         vat:
-        vat_category_id:
+        vat_category_id: Categoria IVA
       item/filter:
         homes: Oggetti principali di affitto
         issued_at_after: Data di fatturazione dopo
@@ -113,13 +113,13 @@ it:
       organisation_settings:
         available_begins_at_times:
         available_ends_at_times:
-        booking_window:
+        booking_window: Finestra di prenotazione
         closed_occupancy_color: Colore per le chiusure
         contract_sign_by_click_enabled:
         default_begins_at_time:
         default_ends_at_time:
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
-        locales:
+        locales: Lingue
         occupied_occupancy_color: Colore per le occupazioni definitive
         predefined_salutation_form:
         public_occupancy_visibility:
@@ -486,12 +486,12 @@ it:
         accounting_cost_center_nr:
         associated_types: Indicato nei documenti
         enabling_conditions: Condizioni per la selezione consentita
+        included_units:
+        included_units_modes:
         label: Designazione tariffa
         meter: Nome del contatore (per le tariffe in base alla lettura del contatore)
-        minimum_price_per_night:
-        minimum_price_total:
-        minimum_usage_per_night: Consumo minimo (per notte)
-        minimum_usage_total: Consumo minimo (totale)
+        minimum: Minimo
+        minimum_mode:
         mode:
         ordinal_position: Numero di serie
         pin: Congelare il prezzo per unità
@@ -523,8 +523,8 @@ it:
         reservations_allowed: Può inviare richieste di prenotazione
         salutation:
         salutation_form:
-        street:
-        street_nr:
+        street: Strada
+        street_nr: N.
         zipcode: CAP
       usage:
         apply: Applicare
@@ -687,6 +687,19 @@ it:
           "-paid_at":
           paid_at:
       tarif:
+        included_units_modes:
+          none:
+          usage_per_day:
+          usage_per_night:
+          usage_total:
+        minimum_modes:
+          none:
+          price_per_day:
+          price_per_night:
+          price_total:
+          usage_per_day:
+          usage_per_night:
+          usage_total:
         prefill_usage_methods:
           days:
           flat: Forfettario
@@ -1183,16 +1196,16 @@ it:
         one: oltre un anno
         other: oltre %{count} anni
       x_days:
-        one: "%{count} giorno"
+        one: un giorno
         other: "%{count} giorni"
       x_minutes:
-        one: "%{count} minuto"
+        one: un minuto
         other: "%{count} minuti"
       x_months:
-        one: "%{count} mese"
+        one: un mese
         other: "%{count} mesi"
       x_seconds:
-        one: "%{count} secondo"
+        one: un secondo
         other: "%{count} secondi"
       x_years:
         one: "%{count} anno"
@@ -1309,6 +1322,12 @@ it:
     messages:
       accepted: deve essere accettata
       already_confirmed: was already confirmed, please try signing in
+      aspect_ratio_invalid:
+      aspect_ratio_not_landscape:
+      aspect_ratio_not_portrait:
+      aspect_ratio_not_square:
+      aspect_ratio_not_x_y:
+      attachment_missing:
       blank: non può essere vuoto
       confirmation: non coincide con %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
@@ -1318,11 +1337,28 @@ it:
       content_type_spoofed:
         one:
         other:
+      dimension_height_not_equal_to:
+      dimension_height_not_greater_than_or_equal_to:
+      dimension_height_not_included_in:
+      dimension_height_not_less_than_or_equal_to:
+      dimension_max_not_included_in:
+      dimension_min_not_included_in:
+      dimension_width_not_equal_to:
+      dimension_width_not_greater_than_or_equal_to:
+      dimension_width_not_included_in:
+      dimension_width_not_less_than_or_equal_to:
+      duration_not_between:
+      duration_not_equal_to:
+      duration_not_greater_than:
+      duration_not_greater_than_or_equal_to:
+      duration_not_less_than:
+      duration_not_less_than_or_equal_to:
       empty: non può essere vuoto
       equal_to: deve essere uguale a %{count}
       even: deve essere pari
       exclusion: non è disponibile
       expired: è scaduto, si prega di richiederne uno nuovo
+      file_not_processable:
       file_size_not_between:
       file_size_not_equal_to:
       file_size_not_greater_than:
@@ -1336,6 +1372,19 @@ it:
       invalid: non è valido
       less_than: deve essere minore di %{count}
       less_than_or_equal_to: deve essere minore o uguale a %{count}
+      limit_max_exceeded:
+        one:
+        other:
+        zero:
+      limit_min_not_reached:
+        one:
+        other:
+        zero:
+      limit_out_of_range:
+        one:
+        other:
+        zero:
+      media_metadata_missing:
       model_invalid: 'Validazione fallita: %{errors}'
       not_a_number: non è un numero
       not_an_integer: non è un numero intero
@@ -1346,6 +1395,13 @@ it:
         other: 'Non posso salvare questo %{resource}: %{count} errori.'
       odd: deve essere dispari
       other_than: devono essere di numero diverso da %{count}
+      pages_not_between:
+      pages_not_equal_to:
+      pages_not_greater_than:
+      pages_not_greater_than_or_equal_to:
+      pages_not_less_than:
+      pages_not_less_than_or_equal_to:
+      password_too_long:
       present: non deve essere compilato
       required: non può essere vuoto
       taken: è già presente
@@ -1355,6 +1411,12 @@ it:
       too_short:
         one: è troppo corto (il minimo è 1 carattere)
         other: è troppo corto (il minimo è %{count} caratteri)
+      total_file_size_not_between:
+      total_file_size_not_equal_to:
+      total_file_size_not_greater_than:
+      total_file_size_not_greater_than_or_equal_to:
+      total_file_size_not_less_than:
+      total_file_size_not_less_than_or_equal_to:
       wrong_length:
         one: è della lunghezza sbagliata (deve essere di 1 carattere)
         other: è della lunghezza sbagliata (deve essere di %{count} caratteri)
@@ -1402,22 +1464,25 @@ it:
     select:
       prompt: Selezionare
     submit:
-      create: Crea %{model}
-      submit: Invia %{model}
-      update: Aggiorna %{model}
+      create: Crea
+      submit: Salva
+      update: Salva
   import: Importazione
   import_records: importa %{model_name}.
   invoice_items:
     breakdown:
       balance:
-      default: "%{used_units} × %{unit} à %{price_per_unit}"
+      default: "%{billable_units} × %{unit} → %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
+      group_minimum:
+        price_per_day: Differenza rispetto all'importo minimo (%{minimum} / giorno)
+        price_per_night: Differenza rispetto all'importo minimo (%{minimum} / notte)
+        price_total: Differenza rispetto all'importo minimo (%{minimum})
+        usage_per_day: Differenza rispetto al consumo minimo (%{minimum} × %{price_per_unit} / giorno)
+        usage_per_night: Differenza rispetto al consumo minimo (%{minimum} × %{price_per_unit} / notte)
+        usage_total: Differenza rispetto al consumo minimo (%{minimum} × %{price_per_unit})
       minimum: Importo minimo %{minimum}
-      minimum_price_per_night:
-      minimum_price_total:
-      minimum_usage_per_night:
-      minimum_usage_total:
-      overnight_stay:
+      overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} → %{price_per_unit}"
   layouts:
     footer:
       legal:
@@ -1549,7 +1614,10 @@ it:
         rich_text_templates_by_rest: Altro
     tarifs:
       form:
-        minimum: Minimo
+        advanced:
+      usage_form:
+        badge_inclusive_units:
+        badge_minimum:
   nav:
     edit_account: Gestione dell'account
     manage: Amministrazione

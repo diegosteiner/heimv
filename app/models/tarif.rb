@@ -10,11 +10,11 @@
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  enabling_conditions               :jsonb
+#  included_units                    :decimal(, )
+#  included_units_mode               :integer          default(0)
 #  label_i18n                        :jsonb
-#  minimum_price_per_night           :decimal(, )
-#  minimum_price_total               :decimal(, )
-#  minimum_usage_per_night           :decimal(, )
-#  minimum_usage_total               :decimal(, )
+#  minimum                           :decimal(, )
+#  minimum_mode                      :integer          default(0)
 #  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
@@ -65,12 +65,16 @@ class Tarif < ApplicationRecord
   attribute :enabling_conditions, BookingCondition.one_of.to_array_type, nil: true
 
   enum :prefill_usage_method, Tarif::PREFILL_METHODS.keys.index_with(&:to_s)
+  enum :minimum_mode, { none: 0, usage_per_night: 1, usage_per_day: 2, usage_total: 3,
+                        price_per_night: 4, price_per_day: 5, price_total: 6 }, prefix: :minimum
+  enum :included_units_mode, { none: 0, usage_per_night: 1, usage_per_day: 2, usage_total: 3 }, prefix: :included_units
 
   scope :ordered, -> { order(:ordinal) }
   scope :pinned, -> { where(pin: true) }
 
   validates :selecting_conditions, :enabling_conditions, store_model: true, allow_nil: true
   validates :type, presence: true, inclusion: { in: ->(_) { Tarif.subtypes.keys.map(&:to_s) } }
+  validates :minimum, :included_units, inclusion: { in: 0.. }, allow_nil: true
   # there are cases where neither is needed
   # validates :vat_category_id, presence: true, if: -> { organisation&.accounting_settings&.liable_for_vat }
   # validates :accounting_account_nr, presence: true, if: -> { organisation&.accounting_settings&.enabled }
@@ -80,9 +84,10 @@ class Tarif < ApplicationRecord
 
   accepts_nested_attributes_for :selecting_conditions, :enabling_conditions, allow_destroy: true
 
-  def before_usage_validation(_usage); end
-  def before_usage_save(_usage); end
-  def validate_usage(_usage); end
+  before_validation do
+    self.minimum = nil if minimum_none?
+    self.included_units = nil if included_units_none?
+  end
 
   def prefill_usage_booking_questions
     booking_question_types = %w[BookingQuestions::Integer]
@@ -95,15 +100,6 @@ class Tarif < ApplicationRecord
 
   def to_s
     "##{ordinal}: [#{tarif_group}] #{label} (#{self.class.model_name.human})"
-  end
-
-  def minimums
-    {
-      minimum_usage_per_night:,
-      minimum_usage_total:,
-      minimum_price_per_night:,
-      minimum_price_total:
-    }
   end
 
   def build_usage(**attributes)

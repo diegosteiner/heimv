@@ -5,6 +5,7 @@ module Manage
     identifier :id
     association :tarif, blueprint: Manage::TarifSerializer
 
-    fields :used_units, :price, :remarks, :tarif_id, :committed, :price_per_unit
+    fields :used_units, :price, :remarks, :tarif_id, :committed, :price_per_unit, :minimum_price, :included_units,
+           :billable_units
   end
 end

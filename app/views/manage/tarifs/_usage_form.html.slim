@@ -28,9 +28,13 @@
   .col-sm-12.col-md-3.p-2
     = yield
   .col-sm-12.col-md-1.p-2.text-end
-    = number_to_currency(usage.price, unit: '')
-    small.d-block.text-muted
+    div= number_to_currency(usage.price, unit: '')
+    - if usage.minimum? 
+      span.badge.badge-small.bg-danger-subtle.text-danger.me-2[title=Tarif.human_attribute_name(:minimum)]
+        = t('.badge_minimum')
+    - if usage.included_units?
+      span.badge.badge-small.bg-success-subtle.text-success.me-2[title=Tarif.human_attribute_name(:included_units)]
+        = t('.badge_inclusive_units')
+    small.text-muted
       = @booking.organisation.currency
-      - if usage.minimum_price?
-        span.fa.fa-thermometer-full.ms-2.text-danger
   

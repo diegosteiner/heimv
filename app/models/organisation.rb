@@ -75,7 +75,7 @@ class Organisation < ApplicationRecord
   locale_enum default: I18n.locale
   attr_writer :booking_flow_class
 
-  normalizes :email, :mail_from, with: ->(email) { email.presence && EmailAddress.normal(email) }
+  normalizes :email, with: ->(email) { email.presence && EmailAddress.normal(email) }
   translates :nickname_label, column_suffix: '_i18n', locale_accessors: true
 
   scope :ordered, -> { order(name: :ASC) }
@@ -93,15 +93,24 @@ class Organisation < ApplicationRecord
     errors.add(:iban, :invalid) if iban.present? && !iban.valid?
   end
   validate do
-    next unless Rails.env.production? && email_changed?
+    email_validation = {}
+    email_validation = { host_validation: :mx, dns_lookup: :mx } if Rails.env.production? && email_changed?
 
-    errors.add(:email, :invalid) unless EmailAddress.valid?(email, host_validation: :mx, dns_lookup: :mx)
+    errors.add(:email, :invalid) unless EmailAddress.valid?(email, **email_validation)
   end
 
   validate do
-    next unless Rails.env.production? && mail_from.present? && mail_from_changed?
+    next if mail_from.blank?
 
-    errors.add(:mail_from, :invalid) unless EmailAddress.valid?(mail_from, host_validation: :mx, dns_lookup: :mx)
+    email_validation = {}
+    email_validation = { host_validation: :mx, dns_lookup: :mx } if Rails.env.production? && mail_from_changed?
+    email = begin
+      Mail::Address.new(mail_from)&.address
+    rescue Mail::Field::ParseError
+      nil
+    end
+
+    errors.add(:mail_from, :invalid) unless email.present? && EmailAddress.valid?(email, **email_validation)
   end
 
   attribute :booking_flow_type, default: -> { BookingFlows::Default.to_s }
