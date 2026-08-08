@@ -496,10 +496,6 @@ de:
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum: Minimum
         minimum_mode: Minimum Modus
-        minimum_price_per_night: Minimum price per night
-        minimum_price_total: Minimum price total
-        minimum_usage_per_night: Consumo minimo (per notte)
-        minimum_usage_total: Consumo minimo (totale)
         mode: Modus
         ordinal_position: Ordnungsnummer
         pin: Preis pro Einheit einfrieren
@@ -1623,10 +1619,6 @@ de:
         usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Nacht)
         usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit})
       minimum: Mindestbetrag %{minimum}
-      minimum_price_per_night: Minimum price per night
-      minimum_price_total: Minimum price total
-      minimum_usage_per_night: Minimum usage per night
-      minimum_usage_total: Minimum usage total
       overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} à %{price_per_unit}"
   layouts:
     footer:

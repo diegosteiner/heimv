@@ -496,10 +496,6 @@ en:
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum: Minimum
         minimum_mode: Minimum Modus
-        minimum_price_per_night: Minimaler Preis (pro Nacht)
-        minimum_price_total: Minimaler Preis (Total)
-        minimum_usage_per_night: Minimaler Preis (pro Nacht)
-        minimum_usage_total: Minimaler Preis (Total)
         mode: Modus
         ordinal_position: Ordnungsnummer
         pin: Tarif NICHT auf Buchung fixieren
@@ -1609,10 +1605,6 @@ en:
         usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit} / Nacht)
         usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{price_per_unit})
       minimum: Mindestbetrag %{minimum}
-      minimum_price_per_night: Differenz zum Mindestbetrag (%{minimum} / Nacht)
-      minimum_price_total: Differenz zum Mindestbetrag (%{minimum})
-      minimum_usage_per_night: Differenz zum Mindestverbrauch (%{minimum} × %{unit} / Nacht)
-      minimum_usage_total: Differenz zum Mindestverbrauch (%{minimum} × %{unit})
       overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} à %{price_per_unit}"
   layouts:
     footer:

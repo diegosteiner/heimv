@@ -25,14 +25,12 @@ class AddIncludedUnitsToTarifs < ActiveRecord::Migration[8.1]
 
   # rubocop:disable Rails/SkipsModelValidations
   def migrate_minimums
-    Tarif.where.not(minimum_usage_total: nil).update_all(minimum: Tarif.arel_table[:minimum_usage_total],
-                                                         minimum_mode: :usage_total)
-    Tarif.where.not(minimum_usage_per_night: nil).update_all(minimum: Tarif.arel_table[:minimum_usage_per_night],
-                                                             minimum_mode: :usage_per_night)
-    Tarif.where.not(minimum_price_total: nil).update_all(minimum: Tarif.arel_table[:minimum_price_total],
-                                                         minimum_mode: :price_total)
-    Tarif.where.not(minimum_price_per_night: nil).update_all(minimum: Tarif.arel_table[:minimum_price_per_night],
-                                                             minimum_mode: :price_per_night)
+    table = Tarif.arel_table
+
+    Tarif.where.not(minimum_usage_total: nil).update_all(minimum: table[:minimum_usage_total], minimum_mode: 3)
+    Tarif.where.not(minimum_usage_per_night: nil).update_all(minimum: table[:minimum_usage_per_night], minimum_mode: 1)
+    Tarif.where.not(minimum_price_total: nil).update_all(minimum: table[:minimum_price_total], minimum_mode: 6)
+    Tarif.where.not(minimum_price_per_night: nil).update_all(minimum: table[:minimum_price_per_night], minimum_mode: 4)
   end
   # rubocop:enable Rails/SkipsModelValidations
 end
