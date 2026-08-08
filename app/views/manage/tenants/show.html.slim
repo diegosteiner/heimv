@@ -64,3 +64,9 @@ h3.mt-5.mb-4= Booking.model_name.human(count: 2)
                   span.fa.fa-eye
                 = link_to manage_booking_path(booking, return_to: url_for), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                   span.fa.fa-trash
+
+
+= link_to(new_manage_booking_path(booking: { tenant_id: @tenant.id }), class: 'btn btn-primary mt-3')
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: Booking.model_name.human)

@@ -486,13 +486,13 @@ fr:
         accounting_cost_center_nr:
         associated_types: Affiché dans les documents
         enabling_conditions: Conditions de sélection autorisée
+        included_units: Unités inclusives
+        included_units_modes: Mode « Unités incluses »
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
-        minimum_price_per_night: Prix minimum (par nuit)
-        minimum_price_total: Prix minimum (total)
-        minimum_usage_per_night: Consommation minimale (par nuit)
-        minimum_usage_total: Consommation minimale (total)
-        mode:
+        minimum: Minimum
+        minimum_mode: Mode minimum
+        mode: Mode
         ordinal_position: Ordnungsnummer
         pin: Prix figer à la réservation
         prefill_usage_booking_question_id: Consommation proposée à partir de l'indication
@@ -518,7 +518,7 @@ fr:
         locale: Langue
         nickname: Totem
         phone: Téléphone
-        ref:
+        ref: Numéro de client
         remarks: Remarques internes
         reservations_allowed: Peut envoyer des demandes de réservation
         salutation: Salutation
@@ -687,6 +687,21 @@ fr:
           "-paid_at":
           paid_at:
       tarif:
+        included_units_modes:
+          none: Aucun
+          usage_per_day: Consommation par jour
+          usage_per_night: Consommation par nuit
+          usage_total: Consommation totale
+        minimum_modes:
+          none: Aucun
+          price_per_day: Prix par jour
+          price_per_night: Prix par nuit
+          price_total: Prix total
+          usage_per_day: 'Consommation par jour
+
+            '
+          usage_per_night: Consommation par nuit
+          usage_total: Consommation totale
         prefill_usage_methods:
           days: Jour
           flat: Forfait
@@ -899,8 +914,8 @@ fr:
         one: Compte
         other: Compte
       vat_category:
-        one:
-        other:
+        one: TVA Catégorie
+        other: Catégories de TVA
   add_record: Ajouter %{model_name}
   back: Retour
   booking_actions:
@@ -931,14 +946,14 @@ fr:
       label: Envoyer le contrat
       label_contract_only: Envoyer le contrat sans facture
       label_with_deposits: Envoyer le contrat et la facture d'acompte
-      label_with_offers:
+      label_with_offers: Envoyer le contrat et l'offre
     email_invoice:
       label: Envoyer une facture
       label_with_ref: envoyer %{type} %{ref}
     email_offer:
       label: Envoyer une offre
     manage_commit_request:
-      label:
+      label: Marquer la demande comme définitive
     mark_contract_sent:
       label: Marquer le contrat comme envoyé
     mark_contract_signed:
@@ -963,7 +978,7 @@ fr:
       confirm_authorization_label: Je certifie que je dispose des pouvoirs nécessaires pour signer ce contrat de manière juridiquement contraignante
       description:
       label_sign_by_click: Signer valablement le contrat
-      label_upload:
+      label_upload: Renvoyer le contrat signé
     skip_invoice:
       label: Sauter le décompte final
   booking_conditions:
@@ -1183,19 +1198,19 @@ fr:
         one: plus d'un an
         other: plus de %{count} ans
       x_days:
-        one: "%{count} jour"
+        one: un jour
         other: "%{count} jours"
       x_minutes:
-        one: "%{count} minute"
+        one: une minute
         other: "%{count} minutes"
       x_months:
-        one: "%{count} mois"
+        one: un mois
         other: "%{count} mois"
       x_seconds:
-        one: "%{count} seconde"
+        one: une seconde
         other: "%{count} secondes"
       x_years:
-        one: "%{count} an"
+        one: 1 an
         other: "%{count} ans"
     prompts:
       day: Jour
@@ -1309,6 +1324,12 @@ fr:
     messages:
       accepted: doit être accepté(e)
       already_confirmed: was already confirmed, please try signing in
+      aspect_ratio_invalid:
+      aspect_ratio_not_landscape:
+      aspect_ratio_not_portrait:
+      aspect_ratio_not_square:
+      aspect_ratio_not_x_y:
+      attachment_missing:
       blank: doit être rempli(e)
       confirmation: ne concorde pas avec %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
@@ -1318,11 +1339,28 @@ fr:
       content_type_spoofed:
         one:
         other:
+      dimension_height_not_equal_to:
+      dimension_height_not_greater_than_or_equal_to:
+      dimension_height_not_included_in:
+      dimension_height_not_less_than_or_equal_to:
+      dimension_max_not_included_in:
+      dimension_min_not_included_in:
+      dimension_width_not_equal_to:
+      dimension_width_not_greater_than_or_equal_to:
+      dimension_width_not_included_in:
+      dimension_width_not_less_than_or_equal_to:
+      duration_not_between:
+      duration_not_equal_to:
+      duration_not_greater_than:
+      duration_not_greater_than_or_equal_to:
+      duration_not_less_than:
+      duration_not_less_than_or_equal_to:
       empty: doit être rempli(e)
       equal_to: doit être égal à %{count}
       even: doit être pair
       exclusion: n'est pas disponible
       expired: ist abgelaufen, bitte neu anfordern
+      file_not_processable:
       file_size_not_between:
       file_size_not_equal_to:
       file_size_not_greater_than:
@@ -1336,6 +1374,19 @@ fr:
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}
       less_than_or_equal_to: doit être inférieur ou égal à %{count}
+      limit_max_exceeded:
+        one:
+        other:
+        zero:
+      limit_min_not_reached:
+        one:
+        other:
+        zero:
+      limit_out_of_range:
+        one:
+        other:
+        zero:
+      media_metadata_missing:
       model_invalid: 'Validation échouée : %{errors}'
       not_a_number: n'est pas un nombre
       not_an_integer: doit être un nombre entier
@@ -1346,6 +1397,13 @@ fr:
         other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
       odd: doit être impair
       other_than: doit être différent de %{count}
+      pages_not_between:
+      pages_not_equal_to:
+      pages_not_greater_than:
+      pages_not_greater_than_or_equal_to:
+      pages_not_less_than:
+      pages_not_less_than_or_equal_to:
+      password_too_long: est trop long
       present: doit être vide
       required: doit exister
       taken: est déjà utilisé(e)
@@ -1355,6 +1413,12 @@ fr:
       too_short:
         one: est trop court (au moins un caractère)
         other: est trop court (au moins %{count} caractères)
+      total_file_size_not_between:
+      total_file_size_not_equal_to:
+      total_file_size_not_greater_than:
+      total_file_size_not_greater_than_or_equal_to:
+      total_file_size_not_less_than:
+      total_file_size_not_less_than_or_equal_to:
       wrong_length:
         one: ne fait pas la bonne longueur (doit comporter un seul caractère)
         other: ne fait pas la bonne longueur (doit comporter %{count} caractères)
@@ -1402,7 +1466,7 @@ fr:
     select:
       prompt: Veuillez sélectionner
     submit:
-      create: Créer un(e) %{model}
+      create: Créer
       submit: Enregistrer
       update: Enregistrer
   i18n:
@@ -1445,14 +1509,17 @@ fr:
   invoice_items:
     breakdown:
       balance: Solde des acomptes
-      default: "%{used_units} × %{unit} à %{price_per_unit}"
+      default: "%{billable_units} × %{unit} → %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
+      group_minimum:
+        price_per_day: Différence par rapport au montant minimum (%{minimum} / jour)
+        price_per_night: Différence par rapport au montant minimum (%{minimum} / nuit)
+        price_total: Différence par rapport au montant minimum (%{minimum})
+        usage_per_day: Écart par rapport à la consommation minimale (%{minimum} × %{price_per_unit} / jour)
+        usage_per_night: Différence par rapport à la consommation minimale (%{minimum} × %{price_per_unit} / nuit)
+        usage_total: Différence par rapport à la consommation minimale (%{minimum} × %{price_per_unit})
       minimum: Montant minimum %{minimum}
-      minimum_price_per_night: Différence par rapport au montant minimum (%{minimum} / nuit)
-      minimum_price_total: Différence par rapport au montant minimum (%{minimum})
-      minimum_usage_per_night: Différence par rapport à la consommation minimale (%{minimum} × %{unit} / nuit)
-      minimum_usage_total: Différence par rapport à la consommation minimale (%{minimum} × %{unit})
-      overnight_stay:
+      overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} → %{price_per_unit}"
   layouts:
     footer:
       legal:
@@ -1602,7 +1669,10 @@ fr:
         rich_text_templates_by_rest: Autres
     tarifs:
       form:
-        minimum: Minimum
+        advanced:
+      usage_form:
+        badge_inclusive_units: incl.
+        badge_minimum: min.
   nav:
     edit_account: Gérer le compte
     manage: Administration
@@ -1740,7 +1810,7 @@ fr:
     booking_actions:
       sign_contract:
         prepare:
-          signed_pdf_help:
+          signed_pdf_help: au format PDF ou image, 5 Mo max.
     booking_questions:
       check_box:
         value:

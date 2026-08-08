@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_28_111121) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_05_144637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -721,11 +721,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_28_111121) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "discarded_at"
     t.jsonb "enabling_conditions"
+    t.decimal "included_units"
+    t.integer "included_units_mode", default: 0
     t.jsonb "label_i18n", default: {}
-    t.decimal "minimum_price_per_night"
-    t.decimal "minimum_price_total"
-    t.decimal "minimum_usage_per_night"
-    t.decimal "minimum_usage_total"
+    t.decimal "minimum"
+    t.integer "minimum_mode", default: 0
     t.integer "mode"
     t.integer "ordinal"
     t.bigint "organisation_id", null: false

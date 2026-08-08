@@ -27,9 +27,8 @@ class Usage < ApplicationRecord
   has_one :organisation, through: :booking
 
   attribute :apply, default: true
-  delegate :tarif_group, to: :tarif, allow_nil: true
+  delegate :tarif_group, :unit, to: :tarif, allow_nil: true
 
-  # after_initialize :assert_usage_type!
   before_validation :assert_usage_type!
   before_create :pin_price_per_unit
 
@@ -44,7 +43,7 @@ class Usage < ApplicationRecord
     becomes!(tarif.class::Usage) if tarif.present? && !is_a?(tarif.class::Usage)
   end
 
-  def price(units = used_units)
+  def price(units: billable_units, minimum_price: self.minimum_price)
     price = (units || 0.0) * (price_per_unit || 0.0)
 
     if price_per_unit&.negative?
@@ -54,14 +53,8 @@ class Usage < ApplicationRecord
     end
   end
 
-  def unit
-    tarif&.unit
-  end
-
-  def minimum_price?
-    return false if price.zero?
-
-    price == minimum_price
+  def billable_units(units: used_units)
+    [(units || 0.0) - (included_units || 0.0), 0.0].max
   end
 
   def pin_price_per_unit
@@ -85,10 +78,10 @@ class Usage < ApplicationRecord
     (amount * multiplier).floor / multiplier
   end
 
-  def items
-    @items ||= booking.invoices.filter_map do |invoice|
+  def invoice_items
+    @invoice_items ||= booking.invoices.filter_map do |invoice|
       invoice.items.filter { it.usage_id == id }
-    end.flatten
+    end.flatten.compact
   end
 
   def enabled_by_conditions?
@@ -117,41 +110,66 @@ class Usage < ApplicationRecord
     booking.booking_question_responses.find_by(booking_question:)&.value.presence || 0
   end
 
-  def minimum_prices
-    nights = booking&.nights || 0
-
-    {
-      minimum_usage_per_night: tarif.minimum_usage_per_night&.*(nights)&.*(price_per_unit),
-      minimum_usage_total: tarif.minimum_usage_total&.*(price_per_unit),
-      minimum_price_per_night: tarif.minimum_price_per_night&.*(nights),
-      minimum_price_total: tarif.minimum_price_total.presence
-    }
-  end
-
   def breakdown
-    key ||= :minimum if minimum_price?
+    key ||= :minimum if minimum?
     key ||= :default
 
-    I18n.t(key, scope: 'invoice_items.breakdown', unit:,
+    I18n.t(key, scope: 'invoice_items.breakdown', unit:, included_units:,
                 minimum: (minimum_price && format_price(minimum_price)) || nil,
-                used_units: format_units(used_units), price_per_unit: format_price(price_per_unit))
+                billable_units: format_units(billable_units), # used_units: format_units(used_units),
+                price_per_unit: format_price(price_per_unit))
   end
 
-  def minimum_price
-    @minimum_price ||= if minimum_prices.values.compact.all?(&:negative?)
-                         minimum_prices.values.compact.filter(&:negative?).min
-                       else
-                         minimum_prices.values.compact.filter(&:positive?).max
-                       end
-  end
+  def minimum?
+    return false if price.zero?
 
-  def critical_minimum
-    @critical_minimum ||= minimum_price.present? && minimum_prices.find { minimum_price == _2 }&.first
+    price == minimum_price
   end
 
   def preselect
     self.apply ||= selected_by_conditions?
     self.used_units ||= prefill_units
+  end
+
+  def minimum_factor
+    case tarif.minimum_mode.to_sym
+    when :price_per_night, :usage_per_night
+      booking.nights
+    when :price_per_day, :usage_per_day
+      booking.nights + 1
+    else
+      1
+    end
+  end
+
+  def minimum_price
+    return if tarif&.minimum.blank? || tarif.minimum_none? || booking.blank?
+
+    if minimum_units.present?
+      minimum_units * price_per_unit
+    else
+      tarif.minimum * minimum_factor
+    end
+  end
+
+  def minimum_units # rubocop:disable Metrics/CyclomaticComplexity
+    return if tarif&.minimum.blank? || tarif.minimum_none? || booking.blank?
+    return unless tarif.minimum_usage_per_night? || tarif.minimum_usage_per_day? || tarif.minimum_usage_total?
+
+    tarif.minimum * minimum_factor
+  end
+
+  def included_units # rubocop:disable Metrics/CyclomaticComplexity
+    return if tarif&.included_units.blank? || tarif&.included_units_none? || booking.blank?
+
+    included_units = tarif.included_units
+    included_units *= booking.nights if tarif.included_units_usage_per_night?
+    included_units *= booking.nights + 1 if tarif.included_units_usage_per_day?
+    included_units
+  end
+
+  def included_units?
+    included_units&.>(0)
   end
 
   def apply_to_invoice?(_invoice)
@@ -166,13 +184,11 @@ class Usage < ApplicationRecord
     usages.filter(&:enabled_by_conditions?)
   end
 
-  protected
-
   def format_units(units, precision: 2)
     number_to_rounded(units || 0, precision:, strip_insignificant_zeros: true)
   end
 
   def format_price(price = self.price)
-    number_to_currency(price_per_unit.presence || 0, unit: organisation.currency)
+    number_to_currency(price || 0, unit: organisation.currency)
   end
 end

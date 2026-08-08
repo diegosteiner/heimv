@@ -10,11 +10,11 @@
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  enabling_conditions               :jsonb
+#  included_units                    :decimal(, )
+#  included_units_mode               :integer          default(0)
 #  label_i18n                        :jsonb
-#  minimum_price_per_night           :decimal(, )
-#  minimum_price_total               :decimal(, )
-#  minimum_usage_per_night           :decimal(, )
-#  minimum_usage_total               :decimal(, )
+#  minimum                           :decimal(, )
+#  minimum_mode                      :integer          default(0)
 #  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
@@ -78,7 +78,8 @@ FactoryBot.define do
       type { Tarifs::GroupMinimum.sti_name }
       label { 'Minimum' }
       unit { 'Nacht' }
-      minimum_usage_per_night { 10 }
+      minimum { 10 }
+      minimum_mode { :usage_per_night }
       price_per_unit { 15.0 }
     end
   end

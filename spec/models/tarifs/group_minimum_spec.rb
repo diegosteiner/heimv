@@ -10,11 +10,11 @@
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  enabling_conditions               :jsonb
+#  included_units                    :decimal(, )
+#  included_units_mode               :integer          default(0)
 #  label_i18n                        :jsonb
-#  minimum_price_per_night           :decimal(, )
-#  minimum_price_total               :decimal(, )
-#  minimum_usage_per_night           :decimal(, )
-#  minimum_usage_total               :decimal(, )
+#  minimum                           :decimal(, )
+#  minimum_mode                      :integer          default(0)
 #  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)
@@ -60,67 +60,54 @@ RSpec.describe Tarifs::GroupMinimum do
     ]
   end
 
-  describe '#minimum_prices' do
-    subject(:minimum_prices) { usage.minimum_prices_difference }
-
-    context 'with minimums defined' do
-      before do
-        tarif.update(
-          minimum_usage_per_night: 24,
-          minimum_usage_total: 71,
-          minimum_price_per_night: 210,
-          minimum_price_total: 610
-        )
-      end
-
-      it 'lists all minimum prices' do
-        expect(usage.tarif_group_price).to eq((7 * 10) + (8 * 12))
-        expect(usage.tarif_group_used_units).to eq(7 + 8)
-        expect(minimum_prices).to match(
-          minimum_usage_per_night: ((24 * 7) - 15) * 10,
-          minimum_usage_total: ((71 - 15) * 10),
-          minimum_price_per_night: (210 * 7) - ((7 * 10) + (8 * 12)),
-          minimum_price_total: 610 - ((7 * 10) + (8 * 12))
-        )
-      end
-    end
-
-    context 'without minimums defined' do
-      before do
-        tarif.update(
-          minimum_usage_per_night: nil,
-          minimum_usage_total: 71,
-          minimum_price_per_night: 210,
-          minimum_price_total: nil
-        )
-      end
-
-      it 'lists all minimum prices' do
-        expect(usage.tarif_group_price).to eq((7 * 10) + (8 * 12))
-        expect(usage.tarif_group_used_units).to eq(7 + 8)
-        expect(minimum_prices).to match(
-          minimum_usage_per_night: nil,
-          minimum_usage_total: ((71 - 15) * 10),
-          minimum_price_per_night: (210 * 7) - ((7 * 10) + (8 * 12)),
-          minimum_price_total: nil
-        )
-      end
-    end
-  end
-
-  describe '#minimum_price' do
+  describe 'Usage#minimum_price' do
     subject(:minimum_price) { usage.minimum_price }
 
-    before do
-      tarif.update({
-                     minimum_usage_per_night: 24,
-                     minimum_usage_total: 71,
-                     minimum_price_per_night: 210,
-                     minimum_price_total: 610
-                   })
+    it 'calculates the tarif group totals' do
+      expect(usage.tarif_group_used_units).to eq(15)
+      expect(usage.tarif_group_price).to eq(166)
     end
 
-    # it { expect(usage.minimum_price).to eq(24 * 7 * 10) }
-    it { expect(usage.critical_minimum).to eq(:minimum_usage_per_night) }
+    it do
+      tarif.update(minimum_mode: :usage_per_night, minimum: 24)
+      expect(usage.tarif).to be_minimum_usage_per_night
+      expect(usage.minimum_price).to eq(((24 * 7) - 15) * 10)
+      expect(usage.breakdown).to eq('Differenz zum Mindestverbrauch (24 × CHF 10.00 / Nacht)')
+    end
+
+    it do
+      tarif.update(minimum_mode: :usage_per_day, minimum: 24)
+      expect(usage.tarif).to be_minimum_usage_per_day
+      expect(usage.minimum_price).to eq(((24 * 8) - 15) * 10)
+      expect(usage.breakdown).to eq('Differenz zum Mindestverbrauch (24 × CHF 10.00 / Tag)')
+    end
+
+    it do
+      tarif.update(minimum_mode: :usage_total, minimum: 71)
+      expect(usage.tarif).to be_minimum_usage_total
+      expect(usage.breakdown).to eq('Differenz zum Mindestverbrauch (71 × CHF 10.00)')
+      expect(usage.minimum_price).to eq((71 - 15) * 10)
+    end
+
+    it do
+      tarif.update(minimum_mode: :price_per_night, minimum: 210)
+      expect(usage.tarif).to be_minimum_price_per_night
+      expect(usage.breakdown).to eq('Differenz zum Mindestbetrag (CHF 210.00 / Nacht)')
+      expect(usage.minimum_price).to eq((210 * 7) - 166)
+    end
+
+    it do
+      tarif.update(minimum_mode: :price_per_day, minimum: 210)
+      expect(usage.breakdown).to eq('Differenz zum Mindestbetrag (CHF 210.00 / Tag)')
+      expect(usage.tarif).to be_minimum_price_per_day
+      expect(usage.minimum_price).to eq((210 * 8) - 166)
+    end
+
+    it do
+      tarif.update(minimum_mode: :price_total, minimum: 610)
+      expect(usage.breakdown).to eq('Differenz zum Mindestbetrag (CHF 610.00)')
+      expect(usage.tarif).to be_minimum_price_total
+      expect(usage.minimum_price).to eq(610 - 166)
+    end
   end
 end
