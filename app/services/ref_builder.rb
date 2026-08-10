@@ -18,9 +18,9 @@ class RefBuilder
   def generate_lazy(template_string, **override)
     return if template_string.nil?
 
-    ref_parts = self.class.ref_parts.select { |key| template_string.include?(key.to_s) }
-                                    .transform_values { |callable| instance_eval(&callable) }
-                                    .merge(**override)
+    ref_parts = self.class.ref_parts.select { template_string.include?(it.to_s) }
+                    .transform_values { instance_eval(&it) }
+                    .merge(**override)
     format(template_string, ref_parts)
   end
 end
