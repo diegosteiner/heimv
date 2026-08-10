@@ -53,7 +53,7 @@
 
       - when :price_per_night, :price_per_day
         div
-          = number_to_currency(usage.tarif.minumum * usage.minimum_factor)
+          = number_to_currency(usage.tarif.minimum * usage.minimum_factor)
 
         div
           | -
