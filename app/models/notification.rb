@@ -60,9 +60,10 @@ class Notification < ApplicationRecord
     sent_at = Time.zone.now
     return unless deliverable? && update(sent_at:, delivered_at: nil)
 
+    message_delivery.deliver_later
     contracts.each { it.update(sent_at:) }
     invoices.each { it.update(sent_at:) }
-    message_delivery.tap(&:deliver_later)
+    message_delivery
   end
 
   def autodeliver?
