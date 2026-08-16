@@ -10,7 +10,7 @@ module Manage
         [{ deadline_settings: deadline_settings_permitted_keys,
            accounting_settings: accounting_settings_permitted_keys,
            booking_state_settings: booking_state_settings_permitted_keys,
-           settings: settings_permitted_keys, smtp_settings: smtp_settings_permitted_keys,
+           settings: settings_permitted_keys,
            qr_bill_creditor_address: Public::AddressParams.permitted_keys }]
     end
 
@@ -36,10 +36,6 @@ module Manage
       %i[awaiting_contract_deadline awaiting_tenant_deadline invoice_payment_deadline
          overdue_request_deadline unconfirmed_request_deadline provisional_request_deadline
          deposit_payment_deadline deadline_postponable_for payment_overdue_deadline]
-    end
-
-    def self.smtp_settings_permitted_keys
-      %i[address user_name password port ssl tls authentication enable_starttls open_timeout read_timeout]
     end
 
     def self.admin_permitted_keys

@@ -1,8 +1,15 @@
 # Changelog
 
+## 26.8.4
+
+Released 16.08.2026
+
+- Fix: Fix SMTP Settings form
+- Fix: Show correct price on contracts for price tarifs
+
 ## 26.8.3
 
-unreleased
+Released 10.08.2026
 
 - Feature: Add included units to tarifs
 - Feature: Add booking from tenant show

@@ -316,7 +316,7 @@ de:
         issuer: Vermieter
         locale: Sprache
         pdf: PDF
-        sent_at: Vertragsdatum
+        sent_at: Vertrag versendet am
         signed_pdf: Von Mieter unterzeichnetes PDF
         tenant_signed_at: Von Mieter unterzeichnet am
         text: Vertragstext
