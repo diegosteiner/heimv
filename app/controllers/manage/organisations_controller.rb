@@ -15,6 +15,8 @@ module Manage
     def edit; end
 
     def update
+      @organisation.smtp_settings ||= SmtpSettings.new
+      @organisation.smtp_settings.assign_attributes(smtp_settings_params) if smtp_settings_params.present?
       @organisation.update(organisation_params)
       respond_with :manage, @organisation, location: -> { edit_manage_organisation_path }
     end
@@ -26,13 +28,16 @@ module Manage
     end
 
     def organisation_params
-      permitted = if current_user.role_admin?
-                    params.expect(organisation: OrganisationParams.admin_permitted_keys)
-                  else
-                    OrganisationParams.new(params[:organisation]).permitted
-                  end
+      if current_user.role_admin?
+        params.expect(organisation: OrganisationParams.admin_permitted_keys)
+      else
+        OrganisationParams.new(params[:organisation]).permitted
+      end
+    end
 
-      permitted[:smtp_settings]&.delete(:password) if permitted.dig(:smtp_settings, :password).blank?
+    def smtp_settings_params
+      permitted = SmtpSettingsParams.new(params.dig(:organisation, :smtp_settings)).permitted
+      permitted&.delete(:password) if permitted&.[](:password).blank?
       permitted
     end
   end

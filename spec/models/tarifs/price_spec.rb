@@ -38,13 +38,13 @@ require 'rails_helper'
 RSpec.describe Tarifs::Price do
   let(:booking) { create(:booking) }
   let(:usage) { tarif.build_usage(booking:) }
-  let(:tarif) { create(:tarif, :price, organisation: booking.organisation) }
+  let(:tarif) { create(:tarif, :price, organisation: booking.organisation, price_per_unit: 42.0) }
 
   describe 'Usage#prefill_units' do
     subject(:prefill_units) { usage.prefill_units }
 
     it 'returns the price_per_unit' do
-      expect(prefill_units).to eq(1.0)
+      expect(prefill_units).to eq(42.0)
     end
   end
 
@@ -94,14 +94,6 @@ RSpec.describe Tarifs::Price do
       it 'returns zero in currency format' do
         expect(breakdown).to eq(number_to_currency(0, unit: booking.organisation.currency))
       end
-    end
-  end
-
-  describe 'price_per_unit override' do
-    subject { tarif.price_per_unit }
-
-    it 'returns 1.0' do
-      is_expected.to eq(1.0)
     end
   end
 end
