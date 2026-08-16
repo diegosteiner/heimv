@@ -50,6 +50,7 @@ describe 'Usage', :devise do
     end
 
     submit_form
+    expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human)
     expect(booking.reload.usages.sum(&:price)).to eq(1050.0)
   end
 
