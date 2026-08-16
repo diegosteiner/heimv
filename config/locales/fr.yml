@@ -1548,8 +1548,8 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: 'Échec de l''importation :'
-          success: Importation réussie
+          failure: Échec de l'action
+          success: Opération réussie
         prepare:
           missing_template: Action non réalisable en l'état
       calendar:
@@ -1781,8 +1781,8 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: 'Échec de l''importation :'
-          success: Importation réussie
+          failure: Échec de l'action
+          success: Opération réussie
       confirm:
         title: Veuillez confirmer votre adresse e-mail
       edit:

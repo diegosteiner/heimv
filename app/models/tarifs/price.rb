@@ -37,13 +37,17 @@ module Tarifs
   class Price < Tarif
     Tarif.register_subtype self
 
-    def price_per_unit
-      1.0
-    end
-
     class Usage < ::Usage
       def prefill_units
         tarif.price_per_unit.presence
+      end
+
+      def price_per_unit
+        nil
+      end
+
+      def price(units: nil, minimum_price: self.minimum_price, price_per_unit: nil)
+        super(units: 1, minimum_price:, price_per_unit: billable_units)
       end
 
       def breakdown

@@ -5,7 +5,6 @@ module Manage
     class ContractsController < BaseController
       load_and_authorize_resource :booking
       load_and_authorize_resource :contract, through: :booking
-      after_action :attach_files, only: %i[create update]
 
       def index
         @contracts = @contracts.includes(:signed_pdf_attachment, :pdf_attachment)
@@ -37,6 +36,7 @@ module Manage
       end
 
       def update
+        @contract.confirmed_at ||= Time.zone.now if contract_params[:signed_pdf].present?
         @contract.update(contract_params)
         Booking::Log.log(@contract.booking, trigger: :manager, user: current_user)
         respond_with :manage, @contract, location: -> { manage_booking_contracts_path(@booking) }
@@ -48,10 +48,6 @@ module Manage
       end
 
       private
-
-      def attach_files
-        @contract.signed_pdf.attach(contract_params[:signed_pdf]) if contract_params[:signed_pdf].present?
-      end
 
       def contract_params
         ContractParams.new(params.require(:contract)).permitted
