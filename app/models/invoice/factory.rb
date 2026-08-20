@@ -13,13 +13,15 @@ class Invoice
 
     def build(suggest_items: false, **attributes) # rubocop:disable Metrics/AbcSize
       ::Invoice.new(defaults.merge(attributes)).tap do |invoice|
-        invoice.payment_info_type = payment_info_type(invoice)
         invoice.payable_until ||= payable_until(invoice)
         invoice.payment_required = payment_required(invoice)
         invoice.text ||= text_from_template(invoice)
         invoice.items ||= []
         invoice.items += suggested_items(invoice) if suggest_items
         invoice.text ||= prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
+
+        invoice.recalculate
+        invoice.payment_info_type = payment_info_type(invoice)
       end
     end
 
@@ -43,14 +45,15 @@ class Invoice
       invoice.payment_ref ||= supersede_invoice.payment_ref
     end
 
-    def payment_info_type(invoice)
+    def payment_info_type(invoice) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
       return if invoice.type.to_s == Invoices::Offer.to_s
+      return PaymentInfos::Refund if invoice.balance&.negative?
 
       booking = invoice.booking
       country_code = booking.tenant&.country_code&.upcase
       return PaymentInfos::ForeignPaymentInfo if country_code && %w[CH LI].exclude?(country_code)
 
-      booking.organisation.default_payment_info_type || PaymentInfos::QrBill
+      booking.organisation.default_payment_info_type.presence || PaymentInfos::QrBill
     end
 
     def text_from_template(invoice)

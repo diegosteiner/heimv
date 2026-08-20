@@ -1,5 +1,9 @@
 # Changelog
 
+unreleased
+
+- Feature: Add new payment info for refunds
+
 ## 26.8.4
 
 Released 16.08.2026

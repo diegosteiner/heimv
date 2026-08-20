@@ -224,6 +224,9 @@ it:
       payment_infos/qr_bill:
         one: Fattura QR
         other: Fatture QR
+      payment_infos/refund:
+        one:
+        other:
       payment_infos/text_payment_info:
         one: Sezione di pagamento come testo
         other: Sezioni di pagamento come testo
@@ -1015,7 +1018,6 @@ it:
     contract_created: Creare contratto
     contract_sent:
     contract_signed: Contratto firmato
-    credit_issued:
     deposit_created: Creare un acconto (opzionale)
     deposit_paid: Acconto versato
     invoice_created: Creare il conto finale
@@ -1472,7 +1474,7 @@ it:
   invoice_items:
     breakdown:
       balance:
-      default: "%{billable_units} × %{unit} → %{price_per_unit}"
+      default: "%{billable_units} × %{unit} a %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
       group_minimum:
         price_per_day: Differenza rispetto all'importo minimo (%{minimum} / giorno)
@@ -1482,7 +1484,7 @@ it:
         usage_per_night: Differenza rispetto al consumo minimo (%{minimum} × %{price_per_unit} / notte)
         usage_total: Differenza rispetto al consumo minimo (%{minimum} × %{price_per_unit})
       minimum: Importo minimo %{minimum}
-      overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} → %{price_per_unit}"
+      overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} a %{price_per_unit}"
   layouts:
     footer:
       legal:
@@ -1852,6 +1854,8 @@ it:
       description: Notifica di fattura scaduta (inquilino)
     provisional_request_notification:
       description: Notifica di richiesta di affitto provvisoria (inquilino)
+    refund_payment_info_text:
+      description:
     text_payment_info_text:
       description: Testo per informazioni sul pagamento
     unconfirmed_request_notification:

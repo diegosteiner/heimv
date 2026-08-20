@@ -4,12 +4,12 @@ module PaymentInfos
   class TextPaymentInfo < ::PaymentInfo
     ::PaymentInfo.register_subtype self
 
-    use_template(:text_payment_info_text, context: %i[payment_info])
+    use_template(:text_payment_info_text, context: %i[payment_info invoice])
 
     delegate :esr_beneficiary_account, to: :organisation
 
     def body
-      @body ||= rich_text_template&.interpolate({ payment_info: self })&.body
+      @body ||= rich_text_template&.interpolate({ payment_info: self, invoice: })&.body
     end
 
     def title

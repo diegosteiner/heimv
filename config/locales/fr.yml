@@ -67,7 +67,7 @@ fr:
         amount: Montant
         amount_with_vat: Montant incluant %{vat_percentage}% de TVA (%{vat_label})
         apply: Employer
-        breakdown: Ventilation
+        breakdown: répartition
         label: Texte
         suggested: Proposition
         type: Type de poste de facturation
@@ -224,6 +224,9 @@ fr:
       payment_infos/qr_bill:
         one: Facture QR (expérimentale)
         other: Factures QR (expérimentales)
+      payment_infos/refund:
+        one:
+        other:
       payment_infos/text_payment_info:
         one: Partie/zone de paiement sous forme de texte
         other: Parties/zones de paiement sous forme de texte
@@ -1017,7 +1020,6 @@ fr:
     contract_created: Créer un contrat
     contract_sent: Envoyer le contrat
     contract_signed: Contrat signé
-    credit_issued:
     deposit_created: Anzahlung erstellen
     deposit_paid: Acompte réglé
     invoice_created: Établir le décompte final
@@ -1509,7 +1511,7 @@ fr:
   invoice_items:
     breakdown:
       balance: Solde des acomptes
-      default: "%{billable_units} × %{unit} → %{price_per_unit}"
+      default: "%{billable_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
       group_minimum:
         price_per_day: Différence par rapport au montant minimum (%{minimum} / jour)
@@ -1519,7 +1521,7 @@ fr:
         usage_per_night: Différence par rapport à la consommation minimale (%{minimum} × %{price_per_unit} / nuit)
         usage_total: Différence par rapport à la consommation minimale (%{minimum} × %{price_per_unit})
       minimum: Montant minimum %{minimum}
-      overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} → %{price_per_unit}"
+      overnight_stay: "%{mode_factor} × %{details_factor} = %{billable_units} × %{unit} à %{price_per_unit}"
   layouts:
     footer:
       legal:
@@ -1907,6 +1909,8 @@ fr:
       description: Notification de facture en retard (locataire)
     provisional_request_notification:
       description: Notification de demande de location provisoire (locataire)
+    refund_payment_info_text:
+      description:
     text_payment_info_text:
       description: Texte pour les informations de paiement
     unconfirmed_request_notification:
