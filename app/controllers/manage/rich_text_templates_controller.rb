@@ -84,6 +84,7 @@ module Manage
         Contract => @rich_text_templates.where(key: :contract_text),
         PaymentInfos::TextPaymentInfo => @rich_text_templates.where(key: :text_payment_info_text),
         PaymentInfos::ForeignPaymentInfo => @rich_text_templates.where(key: :foreign_payment_info_text),
+        PaymentInfos::Refund => @rich_text_templates.where(key: :refund_payment_info_text),
         Payment => @rich_text_templates.where(key: %i[operator_payment_confirmation_notification
                                                       payment_confirmation_notification])
       }.filter { _2.present? }

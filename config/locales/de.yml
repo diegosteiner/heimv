@@ -228,6 +228,9 @@ de:
       payment_infos/qr_bill:
         one: QR-Rechnung
         other: QR-Rechnungen
+      payment_infos/refund:
+        one: Gutschrift
+        other: Gutschriften
       payment_infos/text_payment_info:
         one: Zahlungsteil als Text
         other: Zahlungsteile als Text
@@ -1029,7 +1032,6 @@ de:
     contract_created: Vertrag erstellen
     contract_sent: Vertrag versenden
     contract_signed: Vertrag unterzeichnet
-    credit_issued: Gutschrift ausbezahlt
     deposit_created: Akontorechnung erstellen (optional)
     deposit_paid: Akontorechnung beglichen
     invoice_created: Endabrechnung erstellen
@@ -2151,6 +2153,8 @@ de:
       description: Benachrichtigung für überfällige Rechnung (Mieter)
     provisional_request_notification:
       description: Benachrichtigung für provisorische Mietanfrage (Mieter)
+    refund_payment_info_text:
+      description: Text für Zahlunginformationen für Gutschriften
     text_payment_info_text:
       description: Text für Zahlunginformationen
     unconfirmed_request_notification:

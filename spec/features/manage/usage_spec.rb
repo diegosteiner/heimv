@@ -51,7 +51,12 @@ describe 'Usage', :devise do
 
     submit_form
     expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human)
-    expect(booking.reload.usages.sum(&:price)).to eq(1050.0)
+    total = booking.usages.reload.to_a.sum(&:price)
+    # if total = 1050.0
+    expect(total).to eq(1050.0)
+    # else
+    #   binding.irb
+    # end
   end
 
   def find_usage_form_field(usage, field, detail = nil)

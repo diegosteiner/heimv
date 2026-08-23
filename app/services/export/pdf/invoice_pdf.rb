@@ -9,6 +9,7 @@ module Export
         PaymentInfos::QrBill => Renderables::Invoice::QrBill,
         PaymentInfos::ForeignPaymentInfo => Renderables::Invoice::ForeignPaymentInfo,
         PaymentInfos::TextPaymentInfo => Renderables::Invoice::TextPaymentInfo,
+        PaymentInfos::Refund => Renderables::Invoice::Refund,
         PaymentInfos::OnArrival => nil
       }.freeze
       attr_reader :invoice

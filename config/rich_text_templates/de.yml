@@ -145,7 +145,7 @@ de:
     default_body: |
       <p>Hallo</p>
 
-      <p>Der Vertrag für die Buchung {{ booking.ref }} im Heim <strong>{{ booking.home.name }}</strong> ist eingegangen.</p>
+      <p>Der Vertrag für die Buchung {{ booking.ref }} im Heim <strong>{{ booking.home.name }}</strong> wurde unterzeichnet.</p>
 
       <p><strong>Reservationsdetails</strong></p>
 

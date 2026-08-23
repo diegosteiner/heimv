@@ -1,5 +1,13 @@
 # Changelog
 
+## 26.8.5
+
+Released 23.08.2026
+
+- Feature: Add new payment info for refunds
+- Fix: Fix broken sign contract with click action
+- Fix: Allow manager to commit request also when overdue
+
 ## 26.8.4
 
 Released 16.08.2026
