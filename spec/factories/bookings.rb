@@ -59,7 +59,7 @@ FactoryBot.define do
     deliver_notifications { true }
     purpose_description { 'Pfadilager Test' }
     skip_infer_transitions { true }
-    home { association(:home, organisation:) }
+    home { association(:home, organisation:, occupiable: true) }
     transient do
       initial_state { nil }
       tenant { association(:tenant, organisation:, email:) }

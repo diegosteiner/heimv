@@ -1091,7 +1091,6 @@ fr:
     provisional_request:
       description: Le locataire a marqué la demande comme provisoire. Tant que la demande n'est pas définitive, aucun contrat ne doit être établi.
       label: Demande de location (provisoire)
-      public_info: Votre demande de location provisoire est confirmée.
       relevant_time: Délai %{time}
     unconfirmed_request:
       deadline_exceeded_cancellation_reason: Le locataire n'a pas encore confirmé son adresse e-mail, la demande n'est pas encore valable.

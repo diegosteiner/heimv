@@ -22,7 +22,7 @@ module BookingStates
     infer_transition(to: :upcoming) do |booking|
       booking.contracts.confirmed.any? &&
         Invoices::Deposit.of(booking).kept.all? do |deposit|
-          deposit.paid? || deposit.void? || !deposit.payment_required
+          deposit.paid? || deposit.void? || deposit.refund? || !deposit.payment_required
         end
     end
 

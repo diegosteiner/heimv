@@ -3,7 +3,7 @@
 module SpecHelpers
   module Feature
     def submit_form
-      first('[name="commit"]').click
+      first('[name="commit"][type="submit"]').click
     end
 
     def find_resource_in_table(resource)

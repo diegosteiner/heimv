@@ -9,6 +9,13 @@
           i.fa.fa-info-circle
         p.m-0= @booking.booking_state.t(:public_info)
 
+    - unless @booking.committed_request
+      .alert.alert-warning.d-flex.my-2
+        .me-3
+          i.fa.fa-info-circle
+        p.m-0= t(".uncommitted_request_warning")
+
+
     .card.shadow-sm
       .card-body
         .row

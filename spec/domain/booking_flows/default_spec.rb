@@ -4,7 +4,7 @@ require 'rails_helper'
 describe BookingFlows::Default do
   subject(:booking_flow) { described_class.new(booking) }
 
-  let(:home) { create(:home) }
+  let(:home) { create(:home, organisation:) }
   let(:conflicting_booking) do
     create(:booking, organisation:, home:, begins_at: booking.begins_at, ends_at: booking.ends_at,
                      initial_state: :upcoming, occupancy_type: :occupied, remarks: 'conflicting')

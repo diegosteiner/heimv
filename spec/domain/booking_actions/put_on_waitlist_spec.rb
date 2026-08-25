@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-describe BookingActions::PutOnWaitlist, :pending do # rubocop:disable RSpec/PendingWithoutReason
+describe BookingActions::PutOnWaitlist do
   subject(:action) { described_class.new(booking, :put_on_waitlist) }
 
   let(:initial_state) { :open_request }
-  let(:booking) { create(:booking, initial_state:, committed_request: false, home: occupiable) }
+  let(:booking) { create(:booking, organisation:, initial_state:, committed_request: false, home: occupiable) }
   let(:organisation) { create(:organisation) }
   let(:occupiable) { create(:home, organisation:) }
   let(:current_user) { create(:organisation_user, organisation:, role: :manager) }
@@ -23,7 +23,7 @@ describe BookingActions::PutOnWaitlist, :pending do # rubocop:disable RSpec/Pend
       # expect(invoke.error).to eq(nil)
       expect(invoke.success).to be_truthy
       expect(booking).to be_pending
-      expect(booking.booking_flow.current_state).to eq(:waitlisted_request)
+      expect(booking.booking_flow.current_state.to_sym).to eq(:waitlisted_request)
     end
   end
 end

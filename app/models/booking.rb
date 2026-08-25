@@ -120,9 +120,13 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     errors.add(:invoice_cc, :invalid) unless invoice_cc.blank? || EmailAddress.valid?(invoice_cc)
   end
 
+  validate on: %i[public_create agent_create] do
+    errors.add(:occupiable_ids, :invalid) unless home&.occupiable && occupancies.all? { it.occupiable&.occupiable }
+  end
+
   validate do
-    errors.add(:occupiable_ids, :blank) if occupancies.none?
     errors.add(:occupiable_ids, :invalid) unless occupancies.all? { it.occupiable&.home_id == home_id }
+    errors.add(:occupiable_ids, :blank) if occupancies.none?
     next if ignore_conflicting || free?
     next if organisation.booking_state_settings.enable_waitlist && pending? && agent_booking.blank?
 

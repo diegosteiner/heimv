@@ -1089,7 +1089,6 @@ it:
     provisional_request:
       description: L'inquilino ha contrassegnato la richiesta come provvisoria. Finché la richiesta non è definitiva, non è necessario emettere alcun contratto.
       label: richiesta di affitto mediata (provvisoria)
-      public_info: La richiesta di affitto provvisoria è confermata.
       relevant_time: Termine %{time}
     unconfirmed_request:
       deadline_exceeded_cancellation_reason: L'indirizzo e-mail non è stato confermato entro il termine previsto.

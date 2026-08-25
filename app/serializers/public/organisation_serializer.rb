@@ -5,6 +5,7 @@ module Public
     identifier :slug
 
     association :booking_categories, blueprint: Public::BookingCategorySerializer
+
     association :homes, blueprint: Public::HomeSerializer do |organisation|
       organisation.homes.kept
     end
@@ -17,6 +18,12 @@ module Public
 
     field :logo_url do |organisation|
       organisation.logo.present? && url_for(organisation.logo)
+    end
+
+    view :public do
+      association :homes, blueprint: Public::HomeSerializer do |organisation|
+        organisation.homes.occupiable.kept
+      end
     end
   end
 end
