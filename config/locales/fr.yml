@@ -1801,6 +1801,8 @@ fr:
         submit: Envoyer une demande de réservation
         terms_condition_html: les <a href="%{url}" target="_blank">CGV</a>
         title: Réservation
+      show:
+        uncommitted_request_warning:
     occupancies:
       span:
         nights:

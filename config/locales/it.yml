@@ -1746,6 +1746,8 @@ it:
         submit: Invia la richiesta di prenotazione
         terms_condition_html: il <a href="%{url}" target="_blank">condizioni generali di contratto</a>
         title: Prenotazione
+      show:
+        uncommitted_request_warning:
     occupancies:
       span:
         nights:
