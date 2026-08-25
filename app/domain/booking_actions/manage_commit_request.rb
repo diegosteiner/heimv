@@ -3,7 +3,8 @@
 module BookingActions
   class ManageCommitRequest < CommitRequest
     def invokable?(current_user: nil)
-      !booking.committed_request && booking.in_state?(:provisional_request, :booking_agent_request, :waitlisted_request)
+      !booking.committed_request && booking.in_state?(:provisional_request, :booking_agent_request,
+                                                      :waitlisted_request, :overdue_request)
     end
   end
 end
