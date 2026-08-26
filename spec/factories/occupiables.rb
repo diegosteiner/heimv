@@ -5,6 +5,7 @@
 # Table name: occupiables
 #
 #  id               :bigint           not null, primary key
+#  bookable         :boolean          default(FALSE), not null
 #  description_i18n :jsonb            not null
 #  discarded_at     :datetime
 #  janitor          :text
@@ -27,6 +28,7 @@ FactoryBot.define do
     description { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
     sequence(:ref) { |i| "H#{i}" }
     occupiable { true }
+    bookable { true }
     settings { { accounting_cost_center_nr: '9001' } }
 
     factory :home, class: 'Home'

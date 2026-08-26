@@ -5,7 +5,7 @@ module Public
     load_and_authorize_resource :home
 
     def index
-      @homes = @homes.where(organisation: current_organisation).kept.occupiable
+      @homes = @homes.where(organisation: current_organisation).bookable.kept
       respond_with :public, @homes
     end
 

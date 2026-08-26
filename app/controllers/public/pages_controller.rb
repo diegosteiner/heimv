@@ -19,12 +19,13 @@ module Public
     def changelog; end
 
     def privacy
-      privacy_statement = current_organisation.designated_documents.with_locale(I18n.locale)
-                                              .privacy_statement.first
+      privacy_statement = current_organisation.designated_documents.with_locale(I18n.locale).privacy_statement.first
 
-      raise ActionController::RoutingError, 'Not Found' if privacy_statement.blank?
-
-      redirect_to url_for(privacy_statement.file)
+      if privacy_statement.present?
+        redirect_to url_for(privacy_statement.file)
+      else
+        redirect_to ENV.fetch('PRIVACY_STATEMENT_URL', 'https://www.heimv.ch/privacy')
+      end
     end
 
     def ext

@@ -5,7 +5,6 @@ module Public
     identifier :slug
 
     association :booking_categories, blueprint: Public::BookingCategorySerializer
-
     association :homes, blueprint: Public::HomeSerializer do |organisation|
       organisation.homes.kept
     end
@@ -22,7 +21,7 @@ module Public
 
     view :public do
       association :homes, blueprint: Public::HomeSerializer do |organisation|
-        organisation.homes.occupiable.kept
+        organisation.homes.bookable.kept
       end
     end
   end

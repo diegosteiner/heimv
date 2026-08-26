@@ -5,6 +5,7 @@
 # Table name: occupiables
 #
 #  id               :bigint           not null, primary key
+#  bookable         :boolean          default(FALSE), not null
 #  description_i18n :jsonb            not null
 #  discarded_at     :datetime
 #  janitor          :text

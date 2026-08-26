@@ -411,6 +411,7 @@ de:
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
       occupiable:
+        bookable: Öffentlich buchbar
         description: Beschreibung
         home_id: Hauptmietobjekt
         name: Name
@@ -2039,11 +2040,11 @@ de:
         last_minute_warning: Achtung! Das Reservationsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
         occupancy_conflict_warning: Der gewählte Zeitraum überschneidet sich mit einer bestehenden Belegung. Die Anfrage wird auf die Warteliste gesetzt.
       new:
-        accept_conditions_html: Ich bin mit %{conditions_html} einverstanden
-        privacy_policy_condition_html: den <a href="%{url}" target="_blank">Datenschutzbestimmungen</a>
+        accept_conditions_html: Ich %{conditions_html}.
+        privacy_policy_condition_html: nehme die <a href="%{url}" target="_blank">Datenschutzbestimmungen</a> zur Kenntnis
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         submit: Reservationsanfrage abschicken
-        terms_condition_html: den <a href="%{url}" target="_blank">AGB</a>
+        terms_condition_html: stimme den <a href="%{url}" target="_blank">AGB</a> zu
         title: Reservation
       show:
         uncommitted_request_warning: Die Mietanfrage ist provisorisch. Bitte markiere die Mietanfrage innerhalb der First als definitiv oder ziehe die Anfrage zurück.
