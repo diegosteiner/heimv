@@ -407,6 +407,7 @@ it:
         occupiable_id: Proprietà in affitto
         remarks: Osservazioni
       occupiable:
+        bookable:
         description: Descrizione
         home_id: Oggetto principale di affitto
         name: Nome
@@ -1329,6 +1330,8 @@ it:
       aspect_ratio_not_square:
       aspect_ratio_not_x_y:
       attachment_missing:
+      audio_missing:
+      audio_present:
       blank: non può essere vuoto
       confirmation: non coincide con %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one

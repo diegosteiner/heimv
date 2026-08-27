@@ -407,6 +407,7 @@ fr:
         occupiable_id: Objet de location
         remarks: Remarques
       occupiable:
+        bookable:
         description: Description
         home_id: Principal objet de location
         name: Nom
@@ -1331,6 +1332,8 @@ fr:
       aspect_ratio_not_square:
       aspect_ratio_not_x_y:
       attachment_missing:
+      audio_missing:
+      audio_present:
       blank: doit être rempli(e)
       confirmation: ne concorde pas avec %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
