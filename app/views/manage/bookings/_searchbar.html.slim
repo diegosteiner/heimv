@@ -1,0 +1,3 @@
+= render 'layouts/searchbar', url: manage_bookings_path, name: 'filter[q]', value: params.dig(:filter, :q).presence, \
+                              placeholder: Booking::Filter.human_attribute_name(:q), \
+                              hidden_fields: { 'filter[current_booking_states][]' => '', 'filter[concluded]' => 'all' }

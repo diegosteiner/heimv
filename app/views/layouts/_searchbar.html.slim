@@ -1,0 +1,14 @@
+- name ||= nil
+- placeholder ||= nil
+- value ||= nil
+- url ||= nil
+- hidden_fields ||= {}
+
+= form_with(url: url, method: :get, id: 'searchbar', class: 'input-group d-flex', local: true) do |f|
+  button.btn.bg-white.border-0[type="submit"]
+    span.fa.fa-search
+
+  - hidden_fields.each do |field_name, field_value|
+    input.d-none[type="hidden" name=field_name value=field_value]
+
+  input#searchbar_query.form-control.bg-white.border-0[name=name type="search" tabindex=1 value=value placeholder=placeholder]
