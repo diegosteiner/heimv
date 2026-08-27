@@ -1,0 +1,10 @@
+h1= t(".title")
+
+p= t(".text")
+
+ul 
+  - if @organisation_privacy_statement.present?
+    li= link_to t('.organisation_privacy_statement'), url_for(@organisation_privacy_statement)
+
+  - if @platform_privacy_statement.present?
+    li= link_to t('.platform_privacy_statement'), url_for(@platform_privacy_statement)

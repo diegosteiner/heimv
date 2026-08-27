@@ -47,7 +47,7 @@ fr:
         awaiting_contract_deadline: Délai de réception du contrat
         awaiting_tenant_deadline: Demande de location transmise (données du locataire manquantes)
         deadline_postponable_for: Prolongation du délai
-        deposit_payment_deadline: Délai de paiement standard (acompte)
+        deposit_payment_deadline: Délai de paiement standard (facture d'acompte)
         invoice_payment_deadline: Délai de paiement standard
         overdue_request_deadline: Délai pour les demandes de réservation en retard
         payment_overdue_deadline: Date limite de paiement dépassée
@@ -315,8 +315,8 @@ fr:
         issuer: Propriétaire
         locale: Langue
         pdf: PDF
-        sent_at: Date du contrat
-        signed_pdf: PDF signé par le locataire
+        sent_at: Contrat envoyé le
+        signed_pdf: Fichier PDF signé par le locataire
         tenant_signed_at: Signé par le locataire le
         text: Texte du contrat
         title: Titre
@@ -445,7 +445,7 @@ fr:
         iban: IBAN
         invoice_payment_ref_template:
         invoice_ref_template: Numéro de facture Format
-        locale: Langue
+        locale: Langue principale
         locales: Langues
         location: Lieu de signature du contrat
         logo: Logo
@@ -707,8 +707,8 @@ fr:
           usage_per_night: Consommation par nuit
           usage_total: Consommation totale
         prefill_usage_methods:
-          days: Jour
-          flat: Forfait
+          days: "× jours"
+          flat: "× 1"
           headcount: Nombre de personnes
           headcount_nights: Nuitées
           nights: Nuits
@@ -980,7 +980,10 @@ fr:
       label: Annuler l'annulation
     sign_contract:
       confirm_authorization_label: Je certifie que je dispose des pouvoirs nécessaires pour signer ce contrat de manière juridiquement contraignante
-      description:
+      description: |
+        En cliquant sur le bouton "Signer valablement le contrat", le contrat est conclu de manière juridiquement contraignante et il est confirmé que l'autorisation de signer a été donnée. Les conditions contractuelles en vigueur ainsi que les conditions générales de vente dans leur version actuelle sont ainsi reconnues.
+        En outre, il est déclaré que tous les pouvoirs nécessaires sont disponibles pour conclure le contrat en son nom propre ou - le cas échéant - au nom d'une personne morale.
+        La confirmation entraîne l'obligation de respecter toutes les obligations et tous les droits convenus, y compris les éventuelles obligations de paiement, et de se conformer à toutes les dispositions légales applicables. L'absence d'autorisation de signer un contrat peut entraîner des conséquences juridiques.
       label_sign_by_click: Signer valablement le contrat
       label_upload: Renvoyer le contrat signé
     skip_invoice:
@@ -1017,7 +1020,7 @@ fr:
         country_code: Code du pays
         locale: Langue
   booking_state_checklist_item:
-    contract_confirmed:
+    contract_confirmed: Vérifier et valider le contrat renvoyé
     contract_created: Créer un contrat
     contract_sent: Envoyer le contrat
     contract_signed: Contrat signé
@@ -1331,9 +1334,9 @@ fr:
       aspect_ratio_not_portrait:
       aspect_ratio_not_square:
       aspect_ratio_not_x_y:
-      attachment_missing:
-      audio_missing:
-      audio_present:
+      attachment_missing: ne contient aucun fichier joint
+      audio_missing: doit contenir une piste audio
+      audio_present: ne doit pas contenir de piste audio
       blank: doit être rempli(e)
       confirmation: ne concorde pas avec %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
@@ -1365,9 +1368,9 @@ fr:
       exclusion: n'est pas disponible
       expired: ist abgelaufen, bitte neu anfordern
       file_not_processable:
-      file_size_not_between:
-      file_size_not_equal_to:
-      file_size_not_greater_than:
+      file_size_not_between: La taille du fichier doit être comprise entre %{min} et %{max} (la taille actuelle du fichier est %{file_size})
+      file_size_not_equal_to: La taille du fichier doit être égale à %{exact} (la taille actuelle du fichier est %{file_size})
+      file_size_not_greater_than: La taille du fichier doit être supérieure à %{min} (la taille actuelle du fichier est %{file_size})
       file_size_not_greater_than_or_equal_to:
       file_size_not_less_than:
       file_size_not_less_than_or_equal_to:
@@ -1616,7 +1619,7 @@ fr:
     organisations:
       form:
         general: Généralités
-        smtp_settings_warning:
+        smtp_settings_warning: Attention ! Modifiez les paramètres avec prudence !
     pages:
       flow:
         title: Processus de réservation
@@ -1673,7 +1676,7 @@ fr:
         rich_text_templates_by_rest: Autres
     tarifs:
       form:
-        advanced:
+        advanced: Paramètres avancés
       usage_form:
         badge_inclusive_units: incl.
         badge_minimum: min.
@@ -1798,11 +1801,11 @@ fr:
         last_minute_warning: Attention ! La date de réservation est proche. Merci de t'annoncer en plus par téléphone ou par e-mail auprès de l'administration
         occupancy_conflict_warning: La période choisie se chevauche avec une réservation existante. La demande est placée sur la liste d'attente.
       new:
-        accept_conditions_html: J'accepte %{conditions_html}
-        privacy_policy_condition_html: la <a href="%{url}" target="_blank">dispositions relatives à la protection des données</a>
+        accept_conditions_html: Moi, %{conditions_html}.
+        privacy_policy_condition_html: 'J''accepte la <a href="%{url}" target="_blank">politique de confidentialité</a> '
         problems_html: Des problèmes avec la réservation ? Adresse-toi à <a href="mailto:%{email}">%{email}</a>.
         submit: Envoyer une demande de réservation
-        terms_condition_html: les <a href="%{url}" target="_blank">CGV</a>
+        terms_condition_html: 'J''accepte les <a href="%{url}" target="_blank">conditions générales</a> '
         title: Réservation
       show:
         uncommitted_request_warning:
@@ -1812,6 +1815,12 @@ fr:
           one: 1 nuit
           other: "%{count} Nuits"
           zero: sans nuitée
+    pages:
+      privacy:
+        organisation_privacy_statement: Déclaration de confidentialité de l'organisation
+        platform_privacy_statement: Déclaration de confidentialité de la plateforme
+        text: 'Les dispositions suivantes relatives à la protection des données s''appliquent :'
+        title: Déclaration de confidentialité
   renderables:
     booking_actions:
       sign_contract:
@@ -1914,7 +1923,7 @@ fr:
     provisional_request_notification:
       description: Notification de demande de location provisoire (locataire)
     refund_payment_info_text:
-      description:
+      description: Texte relatif aux informations de paiement pour les avoirs
     text_payment_info_text:
       description: Texte pour les informations de paiement
     unconfirmed_request_notification:

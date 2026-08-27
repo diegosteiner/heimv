@@ -1330,8 +1330,8 @@ it:
       aspect_ratio_not_square:
       aspect_ratio_not_x_y:
       attachment_missing:
-      audio_missing:
-      audio_present:
+      audio_missing: deve contenere una traccia audio
+      audio_present: non deve contenere alcuna traccia audio
       blank: non può essere vuoto
       confirmation: non coincide con %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
@@ -1490,8 +1490,8 @@ it:
   layouts:
     footer:
       legal:
-        heimv_privacy:
-        organisation_privacy:
+        heimv_privacy: Informativa sulla privacy della piattaforma
+        organisation_privacy: Informativa sulla privacy dell'organizzazione
         title: Note legali
       locales:
         title: Lingue
@@ -1743,11 +1743,11 @@ it:
         last_minute_warning: Attenzione! La data di prenotazione è a breve termine. Si prega di contattare l'amministrazione anche per telefono o per e-mail.
         occupancy_conflict_warning: Il periodo selezionato si sovrappone a una prenotazione esistente. La richiesta verrà inserita nella lista d'attesa.
       new:
-        accept_conditions_html: Accetto %{conditions_html}
-        privacy_policy_condition_html: le <a href="%{url}" target="_blank">norme sulla protezione dei dati</a>
-        problems_html: Problemi con la prenotazione? Contattare <a href="mailto:%{email}">%{email}</a>.
+        accept_conditions_html: Io %{conditions_html}.
+        privacy_policy_condition_html: 'prendo atto <a href="%{url}" target="_blank">dell''informativa sulla privacy</a> '
+        problems_html: Problemi con la prenotazione? Contatta <a href="mailto:%{email}">%{email}</a>.
         submit: Invia la richiesta di prenotazione
-        terms_condition_html: il <a href="%{url}" target="_blank">condizioni generali di contratto</a>
+        terms_condition_html: 'accetto le <a href="%{url}" target="_blank">Condizioni generali di contratto</a> '
         title: Prenotazione
       show:
         uncommitted_request_warning:
@@ -1757,6 +1757,12 @@ it:
           one: 1 notte
           other: "%{count} Notti"
           zero: senza pernottamento
+    pages:
+      privacy:
+        organisation_privacy_statement: Informativa sulla privacy dell’organizzazione
+        platform_privacy_statement: Informativa sulla privacy della piattaforma
+        text: 'Si applicano le seguenti disposizioni in materia di protezione dei dati:'
+        title: Informativa sulla privacy
   renderables:
     booking_actions:
       sign_contract:

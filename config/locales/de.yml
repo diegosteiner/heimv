@@ -1345,6 +1345,8 @@ de:
       aspect_ratio_not_square: muss quadratisch sein (aktuelle Datei ist %{width}x%{height}px)
       aspect_ratio_not_x_y: muss %{authorized_aspect_ratios} sein (aktuelle Datei ist %{width}x%{height}px)
       attachment_missing: hat keine angehängte Datei
+      audio_missing: muss eine Audiospur enthalten
+      audio_present: darf keine Audiospur enthalten
       blank: muss ausgefüllt werden
       confirmation: stimmt nicht mit %{attribute} überein
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
@@ -2054,6 +2056,12 @@ de:
           one: 1 Nacht
           other: "%{count} Nächte"
           zero: ohne Übernachtung
+    pages:
+      privacy:
+        organisation_privacy_statement: Datenschutzbestimmungen der Organisation
+        platform_privacy_statement: Datenschutzbestimmungen der Plattform
+        text: 'Es gelten die nachfolgenden Datenschutzbestimmungen:'
+        title: Datenschutzbestimmungen
   renderables:
     booking_actions:
       sign_contract:
