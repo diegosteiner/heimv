@@ -35,8 +35,8 @@ spec:
               path: /health
               port: 3000
               scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 30
+            initialDelaySeconds: 25
+            periodSeconds: 5
             failureThreshold: 5
           resources:
             requests:
