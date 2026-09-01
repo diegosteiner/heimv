@@ -6,10 +6,7 @@ module BookingActions
 
     def invoke!(signed_pdf: nil, tenant_confirm_authorization: nil, current_user: nil) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize,Metrics/MethodLength
       if sign_by_click_enabled?
-        unless tenant_confirm_authorization
-          contract.errors.add(:tenant_confirm_authorization, :blank)
-          return Result.failure(error: contract.errors.full_messages_for(:tenant_confirm_authorization).to_sentence)
-        end
+        return Result.failure(error: I18n.t('errors.messages.accepted')) unless tenant_confirm_authorization
 
         contract.tenant_signed!
         contract.confirmed!
