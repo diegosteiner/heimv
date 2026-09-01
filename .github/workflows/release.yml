@@ -30,7 +30,7 @@ jobs:
           commit_user_email: github-actions[bot]@users.noreply.github.com
 
       - name: Create tag and GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.event.inputs.version }}
           name: Release ${{ github.event.inputs.version }}
