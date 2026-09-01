@@ -170,15 +170,15 @@ jobs:
           docker push ghcr.io/${{ github.repository }}:$VERSION
 
       - if: github.ref == 'refs/heads/main'
+        run: git tag -a $VERSION -m "Release $VERSION" && git push origin $VERSION
+
+      - if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.VERSION }}
-          name: "Release ${{ env.VERSION }}"
+          name: "${{ env.VERSION }}"
           draft: false
           prerelease: false
-
-      - if: github.ref == 'refs/heads/main'
-        run: git push origin $VERSION
 
       - name: summary
         run: |
