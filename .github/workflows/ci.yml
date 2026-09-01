@@ -1,11 +1,10 @@
----
 name: Continous Integration - CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -169,6 +168,17 @@ jobs:
           docker tag $TARGET_IMAGE ghcr.io/${{ github.repository }}:$VERSION
           docker push ghcr.io/${{ github.repository }}:$VERSION
 
+      - if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: $VERSION
+          name: Release $VERSION
+          draft: false
+          prerelease: false
+
+      - if: github.ref == 'refs/heads/main'
+        run: git push origin $VERSION
+
       - name: summary
         run: |
           {
@@ -182,7 +192,7 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     if: always()
-    needs: [ build, e2e, release ]
+    needs: [build, e2e, release]
     permissions:
       packages: write
     steps:
