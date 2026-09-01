@@ -115,8 +115,8 @@ module Ability
 
   class Public < Base
     role nil do |_user, organisation|
-      can :read, Home, { organisation:, discarded_at: nil }
-      can :read, Occupiable, { organisation:, discarded_at: nil, occupiable: true }
+      can :read, Home, { organisation:, discarded_at: nil, bookable: true }
+      can :read, Occupiable, { organisation:, discarded_at: nil, bookable: true }
 
       can %i[read embed calendar at], Occupancy, occupiable: { discarded_at: nil, organisation: }
 
