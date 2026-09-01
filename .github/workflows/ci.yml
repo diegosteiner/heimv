@@ -145,6 +145,7 @@ jobs:
           fetch-depth: 1
 
       - name: update version
+        id: version
         run: |
           export VERSION="$(cat ./VERSION)"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
@@ -171,8 +172,8 @@ jobs:
       - if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: $VERSION
-          name: Release $VERSION
+          tag_name: "$VERSION"
+          name: "Release $VERSION"
           draft: false
           prerelease: false
 
