@@ -22,7 +22,7 @@ jobs:
         run: echo "${{ github.event.inputs.version }}" > VERSION
 
       - name: Commit and push VERSION
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: bump version to ${{ github.event.inputs.version }}"
           file_pattern: VERSION
@@ -30,7 +30,7 @@ jobs:
           commit_user_email: github-actions[bot]@users.noreply.github.com
 
       - name: Create tag and GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.event.inputs.version }}
           name: Release ${{ github.event.inputs.version }}
