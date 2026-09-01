@@ -6,7 +6,7 @@ describe BookingActions::Decline do
   subject(:action) { described_class.new(booking, :decline) }
 
   let(:initial_state) { :waitlisted_request }
-  let(:booking) { create(:booking, initial_state:, committed_request: false, home: occupiable) }
+  let(:booking) { create(:booking, organisation:, initial_state:, committed_request: false, home: occupiable) }
   let(:organisation) { create(:organisation) }
   let(:occupiable) { create(:home, organisation:) }
   let(:current_user) { create(:organisation_user, organisation:, role: :manager) }
@@ -16,7 +16,7 @@ describe BookingActions::Decline do
 
     before do
       organisation.update!(booking_state_settings: { enable_waitlist: true })
-      create(:booking, initial_state: :upcoming, committed_request: true, occupancy_type: :occupied,
+      create(:booking, initial_state: :upcoming, committed_request: true, occupancy_type: :occupied, organisation:,
                        begins_at: booking.begins_at, ends_at: booking.ends_at, home: occupiable)
     end
 

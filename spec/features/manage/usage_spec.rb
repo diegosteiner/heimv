@@ -35,6 +35,8 @@ describe 'Usage', :devise do
     tarifs
     visit manage_booking_usages_path(booking, org:)
     select_tarifs(tarifs[2..4])
+    submit_form
+    expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human)
 
     booking.usages.find_by(tarif: tarifs[2]).tap do |usage|
       find_usage_form_field(usage, :summary).fill_in(with: 2)
@@ -51,12 +53,13 @@ describe 'Usage', :devise do
 
     submit_form
     expect(page).to have_text I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human)
+
     total = booking.usages.reload.to_a.sum(&:price)
-    # if total = 1050.0
-    expect(total).to eq(1050.0)
-    # else
-    #   binding.irb
-    # end
+    if total == 1050
+      expect(total).to eq(1050.0)
+    else
+      binding.irb # rubocop:disable Lint/Debugger
+    end
   end
 
   def find_usage_form_field(usage, field, detail = nil)

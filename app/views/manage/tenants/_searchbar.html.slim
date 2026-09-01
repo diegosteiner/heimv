@@ -1,0 +1,2 @@
+= render 'layouts/searchbar', url: manage_tenants_path, name: 'filter[q]', value: params.dig(:filter, :q).presence, \
+                              placeholder: Tenant.model_name.human

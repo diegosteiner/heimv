@@ -45,8 +45,11 @@ class Occupancy < ApplicationRecord
     errors.add(:begins_at, :invalid) if linked && begins_at != booking&.begins_at
     errors.add(:ends_at, :invalid) if linked && ends_at != booking&.ends_at
   end
+  validate on: :public_create do
+    errors.add(:occupiable, :invalid) unless occupiable&.occupiable
+  end
   validate do
-    errors.add(:occupiable_id, :invalid) if booking && organisation && !organisation == booking.organisation
+    errors.add(:occupiable_id, :invalid) if !organisation || booking&.organisation&.!=(organisation)
     errors.add(:linked, :invalid) if linked && booking.blank?
   end
 

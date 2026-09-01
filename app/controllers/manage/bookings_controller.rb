@@ -20,7 +20,7 @@ module Manage
     end
 
     def calendar
-      @occupiables = current_organisation.occupiables.kept.occupiable.ordered
+      @occupiables = current_organisation.occupiables.kept.ordered
       respond_with :manage, @booking
     end
 

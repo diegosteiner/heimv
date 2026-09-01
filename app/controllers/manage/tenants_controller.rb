@@ -3,9 +3,11 @@
 module Manage
   class TenantsController < BaseController
     load_and_authorize_resource :tenant
+    before_action :set_filter, only: :index
 
     def index
       @tenants = @tenants.where(organisation: current_organisation).ordered
+      @tenants = @filter.apply(@tenants) if @filter.any?
       respond_with :manage, @tenants
     end
 
@@ -40,6 +42,10 @@ module Manage
 
     def tenant_params
       TenantParams.new(params[:tenant])
+    end
+
+    def set_filter
+      @filter = Tenant::Filter.new(params[:filter]&.permit(:q).to_h)
     end
   end
 end

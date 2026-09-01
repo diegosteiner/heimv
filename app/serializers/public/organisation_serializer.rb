@@ -18,5 +18,11 @@ module Public
     field :logo_url do |organisation|
       organisation.logo.present? && url_for(organisation.logo)
     end
+
+    view :public do
+      association :homes, blueprint: Public::HomeSerializer do |organisation|
+        organisation.homes.bookable.kept
+      end
+    end
   end
 end

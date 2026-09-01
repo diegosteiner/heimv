@@ -228,6 +228,9 @@ en:
       payment_infos/qr_bill:
         one: QR-Rechnung (experimentell)
         other: QR-Rechnungen (experimentell)
+      payment_infos/refund:
+        one: Gutschrift
+        other: Gutschriften
       payment_infos/text_payment_info:
         one: Zahlungsteil als Text
         other: Zahlungsteile als Text
@@ -1100,7 +1103,6 @@ en:
     provisional_request:
       description: Der Mieter hat die Anfrage als provisorisch markiert. Solange die Anfrage nicht definitiv ist, muss kein Vertrag ausgestellt werden.
       label: Mietanfrage (provisorisch)
-      public_info: Deine provisorische Mietanfrage ist bestätigt.
       relevant_time: Frist %{time}
     unconfirmed_request:
       deadline_exceeded_cancellation_reason: Die E-Mail Adresse wurde nicht fristgerecht bestätigt.
@@ -2000,6 +2002,8 @@ en:
         submit: Reservationsanfrage abschicken
         terms_condition_html: den <a href="%{url}" target="_blank">AGB</a>
         title: Reservation
+      show:
+        uncommitted_request_warning: Die Mietanfrage ist provisorisch. Bitte markiere die Mietanfrage innerhalb der First als definitiv oder ziehe die Anfrage zurück.
     occupancies:
       span:
         nights:
@@ -2107,6 +2111,8 @@ en:
       description: Benachrichtigung für überfällige Rechnung (Mieter)
     provisional_request_notification:
       description: Benachrichtigung für provisorische Mietanfrage (Mieter)
+    refund_payment_info_text:
+      description: Text für Zahlunginformationen für Gutschriften
     text_payment_info_text:
       description: Text für Zahlunginformationen
     unconfirmed_request_notification:

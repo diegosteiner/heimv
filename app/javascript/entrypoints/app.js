@@ -45,6 +45,13 @@ function setupOccupiableSelect() {
       const currentOccupiableCheckboxes = occupiablesCheckboxesElement.querySelectorAll(
         `.form-check[data-home-id="${homeId}"] input[type="checkbox"]`,
       );
+      const occupiableOptions = selectElement.querySelectorAll("option");
+
+      if (occupiableOptions.length === 1) {
+        selectElement.classList.add("d-none");
+      } else {
+        selectElement.classList.remove("d-none");
+      }
 
       for (const checkboxWrapperElement of allCheckboxElements) {
         const checkboxElement = checkboxWrapperElement.querySelector('input[type="checkbox"]');

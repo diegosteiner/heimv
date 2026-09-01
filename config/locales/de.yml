@@ -411,6 +411,7 @@ de:
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
       occupiable:
+        bookable: Öffentlich buchbar
         description: Beschreibung
         home_id: Hauptmietobjekt
         name: Name
@@ -1103,7 +1104,6 @@ de:
     provisional_request:
       description: Der Mieter hat die Anfrage als provisorisch markiert. Solange die Anfrage nicht definitiv ist, muss kein Vertrag ausgestellt werden.
       label: Mietanfrage (provisorisch)
-      public_info: Die provisorische Mietanfrage ist bestätigt. Bitte markiere die Mietanfrage innerhalb der First als definitiv oder ziehe die Anfrage zurück.
       relevant_time: Frist %{time}
     unconfirmed_request:
       deadline_exceeded_cancellation_reason: Die E-Mail Adresse wurde nicht fristgerecht bestätigt.
@@ -1345,6 +1345,8 @@ de:
       aspect_ratio_not_square: muss quadratisch sein (aktuelle Datei ist %{width}x%{height}px)
       aspect_ratio_not_x_y: muss %{authorized_aspect_ratios} sein (aktuelle Datei ist %{width}x%{height}px)
       attachment_missing: hat keine angehängte Datei
+      audio_missing: muss eine Audiospur enthalten
+      audio_present: darf keine Audiospur enthalten
       blank: muss ausgefüllt werden
       confirmation: stimmt nicht mit %{attribute} überein
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
@@ -2040,18 +2042,26 @@ de:
         last_minute_warning: Achtung! Das Reservationsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
         occupancy_conflict_warning: Der gewählte Zeitraum überschneidet sich mit einer bestehenden Belegung. Die Anfrage wird auf die Warteliste gesetzt.
       new:
-        accept_conditions_html: Ich bin mit %{conditions_html} einverstanden
-        privacy_policy_condition_html: den <a href="%{url}" target="_blank">Datenschutzbestimmungen</a>
+        accept_conditions_html: Ich %{conditions_html}.
+        privacy_policy_condition_html: nehme die <a href="%{url}" target="_blank">Datenschutzbestimmungen</a> zur Kenntnis
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         submit: Reservationsanfrage abschicken
-        terms_condition_html: den <a href="%{url}" target="_blank">AGB</a>
+        terms_condition_html: stimme den <a href="%{url}" target="_blank">AGB</a> zu
         title: Reservation
+      show:
+        uncommitted_request_warning: Die Mietanfrage ist provisorisch. Bitte markiere die Mietanfrage innerhalb der First als definitiv oder ziehe die Anfrage zurück.
     occupancies:
       span:
         nights:
           one: 1 Nacht
           other: "%{count} Nächte"
           zero: ohne Übernachtung
+    pages:
+      privacy:
+        organisation_privacy_statement: Datenschutzbestimmungen der Organisation
+        platform_privacy_statement: Datenschutzbestimmungen der Plattform
+        text: 'Es gelten die nachfolgenden Datenschutzbestimmungen:'
+        title: Datenschutzbestimmungen
   renderables:
     booking_actions:
       sign_contract:

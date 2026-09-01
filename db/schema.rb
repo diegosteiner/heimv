@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_05_144637) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -455,6 +455,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_05_144637) do
   end
 
   create_table "occupiables", force: :cascade do |t|
+    t.boolean "bookable", default: false, null: false
     t.datetime "created_at", precision: nil, null: false
     t.jsonb "description_i18n", default: {}, null: false
     t.datetime "discarded_at"

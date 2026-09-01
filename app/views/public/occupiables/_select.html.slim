@@ -8,7 +8,7 @@ fieldset.occupiables-select
     = form.collection_select :home_id, homes, :id, :to_s, { include_blank: current_organisation.homes.many? }, { disabled: disabled }
   
   .occupiables-checkboxes.mb-3
-    = form.collection_check_boxes_without_bootstrap :occupiable_ids, current_organisation.occupiables.occupiable.ordered, :id, :to_s, hide_label: true do |builder|
+    = form.collection_check_boxes_without_bootstrap :occupiable_ids, current_organisation.occupiables.bookable.ordered, :id, :to_s, hide_label: true do |builder|
       - occupiable = builder.object
       - occupancy = occupancies[occupiable]
 

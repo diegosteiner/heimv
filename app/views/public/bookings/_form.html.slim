@@ -31,7 +31,7 @@
 
   fieldset 
     = react_component('BookingOccupancyForm', { \ 
-        organisation: Public::OrganisationSerializer.render_as_hash(current_organisation), \
+        organisation: Public::OrganisationSerializer.render_as_hash(current_organisation, view: :public), \
         booking: Public::BookingSerializer.render_as_hash(@booking), \
         namePrefix: 'booking', \ 
         required: true, \

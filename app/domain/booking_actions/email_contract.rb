@@ -56,7 +56,8 @@ module BookingActions
       MailTemplate.use!(:email_contract_notification, booking, to: :tenant, context:) do |mail|
         mail.attach :contract, deposits, offers
         mail.save!
-        deposits.find_each { it.update!(sent_with_notification: mail) }
+        deposits&.find_each { it.update!(sent_with_notification: mail) }
+        offers&.find_each { it.update!(sent_with_notification: mail) }
         contract.update!(sent_with_notification: mail)
       end
     end
