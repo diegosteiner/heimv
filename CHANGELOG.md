@@ -1,5 +1,13 @@
 # Changelog
 
+## 26.9.1
+
+Released 01.09.2026
+
+- Fix: Distinguish between occupiable and bookable occupiables and homes
+- Fix: Sign contract with click no longer errors when the checkbox is not clicked
+- Feature: Search in tenants
+
 ## 26.8.5
 
 Released 23.08.2026
