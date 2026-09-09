@@ -47,9 +47,8 @@ class Booking
       last_transition = booking.state_transitions.ordered.last
       return if last_transition.blank?
 
-      # rubocop:disable Rails/SkipsModelValidations
+      # rubocop:disable-next Rails/SkipsModelValidations
       last_transition.update_column(:most_recent, true)
-      # rubocop:enable Rails/SkipsModelValidations
     end
   end
 end

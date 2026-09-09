@@ -3,6 +3,7 @@ import { type Dispatch, type SetStateAction, use } from "react";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { translatedString } from "../../services/i18n";
+import { inferInitialOccupiables } from "../occupancies/OccupancySelect";
 import { OrganisationContext } from "../rails/OrganisationProvider";
 
 type OccupiableSelectProps = OccupiableSelectState & {
@@ -36,17 +37,22 @@ export default function OccupiableSelect({
 }: OccupiableSelectProps) {
   const { i18n } = useTranslation();
   const organisation = use(OrganisationContext);
-  const home = organisation?.homes?.find((home) => home.id === homeId);
+
+  if (!organisation) return;
+
+  const home = organisation.homes?.find((home) => home.id === homeId);
   const occupiables = home?.occupiables
     ?.filter((occupiable) => occupiable.occupiable && !occupiable.discarded_at)
     ?.sort(ordinalOrder);
-  const hideHomeSelect = organisation?.homes?.length === 1;
+
+  const hideOccupiableCheckbox = occupiables?.length === 1;
+  const hideHomeSelect = !hideOccupiableCheckbox && !!home && organisation?.homes?.length === 1;
+
   const setHomeId = (homeId: number) => {
-    const newHome = organisation?.homes?.find((home) => home.id === homeId);
-    const newOccupiables = newHome?.occupiables;
-    const x = { homeId, occupiableIds: newOccupiables?.length === 1 ? [newOccupiables[0].id] : [] };
-    onChange(x);
+    const home = organisation?.homes?.find((h) => h.id === homeId);
+    onChange({ homeId: home?.id, occupiableIds: inferInitialOccupiables([], home, organisation)?.map((o) => o.id) });
   };
+
   const setOccupiableId = (occupiableId: number, value: boolean) => {
     onChange(({ occupiableIds, homeId }) => {
       occupiableIds ||= [];
@@ -81,7 +87,12 @@ export default function OccupiableSelect({
 
       <Form.Group className="mb-3">
         {occupiables?.map((occupiable) => (
-          <Form.Check type="checkbox" key={occupiable.id} id={`booking_occupiable_ids_${occupiable.id}`}>
+          <Form.Check
+            type="checkbox"
+            key={occupiable.id}
+            id={`booking_occupiable_ids_${occupiable.id}`}
+            className={cx({ "d-none": hideOccupiableCheckbox })}
+          >
             <Form.Check.Input
               type="checkbox"
               value={occupiable.id}

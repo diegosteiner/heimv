@@ -156,7 +156,7 @@ class Organisation < ApplicationRecord
     nickname_label_i18n.present?
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+  # rubocop:disable-next Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
   def initialize_copy(original)
     super
     self.rich_text_templates = original.rich_text_templates.map(&:dup)
@@ -173,5 +173,4 @@ class Organisation < ApplicationRecord
                 filename: original.logo.filename,
                 content_type: original.logo.content_type)
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 end

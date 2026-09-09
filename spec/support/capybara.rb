@@ -10,6 +10,8 @@ Capybara.register_driver :selenium_chrome do |app|
   options.add_argument('--no-default-browser-check')
   options.add_argument('--disable-search-engine-choice-screen')
   options.add_argument('--disable-backgrounding-occluded-windows')
+  options.add_argument('--headless=new') if ENV['CI'].present?
+  options.add_argument('--use-angle=swiftshader')
   # see https://github.com/teamcapybara/capybara/issues/2800
   # options.add_argument('--no-sandbox')
 

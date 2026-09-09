@@ -22,7 +22,8 @@ RUN apk add --no-cache --update build-base \
     gnupg \
     openssh-client \
     postgresql18-client \
-    musl musl-utils musl-locales
+    musl musl-utils musl-locales \
+    bash
 
 USER rails:rails
 ENV BINDING=0.0.0.0

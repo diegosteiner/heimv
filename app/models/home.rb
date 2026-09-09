@@ -29,7 +29,7 @@ class Home < Occupiable
 
   validates :ref, uniqueness: { scope: %i[organisation_id] }
 
-  after_create { update(home: home || self) }
+  after_create { update(home: self) }
 
   def to_s
     name
@@ -41,6 +41,10 @@ class Home < Occupiable
 
   def home_id
     id
+  end
+
+  def self_and_occupiables
+    Occupiable.where(id: self_and_occupiable_ids)
   end
 
   def self_and_occupiable_ids

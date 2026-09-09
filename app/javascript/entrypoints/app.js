@@ -35,43 +35,6 @@ function setupBookingAgentBookingButton() {
   });
 }
 
-function setupOccupiableSelect() {
-  for (const baseElement of Array.from(document.getElementsByClassName("occupiables-select"))) {
-    const selectElement = baseElement.querySelector("select");
-    const handler = () => {
-      const homeId = selectElement.value;
-      const occupiablesCheckboxesElement = baseElement.querySelector(".occupiables-checkboxes");
-      const allCheckboxElements = occupiablesCheckboxesElement.querySelectorAll(".form-check");
-      const currentOccupiableCheckboxes = occupiablesCheckboxesElement.querySelectorAll(
-        `.form-check[data-home-id="${homeId}"] input[type="checkbox"]`,
-      );
-      const occupiableOptions = selectElement.querySelectorAll("option");
-
-      if (occupiableOptions.length === 1) {
-        selectElement.classList.add("d-none");
-      } else {
-        selectElement.classList.remove("d-none");
-      }
-
-      for (const checkboxWrapperElement of allCheckboxElements) {
-        const checkboxElement = checkboxWrapperElement.querySelector('input[type="checkbox"]');
-
-        if (checkboxWrapperElement.dataset.homeId === homeId) {
-          checkboxElement.removeAttribute("disabled");
-          checkboxWrapperElement.classList.remove("d-none");
-          if (currentOccupiableCheckboxes.length === 1 || checkboxElement.value === homeId)
-            checkboxElement.checked = true;
-        } else {
-          checkboxElement.setAttribute("disabled", true);
-          checkboxWrapperElement.classList.add("d-none");
-        }
-      }
-    };
-    selectElement.addEventListener("change", () => handler());
-    handler();
-  }
-}
-
 function setupOrgChangeSelect() {
   document.getElementById("change-org")?.addEventListener("change", (event) => {
     window.location = event.target.value;
@@ -148,7 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleDisable();
   setupRichTextArea();
   setupBookingAgentBookingButton();
-  setupOccupiableSelect();
   setupOrgChangeSelect();
   setupSubmit();
   setupUsageForms();

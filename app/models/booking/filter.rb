@@ -82,7 +82,7 @@ class Booking
       bookings.joins(:state_transitions).where(state_transitions: { to_state: states }) if states.any?
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+    # rubocop:disable-next Metrics/AbcSize, Metrics/CyclomaticComplexity
     def derive_booking_attributes
       {}.tap do |attributes|
         attributes[:begins_at] = at_date if at_date.present?
@@ -92,6 +92,5 @@ class Booking
         attributes[:occupiable_ids] = occupiables
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
   end
 end
