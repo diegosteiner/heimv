@@ -84,7 +84,7 @@ jobs:
       matrix:
         browser:
           - name: chrome
-            selenium_image: selenium/standalone-chrome:150.0
+            selenium_image: selenium/standalone-chrome
           - name: firefox
             selenium_image: selenium/standalone-firefox
     env:
