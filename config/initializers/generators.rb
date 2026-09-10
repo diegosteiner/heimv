@@ -9,8 +9,8 @@ Rails.application.config.generators do |g|
                    controller_specs: false,
                    request_specs: false
   g.fixture_replacement :factory_bot, dir: 'spec/factories'
-  g.stylesheets     false
-  g.javascripts     false
+  g.stylesheets false
+  g.javascripts false
   g.helpers false
   g.assets false
   g.system_tests false

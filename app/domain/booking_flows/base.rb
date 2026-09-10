@@ -73,10 +73,9 @@ module BookingFlows
       state = booking.state_transitions.where(to_state: state).last unless state.is_a? Booking::StateTransition
       return if state.blank?
 
-      # rubocop:disable Rails/SkipsModelValidations
+      # rubocop:disable-next Rails/SkipsModelValidations
       booking.state_transitions.where(Booking::StateTransition.arel_table[:created_at].gt(state.created_at))
              .destroy_all && booking.touch
-      # rubocop:enable Rails/SkipsModelValidations
     end
 
     def manage_actions

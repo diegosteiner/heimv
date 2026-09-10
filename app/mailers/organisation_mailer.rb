@@ -52,19 +52,17 @@ class OrganisationMailer < ApplicationMailer
     mail.delivery_method.settings = @organisation.smtp_settings.to_h
   end
 
-  # rubocop:disable Naming/MemoizedInstanceVariableName
+  # rubocop:disable-next Naming/MemoizedInstanceVariableName
   def set_organisation
     @organisation ||= params
   end
-  # rubocop:enable Naming/MemoizedInstanceVariableName
 
   class DeliveryObserver
     def self.delivered_email(mail)
       notification = Notification.find_by(id: mail.header[NOTIFICATION_HEADER_NAME]&.value)
 
-      # rubocop:disable Rails/SkipsModelValidations
+      # rubocop:disable-next Rails/SkipsModelValidations
       notification&.touch(:delivered_at)
-      # rubocop:enable Rails/SkipsModelValidations
     end
   end
 

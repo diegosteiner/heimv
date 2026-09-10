@@ -66,6 +66,18 @@ spec:
           command:
             - "bin/rails"
             - "db:migrate"
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - heimv-web
+                topologyKey: kubernetes.io/hostname
       restartPolicy: Always
 ---
 apiVersion: v1

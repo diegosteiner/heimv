@@ -1,5 +1,11 @@
 # Changelog
 
+## 26.9.2
+
+Released 09.09.2026
+
+- Fix: Select occupiables in forms correctly
+
 ## 26.9.1
 
 Released 01.09.2026

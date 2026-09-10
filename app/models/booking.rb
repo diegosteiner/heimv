@@ -79,9 +79,9 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :booking_question_responses, -> { ordered }, dependent: :destroy, autosave: true, inverse_of: :booking
   has_many :booking_questions, through: :booking_question_responses
 
-  has_one  :deadline, inverse_of: :booking, dependent: :destroy
-  has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
-  has_one  :booking_agent, through: :agent_booking
+  has_one :deadline, inverse_of: :booking, dependent: :destroy
+  has_one :agent_booking, dependent: :destroy, inverse_of: :booking
+  has_one :booking_agent, through: :agent_booking
 
   has_one_attached :home_return_report
   has_secure_token :token, length: 48

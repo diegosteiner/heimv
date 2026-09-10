@@ -19,8 +19,8 @@ module Public
       organisation.logo.present? && url_for(organisation.logo)
     end
 
-    view :public do
-      association :homes, blueprint: Public::HomeSerializer do |organisation|
+    view :bookable do
+      association :homes, blueprint: Public::HomeSerializer, view: :bookable do |organisation|
         organisation.homes.bookable.kept
       end
     end

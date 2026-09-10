@@ -115,9 +115,8 @@ class Notification < ApplicationRecord
   end
 
   def html
-    # rubocop:disable Rails/OutputSafety
+    # rubocop:disable-next Rails/OutputSafety
     [body, footer].compact_blank.join.html_safe
-    # rubocop:enable Rails/OutputSafety
   end
 
   def locale

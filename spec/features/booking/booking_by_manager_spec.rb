@@ -34,8 +34,8 @@ describe 'Booking by manager', :devise do
   end
 
   def fill_request_form(email:, begins_at:, ends_at:, home:)
-    # select home.id, from: 'booking[home_id]'
-    check "booking_occupiable_ids_#{home.id}"
+    select(home.to_s, from: 'booking_home_id')
+    # check "booking_occupiable_ids_#{home.id}"
     fill_in 'booking[email]', with: email
     fill_in 'booking_begins_at_date', with: begins_at.strftime('%d.%m.%Y')
     select(format('%02d:00', begins_at.hour), from: 'booking_begins_at_time')

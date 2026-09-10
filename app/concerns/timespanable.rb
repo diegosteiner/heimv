@@ -33,7 +33,7 @@ module Timespanable
     end
   end
 
-  # rubocop:disable Metrics/BlockLength
+  # rubocop:disable-next Metrics/BlockLength
   class_methods do
     attr_reader :timespan_begins_at_attribute, :timespan_ends_at_attribute
 
@@ -80,5 +80,4 @@ module Timespanable
       end
     end
   end
-  # rubocop:enable Metrics/BlockLength
 end

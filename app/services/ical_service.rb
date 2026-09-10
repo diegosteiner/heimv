@@ -19,7 +19,7 @@ class IcalService
     ical.to_ical
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:disable-next Metrics/AbcSize, Metrics/MethodLength
   def occupancy_to_ical(occupancy)
     Icalendar::Event.new.tap do |ical_event|
       ical_event.dtstart =       icalendar_datetime(occupancy.begins_at)
@@ -39,7 +39,6 @@ class IcalService
                                Occupancy.human_enum(:occupancy_type, occupancy.occupancy_type)
     end
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def occupancy_to_ical_with_tenant_details(occupancy)
     occupancy_to_ical(occupancy).tap do |ical_event|
