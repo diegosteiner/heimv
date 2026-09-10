@@ -112,6 +112,7 @@ describe 'Booking by agent', :devise do
   def accept_booking
     visit manage_booking_path(@agent_booking.booking, org:)
     click_button BookingActions::Accept.t(:label)
+    expect(page).to have_text(I18n.t('manage.bookings.booking_actions.invoke.success'))
   end
 
   def enter_tenant_details
