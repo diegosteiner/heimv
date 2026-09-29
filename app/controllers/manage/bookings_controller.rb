@@ -7,7 +7,12 @@ module Manage
 
     def index
       @bookings = @bookings.where(organisation: current_organisation).limit(Booking::LIMIT)
-      @bookings = @filter.apply(@bookings.with_default_includes.ordered, cached: 30.seconds)
+      @bookings = @filter.apply(@bookings, cached: 30.seconds).ordered.includes(
+        :organisation, :category, :state_transitions, :occupancies, { tenant: :organisation,
+                                                                      agent_booking: %i[booking_agent organisation],
+                                                                      booking_question_responses: :booking_question,
+                                                                      operator_responsibilities: :operator }
+      ).joins(Booking.most_recent_transition_join)
 
       respond_with :manage, @bookings
     end

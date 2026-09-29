@@ -193,7 +193,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def cache_key
-    "#{super}@#{updated_at.iso8601(3)}"
+    "#{super}-#{updated_at.iso8601(3)}"
   end
 
   def update_occupancies

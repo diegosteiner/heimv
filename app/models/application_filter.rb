@@ -35,7 +35,7 @@ class ApplicationFilter
 
   def cached_ids(base_relation, cached_for: nil)
     Rails.cache.fetch(cache_key(base_relation), expires_in: cached_for || 5.minutes) do
-      apply(base_relation, cached: false).map(&:id)
+      apply(base_relation, cached: false).pluck(:id)
     end
   end
 
