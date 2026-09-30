@@ -14,6 +14,10 @@ module BookingStates
       :open_request
     end
 
+    guard_transition do |booking|
+      booking.organisation.booking_state_settings.enable_waitlist || !booking.conflicting?(assuming: :tentative)
+    end
+
     after_transition do |booking|
       booking.deadline&.clear!
       booking.pending!

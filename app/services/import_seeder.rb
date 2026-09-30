@@ -46,7 +46,7 @@ class ImportSeeder
     organisation.tap(&:save!)
   end
 
-  def users(organisation, users: nil) # rubocop:disable Metrics/MethodLength
+  def users(organisation, users: nil)
     onboarding = OnboardingService.new(organisation)
     users ||= [
       { email: 'admin@heimv.local', role: :admin, password: 'heimverwaltung' },

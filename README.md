@@ -187,9 +187,21 @@ Additionally you might need to run these commands:
 1. Enable pgcrypt extension `heimv_development=#  CREATE EXTENSION pgcrypto WITH SCHEMA public;`
 1. Rerun `pgrestore` without `--create`
 
+## Occupancy types confilicts
+
+|           | free | pending | tentative | occupied | closed | reserved | |
+| free      | ✅   | ✅      | ✅        | ✅       | ✅     | ✅       | free is always allowed |
+| pending   | ✅   | ✅      | ✅        | ✅       | 🛑     | 🛑       | pending is in the waitlist |
+| tentative | ✅   | ✅      | ⏳        | ⏳       | 🛑     | 🛑       |
+| occupied  | ✅   | ✅      | ⏳        | ⏳       | 🛑     | 🛑       |
+| closed    | ✅   | ✅      | 🛑¹       | 🛑¹      | 🛑  ¹  | ✅       |
+| reserved  | ✅   | ✅      | 🛑¹       | 🛑¹      | ✅     | 🛑       |
+
+¹) Would make all existing records invalid
+
 ## Copyright & License
 
-Copyright 2017-2025 Diego P. Steiner & contributors
+Copyright 2017-2026 Diego P. Steiner & contributors
 
 If you want to use HeimV in a commercial setting, a commercial licence
 is required. For a commercial licence please get in touch: <license@heimv.ch>.

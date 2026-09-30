@@ -21,7 +21,7 @@ export type OccupancySelectProps = {
   | "defaultEndsAtTime"
   | "beginsAtTimes"
   | "endsAtTimes"
-  | "checkOverlaps"
+  | "waitlistEnabled"
 >;
 
 function inferInitialHome(
@@ -88,7 +88,7 @@ export default function OccupancySelect({
   namePrefix,
   required,
   disabled,
-  checkOverlaps,
+  waitlistEnabled,
   occupancyInvalidFeedback,
   occupiableInvalidFeedback,
   defaultBeginsAtTime,
@@ -129,7 +129,7 @@ export default function OccupancySelect({
           endsAtTimes={endsAtTimes}
           required={required}
           disabled={disabled}
-          checkOverlaps={checkOverlaps}
+          waitlistEnabled={waitlistEnabled}
         />
       </OccupancyWindowProvider>
     </Form.Group>

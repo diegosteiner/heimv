@@ -13,7 +13,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.agent_booking.present? && !booking.conflicting?(%i[occupied tentative closed])
+      booking.agent_booking.present? && !booking.conflicting?(assuming: :tentative)
     end
 
     after_transition do |booking|
@@ -29,7 +29,7 @@ module BookingStates
     end
 
     infer_transition(to: :awaiting_tenant) do |booking|
-      booking.agent_booking.valid? && booking.committed_request
+      booking.agent_booking&.valid? && booking.committed_request
     end
 
     def relevant_time

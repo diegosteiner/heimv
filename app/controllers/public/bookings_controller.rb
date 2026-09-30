@@ -25,6 +25,7 @@ module Public
 
     def create
       @booking = preparation_service.prepare_create(create_params)
+      @booking.transition_to = :unconfirmed_request
 
       respond_to do |format|
         if @booking.save(context: :public_create)

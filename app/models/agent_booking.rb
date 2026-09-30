@@ -64,6 +64,7 @@ class AgentBooking < ApplicationRecord
     booking.tenant || booking.build_tenant
     booking.tenant.organisation ||= organisation
     booking.email ||= tenant_email
+    booking
   end
 
   def booking

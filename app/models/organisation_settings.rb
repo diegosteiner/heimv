@@ -23,7 +23,7 @@ class OrganisationSettings
   attribute :predefined_salutation_form, :string
   attribute :available_begins_at_times, array: true, default: -> { available_times(hours: 8..22) }
   attribute :available_ends_at_times, array: true, default: -> { available_times(hours: 8..22) }
-  attribute :public_occupancy_visibility, array: true, default: -> { %i[tentative occupied closed reserved] }
+  attribute :public_occupancy_visibility, array: true, default: -> { %i[tentative occupied closed] }
 
   validates :tentative_occupancy_color, :occupied_occupancy_color,
             :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true

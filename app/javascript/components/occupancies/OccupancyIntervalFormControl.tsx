@@ -83,7 +83,7 @@ type OccupancyIntervalFormControlProps = {
   beginsAtTimes?: (string | number)[];
   endsAtTimes?: (string | number)[];
   invalidFeedback?: string | undefined;
-  checkOverlaps?: "error" | "warn" | "none";
+  waitlistEnabled?: boolean;
 };
 
 export function OccupancyIntervalFormControl({
@@ -99,7 +99,7 @@ export function OccupancyIntervalFormControl({
   beginsAtTimes,
   endsAtTimes,
   invalidFeedback,
-  checkOverlaps,
+  waitlistEnabled,
 }: OccupancyIntervalFormControlProps) {
   const [showModal, setShowModal] = useState(false);
   const initialBeginsAtTime = initialBeginsAt && format(initialBeginsAt, "HH:mm");
@@ -119,10 +119,10 @@ export function OccupancyIntervalFormControl({
     [initialEndsAtTime, ...(endsAtTimes || availableTimes)].filter((time) => time).sort(),
   );
 
-  const isOverlapping = useMemo(() => {
-    if (disabled || !checkOverlaps || !beginsAt.date || !endsAt.date || !occupancyWindow) return false;
+  const conflict: false | "error" | "warn" = useMemo(() => {
+    if (disabled || !beginsAt.date || !endsAt.date || !occupancyWindow) return false;
 
-    return occupancyWindow.occupancies.some(
+    const overlapping = occupancyWindow.occupancies.filter(
       (occupancy) =>
         (!bookingId || occupancy.bookingId !== bookingId) &&
         areIntervalsOverlapping(
@@ -131,9 +131,13 @@ export function OccupancyIntervalFormControl({
           { inclusive: false },
         ),
     );
-  }, [disabled, checkOverlaps, bookingId, beginsAt, endsAt, occupancyWindow]);
+    if (overlapping.some((occupancy) => ["closed", "reserved"].includes(occupancy.occupancyType))) return "error";
+    if (overlapping.some((occupancy) => ["tentative", "occupied"].includes(occupancy.occupancyType)))
+      return waitlistEnabled ? "warn" : "error";
+    return false;
+  }, [disabled, waitlistEnabled, bookingId, beginsAt, endsAt, occupancyWindow]);
 
-  const isInvalid = !!invalidFeedback || (checkOverlaps === "error" && isOverlapping);
+  const isInvalid = !!invalidFeedback || conflict === "error";
 
   return (
     <>
@@ -253,12 +257,12 @@ export function OccupancyIntervalFormControl({
           value={formatISOorUndefined(endsAt.date)}
         />
         {invalidFeedback && <div className="invalid-feedback d-block">{invalidFeedback}</div>}
-        {isOverlapping && checkOverlaps === "warn" && (
+        {conflict === "warn" && (
           <div className="invalid-feedback d-block text-warning">
             {t("public.bookings.form.occupancy_conflict_warning")}
           </div>
         )}
-        {isOverlapping && checkOverlaps === "error" && (
+        {conflict === "error" && (
           <div className="invalid-feedback d-block">{t("activerecord.errors.messages.occupancy_conflict")}</div>
         )}
       </div>

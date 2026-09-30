@@ -62,7 +62,7 @@ describe 'Booking by agent', :devise do
     check 'booking_accept_conditions'
   end
 
-  def fill_tenant_form(tenant) # rubocop:disable Metrics/MethodLength
+  def fill_tenant_form(tenant)
     fill_in 'booking_tenant_attributes_first_name', with: tenant.first_name
     fill_in 'booking_tenant_attributes_last_name', with: tenant.last_name
     fill_in 'booking_tenant_attributes_street', with: tenant.street

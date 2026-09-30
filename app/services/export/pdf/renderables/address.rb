@@ -15,7 +15,7 @@ module Export
           @label = label
         end
 
-        def render # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+        def render # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
           bounding_box [x_position, y_position], width: 200, height: @height do
             text @label, style: :bold if @label
             next if @recipient.blank? && @represented_by.blank?

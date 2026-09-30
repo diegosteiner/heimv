@@ -73,12 +73,12 @@ FactoryBot.define do
     end
 
     after(:create) do |booking, evaluator|
-      next if evaluator.initial_state.blank?
+      next if evaluator.initial_state.blank? || evaluator.initial_state.to_sym == :initial
 
+      booking.skip_infer_transitions = true
       Booking::StateTransition.initial_for(booking, evaluator.initial_state)
-      booking.booking_flow.current_state(force_reload: true)
-      booking.skip_infer_transitions = false
-      booking.touch # rubocop:disable Rails/SkipsModelValidations
+      booking.save!
+      booking.skip_infer_transitions = evaluator.skip_infer_transitions
     end
 
     trait :invoiced do

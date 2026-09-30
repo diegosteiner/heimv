@@ -132,7 +132,7 @@ module Export
               **override)
         end
 
-        def self.build_with_journal_entry_batch(journal_entry_batch, primary_override: {}) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+        def self.build_with_journal_entry_batch(journal_entry_batch, primary_override: {}) # rubocop:disable Metrics/AbcSize
           primary_side, primary_account = determine_primary(journal_entry_batch)
           blocks = [build_primary_batch_entry(journal_entry_batch, primary_side, primary_account, **primary_override)]
           journal_entry_batch.entries.each do |entry|
@@ -150,7 +150,7 @@ module Export
           blocks
         end
 
-        def self.determine_primary(journal_entry_batch) # rubocop:disable Metrics/MethodLength
+        def self.determine_primary(journal_entry_batch)
           soll = [Side.new(:soll), journal_entry_batch.accounts[:soll].first]
           haben = [Side.new(:haben), journal_entry_batch.accounts[:haben].first]
 

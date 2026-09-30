@@ -26,7 +26,7 @@ class BookingQuestionResponse < ApplicationRecord
 
   delegate :ordinal, to: :booking_question, allow_nil: true
 
-  def editable?(role) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+  def editable?(role) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     return false unless booking_question
 
     case role.to_sym

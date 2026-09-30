@@ -8,7 +8,7 @@ describe 'Booking by tenant', :devise do
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
-  let(:tenant) { create(:tenant, organisation:) }
+  let(:tenant) { create(:tenant, organisation:, email: 'booking_by_tenant_spec@heimv.local') }
   let(:deposit_tarif) do
     create(:tarif, organisation:, tarif_group: 'Akontorechnung', label: 'Anzahlung',
                    associated_types: %i[deposit offer contract])
@@ -108,7 +108,7 @@ describe 'Booking by tenant', :devise do
     @booking = Booking.last
   end
 
-  def confirm_request # rubocop:disable Metrics/MethodLength
+  def confirm_request
     visit edit_public_booking_path(id: @booking.token)
     fill_in 'booking_approximate_headcount', with: booking.approximate_headcount
     fill_in 'booking_tenant_organisation', with: booking.tenant_organisation

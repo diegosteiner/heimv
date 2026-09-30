@@ -3,7 +3,7 @@
 class OnboardingService
   attr_reader :organisation
 
-  def self.create(**attributes) # rubocop:disable Metrics/MethodLength
+  def self.create(**attributes)
     defaults = {
       booking_flow_type: BookingFlows::Default,
       booking_ref_template: RefBuilders::Booking::DEFAULT_TEMPLATE,

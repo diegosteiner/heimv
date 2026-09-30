@@ -5,359 +5,1023 @@ describe BookingFlows::Default do
   subject(:booking_flow) { described_class.new(booking) }
 
   let(:home) { create(:home, organisation:) }
+  let(:begins_at) { 2.months.from_now }
+  let(:ends_at) { begins_at + 1.week }
   let(:conflicting_booking) do
-    create(:booking, organisation:, home:, begins_at: booking.begins_at, ends_at: booking.ends_at,
-                     initial_state: :upcoming, occupancy_type: :occupied, remarks: 'conflicting')
+    build(:booking, organisation:, home:, begins_at:, ends_at:,
+                    initial_state: :upcoming, occupancy_type: :occupied, remarks: 'conflicting').tap do |booking|
+      booking.save!(validate: false)
+    end
   end
   let(:organisation) { create(:organisation, :with_templates) }
-  let(:booking) do
-    create(:booking, organisation:, home:, committed_request:)
-  end
-  let(:committed_request) { true }
   let(:enable_waitlist) { false }
+
+  def prepare_booking(**args)
+    create(:booking, organisation:, home:, begins_at:, ends_at:, committed_request: false, remarks: 'subject', **args)
+  end
 
   before { allow(organisation.booking_state_settings).to receive(:enable_waitlist).and_return(enable_waitlist) }
 
   describe '#transition_to' do
+    # Intake and reopen paths
     describe 'to unconfirmed_request' do
-      let(:committed_request) { false }
+      context 'with booking from initial state' do
+        let(:booking) { prepare_booking(initial_state: :initial) }
 
-      it do
-        is_expected.to transition_to(:unconfirmed_request).from(:initial)
-        expect(booking).to be_pending
-        expect(booking).to notify(:unconfirmed_request_notification).to(:tenant)
+        it do
+          expect(booking_flow).to transition_to(:unconfirmed_request)
+          expect(booking).to be_pending
+          expect(booking).to notify(:unconfirmed_request_notification).to(:tenant)
+        end
       end
     end
 
     describe 'to open_request' do
-      let(:committed_request) { false }
+      context 'with booking from initial state' do
+        let(:booking) { prepare_booking(initial_state: :initial) }
 
-      it { is_expected.to transition_to(:open_request).from(:initial) }
+        it do
+          expect(booking_flow).to transition_to(:open_request)
+        end
+      end
 
-      it do
-        is_expected.to transition_to(:open_request).from(:unconfirmed_request)
-        expect(booking).to notify(:manage_new_booking_notification).to(:administration)
-        expect(booking).to notify(:open_request_notification).to(:tenant)
-        expect(booking).to be_pending
+      context 'with booking from unconfirmed_request state' do
+        let(:booking) { prepare_booking(initial_state: :unconfirmed_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:open_request)
+          expect(booking).to notify(:manage_new_booking_notification).to(:administration)
+          expect(booking).to notify(:open_request_notification).to(:tenant)
+          expect(booking).to be_pending
+        end
+      end
+
+      context 'with booking from cancelled_request state' do
+        let(:booking) { prepare_booking(initial_state: :cancelled_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:open_request)
+        end
+      end
+
+      context 'with booking from declined_request state' do
+        let(:booking) { prepare_booking(initial_state: :declined_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:open_request)
+        end
       end
     end
 
-    describe 'to waitlisted_request' do
-      let(:committed_request) { false }
-
+    # Waitlist behavior
+    describe 'waitlist: to waitlisted_request' do
       context 'with waitlist enabled' do
         let(:enable_waitlist) { true }
 
-        it { is_expected.to transition_to(:waitlisted_request).from(:initial) }
+        context 'with default booking' do
+          let(:booking) { prepare_booking }
 
-        it do
-          is_expected.to transition_to(:waitlisted_request).from(:open_request)
-          expect(booking).to notify(:waitlisted_request_notification).to(:tenant)
-          expect(booking).to be_pending
-          expect(booking.deadline&.armed?).to be_falsy
+          it do
+            expect(booking_flow).to transition_to(:waitlisted_request)
+          end
+        end
+
+        context 'with booking from open_request state' do
+          let(:booking) { prepare_booking(initial_state: :open_request) }
+
+          it do
+            expect(booking_flow).to transition_to(:waitlisted_request)
+            expect(booking).to notify(:waitlisted_request_notification).to(:tenant)
+            expect(booking).to be_pending
+            expect(booking.deadline&.armed?).to be_falsy
+          end
         end
       end
 
       context 'without waitlist enabled' do
         let(:enable_waitlist) { false }
 
-        it { is_expected.not_to transition_to(:waitlisted_request).from(:initial) }
-        it { is_expected.not_to transition_to(:waitlisted_request).from(:open_request) }
+        context 'with default booking' do
+          let(:booking) { prepare_booking }
+
+          it do
+            expect(booking_flow).not_to transition_to(:waitlisted_request)
+          end
+        end
+
+        context 'with booking from open_request state' do
+          let(:booking) { prepare_booking(initial_state: :open_request) }
+
+          it do
+            expect(booking_flow).not_to transition_to(:waitlisted_request)
+          end
+        end
       end
     end
 
-    describe 'to provisional_request' do
-      let(:committed_request) { false }
+    describe 'waitlist/commitment: to provisional_request' do
+      context 'with default booking' do
+        let(:booking) { prepare_booking }
 
-      it { is_expected.to transition_to(:provisional_request).from(:initial) }
-
-      it do
-        is_expected.to transition_to(:provisional_request).from(:open_request)
-        expect(booking).to be_tentative
-        expect(booking.deadline).to be_armed
-        expect(booking).to notify(:provisional_request_notification).to(:tenant)
+        it do
+          expect(booking_flow).to transition_to(:provisional_request)
+        end
       end
 
-      it do
-        is_expected.to transition_to(:provisional_request).from(:waitlisted_request)
-        expect(booking).to be_tentative
-        expect(booking.deadline).to be_armed
-        expect(booking).to notify(:provisional_request_notification).to(:tenant)
+      context 'with booking from open_request state' do
+        let(:booking) { prepare_booking(initial_state: :open_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:provisional_request)
+          expect(booking).to be_tentative
+          expect(booking.deadline).to be_armed
+          expect(booking).to notify(:provisional_request_notification).to(:tenant)
+        end
       end
 
-      context 'with enable_waitlist' do
+      context 'with booking from waitlisted_request state' do
+        let(:booking) { prepare_booking(initial_state: :waitlisted_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:provisional_request)
+          expect(booking).to be_tentative
+          expect(booking.deadline).to be_armed
+          expect(booking).to notify(:provisional_request_notification).to(:tenant)
+        end
+      end
+
+      context 'with booking from definitive_request and occupied' do
+        let(:booking) do
+          prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied, committed_request: true)
+        end
+
+        it do
+          expect(booking_flow).to transition_to(:provisional_request)
+          expect(booking).to be_tentative
+          expect(booking.deadline).to be_armed
+          expect(booking.committed_request).to be_falsy
+        end
+      end
+
+      context 'when waitlist is enabled and booking conflicts' do
         let(:enable_waitlist) { true }
 
         before { conflicting_booking }
 
-        it { is_expected.not_to transition_to(:provisional_request).from(:open_request) }
+        context 'with booking from open_request state' do
+          let(:booking) { prepare_booking(initial_state: :open_request) }
+
+          it do
+            expect(booking_flow).not_to transition_to(:provisional_request)
+          end
+        end
       end
 
-      context 'without enable_provisional_request' do
+      context 'when provisional requests are disabled' do
         before { allow(organisation.booking_state_settings).to receive(:enable_provisional_request).and_return(false) }
 
-        it { is_expected.not_to transition_to(:provisional_request).from(:initial) }
-        it { is_expected.not_to transition_to(:provisional_request).from(:open_request) }
-        it { is_expected.not_to transition_to(:provisional_request).from(:waitlisted_request) }
-        it { is_expected.not_to transition_to(:provisional_request).from(:definitive_request) }
+        context 'with default booking' do
+          let(:booking) { prepare_booking }
+
+          it do
+            expect(booking_flow).not_to transition_to(:provisional_request)
+          end
+        end
+
+        context 'with booking from open_request state' do
+          let(:booking) { prepare_booking(initial_state: :open_request) }
+
+          it do
+            expect(booking_flow).not_to transition_to(:provisional_request)
+          end
+        end
+
+        context 'with booking from waitlisted_request state' do
+          let(:booking) { prepare_booking(initial_state: :waitlisted_request) }
+
+          it do
+            expect(booking_flow).not_to transition_to(:provisional_request)
+          end
+        end
+
+        context 'with booking from definitive_request and occupied' do
+          let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+
+          it do
+            expect(booking_flow).not_to transition_to(:provisional_request)
+          end
+        end
       end
     end
 
-    describe 'to booking_agent_request' do
-      let(:committed_request) { false }
-
+    # Booking-agent behavior
+    describe 'booking-agent: to booking_agent_request' do
       before do
         booking_agent = create(:booking_agent, organisation:)
         booking.build_agent_booking.update(booking_agent_code: booking_agent.code, organisation:)
       end
 
-      it do
-        is_expected.to transition_to(:booking_agent_request).from(:open_request)
-        expect(booking).to be_tentative
-        expect(booking.deadline).to be_armed
-        expect(booking).to notify(:booking_agent_request_notification).to(:booking_agent)
+      context 'with booking from open_request state' do
+        let(:booking) { prepare_booking(initial_state: :open_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:booking_agent_request)
+          expect(booking).to be_tentative
+          expect(booking.deadline).to be_armed
+          expect(booking).to notify(:booking_agent_request_notification).to(:booking_agent)
+        end
+      end
+
+      context 'without agent booking on booking' do
+        let(:booking) { prepare_booking(initial_state: :open_request) }
+
+        before do
+          booking.agent_booking&.destroy!
+          booking.reload
+        end
+
+        it do
+          expect(booking_flow).not_to transition_to(:booking_agent_request)
+        end
       end
 
       context 'with existing booking at the same date' do
         before { conflicting_booking }
 
-        it { is_expected.not_to transition_to(:booking_agent_request).from(:initial) }
-        it { is_expected.not_to transition_to(:booking_agent_request).from(:open_request) }
+        context 'with default booking' do
+          let(:booking) { prepare_booking }
+
+          it do
+            expect(booking_flow).not_to transition_to(:booking_agent_request)
+          end
+        end
+
+        context 'with booking from open_request state' do
+          let(:booking) { prepare_booking(initial_state: :open_request) }
+
+          it do
+            expect(booking_flow).not_to transition_to(:booking_agent_request)
+          end
+        end
       end
     end
 
-    describe 'to awaiting_tenant' do
+    describe 'booking-agent: to awaiting_tenant' do
       before do
         booking_agent = create(:booking_agent, organisation:)
         booking.build_agent_booking.update(booking_agent_code: booking_agent.code, organisation:)
       end
 
-      it { is_expected.to transition_to(:awaiting_tenant).from(:initial) }
+      context 'with default booking' do
+        let(:booking) { prepare_booking }
 
-      it do
-        is_expected.to transition_to(:awaiting_tenant).from(:booking_agent_request)
-        expect(booking).to be_occupied
-        expect(booking.deadline).to be_armed
-        expect(booking).to notify(:awaiting_tenant_notification).to(:tenant)
-        expect(booking).to notify(:booking_agent_request_accepted_notification).to(:booking_agent)
+        it do
+          expect(booking_flow).to transition_to(:awaiting_tenant)
+        end
+      end
+
+      context 'with booking from booking_agent_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:awaiting_tenant)
+          expect(booking).to be_occupied
+          expect(booking.deadline).to be_armed
+          expect(booking).to notify(:awaiting_tenant_notification).to(:tenant)
+          expect(booking).to notify(:booking_agent_request_accepted_notification).to(:booking_agent)
+        end
+      end
+
+      context 'with booking from overdue_request and tentative' do
+        let(:booking) do
+          prepare_booking(initial_state: :overdue_request, occupancy_type: :tentative, committed_request: false)
+        end
+
+        it do
+          expect(booking_flow).to transition_to(:awaiting_tenant)
+        end
       end
     end
 
-    describe 'to definitive_request' do
-      context 'without committed booking' do
-        let(:committed_request) { false }
+    # Committed-request behavior
+    describe 'committed-request: to definitive_request' do
+      context 'without committed request' do
+        context 'with default booking' do
+          let(:booking) { prepare_booking }
 
-        it { is_expected.not_to transition_to(:definitive_request).from(:initial) }
-        it { is_expected.not_to transition_to(:definitive_request).from(:open_request) }
-        it { is_expected.not_to transition_to(:definitive_request).from(:provisional_request) }
-        it { is_expected.not_to transition_to(:definitive_request).from(:waitlisted_request) }
-        it { is_expected.not_to transition_to(:definitive_request).from(:overdue_request) }
+          it do
+            expect(booking_flow).not_to transition_to(:definitive_request)
+          end
+        end
+
+        context 'with booking from open_request state' do
+          let(:booking) { prepare_booking(initial_state: :open_request) }
+
+          it do
+            expect(booking_flow).not_to transition_to(:definitive_request)
+          end
+        end
+
+        context 'with booking from provisional_request and tentative' do
+          let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+
+          it do
+            expect(booking_flow).not_to transition_to(:definitive_request)
+          end
+        end
+
+        context 'with booking from waitlisted_request state' do
+          let(:booking) { prepare_booking(initial_state: :waitlisted_request) }
+
+          it do
+            expect(booking_flow).not_to transition_to(:definitive_request)
+          end
+        end
+
+        context 'with booking from overdue_request and tentative' do
+          let(:booking) { prepare_booking(initial_state: :overdue_request, occupancy_type: :tentative) }
+
+          it do
+            expect(booking_flow).not_to transition_to(:definitive_request)
+          end
+        end
       end
 
-      context 'with committed booking' do
-        let(:committed_request) { true }
+      context 'with committed request' do
+        context 'with committed default booking' do
+          let(:booking) { prepare_booking(committed_request: true) }
 
-        it { is_expected.to transition_to(:definitive_request).from(:initial) }
-        it { is_expected.to transition_to(:definitive_request).from(:open_request) }
-
-        it do
-          is_expected.to transition_to(:definitive_request).from(:overdue_request)
-          expect(booking).to be_occupied
-          expect(booking.deadline).not_to be_present
-          expect(booking).to notify(:definitive_request_notification).to(:tenant)
-          expect(booking).to notify(:manage_definitive_request_notification).to(:administration)
+          it do
+            expect(booking_flow).to transition_to(:definitive_request)
+          end
         end
 
-        it do
-          is_expected.to transition_to(:definitive_request).from(:provisional_request)
-          expect(booking).to be_occupied
-          expect(booking.deadline).not_to be_present
-          expect(booking).to notify(:definitive_request_notification).to(:tenant)
-          expect(booking).to notify(:manage_definitive_request_notification).to(:administration)
+        context 'with booking from open_request and committed' do
+          let(:booking) { prepare_booking(initial_state: :open_request, committed_request: true) }
+
+          it do
+            expect(booking_flow).to transition_to(:definitive_request)
+          end
         end
 
-        it do
-          is_expected.to transition_to(:definitive_request).from(:waitlisted_request)
-          expect(booking).to be_occupied
-          expect(booking).to notify(:definitive_request_notification).to(:tenant)
-          expect(booking).to notify(:manage_definitive_request_notification).to(:administration)
+        context 'with booking from overdue_request tentative and committed' do
+          let(:booking) do
+            prepare_booking(initial_state: :overdue_request, occupancy_type: :tentative,
+                            committed_request: true)
+          end
+
+          it do
+            expect(booking_flow).to transition_to(:definitive_request)
+            expect(booking).to be_occupied
+            expect(booking.deadline).not_to be_present
+            expect(booking).to notify(:definitive_request_notification).to(:tenant)
+            expect(booking).to notify(:manage_definitive_request_notification).to(:administration)
+          end
+        end
+
+        context 'with booking from provisional_request and tentative' do
+          let(:booking) do
+            prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative, committed_request: true)
+          end
+
+          it do
+            expect(booking_flow).to transition_to(:definitive_request)
+            expect(booking).to be_occupied
+            expect(booking.deadline).not_to be_present
+            expect(booking).to notify(:definitive_request_notification).to(:tenant)
+            expect(booking).to notify(:manage_definitive_request_notification).to(:administration)
+          end
+        end
+
+        context 'with booking from waitlisted_request state' do
+          let(:booking) { prepare_booking(initial_state: :waitlisted_request, committed_request: true) }
+
+          it do
+            expect(booking_flow).to transition_to(:definitive_request)
+            expect(booking).to be_occupied
+            expect(booking).to notify(:definitive_request_notification).to(:tenant)
+            expect(booking).to notify(:manage_definitive_request_notification).to(:administration)
+          end
         end
 
         context 'with existing booking at the same date' do
           before { conflicting_booking }
 
-          it { is_expected.not_to transition_to(:definitive_request).from(:provisional_request) }
-          it { is_expected.not_to transition_to(:definitive_request).from(:waitlisted_request) }
+          context 'with booking from provisional_request and tentative' do
+            let(:booking) do
+              build(:booking, organisation:, home:, begins_at:, ends_at:, remarks: 'subject',
+                              initial_state: :provisional_request, occupancy_type: :tentative,
+                              committed_request: true).tap { |candidate| candidate.save!(validate: false) }
+            end
+
+            it do
+              expect(booking_flow).not_to transition_to(:definitive_request)
+            end
+          end
+
+          context 'with booking from waitlisted_request state' do
+            let(:booking) { prepare_booking(initial_state: :waitlisted_request) }
+
+            it do
+              expect(booking_flow).not_to transition_to(:definitive_request)
+            end
+          end
         end
       end
     end
 
+    # Post-request lifecycle
     describe 'to overdue_request' do
-      it { is_expected.to transition_to(:overdue_request).from(:provisional_request) }
-      it { is_expected.to transition_to(:overdue_request).from(:booking_agent_request) }
-      it { is_expected.to transition_to(:overdue_request).from(:awaiting_tenant) }
-      it { is_expected.not_to transition_to(:overdue_request).from(:definitive_request) }
+      context 'with booking from provisional_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
 
-      it do
-        is_expected.to transition_to(:overdue_request).from(:provisional_request)
-        expect(booking).to notify(:overdue_request_notification).to(:tenant)
+        it do
+          expect(booking_flow).to transition_to(:overdue_request)
+        end
+      end
+
+      context 'with booking from booking_agent_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:overdue_request)
+        end
+      end
+
+      context 'with booking from awaiting_tenant and tentative' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:overdue_request)
+        end
+      end
+
+      context 'with booking from definitive_request and occupied' do
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:overdue_request)
+        end
+      end
+
+      context 'with booking from provisional_request and tentative for notification' do
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:overdue_request)
+          expect(booking).to notify(:overdue_request_notification).to(:tenant)
+        end
       end
     end
 
     describe 'to cancelled_request' do
-      it { is_expected.to transition_to(:cancelled_request).from(:unconfirmed_request) }
-      it { is_expected.to transition_to(:cancelled_request).from(:booking_agent_request) }
-      it { is_expected.to transition_to(:cancelled_request).from(:waitlisted_request) }
-      it { is_expected.to transition_to(:cancelled_request).from(:overdue_request) }
-      it { is_expected.not_to transition_to(:cancelled_request).from(:definitive_request) }
+      context 'with booking from unconfirmed_request state' do
+        let(:booking) { prepare_booking(initial_state: :unconfirmed_request) }
 
-      it do
-        is_expected.to transition_to(:cancelled_request).from(:provisional_request)
-        expect(booking).to be_free
-        expect(booking).to be_concluded
-        expect(booking.deadline).to be_blank
-        expect(booking).to notify(:cancelled_request_notification).to(:tenant)
+        it do
+          expect(booking_flow).to transition_to(:cancelled_request)
+        end
+      end
+
+      context 'with booking from booking_agent_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelled_request)
+        end
+      end
+
+      context 'with booking from waitlisted_request state' do
+        let(:booking) { prepare_booking(initial_state: :waitlisted_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelled_request)
+        end
+      end
+
+      context 'with booking from overdue_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :overdue_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelled_request)
+        end
+      end
+
+      context 'with booking from definitive_request and occupied' do
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled_request)
+        end
+      end
+
+      context 'with booking from provisional_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelled_request)
+          expect(booking).to be_free
+          expect(booking).to be_concluded
+          expect(booking.deadline).to be_blank
+          expect(booking).to notify(:cancelled_request_notification).to(:tenant)
+        end
       end
     end
 
     describe 'to declined_request' do
-      it { is_expected.to transition_to(:declined_request).from(:open_request) }
-      it { is_expected.to transition_to(:declined_request).from(:unconfirmed_request) }
-      it { is_expected.to transition_to(:declined_request).from(:waitlisted_request) }
-      it { is_expected.to transition_to(:declined_request).from(:booking_agent_request) }
-      it { is_expected.to transition_to(:declined_request).from(:awaiting_tenant) }
-      it { is_expected.to transition_to(:declined_request).from(:overdue_request) }
-      it { is_expected.not_to transition_to(:declined_request).from(:definitive_request) }
+      context 'with booking from open_request state' do
+        let(:booking) { prepare_booking(initial_state: :open_request) }
 
-      it do
-        is_expected.to transition_to(:declined_request).from(:provisional_request)
-        expect(booking).to be_free
-        expect(booking).to be_concluded
-        expect(booking.deadline).to be_blank
-        expect(booking).to notify(:declined_request_notification).to(:tenant)
+        it do
+          expect(booking_flow).to transition_to(:declined_request)
+        end
+      end
+
+      context 'with booking from unconfirmed_request state' do
+        let(:booking) { prepare_booking(initial_state: :unconfirmed_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:declined_request)
+        end
+      end
+
+      context 'with booking from waitlisted_request state' do
+        let(:booking) { prepare_booking(initial_state: :waitlisted_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:declined_request)
+        end
+      end
+
+      context 'with booking from booking_agent_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:declined_request)
+        end
+      end
+
+      context 'with booking from awaiting_tenant and tentative' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:declined_request)
+        end
+      end
+
+      context 'with booking from overdue_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :overdue_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:declined_request)
+        end
+      end
+
+      context 'with booking from definitive_request and occupied' do
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:declined_request)
+        end
+      end
+
+      context 'with booking from provisional_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:declined_request)
+          expect(booking).to be_free
+          expect(booking).to be_concluded
+          expect(booking.deadline).to be_blank
+          expect(booking).to notify(:declined_request_notification).to(:tenant)
+        end
       end
     end
 
+    # Occupancy lifecycle and closure paths
     describe 'to cancelation_pending' do
-      it { is_expected.to transition_to(:cancelation_pending).from(:awaiting_contract) }
-      it { is_expected.to transition_to(:cancelation_pending).from(:upcoming) }
-      it { is_expected.to transition_to(:cancelation_pending).from(:upcoming_soon) }
-      it { is_expected.to transition_to(:cancelation_pending).from(:past) }
-      it { is_expected.to transition_to(:cancelation_pending).from(:payment_due) }
-      it { is_expected.to transition_to(:cancelation_pending).from(:payment_overdue) }
+      context 'with booking from awaiting_contract and occupied' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_type: :occupied) }
 
-      it { is_expected.not_to transition_to(:cancelation_pending).from(:open_request) }
-      it { is_expected.not_to transition_to(:cancelation_pending).from(:provisional_request_request) }
-      it { is_expected.not_to transition_to(:cancelation_pending).from(:completed) }
-      it { is_expected.not_to transition_to(:cancelation_pending).from(:awaiting_tenant) }
+        it do
+          expect(booking_flow).to transition_to(:cancelation_pending)
+        end
+      end
 
-      it do
-        is_expected.to transition_to(:cancelation_pending).from(:definitive_request)
-        expect(booking).to be_free
-        expect(booking).not_to be_concluded
-        expect(booking.deadline).to be_blank
-        expect(booking).to notify(:manage_cancelation_pending_notification).to(:administration)
+      context 'with booking from upcoming and occupied' do
+        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelation_pending)
+        end
+      end
+
+      context 'with booking from upcoming_soon and occupied' do
+        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelation_pending)
+        end
+      end
+
+      context 'with booking from past and occupied' do
+        let(:booking) { prepare_booking(initial_state: :past, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelation_pending)
+        end
+      end
+
+      context 'with booking from payment_due and occupied' do
+        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelation_pending)
+        end
+      end
+
+      context 'with booking from payment_overdue and occupied' do
+        let(:booking) { prepare_booking(initial_state: :payment_overdue, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelation_pending)
+        end
+      end
+
+      context 'with booking from open_request state' do
+        let(:booking) { prepare_booking(initial_state: :open_request) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelation_pending)
+        end
+      end
+
+      context 'with booking from provisional_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelation_pending)
+        end
+      end
+
+      context 'with booking from completed state' do
+        let(:booking) { prepare_booking(initial_state: :completed) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelation_pending)
+        end
+      end
+
+      context 'with booking from awaiting_tenant and tentative' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelation_pending)
+        end
+      end
+
+      context 'with booking from definitive_request and occupied' do
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelation_pending)
+          expect(booking).to be_free
+          expect(booking).not_to be_concluded
+          expect(booking.deadline).to be_blank
+          expect(booking).to notify(:manage_cancelation_pending_notification).to(:administration)
+        end
+      end
+
+      context 'with booking from overdue and occupied' do
+        let(:booking) { prepare_booking(initial_state: :overdue, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelation_pending)
+        end
       end
     end
 
     describe 'to awaiting_contract' do
-      it do
-        is_expected.to transition_to(:awaiting_contract).from(:definitive_request)
-        expect(booking).to be_occupied
-        expect(booking).not_to be_concluded
-        expect(booking.deadline).to be_armed
-      end
-    end
-
-    describe 'to upcoming' do
-      it { is_expected.to transition_to(:upcoming).from(:initial) }
-
-      it do
-        is_expected.to transition_to(:upcoming).from(:awaiting_contract)
-        expect(booking).to be_occupied
-        expect(booking).not_to be_concluded
-        expect(booking).to notify(:upcoming_notification).to(:tenant)
-      end
-    end
-
-    describe 'to upcoming_soon' do
-      it do
-        is_expected.to transition_to(:upcoming_soon).from(:upcoming)
-        expect(booking).to be_occupied
-        expect(booking).not_to be_concluded
-        expect(booking).to notify(:upcoming_soon_notification).to(:tenant)
-      end
-    end
-
-    describe 'to active' do
-      it { is_expected.to transition_to(:active).from(:upcoming_soon) }
-    end
-
-    describe 'to past' do
-      it do
-        is_expected.to transition_to(:past).from(:active)
-        expect(booking).to notify(:past_notification).to(:tenant)
-      end
-    end
-
-    describe 'to payment_due' do
-      it { is_expected.to transition_to(:payment_due).from(:past) }
-
-      context 'with invoice' do
-        before { create(:invoice, amount: 1000, booking:, payable_until: 2.weeks.from_now, sent_at: 1.day.ago) }
+      context 'with booking from definitive_request and occupied' do
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
 
         it do
-          is_expected.to transition_to(:payment_due).from(:past)
+          expect(booking_flow).to transition_to(:awaiting_contract)
+          expect(booking).to be_occupied
+          expect(booking).not_to be_concluded
           expect(booking.deadline).to be_armed
         end
       end
     end
 
-    describe 'to payment_overdue' do
-      it do
-        is_expected.to transition_to(:payment_overdue).from(:payment_due)
-        expect(booking).not_to be_concluded
-        expect(booking.deadline).to be_blank
-        expect(booking).to notify(:payment_overdue_notification).to(:tenant)
+    describe 'to overdue' do
+      context 'with booking from awaiting_contract and occupied' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:overdue)
+        end
       end
     end
 
-    describe 'to cancelled' do
-      it { is_expected.not_to transition_to(:cancelled).from(:awaiting_contract) }
-      it { is_expected.not_to transition_to(:cancelled).from(:upcoming) }
-      it { is_expected.not_to transition_to(:cancelled).from(:upcoming_soon) }
-      it { is_expected.not_to transition_to(:cancelled).from(:past) }
-      it { is_expected.not_to transition_to(:cancelled).from(:payment_due) }
-      it { is_expected.not_to transition_to(:cancelled).from(:payment_overdue) }
-      it { is_expected.not_to transition_to(:cancelled).from(:open_request) }
-      it { is_expected.not_to transition_to(:cancelled).from(:provisional_request_request) }
-      it { is_expected.not_to transition_to(:cancelled).from(:completed) }
-      it { is_expected.not_to transition_to(:cancelled).from(:awaiting_tenant) }
+    describe 'to upcoming' do
+      context 'with default booking' do
+        let(:booking) { prepare_booking }
 
-      it do
-        is_expected.to transition_to(:cancelled).from(:cancelation_pending)
-        expect(booking).to notify(:cancelled_notification).to(:tenant)
-        expect(booking).to be_concluded
-        expect(booking.deadline).to be_blank
+        it do
+          expect(booking_flow).to transition_to(:upcoming)
+        end
+      end
+
+      context 'with booking from awaiting_contract and occupied' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:upcoming)
+          expect(booking).to be_occupied
+          expect(booking).not_to be_concluded
+          expect(booking).to notify(:upcoming_notification).to(:tenant)
+        end
+      end
+
+      context 'with booking from definitive_request and occupied' do
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:upcoming)
+        end
+      end
+
+      context 'with booking from open_request state' do
+        let(:booking) { prepare_booking(initial_state: :open_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:upcoming)
+        end
+      end
+
+      context 'with booking from waitlisted_request state' do
+        let(:booking) { prepare_booking(initial_state: :waitlisted_request) }
+
+        it do
+          expect(booking_flow).to transition_to(:upcoming)
+        end
+      end
+
+      context 'with booking from booking_agent_request state' do
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:upcoming)
+        end
+      end
+
+      context 'with booking from overdue state' do
+        let(:booking) { prepare_booking(initial_state: :overdue, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:upcoming)
+        end
+      end
+    end
+
+    describe 'to upcoming_soon' do
+      context 'with booking from upcoming and occupied' do
+        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:upcoming_soon)
+          expect(booking).to be_occupied
+          expect(booking).not_to be_concluded
+          expect(booking).to notify(:upcoming_soon_notification).to(:tenant)
+        end
+      end
+    end
+
+    describe 'to active' do
+      context 'with booking from upcoming_soon and occupied' do
+        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:active)
+        end
+      end
+    end
+
+    describe 'to past' do
+      context 'with booking from active state' do
+        let(:booking) { prepare_booking(initial_state: :active) }
+
+        it do
+          expect(booking_flow).to transition_to(:past)
+          expect(booking).to notify(:past_notification).to(:tenant)
+        end
+      end
+    end
+
+    describe 'to payment_due' do
+      context 'with booking from past and occupied' do
+        let(:booking) { prepare_booking(initial_state: :past, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:payment_due)
+        end
+      end
+
+      context 'with invoice' do
+        let(:booking) { prepare_booking(initial_state: :past, occupancy_type: :occupied) }
+
+        context 'with booking from past and occupied' do
+          it do
+            expect(booking_flow).to be_can_transition_to(:payment_due)
+            create(:invoice, amount: 1000, booking:, payable_until: 2.weeks.from_now, sent_at: 1.day.ago)
+            expect(booking.deadline).to be_armed
+          end
+        end
+      end
+    end
+
+    describe 'to payment_overdue' do
+      context 'with booking from payment_due and occupied' do
+        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:payment_overdue)
+          expect(booking).not_to be_concluded
+          expect(booking.deadline).to be_blank
+          expect(booking).to notify(:payment_overdue_notification).to(:tenant)
+        end
+      end
+    end
+
+    # Terminal transitions
+    describe 'to cancelled' do
+      context 'with booking from awaiting_contract and occupied' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled)
+        end
+      end
+
+      context 'with booking from upcoming and occupied' do
+        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled)
+        end
+      end
+
+      context 'with booking from upcoming_soon and occupied' do
+        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled)
+        end
+      end
+
+      context 'with booking from past and occupied' do
+        let(:booking) { prepare_booking(initial_state: :past, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled)
+        end
+      end
+
+      context 'with booking from payment_due and occupied' do
+        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled)
+        end
+      end
+
+      context 'with booking from payment_overdue and occupied' do
+        let(:booking) { prepare_booking(initial_state: :payment_overdue, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled)
+        end
+      end
+
+      context 'with booking from open_request state' do
+        let(:booking) { prepare_booking(initial_state: :open_request) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled)
+        end
+      end
+
+      context 'with booking from provisional_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled)
+        end
+      end
+
+      context 'with booking from completed state' do
+        let(:booking) { prepare_booking(initial_state: :completed) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled)
+        end
+      end
+
+      context 'with booking from awaiting_tenant and tentative' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:cancelled)
+        end
+      end
+
+      context 'with booking from cancelation_pending state' do
+        let(:booking) { prepare_booking(initial_state: :cancelation_pending) }
+
+        it do
+          expect(booking_flow).to transition_to(:cancelled)
+          expect(booking).to notify(:cancelled_notification).to(:tenant)
+          expect(booking).to be_concluded
+          expect(booking.deadline).to be_blank
+        end
       end
     end
 
     describe 'to completed' do
-      it { is_expected.to transition_to(:completed).from(:past) }
-      it { is_expected.to transition_to(:completed).from(:payment_overdue) }
+      context 'with booking from past and occupied' do
+        let(:booking) { prepare_booking(initial_state: :past, occupancy_type: :occupied) }
 
-      it { is_expected.not_to transition_to(:completed).from(:awaiting_contract) }
-      it { is_expected.not_to transition_to(:completed).from(:upcoming) }
-      it { is_expected.not_to transition_to(:completed).from(:upcoming_soon) }
-      it { is_expected.not_to transition_to(:completed).from(:open_request) }
-      it { is_expected.not_to transition_to(:completed).from(:provisional_request_request) }
-      it { is_expected.not_to transition_to(:completed).from(:awaiting_tenant) }
+        it do
+          expect(booking_flow).to transition_to(:completed)
+        end
+      end
 
-      it do
-        is_expected.to transition_to(:completed).from(:payment_due)
-        expect(booking).to notify(:completed_notification).to(:tenant)
-        expect(booking).to be_concluded
-        expect(booking.deadline).to be_blank
+      context 'with booking from payment_overdue and occupied' do
+        let(:booking) { prepare_booking(initial_state: :payment_overdue, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:completed)
+        end
+      end
+
+      context 'with booking from awaiting_contract and occupied' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:completed)
+        end
+      end
+
+      context 'with booking from upcoming and occupied' do
+        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:completed)
+        end
+      end
+
+      context 'with booking from upcoming_soon and occupied' do
+        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:completed)
+        end
+      end
+
+      context 'with booking from open_request state' do
+        let(:booking) { prepare_booking(initial_state: :open_request) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:completed)
+        end
+      end
+
+      context 'with booking from provisional_request and tentative' do
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:completed)
+        end
+      end
+
+      context 'with booking from awaiting_tenant and tentative' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_type: :tentative) }
+
+        it do
+          expect(booking_flow).not_to transition_to(:completed)
+        end
+      end
+
+      context 'with booking from payment_due and occupied' do
+        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_type: :occupied) }
+
+        it do
+          expect(booking_flow).to transition_to(:completed)
+          expect(booking).to notify(:completed_notification).to(:tenant)
+          expect(booking).to be_concluded
+          expect(booking.deadline).to be_blank
+        end
       end
     end
   end
