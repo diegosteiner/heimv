@@ -2,40 +2,40 @@
 
 module BookingFlows
   class Default < Base
-    state BookingStates::Initial, to: %i[unconfirmed_request provisional_request awaiting_tenant
-                                         definitive_request open_request upcoming waitlisted_request], initial: true
-    state BookingStates::UnconfirmedRequest, to: %i[cancelled_request declined_request open_request]
-    state BookingStates::OpenRequest, to: %i[cancelled_request declined_request provisional_request
-                                             definitive_request booking_agent_request waitlisted_request upcoming]
-    state BookingStates::WaitlistedRequest, to: %i[cancelled_request declined_request provisional_request
-                                                   definitive_request booking_agent_request upcoming]
-    state BookingStates::BookingAgentRequest, to: %i[cancelled_request declined_request
-                                                     awaiting_tenant overdue_request upcoming]
-    state BookingStates::ProvisionalRequest, to: %i[definitive_request overdue_request
-                                                    cancelled_request declined_request]
-    state BookingStates::OverdueRequest, to: %i[cancelled_request declined_request
-                                                definitive_request awaiting_tenant]
-    state BookingStates::DefinitiveRequest, to: %i[provisional_request cancelation_pending
-                                                   awaiting_contract upcoming]
-    state BookingStates::AwaitingTenant, to: %i[definitive_request overdue_request cancelled_request
-                                                declined_request]
-    state BookingStates::AwaitingContract, to: %i[cancelation_pending upcoming overdue]
-    state BookingStates::Overdue, to: %i[cancelation_pending upcoming]
+    state :initial, BookingStates::Initial, to: %i[unconfirmed_request provisional_request awaiting_tenant
+                                                   definitive_request open_request upcoming waitlisted_request], initial: true
+    state :unconfirmed_request, BookingStates::UnconfirmedRequest, to: %i[cancelled_request declined_request open_request]
+    state :open_request, BookingStates::OpenRequest, to: %i[cancelled_request declined_request provisional_request
+                                                            definitive_request booking_agent_request waitlisted_request upcoming]
+    state :waitlisted_request, BookingStates::WaitlistedRequest, to: %i[cancelled_request declined_request provisional_request
+                                                                        definitive_request booking_agent_request upcoming]
+    state :booking_agent_request, BookingStates::BookingAgentRequest, to: %i[cancelled_request declined_request
+                                                                              awaiting_tenant overdue_request upcoming]
+    state :provisional_request, BookingStates::ProvisionalRequest, to: %i[definitive_request overdue_request
+                                                                          cancelled_request declined_request]
+    state :overdue_request, BookingStates::OverdueRequest, to: %i[cancelled_request declined_request
+                                                                  definitive_request awaiting_tenant]
+    state :definitive_request, BookingStates::DefinitiveRequest, to: %i[provisional_request cancelation_pending
+                                                                        awaiting_contract upcoming]
+    state :awaiting_tenant, BookingStates::AwaitingTenant, to: %i[definitive_request overdue_request cancelled_request
+                                                                  declined_request]
+    state :awaiting_contract, BookingStates::AwaitingContract, to: %i[cancelation_pending upcoming overdue]
+    state :overdue, BookingStates::Overdue, to: %i[cancelation_pending upcoming]
 
-    state BookingStates::Upcoming, to: %i[cancelation_pending upcoming_soon]
-    state BookingStates::UpcomingSoon, to: %i[cancelation_pending active]
-    state BookingStates::Active, to: %i[cancelation_pending past]
-    state BookingStates::Past, to: %i[cancelation_pending completed payment_due]
+    state :upcoming, BookingStates::Upcoming, to: %i[cancelation_pending upcoming_soon]
+    state :upcoming_soon, BookingStates::UpcomingSoon, to: %i[cancelation_pending active]
+    state :active, BookingStates::Active, to: %i[cancelation_pending past]
+    state :past, BookingStates::Past, to: %i[cancelation_pending completed payment_due]
 
-    state BookingStates::PaymentDue, to: %i[cancelation_pending payment_overdue completed]
-    state BookingStates::PaymentOverdue, to: %i[cancelation_pending completed]
+    state :payment_due, BookingStates::PaymentDue, to: %i[cancelation_pending payment_overdue completed]
+    state :payment_overdue, BookingStates::PaymentOverdue, to: %i[cancelation_pending completed]
 
     # Terminal states
-    state BookingStates::Completed
-    state BookingStates::CancelledRequest, to: %i[open_request]
-    state BookingStates::DeclinedRequest, to: %i[open_request]
-    state BookingStates::CancelationPending, to: %i[cancelled]
-    state BookingStates::Cancelled
+    state :completed, BookingStates::Completed
+    state :cancelled_request, BookingStates::CancelledRequest, to: %i[open_request]
+    state :declined_request, BookingStates::DeclinedRequest, to: %i[open_request]
+    state :cancelation_pending, BookingStates::CancelationPending, to: %i[cancelled]
+    state :cancelled, BookingStates::Cancelled
 
     def self.displayed_by_default
       @displayed_by_default ||= %i[unconfirmed_request open_request waitlisted_request booking_agent_request

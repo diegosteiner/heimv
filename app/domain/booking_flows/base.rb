@@ -25,13 +25,64 @@ module BookingFlows
         }
       end
 
-      def state(state_class, initial: false, to: [])
-        state_classes[state_class.to_sym] = state_class
+      def state(state_or_class, state_class = nil, initial: false, to: [], &block)
+        state_class = build_state_class(state_or_class, state_class, &block)
+        state_key = state_class.to_sym
+
+        state_classes[state_key] = state_class
         super(state_class, initial:)
-        successors[state_class.to_s] = [successors[state_class.to_s], to].flatten.compact.map(&:to_s)
-        state_class.callbacks.each do |callback_type, state_callbacks|
-          callbacks[callback_type] += state_callbacks
+        successors[state_key.to_s] = [successors[state_key.to_s], to].flatten.compact.map(&:to_s)
+
+        state_callbacks(state_class).each do |callback_type, composed_callbacks|
+          callbacks[callback_type] += composed_callbacks
         end
+      end
+
+      private
+
+      def build_state_class(state_or_class, state_class = nil, &block)
+        if state_or_class.is_a?(Class)
+          return state_or_class unless block
+
+          return build_named_state_class(state_or_class.to_sym, state_or_class, &block)
+        end
+
+        state = state_or_class.to_sym
+        base_state_class = state_class || BookingStates::Base
+        build_named_state_class(state, base_state_class, &block)
+      end
+
+      def build_named_state_class(state, base_state_class, &block)
+        const_name = "FlowState#{state.to_s.camelize}"
+        remove_const(const_name) if const_defined?(const_name, false)
+
+        const_set(const_name, Class.new(base_state_class) do
+          define_singleton_method(:to_sym) { state }
+          class_eval(&block) if block
+        end)
+      end
+
+      def state_callbacks(state_class)
+        state_class.ancestors
+                   .select { |ancestor| ancestor.is_a?(Class) && ancestor <= BookingStates::Base }
+                   .reverse
+                   .each_with_object(default_callbacks_hash) do |ancestor, merged_callbacks|
+          ancestor.callbacks.each do |callback_type, state_callbacks|
+            merged_callbacks[callback_type] += state_callbacks
+          end
+        end
+      end
+
+      def default_callbacks_hash
+        {
+          before: [],
+          after: [],
+          after_transition_failure: [],
+          after_guard_failure: [],
+          after_commit: [],
+          infer: [],
+          guards: []
+        }
       end
     end
 
