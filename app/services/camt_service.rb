@@ -25,7 +25,7 @@ class CamtService
     end
   end
 
-  def payment_from_transaction(transaction, entry) # rubocop:disable Metrics/AbcSize
+  def payment_from_transaction(transaction, entry) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     ref = transaction.creditor_reference
     invoice = find_invoice_by_ref(ref)
     remarks = [transaction.name, entry.description].compact_blank.join("\n\n")

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ComparableDatetime < Data.define(:year, :month, :day, :weekday, :hour, :minute) # rubocop:disable Style/DataInheritance
+class ComparableDatetime < Data.define(:year, :month, :day, :weekday, :hour, :minute)
   include Comparable
 
   # rubocop:disable-next Lint/MixedRegexpCaptureTypes

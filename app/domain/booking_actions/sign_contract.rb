@@ -4,7 +4,7 @@ module BookingActions
   class SignContract < Base
     use_mail_template(:manage_contract_signed_notification, context: %i[booking], autodeliver: true)
 
-    def invoke!(signed_pdf: nil, tenant_confirm_authorization: nil, current_user: nil) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
+    def invoke!(signed_pdf: nil, tenant_confirm_authorization: nil, current_user: nil) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize,Metrics/MethodLength
       if sign_by_click_enabled?
         return Result.failure(error: I18n.t('errors.messages.accepted')) unless tenant_confirm_authorization
 

@@ -5,7 +5,7 @@ module BookingActions
     REVERSIBLE_BOOKING_STATES = [BookingStates::CancelledRequest, BookingStates::DeclinedRequest,
                                  BookingStates::CancelationPending, BookingStates::Cancelled].map(&:to_sym).freeze
 
-    def invoke!(current_user: nil) # rubocop:disable Metrics/AbcSize
+    def invoke!(current_user: nil) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       error = nil
       ActiveRecord::Base.transaction do
         reverted = booking.state_transitions.last(2).reverse.map do |state_transition|

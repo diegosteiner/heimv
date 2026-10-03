@@ -12,7 +12,7 @@ RSpec.describe 'Booking Index Performance' do
     create_list(:booking, 50, home:, organisation:, initial_state: :definitive_request) # rubocop:disable FactoryBot/ExcessiveCreateList
   end
 
-  describe 'GET /manage/bookings' do
+  describe 'GET /manage/bookings', skip: 'No cache in test' do
     it 'responds in under 1200ms (warm cache)' do
       Rails.cache.clear
 

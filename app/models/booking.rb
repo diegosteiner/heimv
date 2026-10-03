@@ -131,7 +131,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     errors.add(:occupiable_ids, :occupancy_conflict) if conflicting?
   end
 
-  validate on: %i[update public_update agent_update manage_update] do
+  validate on: %i[public_update agent_update manage_update] do
     errors.add(:base, :invalid) if booking_state_cache.blank? || booking_state_cache == 'initial'
   end
 

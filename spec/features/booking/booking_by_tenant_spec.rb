@@ -108,7 +108,7 @@ describe 'Booking by tenant', :devise do
     @booking = Booking.last
   end
 
-  def confirm_request
+  def confirm_request # rubocop:disable Metrics/MethodLength
     visit edit_public_booking_path(id: @booking.token)
     fill_in 'booking_approximate_headcount', with: booking.approximate_headcount
     fill_in 'booking_tenant_organisation', with: booking.tenant_organisation

@@ -28,6 +28,7 @@ module JournalEntryBatches
 
     def self.handle(invoice)
       return unless invoice.is_a?(::Invoices::Deposit) || invoice.is_a?(::Invoices::Invoice)
+      return unless invoice.sent?
 
       existing_batches(invoice).unprocessed.destroy_all
       return handle_destroy(invoice) if invoice.destroyed?

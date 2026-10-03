@@ -43,7 +43,7 @@ describe 'Booking by manager', :devise do
     select(format('%02d:00', ends_at.hour), from: 'booking_ends_at_time')
   end
 
-  def fill_tenant_form(tenant)
+  def fill_tenant_form(tenant) # rubocop:disable Metrics/MethodLength
     fill_in 'booking_tenant_attributes_first_name', with: tenant.first_name
     fill_in 'booking_tenant_attributes_last_name', with: tenant.last_name
     fill_in 'booking_tenant_attributes_street', with: tenant.street

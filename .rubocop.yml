@@ -38,12 +38,6 @@ Metrics/MethodLength:
     - "db/migrate/*"
     - "app/models/ability.rb"
 
-Metrics/MethodLength@Controllers:
-  CopName: Metrics/MethodLength
-  Max: 15
-  Include:
-    - "app/controllers/**/*"
-
 Style/MixinUsage:
   Exclude:
     - "spec/**/*"
