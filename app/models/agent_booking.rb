@@ -46,7 +46,7 @@ class AgentBooking < ApplicationRecord
     errors.add(:tenant_email, :invalid) unless EmailAddress.valid?(tenant_email, host_validation: :syntax)
   end
   validate do
-    next if booking.ignore_conflicting || validation_context == :ignore_confliction
+    next if booking.ignore_conflicting || validation_context == :ignore_conflicting
 
     booking.errors.add(:occupiable_ids, :occupancy_conflict) if booking.conflicting?(assuming: :tentative)
   end

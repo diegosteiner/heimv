@@ -66,7 +66,7 @@ spec:
           command:
             - "/bin/sh"
             - "-c"
-            - "bin/rails db:migrate:status 2>/dev/null | grep -q 'Status down' && sleep $((RANDOM%5+1)) && bin/rails db:migrate"
+            - "if bin/rails db:migrate:status 2>/dev/null | grep -qE '^[[:space:]]*down'; then sleep $((RANDOM%5+1)); bin/rails db:migrate; fi"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

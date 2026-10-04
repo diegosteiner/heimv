@@ -187,15 +187,16 @@ Additionally you might need to run these commands:
 1. Enable pgcrypt extension `heimv_development=#  CREATE EXTENSION pgcrypto WITH SCHEMA public;`
 1. Rerun `pgrestore` without `--create`
 
-## Occupancy types confilicts
+## Occupancy types conflicts
 
-|           | free | pending | tentative | occupied | closed | reserved | |
+|           | free | pending | tentative | occupied | closed | reserved |     |
+| --------- | ---- | ------- | --------- | -------- | ------ | -------- | --- |
 | free      | ✅   | ✅      | ✅        | ✅       | ✅     | ✅       | free is always allowed |
 | pending   | ✅   | ✅      | ✅        | ✅       | 🛑     | 🛑       | pending is in the waitlist |
-| tentative | ✅   | ✅      | ⏳        | ⏳       | 🛑     | 🛑       |
-| occupied  | ✅   | ✅      | ⏳        | ⏳       | 🛑     | 🛑       |
-| closed    | ✅   | ✅      | 🛑¹       | 🛑¹      | 🛑  ¹  | ✅       |
-| reserved  | ✅   | ✅      | 🛑¹       | 🛑¹      | ✅     | 🛑       |
+| tentative | ✅   | ✅      | ⏳        | ⏳       | 🛑     | 🛑       | |
+| occupied  | ✅   | ✅      | ⏳        | ⏳       | 🛑     | 🛑       | |
+| closed    | ✅   | ✅      | 🛑¹       | 🛑¹      | 🛑  ¹  | ✅       | |
+| reserved  | ✅   | ✅      | 🛑¹       | 🛑¹      | ✅     | 🛑       | |
 
 ¹) Would make all existing records invalid
 

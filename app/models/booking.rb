@@ -126,7 +126,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   validate do
     errors.add(:occupiable_ids, :blank) if occupancies.none?
-    next if ignore_conflicting || validation_context == :ignore_confliction
+    next if ignore_conflicting || validation_context == :ignore_conflicting
 
     errors.add(:occupiable_ids, :occupancy_conflict) if conflicting?
   end

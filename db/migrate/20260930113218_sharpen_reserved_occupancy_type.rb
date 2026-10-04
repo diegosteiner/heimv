@@ -3,7 +3,7 @@
 class SharpenReservedOccupancyType < ActiveRecord::Migration[8.1]
   def change
     up_only do
-      Occupancy.where(occupancy_type: :reserved).update!(:occupied)
+      Occupancy.where(occupancy_type: :reserved).update!(occupancy_type: :occupied)
 
       default_visibility = OrganisationSettings.new.public_occupancy_visibility.map(&:to_s)
       Organisation.find_each do |organisation|

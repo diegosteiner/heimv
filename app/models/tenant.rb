@@ -137,11 +137,4 @@ class Tenant < ApplicationRecord
     Address.clean(recipient: full_name, suffix: address_addon, street:, street_nr:, postalcode: zipcode,
                   city:, country_code:)
   end
-
-  def self.find_existing_by_email(email:, organisation:, current_tenant: tenant)
-    return current_tenant if current_tenant&.persisted? && current_tenant.valid? &&
-                             current_tenant.email == email
-
-    find_by(email:, organisation:) unless organisation.blank? || email.blank?
-  end
 end
