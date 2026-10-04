@@ -126,20 +126,13 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   validate do
     errors.add(:occupiable_ids, :blank) if occupancies.none?
-    errors.add(:occupiable_ids, :invalid) unless occupancies.all? do
-      it.occupiable&.occupiable && it.occupiable&.home_id == home_id
-    end
-    next if ignore_conflicting || free?
-    next if organisation.booking_state_settings.enable_waitlist && pending? && agent_booking.blank?
+    next if ignore_conflicting || validation_context == :ignore_conflicting
 
-    case validation_context
-    when :agent_create, :agent_update, :public_create, :public_update, :manage_create, :manage_update
-      next unless conflicting?(%i[tentative occupied closed reserved])
-    else
-      next unless conflicting?(%i[occupied closed])
-    end
+    errors.add(:occupiable_ids, :occupancy_conflict) if conflicting?
+  end
 
-    errors.add(:occupiable_ids, :occupancy_conflict)
+  validate on: %i[public_update agent_update manage_update] do
+    errors.add(:base, :invalid) if booking_state_cache.blank? || booking_state_cache == 'initial'
   end
 
   validate on: %i[public_create public_update agent_create agent_update] do
@@ -159,11 +152,11 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES).joins(most_recent_transition_join) }
 
-  before_validation :clear_invoice_address, :assert_tenant!, :sequence_number, :update_occupancies
+  before_validation :clear_invoice_address, :assert_tenant!, :sequence_number, :sync_occupancies
   before_create :generate_ref
-  after_save :apply_transitions, :update_booking_state_cache!
-  after_save :bump_conflicting_requests, if: :concluded?
-  after_touch :apply_transitions, :update_booking_state_cache!
+  after_save :apply_transitions
+  after_save :bump_conflicting, unless: :concluded?
+  after_touch :apply_transitions
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
@@ -193,11 +186,11 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def cache_key
-    "#{super}@#{updated_at.iso8601(3)}"
+    "#{super}-#{updated_at.iso8601(3)}"
   end
 
-  def update_occupancies
-    occupancies.each(&:update_from_booking)
+  def sync_occupancies
+    occupancies.each(&:sync_booking)
   end
 
   def email
@@ -205,19 +198,18 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def tenant
-    super || @tenant ||= find_existing_tenant(current_tenant: nil)
+    super || @tenant ||= find_existing_tenant(assuming: nil)
   end
 
-  def find_existing_tenant(current_tenant: tenant)
-    return current_tenant if current_tenant&.persisted? && current_tenant.valid? &&
-                             current_tenant.email == self[:email]
+  def find_existing_tenant(assuming: tenant)
+    return assuming if assuming&.persisted? && assuming.valid? && assuming.email == self[:email]
 
     Tenant.find_by(email: self[:email], organisation:) unless organisation.blank? || self[:email].blank?
   end
 
   def assert_tenant!
-    self.tenant = find_existing_tenant&.merge_with_new(tenant) ||
-                  tenant || build_tenant(email: self[:email], organisation:, locale:)
+    self.tenant = find_existing_tenant&.merge_with_new(tenant) || tenant ||
+                  build_tenant(email: self[:email], organisation:, locale:)
 
     tenant.organisation = organisation
     tenant.email = self[:email] if tenant.email.blank? || email_changed?
@@ -260,22 +252,21 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     applied_transitions
   end
 
-  def update_booking_state_cache!
-    return if booking_state_cache == booking_state&.to_s
-
-    update_columns(booking_state_cache: booking_state.to_s, updated_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+  def conflicting?(...)
+    conflicting(...)&.exists?
   end
 
-  def conflicting?(conflicting_occupancy_types = %i[occupied closed])
-    occupancies.any? { it.conflicting(conflicting_occupancy_types)&.exists? }
+  def conflicting(**args)
+    return if organisation.blank? || sync_occupancies.empty?
+
+    conflicting_occupancies = occupancies.reduce(Occupancy.none) do |relation, occupancy|
+      relation.or(occupancy.conflicting(**args) || Occupancy.none)
+    end
+    organisation.bookings.joins(:occupancies).where(occupancies: { id: conflicting_occupancies.select(:id) })
   end
 
-  def conflicting_bookings(conflicting_occupancy_types = %i[occupied tentative closed])
-    occupancies.flat_map { it.conflicting(conflicting_occupancy_types)&.map(&:booking) }.compact.uniq
-  end
-
-  def bump_conflicting_requests
-    conflicting_bookings(Occupancy::OCCUPANCY_TYPES.keys).each(&:touch)
+  def bump_conflicting
+    conflicting(assuming: :any).find_each(&:touch)
   end
 
   def booking_flow_class

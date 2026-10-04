@@ -57,21 +57,32 @@ RSpec.describe JournalEntryBatches::Invoice do
 
     before { allow(described_class).to receive(:handle).and_call_original }
 
-    it 'creates, updates and deletes the journal_entry_batches' do # rubocop:disable RSpec/ExampleLength
-      expect(journal_entry_batches.reload).to contain_exactly(
-        have_attributes(trigger: 'invoice_created', amount: 7200.0, processed?: be_falsy)
-      )
-      expect(described_class).to have_received(:handle).once
+    context 'with draft invoice' do
+      let(:invoice) { build(:invoice, booking:, sent_at: nil, items: build_list(:invoice_item, 3, vat_category:)) }
 
-      process_entries(invoice)
-      change_invoice_amount(invoice, amount: 77)
+      it 'does not yet create the journal_entry_batches' do
+        expect(journal_entry_batches.reload).to be_empty
+        expect(described_class).to have_received(:handle).once
+      end
+    end
 
-      expect(described_class).to have_received(:handle).twice
-      expect(journal_entry_batches.reload).to contain_exactly(
-        have_attributes(trigger: 'invoice_created', amount: 7200, processed?: be_truthy),
-        have_attributes(trigger: 'invoice_reverted', amount: 7200, processed?: be_falsy),
-        have_attributes(trigger: 'invoice_updated', amount: 7277, processed?: be_falsy)
-      )
+    context 'with sent invoice' do
+      it 'creates, updates and deletes the journal_entry_batches' do # rubocop:disable RSpec/ExampleLength
+        expect(journal_entry_batches.reload).to contain_exactly(
+          have_attributes(trigger: 'invoice_created', amount: 7200.0, processed?: be_falsy)
+        )
+        expect(described_class).to have_received(:handle).once
+
+        process_entries(invoice)
+        change_invoice_amount(invoice, amount: 77)
+
+        expect(described_class).to have_received(:handle).twice
+        expect(journal_entry_batches.reload).to contain_exactly(
+          have_attributes(trigger: 'invoice_created', amount: 7200, processed?: be_truthy),
+          have_attributes(trigger: 'invoice_reverted', amount: 7200, processed?: be_falsy),
+          have_attributes(trigger: 'invoice_updated', amount: 7277, processed?: be_falsy)
+        )
+      end
     end
 
     def process_entries(invoice)

@@ -156,17 +156,10 @@ class Organisation < ApplicationRecord
     nickname_label_i18n.present?
   end
 
-  # rubocop:disable-next Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
   def initialize_copy(original)
     super
-    self.rich_text_templates = original.rich_text_templates.map(&:dup)
-    self.booking_agents = original.booking_agents.map(&:dup)
-    self.booking_categories = original.booking_categories.map(&:dup)
-    self.tarifs = original.tarifs.map(&:dup)
-    self.booking_questions = original.booking_questions.map(&:dup)
-    self.designated_documents = original.designated_documents.map(&:dup)
-    self.data_digest_templates = original.data_digest_templates.map(&:dup)
-
+    %i[rich_text_templates booking_agents booking_categories tarifs booking_questions designated_documents
+       data_digest_templates].each { send("#{it}=", original.send(it).map(&:dup)) }
     return if original.logo.blank?
 
     logo.attach(io: StringIO.new(original.logo.download),

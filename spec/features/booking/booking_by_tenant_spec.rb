@@ -8,7 +8,7 @@ describe 'Booking by tenant', :devise do
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
-  let(:tenant) { create(:tenant, organisation:) }
+  let(:tenant) { create(:tenant, organisation:, email: 'booking_by_tenant_spec@heimv.local') }
   let(:deposit_tarif) do
     create(:tarif, organisation:, tarif_group: 'Akontorechnung', label: 'Anzahlung',
                    associated_types: %i[deposit offer contract])

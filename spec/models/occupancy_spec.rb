@@ -52,25 +52,39 @@ RSpec.describe Occupancy do
     let(:organisation) { home.organisation }
     let(:begins_at) { 1.week.from_now }
     let(:ends_at) { 2.weeks.from_now }
+    let(:occupancy_type) { :pending }
 
-    before do
-      create(:occupancy, organisation:, occupiable: home, occupancy_type: :occupied, begins_at:, ends_at:)
-    end
+    ordered_types = %i[free pending tentative occupied closed reserved]
+    matrix = {
+      free: %w[✅ ✅ ✅ ✅ ✅ ✅],
+      pending: %w[✅ ✅ ✅ ✅ 🛑 🛑],
+      tentative: %w[✅ ✅ ⏳ ⏳ 🛑 🛑],
+      occupied: %w[✅ ✅ ⏳ ⏳ 🛑 🛑],
+      closed: %w[✅ ✅ 🛑 🛑 🛑 ✅],
+      reserved: %w[✅ ✅ 🛑 🛑 ✅ 🛑]
+    }
 
-    context 'when occupancy is pending' do
-      let(:occupancy_type) { :pending }
+    matrix.each do |occupancy_type, expected_conflicts|
+      context "when occupancy is #{occupancy_type}" do
+        let(:occupancy_type) { occupancy_type }
 
-      it 'is valid despite overlap' do
-        expect(occupancy).to be_valid
-      end
-    end
+        ordered_types.each_with_index do |other_occupancy_type, index|
+          context "with an overlapping existing #{other_occupancy_type}" do
+            before do
+              create(:occupancy, organisation:, occupiable: home, occupancy_type: other_occupancy_type, begins_at:,
+                                 ends_at:)
+            end
 
-    context 'when occupancy is occupied' do
-      let(:occupancy_type) { :occupied }
-
-      it 'is invalid with occupancy_conflict' do
-        expect(occupancy).not_to be_valid
-        expect(occupancy.errors).to be_added(:base, :occupancy_conflict)
+            it 'matches the matrix expectation' do
+              if expected_conflicts[index] == '✅'
+                expect(occupancy).to be_valid
+              else
+                expect(occupancy).not_to be_valid
+                expect(occupancy.errors).to be_added(:base, :occupancy_conflict)
+              end
+            end
+          end
+        end
       end
     end
   end

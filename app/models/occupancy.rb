@@ -21,6 +21,15 @@
 class Occupancy < ApplicationRecord
   COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
   OCCUPANCY_TYPES = { pending: 0, tentative: 1, occupied: 2, closed: 3, free: 4, reserved: 5 }.freeze
+  CONFLICTING_OCCUPANCY_TYPES = {
+    any: OCCUPANCY_TYPES.keys,
+    free: [],
+    pending: %i[closed reserved],
+    tentative: %i[tentative occupied closed reserved],
+    occupied: %i[tentative occupied closed reserved],
+    closed: %i[tentative occupied closed],
+    reserved: %i[tentative occupied reserved]
+  }.freeze
 
   include Timespanable
 
@@ -34,36 +43,43 @@ class Occupancy < ApplicationRecord
 
   scope :ordered, -> { order(begins_at: :ASC) }
 
-  before_validation :update_from_booking
+  before_validation :sync_booking
   validates :occupancy_type, presence: true
   validates :occupancy_type, inclusion: { in: %w[pending free tentative occupied] }, if: :linked
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
-  validate if: ->(occupancy) { occupancy.validation_context != :ignore_conflicting } do
-    errors.add(:base, :occupancy_conflict) if !ignore_conflicting && !free? && !pending? && !reserved? && conflicting?
+  validate do
+    next if ignore_conflicting || validation_context == :ignore_conflicting
+
+    errors.add(:base, :occupancy_conflict) if conflicting?
   end
   validate on: %i[manage_create manage_update] do
     errors.add(:begins_at, :invalid) if linked && begins_at != booking&.begins_at
     errors.add(:ends_at, :invalid) if linked && ends_at != booking&.ends_at
   end
-  validate on: :public_create do
+  validate on: %i[public_create public_update] do
     errors.add(:occupiable, :invalid) unless occupiable&.occupiable
   end
   validate do
     errors.add(:occupiable_id, :invalid) if !organisation || booking&.organisation&.!=(organisation)
     errors.add(:linked, :invalid) if linked && booking.blank?
   end
+  validate do
+    errors.add(:occupiable_id, :invalid) if booking.present? && occupiable&.home_id != booking.home_id
+  end
 
   def conflicting?(...)
     conflicting(...)&.exists?
   end
 
-  def conflicting(conflicting_occupancy_types = %i[occupied closed], # rubocop:disable Metrics/AbcSize
-                  margin: occupiable&.settings&.booking_margin || 0)
+  def conflicting(assuming: nil, margin: nil) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     return unless begins_at.present? && ends_at.present? && occupiable.present?
+
+    margin ||= occupiable.settings&.booking_margin || 0
+    occupancy_types = CONFLICTING_OCCUPANCY_TYPES[assuming&.to_sym || occupancy_type.to_sym]
 
     occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin)
               .where.not(id:).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
-              .where(occupancy_type: conflicting_occupancy_types, ignore_conflicting: [false, nil])
+              .where(occupancy_type: occupancy_types, ignore_conflicting: [false, nil])
   end
 
   def color=(value)
@@ -75,7 +91,7 @@ class Occupancy < ApplicationRecord
       organisation.settings.occupancy_colors[occupancy_type&.to_sym])
   end
 
-  def update_from_booking
+  def sync_booking
     return if !linked || booking.blank?
 
     assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,

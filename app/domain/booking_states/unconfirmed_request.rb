@@ -31,6 +31,10 @@ module BookingStates
       MailTemplate.use(:unconfirmed_request_notification, booking, to: :tenant, &:autodeliver!)
     end
 
+    guard_transition do |booking|
+      booking.organisation.booking_state_settings.enable_waitlist || !booking.conflicting?(assuming: :tentative)
+    end
+
     def relevant_time
       booking.deadline&.at
     end

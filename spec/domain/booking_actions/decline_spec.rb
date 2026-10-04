@@ -10,19 +10,22 @@ describe BookingActions::Decline do
   let(:organisation) { create(:organisation) }
   let(:occupiable) { create(:home, organisation:) }
   let(:current_user) { create(:organisation_user, organisation:, role: :manager) }
+  let(:existing_booking) do
+    create(:booking, initial_state: :upcoming, committed_request: true, occupancy_type: :occupied, organisation:,
+                     begins_at: booking.begins_at, ends_at: booking.ends_at, home: occupiable)
+  end
 
   describe '#invoke' do
     subject(:invoke) { action.invoke(current_user:) }
 
     before do
       organisation.update!(booking_state_settings: { enable_waitlist: true })
-      create(:booking, initial_state: :upcoming, committed_request: true, occupancy_type: :occupied, organisation:,
-                       begins_at: booking.begins_at, ends_at: booking.ends_at, home: occupiable)
+      existing_booking
     end
 
     it do
       expect(booking).to be_pending
-      expect(booking).to be_conflicting
+      expect(booking.conflicting(assuming: :any)).to include(existing_booking)
       expect(invoke.success).to be_truthy
       expect(booking).to be_free
     end

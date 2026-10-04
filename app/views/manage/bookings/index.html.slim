@@ -59,12 +59,13 @@ h1.my-0= Booking.model_name.human(count: 2)
     - collapse_id = "collapse-#{CGI.escape(state.to_s)}"
     - next if bookings.blank?
 
-    section.mt-4
-      h3
-        = state.t(:label)
-        a.badge.rounded-pill.bg-danger.badge-small.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
-          = bookings.count
-      p.text-muted = state.t(:help)
+    - cache([state.to_s, bookings, I18n.locale, current_organisation_user&.role]) do
+      section.mt-4
+        h3
+          = state.t(:label)
+          a.badge.rounded-pill.bg-danger.badge-small.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
+            = bookings.count
+        p.text-muted = state.t(:help)
 
-      .collapse.show[id=collapse_id]
-        == render partial: 'table', locals: { bookings: bookings }
+        .collapse.show[id=collapse_id]
+          == render partial: 'table', locals: { bookings:  }

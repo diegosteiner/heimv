@@ -73,12 +73,12 @@ FactoryBot.define do
     end
 
     after(:create) do |booking, evaluator|
-      next if evaluator.initial_state.blank?
+      next if evaluator.initial_state.blank? || evaluator.initial_state.to_sym == :initial
 
+      booking.skip_infer_transitions = true
       Booking::StateTransition.initial_for(booking, evaluator.initial_state)
-      booking.booking_flow.current_state(force_reload: true)
-      booking.skip_infer_transitions = false
-      booking.touch # rubocop:disable Rails/SkipsModelValidations
+      booking.save!
+      booking.skip_infer_transitions = evaluator.skip_infer_transitions
     end
 
     trait :invoiced do
@@ -96,7 +96,7 @@ FactoryBot.define do
           create(:payment, booking:, invoice: nil, amount: evaluator.prepaid_amount)
         end
 
-        invoice = Invoice::Factory.new(booking).build(issued_at: booking.ends_at)
+        invoice = Invoice::Factory.new(booking).build(issued_at: booking.ends_at, sent_at: booking.ends_at + 3.days)
         invoice.items = Invoice::ItemFactory.new(invoice).build
         invoice.recalculate
         invoice.save!

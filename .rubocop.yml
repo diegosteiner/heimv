@@ -33,6 +33,7 @@ Metrics/ClassLength:
   Max: 150
 
 Metrics/MethodLength:
+  Max: 10
   Exclude:
     - "db/migrate/*"
     - "app/models/ability.rb"
@@ -73,6 +74,7 @@ Naming/MethodParameterName:
     - "at"
     - "as"
     - "cc"
+    - "id"
 
 Rails/EnvironmentVariableAccess:
   AllowReads: true
