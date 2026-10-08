@@ -13,7 +13,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.pending!
+      booking.status_pending!
       MailTemplate.use(:waitlisted_request_notification, booking, to: :tenant, &:autodeliver!)
     end
 

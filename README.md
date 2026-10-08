@@ -187,18 +187,26 @@ Additionally you might need to run these commands:
 1. Enable pgcrypt extension `heimv_development=#  CREATE EXTENSION pgcrypto WITH SCHEMA public;`
 1. Rerun `pgrestore` without `--create`
 
-## Occupancy types conflicts
+## Occupancy conflict types
 
-|           | free | pending | tentative | occupied | closed | reserved |     |
-| --------- | ---- | ------- | --------- | -------- | ------ | -------- | --- |
-| free      | ✅   | ✅      | ✅        | ✅       | ✅     | ✅       | free is always allowed |
-| pending   | ✅   | ✅      | ✅        | ✅       | 🛑     | 🛑       | pending is in the waitlist |
-| tentative | ✅   | ✅      | ⏳        | ⏳       | 🛑     | 🛑       | |
-| occupied  | ✅   | ✅      | ⏳        | ⏳       | 🛑     | 🛑       | |
-| closed    | ✅   | ✅      | 🛑¹       | 🛑¹      | 🛑  ¹  | ✅       | |
-| reserved  | ✅   | ✅      | 🛑¹       | 🛑¹      | ✅     | 🛑       | |
+- free: mark something in the calendar, but don't cause conflicts
+- pending: occupancy is unconfirmed or open, but does not yet cause conflicts, e.g. waitlist
+- tentative: occupancy is confirmed but not yet committed, causes conflicts
+- occupied: occupancy is confirmed and causes conflicts
+- closed: occupiable is closed and causes conflicts
+- none: occupancy is not relevant for calendar, e.g. declined, does not cause conflicts
+
+|           | free | pending | tentative | occupied | closed |
+| --------- | ---- | ------- | --------- | -------- | ------ |
+| free      | ✅   | ✅      | ✅        | ✅       | ✅     |
+| pending   | ✅   | ✅      | ✅        | ✅       | 🛑     |
+| tentative | ✅   | ✅      | ⏳        | ⏳       | 🛑     |
+| occupied  | ✅   | ✅      | ⏳        | ⏳       | 🛑     |
+| closed    | ✅   | ✅²     | 🛑        | 🛑       | 🛑     |
+| none      | ✅   | ✅      | ✅        | ✅       | ✅     |
 
 ¹) Would make all existing records invalid
+²) Will make all existing records invalid
 
 ## Copyright & License
 

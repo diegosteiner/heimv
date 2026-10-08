@@ -17,7 +17,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.tentative!
+      booking.status_tentative!
       booking.create_deadline(at: booking.booking_agent.request_deadline_minutes&.minutes,
                               postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,
                               remarks: booking.booking_state.t(:label))
@@ -25,7 +25,7 @@ module BookingStates
     end
 
     infer_transition(to: :declined_request) do |booking|
-      booking.deadline&.exceeded?
+      booking.deadline&.expired?
     end
 
     infer_transition(to: :awaiting_tenant) do |booking|

@@ -4,7 +4,7 @@ module BookingActions
   class Cancel < Base
     def invoke!(current_user: nil)
       booking.errors.clear
-      booking.update!(occupancy_type: :free, transition_to:)
+      booking.update!(occupancy_status: :void, transition_to:)
       home_id = booking.home_id # required assignment for closure to work
       Result.success redirect_proc: proc { home_path(home_id) }
     end

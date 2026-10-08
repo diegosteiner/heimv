@@ -3,8 +3,8 @@
 module Import
   class PfadiheimeImporter
     BOOKING_HEADER_MAPPING = %w[ignore.id ignore.cottage_id ignore.user_id booking.begins_at booking.ends_at
-                                booking.remarks booking.occupancy_type ignore.created_at ignore.updated_at
-                                tenant.email ignore.occupancy_type booking.internal_remarks ignore.slug
+                                booking.remarks booking.occupancy_status ignore.created_at ignore.updated_at
+                                tenant.email ignore.occupancy_status booking.internal_remarks ignore.slug
                                 booking.headcount tenant.birth_date booking.tenant_organisation tenant.name
                                 tenant.address_addon tenant.street_address tenant.zipcode tenant.city
                                 tenant.phone].freeze

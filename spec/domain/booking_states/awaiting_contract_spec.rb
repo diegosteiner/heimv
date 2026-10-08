@@ -23,7 +23,7 @@ describe BookingStates::AwaitingContract do
     it do
       expect(transitioned_booking.booking_state).to(be_a(described_class))
       expect(transitioned_booking.deadline).not_to be_nil
-      expect(transitioned_booking).to be_occupied
+      expect(transitioned_booking).to be_status_occupied
     end
   end
 end

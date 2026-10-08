@@ -12,11 +12,11 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
     let(:result) { importer.parse(csv, **options) }
     let(:initial_state) { :open_request }
     let(:header_mapping) do
-      %w[occupancy.begins_at occupancy.ends_at occupancy.occupancy_type occupancy.remarks occupancy.occupiable_id]
+      %w[occupancy.begins_at occupancy.ends_at occupancy.occupancy_status occupancy.remarks occupancy.occupiable_id]
     end
     let(:csv) do
       <<~ENDCSV
-        "begins_at","ends_at","occupancy_type","remarks","occupiable"
+        "begins_at","ends_at","occupancy_status","remarks","occupiable"
         2021-05-01T10:00:00,2021-05-09T18:15:00,"closed","Bemerkung","#{occupiable.id}"
       ENDCSV
     end
@@ -28,7 +28,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
       occupancy = result.records.first
       expect(occupancy.begins_at).to eq(Time.zone.local(2021, 5, 1, 10, 0, 0))
       expect(occupancy.ends_at).to eq(Time.zone.local(2021, 5, 9, 18, 15, 0))
-      expect(occupancy.occupancy_type).to eq('closed')
+      expect(occupancy.occupancy_status).to eq('closed')
       expect(occupancy.remarks).to eq('Bemerkung')
     end
   end

@@ -28,7 +28,7 @@ module BookingStates
     end
 
     infer_transition(to: :declined_request) do |booking|
-      booking.deadline&.exceeded? && !booking.agent_booking
+      booking.deadline&.expired? && !booking.agent_booking
     end
 
     infer_transition(to: :awaiting_tenant) do |booking|

@@ -40,7 +40,7 @@ class Deadline < ApplicationRecord
     self.armed = value.present? && !(value - now).negative? unless armed_changed?
   end
 
-  def exceeded?(other = Time.zone.now)
+  def expired?(other = Time.zone.now)
     reload
     at && armed? && other > at
   end

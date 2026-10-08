@@ -6,7 +6,7 @@ export type Occupancy = {
   bookingId?: string;
   beginsAt: Date;
   endsAt: Date;
-  occupancyType: "pending" | "tentative" | "occupied" | "closed" | "free" | "reserved";
+  occupancyStatus: "pending" | "tentative" | "occupied" | "closed" | "internal" | "free" | "none";
   ref?: string;
   deadline?: Date;
   remarks?: string;
@@ -23,11 +23,11 @@ export type OccupancyJson = {
   deadline?: string;
   occupiable_id: number;
   occupiable: Occupiable;
-  occupancy_type: Occupancy["occupancyType"];
+  occupancy_status: Occupancy["occupancyStatus"];
 };
 
 export function parse(json: OccupancyJson): Partial<Occupancy> {
-  const { id, booking_id, begins_at, ends_at, deadline, occupiable_id, occupancy_type, ...rest } = json;
+  const { id, booking_id, begins_at, ends_at, deadline, occupiable_id, occupancy_status, ...rest } = json;
 
   return {
     id,
@@ -37,18 +37,18 @@ export function parse(json: OccupancyJson): Partial<Occupancy> {
     endsAt: parseISOorUndefined(ends_at),
     deadline: parseISOorUndefined(deadline),
     occupiableId: occupiable_id,
-    occupancyType: occupancy_type,
+    occupancyStatus: occupancy_status,
   };
 }
 
-const occupancyTypeMapping = ["pending", "free", "reserved", "closed", "tentative", "occupied"];
+const occupancyStatusMapping = ["none", "pending", "free", "closed", "tentative", "occupied"];
 
 export function findMostRelevantOccupancy(occupancies: Set<Occupancy>): Occupancy | undefined {
   let topCandidate: Occupancy | undefined;
   let topScore: number | undefined;
 
   for (const currentCandidate of Array.from(occupancies)) {
-    const currentScore = occupancyTypeMapping.indexOf(currentCandidate.occupancyType);
+    const currentScore = occupancyStatusMapping.indexOf(currentCandidate.occupancyStatus);
     if (topScore && topScore > currentScore) break;
 
     topScore = currentScore;

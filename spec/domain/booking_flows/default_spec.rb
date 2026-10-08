@@ -9,7 +9,7 @@ describe BookingFlows::Default do
   let(:ends_at) { begins_at + 1.week }
   let(:conflicting_booking) do
     build(:booking, organisation:, home:, begins_at:, ends_at:,
-                    initial_state: :upcoming, occupancy_type: :occupied, remarks: 'conflicting').tap do |booking|
+                    initial_state: :upcoming, occupancy_status: :occupied, remarks: 'conflicting').tap do |booking|
       booking.save!(validate: false)
     end
   end
@@ -30,7 +30,7 @@ describe BookingFlows::Default do
 
         it do
           expect(booking_flow).to transition_to(:unconfirmed_request)
-          expect(booking).to be_pending
+          expect(booking).to be_status_pending
           expect(booking).to notify(:unconfirmed_request_notification).to(:tenant)
         end
       end
@@ -52,7 +52,7 @@ describe BookingFlows::Default do
           expect(booking_flow).to transition_to(:open_request)
           expect(booking).to notify(:manage_new_booking_notification).to(:administration)
           expect(booking).to notify(:open_request_notification).to(:tenant)
-          expect(booking).to be_pending
+          expect(booking).to be_status_pending
         end
       end
 
@@ -92,7 +92,7 @@ describe BookingFlows::Default do
           it do
             expect(booking_flow).to transition_to(:waitlisted_request)
             expect(booking).to notify(:waitlisted_request_notification).to(:tenant)
-            expect(booking).to be_pending
+            expect(booking).to be_status_pending
             expect(booking.deadline&.armed?).to be_falsy
           end
         end
@@ -133,7 +133,7 @@ describe BookingFlows::Default do
 
         it do
           expect(booking_flow).to transition_to(:provisional_request)
-          expect(booking).to be_tentative
+          expect(booking).to be_status_tentative
           expect(booking.deadline).to be_armed
           expect(booking).to notify(:provisional_request_notification).to(:tenant)
         end
@@ -144,7 +144,7 @@ describe BookingFlows::Default do
 
         it do
           expect(booking_flow).to transition_to(:provisional_request)
-          expect(booking).to be_tentative
+          expect(booking).to be_status_tentative
           expect(booking.deadline).to be_armed
           expect(booking).to notify(:provisional_request_notification).to(:tenant)
         end
@@ -152,12 +152,12 @@ describe BookingFlows::Default do
 
       context 'with booking from definitive_request and occupied' do
         let(:booking) do
-          prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied, committed_request: true)
+          prepare_booking(initial_state: :definitive_request, occupancy_status: :occupied, committed_request: true)
         end
 
         it do
           expect(booking_flow).to transition_to(:provisional_request)
-          expect(booking).to be_tentative
+          expect(booking).to be_status_tentative
           expect(booking.deadline).to be_armed
           expect(booking.committed_request).to be_falsy
         end
@@ -205,7 +205,7 @@ describe BookingFlows::Default do
         end
 
         context 'with booking from definitive_request and occupied' do
-          let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+          let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_status: :occupied) }
 
           it do
             expect(booking_flow).not_to transition_to(:provisional_request)
@@ -226,7 +226,7 @@ describe BookingFlows::Default do
 
         it do
           expect(booking_flow).to transition_to(:booking_agent_request)
-          expect(booking).to be_tentative
+          expect(booking).to be_status_tentative
           expect(booking.deadline).to be_armed
           expect(booking).to notify(:booking_agent_request_notification).to(:booking_agent)
         end
@@ -281,11 +281,11 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from booking_agent_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:awaiting_tenant)
-          expect(booking).to be_occupied
+          expect(booking).to be_status_occupied
           expect(booking.deadline).to be_armed
           expect(booking).to notify(:awaiting_tenant_notification).to(:tenant)
           expect(booking).to notify(:booking_agent_request_accepted_notification).to(:booking_agent)
@@ -294,7 +294,7 @@ describe BookingFlows::Default do
 
       context 'with booking from overdue_request and tentative' do
         let(:booking) do
-          prepare_booking(initial_state: :overdue_request, occupancy_type: :tentative, committed_request: false)
+          prepare_booking(initial_state: :overdue_request, occupancy_status: :tentative, committed_request: false)
         end
 
         it do
@@ -323,7 +323,7 @@ describe BookingFlows::Default do
         end
 
         context 'with booking from provisional_request and tentative' do
-          let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+          let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_status: :tentative) }
 
           it do
             expect(booking_flow).not_to transition_to(:definitive_request)
@@ -339,7 +339,7 @@ describe BookingFlows::Default do
         end
 
         context 'with booking from overdue_request and tentative' do
-          let(:booking) { prepare_booking(initial_state: :overdue_request, occupancy_type: :tentative) }
+          let(:booking) { prepare_booking(initial_state: :overdue_request, occupancy_status: :tentative) }
 
           it do
             expect(booking_flow).not_to transition_to(:definitive_request)
@@ -366,13 +366,13 @@ describe BookingFlows::Default do
 
         context 'with booking from overdue_request tentative and committed' do
           let(:booking) do
-            prepare_booking(initial_state: :overdue_request, occupancy_type: :tentative,
+            prepare_booking(initial_state: :overdue_request, occupancy_status: :tentative,
                             committed_request: true)
           end
 
           it do
             expect(booking_flow).to transition_to(:definitive_request)
-            expect(booking).to be_occupied
+            expect(booking).to be_status_occupied
             expect(booking.deadline).not_to be_present
             expect(booking).to notify(:definitive_request_notification).to(:tenant)
             expect(booking).to notify(:manage_definitive_request_notification).to(:administration)
@@ -381,12 +381,12 @@ describe BookingFlows::Default do
 
         context 'with booking from provisional_request and tentative' do
           let(:booking) do
-            prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative, committed_request: true)
+            prepare_booking(initial_state: :provisional_request, occupancy_status: :tentative, committed_request: true)
           end
 
           it do
             expect(booking_flow).to transition_to(:definitive_request)
-            expect(booking).to be_occupied
+            expect(booking).to be_status_occupied
             expect(booking.deadline).not_to be_present
             expect(booking).to notify(:definitive_request_notification).to(:tenant)
             expect(booking).to notify(:manage_definitive_request_notification).to(:administration)
@@ -398,7 +398,7 @@ describe BookingFlows::Default do
 
           it do
             expect(booking_flow).to transition_to(:definitive_request)
-            expect(booking).to be_occupied
+            expect(booking).to be_status_occupied
             expect(booking).to notify(:definitive_request_notification).to(:tenant)
             expect(booking).to notify(:manage_definitive_request_notification).to(:administration)
           end
@@ -410,7 +410,7 @@ describe BookingFlows::Default do
           context 'with booking from provisional_request and tentative' do
             let(:booking) do
               build(:booking, organisation:, home:, begins_at:, ends_at:, remarks: 'subject',
-                              initial_state: :provisional_request, occupancy_type: :tentative,
+                              initial_state: :provisional_request, occupancy_status: :tentative,
                               committed_request: true).tap { |candidate| candidate.save!(validate: false) }
             end
 
@@ -433,7 +433,7 @@ describe BookingFlows::Default do
     # Post-request lifecycle
     describe 'to overdue_request' do
       context 'with booking from provisional_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:overdue_request)
@@ -441,7 +441,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from booking_agent_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:overdue_request)
@@ -449,7 +449,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from awaiting_tenant and tentative' do
-        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:overdue_request)
@@ -457,7 +457,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from definitive_request and occupied' do
-        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:overdue_request)
@@ -465,7 +465,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from provisional_request and tentative for notification' do
-        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:overdue_request)
@@ -484,7 +484,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from booking_agent_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:cancelled_request)
@@ -500,7 +500,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from overdue_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :overdue_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :overdue_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:cancelled_request)
@@ -508,7 +508,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from definitive_request and occupied' do
-        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelled_request)
@@ -516,11 +516,11 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from provisional_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:cancelled_request)
-          expect(booking).to be_free
+          expect(booking).to be_status_void
           expect(booking).to be_concluded
           expect(booking.deadline).to be_blank
           expect(booking).to notify(:cancelled_request_notification).to(:tenant)
@@ -554,7 +554,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from booking_agent_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:declined_request)
@@ -562,7 +562,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from awaiting_tenant and tentative' do
-        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:declined_request)
@@ -570,7 +570,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from overdue_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :overdue_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :overdue_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:declined_request)
@@ -578,7 +578,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from definitive_request and occupied' do
-        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:declined_request)
@@ -586,11 +586,11 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from provisional_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:declined_request)
-          expect(booking).to be_free
+          expect(booking).to be_status_void
           expect(booking).to be_concluded
           expect(booking.deadline).to be_blank
           expect(booking).to notify(:declined_request_notification).to(:tenant)
@@ -601,7 +601,7 @@ describe BookingFlows::Default do
     # Occupancy lifecycle and closure paths
     describe 'to cancelation_pending' do
       context 'with booking from awaiting_contract and occupied' do
-        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:cancelation_pending)
@@ -609,7 +609,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from upcoming and occupied' do
-        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:cancelation_pending)
@@ -617,7 +617,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from upcoming_soon and occupied' do
-        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:cancelation_pending)
@@ -625,7 +625,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from past and occupied' do
-        let(:booking) { prepare_booking(initial_state: :past, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :past, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:cancelation_pending)
@@ -633,7 +633,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from payment_due and occupied' do
-        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:cancelation_pending)
@@ -641,7 +641,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from payment_overdue and occupied' do
-        let(:booking) { prepare_booking(initial_state: :payment_overdue, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :payment_overdue, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:cancelation_pending)
@@ -657,7 +657,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from provisional_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelation_pending)
@@ -673,7 +673,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from awaiting_tenant and tentative' do
-        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelation_pending)
@@ -681,11 +681,11 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from definitive_request and occupied' do
-        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:cancelation_pending)
-          expect(booking).to be_free
+          expect(booking).to be_status_void
           expect(booking).not_to be_concluded
           expect(booking.deadline).to be_blank
           expect(booking).to notify(:manage_cancelation_pending_notification).to(:administration)
@@ -693,7 +693,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from overdue and occupied' do
-        let(:booking) { prepare_booking(initial_state: :overdue, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :overdue, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:cancelation_pending)
@@ -703,11 +703,11 @@ describe BookingFlows::Default do
 
     describe 'to awaiting_contract' do
       context 'with booking from definitive_request and occupied' do
-        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:awaiting_contract)
-          expect(booking).to be_occupied
+          expect(booking).to be_status_occupied
           expect(booking).not_to be_concluded
           expect(booking.deadline).to be_armed
         end
@@ -716,7 +716,7 @@ describe BookingFlows::Default do
 
     describe 'to overdue' do
       context 'with booking from awaiting_contract and occupied' do
-        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:overdue)
@@ -734,18 +734,18 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from awaiting_contract and occupied' do
-        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:upcoming)
-          expect(booking).to be_occupied
+          expect(booking).to be_status_occupied
           expect(booking).not_to be_concluded
           expect(booking).to notify(:upcoming_notification).to(:tenant)
         end
       end
 
       context 'with booking from definitive_request and occupied' do
-        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :definitive_request, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:upcoming)
@@ -769,7 +769,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from booking_agent_request state' do
-        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).to transition_to(:upcoming)
@@ -777,7 +777,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from overdue state' do
-        let(:booking) { prepare_booking(initial_state: :overdue, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :overdue, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:upcoming)
@@ -787,11 +787,11 @@ describe BookingFlows::Default do
 
     describe 'to upcoming_soon' do
       context 'with booking from upcoming and occupied' do
-        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:upcoming_soon)
-          expect(booking).to be_occupied
+          expect(booking).to be_status_occupied
           expect(booking).not_to be_concluded
           expect(booking).to notify(:upcoming_soon_notification).to(:tenant)
         end
@@ -800,7 +800,7 @@ describe BookingFlows::Default do
 
     describe 'to active' do
       context 'with booking from upcoming_soon and occupied' do
-        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:active)
@@ -821,7 +821,7 @@ describe BookingFlows::Default do
 
     describe 'to payment_due' do
       context 'with booking from past and occupied' do
-        let(:booking) { prepare_booking(initial_state: :past, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :past, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:payment_due)
@@ -829,7 +829,7 @@ describe BookingFlows::Default do
       end
 
       context 'with invoice' do
-        let(:booking) { prepare_booking(initial_state: :past, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :past, occupancy_status: :occupied) }
 
         context 'with booking from past and occupied' do
           it do
@@ -843,7 +843,7 @@ describe BookingFlows::Default do
 
     describe 'to payment_overdue' do
       context 'with booking from payment_due and occupied' do
-        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:payment_overdue)
@@ -857,7 +857,7 @@ describe BookingFlows::Default do
     # Terminal transitions
     describe 'to cancelled' do
       context 'with booking from awaiting_contract and occupied' do
-        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelled)
@@ -865,7 +865,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from upcoming and occupied' do
-        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelled)
@@ -873,7 +873,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from upcoming_soon and occupied' do
-        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelled)
@@ -881,7 +881,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from past and occupied' do
-        let(:booking) { prepare_booking(initial_state: :past, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :past, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelled)
@@ -889,7 +889,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from payment_due and occupied' do
-        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelled)
@@ -897,7 +897,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from payment_overdue and occupied' do
-        let(:booking) { prepare_booking(initial_state: :payment_overdue, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :payment_overdue, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelled)
@@ -913,7 +913,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from provisional_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelled)
@@ -929,7 +929,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from awaiting_tenant and tentative' do
-        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).not_to transition_to(:cancelled)
@@ -950,7 +950,7 @@ describe BookingFlows::Default do
 
     describe 'to completed' do
       context 'with booking from past and occupied' do
-        let(:booking) { prepare_booking(initial_state: :past, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :past, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:completed)
@@ -958,7 +958,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from payment_overdue and occupied' do
-        let(:booking) { prepare_booking(initial_state: :payment_overdue, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :payment_overdue, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:completed)
@@ -966,7 +966,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from awaiting_contract and occupied' do
-        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :awaiting_contract, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:completed)
@@ -974,7 +974,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from upcoming and occupied' do
-        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :upcoming, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:completed)
@@ -982,7 +982,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from upcoming_soon and occupied' do
-        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :upcoming_soon, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).not_to transition_to(:completed)
@@ -998,7 +998,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from provisional_request and tentative' do
-        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).not_to transition_to(:completed)
@@ -1006,7 +1006,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from awaiting_tenant and tentative' do
-        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_type: :tentative) }
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_status: :tentative) }
 
         it do
           expect(booking_flow).not_to transition_to(:completed)
@@ -1014,7 +1014,7 @@ describe BookingFlows::Default do
       end
 
       context 'with booking from payment_due and occupied' do
-        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_type: :occupied) }
+        let(:booking) { prepare_booking(initial_state: :payment_due, occupancy_status: :occupied) }
 
         it do
           expect(booking_flow).to transition_to(:completed)

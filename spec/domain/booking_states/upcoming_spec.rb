@@ -25,7 +25,7 @@ describe BookingStates::Upcoming do
   describe 'transition' do
     it { expect(transitioned_booking.booking_state).to(be_a(described_class)) }
     it { expect(transitioned_booking.deadline).to be_nil }
-    it { expect(transitioned_booking).to be_occupied }
+    it { expect(transitioned_booking).to be_status_occupied }
     it { expect(transitioned_booking).to notify(:upcoming_notification).to(:tenant) }
     it { expect(transitioned_booking.notifications.count).to eq(1) }
 

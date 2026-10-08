@@ -4,7 +4,7 @@ module BookingActions
   class Decline < Base
     def invoke(cancellation_reason: nil, current_user: nil)
       cancellation_reason ||= booking.cancellation_reason
-      booking.update!(occupancy_type: :free, transition_to:, cancellation_reason: cancellation_reason.presence)
+      booking.update!(occupancy_status: :void, transition_to:, cancellation_reason: cancellation_reason.presence)
       Result.success
     end
 
@@ -19,7 +19,7 @@ module BookingActions
     def prepare_with(cancellation_reason: nil, current_user: nil)
       return unless booking.booking_flow.current_state.to_sym == :overdue_request
 
-      booking.cancellation_reason ||= t('deadline_exceeded')
+      booking.cancellation_reason ||= t('deadline_expired')
     end
 
     def transition_to

@@ -21,7 +21,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear!
-      booking.pending!
+      booking.status_pending!
       booking.update(concluded: false) # in case it's reinstated from declined or cancelled
 
       OperatorResponsibility.assign(booking, :administration, :billing)

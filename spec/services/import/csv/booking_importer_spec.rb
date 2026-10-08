@@ -116,7 +116,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
                                                     email: eq('tenant22@heimv.local'))
           expect(booking.booking_state).to be_a(BookingStates::DefinitiveRequest)
           expect(booking.committed_request).to be_truthy
-          expect(booking).to be_occupied
+          expect(booking).to be_status_occupied
         end
       end
 
@@ -128,7 +128,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
           expect(booking.approximate_headcount).to eq 12
           expect(booking.email).to eq('tenant22@heimv.local')
           expect(booking.committed_request).to be_falsy
-          expect(booking).to be_tentative
+          expect(booking).to be_status_tentative
         end
       end
     end

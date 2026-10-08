@@ -11,7 +11,7 @@ module Import
                  'booking.category', 'booking.purpose', 'booking.email', 'usage.*', 'booking.occupiable_ids',
                  'booking.internal_remarks', 'booking.begins_at', 'booking.begins_at_date', 'booking.begins_at_time',
                  'booking.ends_at', 'booking.ends_at_date', 'booking.ends_at_time', 'booking.remarks',
-                 'booking.occupancy_type', 'booking.color', 'booking.transition_to', 'booking_question.*'] +
+                 'booking.occupancy_status', 'booking.color', 'booking.transition_to', 'booking_question.*'] +
           TenantImporter.supported_headers
       end
 
@@ -47,7 +47,7 @@ module Import
       end
 
       def skip_row?(row, _index)
-        super || %w[declined_request closed cancelled_request].include?(row['booking.occupancy_type']&.downcase)
+        super || %w[declined_request closed cancelled_request].include?(row['booking.occupancy_status']&.downcase)
       end
 
       def parse_datetime(value, formats: options[:datetime_format])
@@ -70,18 +70,18 @@ module Import
                                   occupiable_ids:)
       end
 
-      actor :occupancy_type do |booking, row|
-        booking.occupancy_type = case row['booking.occupancy_type']&.downcase
-                                 when 'closed', 'closedown', 'geschlossen'
-                                   :closed
-                                 when 'provisionally_reserved', 'request', 'tentative'
-                                   :tentative
-                                 when 'declined_request', 'free'
-                                   :free
-                                 else
-                                   :occupied
-                                 end
-        booking.committed_request ||= booking.occupied?
+      actor :occupancy_status do |booking, row|
+        booking.occupancy_status = case row['booking.occupancy_status']&.downcase
+                                   when 'closed', 'closedown', 'geschlossen'
+                                     :closed
+                                   when 'provisionally_reserved', 'request', 'tentative'
+                                     :tentative
+                                   when 'declined_request', 'free'
+                                     :void
+                                   else
+                                     :occupied
+                                   end
+        booking.committed_request ||= booking.status_occupied?
         booking.transition_to ||= row['booking.transition_to']&.split(',')&.compact_blank&.presence
       end
 

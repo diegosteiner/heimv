@@ -25,7 +25,7 @@ describe BookingStates::AwaitingTenant do
   describe 'transition' do
     it { expect(transitioned_booking.booking_state).to(be_a(described_class)) }
     it { expect(transitioned_booking.deadline).not_to be_nil }
-    it { expect(transitioned_booking).to be_occupied }
+    it { expect(transitioned_booking).to be_status_occupied }
 
     it { expect(transitioned_booking).to notify(:awaiting_tenant_notification).to(:tenant) }
     it { expect(transitioned_booking).to notify(:booking_agent_request_accepted_notification).to(:booking_agent) }

@@ -10,7 +10,7 @@
 #  ends_at            :datetime         not null
 #  ignore_conflicting :boolean          default(FALSE), not null
 #  linked             :boolean          default(TRUE)
-#  occupancy_type     :integer          default(0), not null
+#  occupancy_status   :integer          default("pending"), not null
 #  remarks            :text
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -20,15 +20,14 @@
 
 class Occupancy < ApplicationRecord
   COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
-  OCCUPANCY_TYPES = { pending: 0, tentative: 1, occupied: 2, closed: 3, free: 4, reserved: 5 }.freeze
-  CONFLICTING_OCCUPANCY_TYPES = {
-    any: OCCUPANCY_TYPES.keys,
-    free: [],
-    pending: %i[closed reserved],
-    tentative: %i[tentative occupied closed reserved],
-    occupied: %i[tentative occupied closed reserved],
-    closed: %i[tentative occupied closed],
-    reserved: %i[tentative occupied reserved]
+  STATUSES = { pending: 0, tentative: 1, occupied: 2, closed: 3, free: 4, internal: 5, none: 6 }.freeze
+  STATUS_CONFLICTS = {
+    any: STATUSES.keys,
+    free: [], none: [],
+    pending: %i[closed],
+    tentative: %i[tentative occupied closed],
+    occupied: %i[tentative occupied closed],
+    closed: %i[tentative occupied closed]
   }.freeze
 
   include Timespanable
@@ -39,13 +38,13 @@ class Occupancy < ApplicationRecord
 
   has_one :organisation, through: :occupiable
 
-  enum :occupancy_type, OCCUPANCY_TYPES
+  enum :occupancy_status, STATUSES, prefix: :status
 
   scope :ordered, -> { order(begins_at: :ASC) }
 
   before_validation :sync_booking
-  validates :occupancy_type, presence: true
-  validates :occupancy_type, inclusion: { in: %w[pending free tentative occupied] }, if: :linked
+  validates :occupancy_status, presence: true
+  validates :occupancy_status, inclusion: { in: (STATUSES.keys - %i[closed free]).map(&:to_s) }, if: :linked
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate do
     next if ignore_conflicting || validation_context == :ignore_conflicting
@@ -75,11 +74,11 @@ class Occupancy < ApplicationRecord
     return unless begins_at.present? && ends_at.present? && occupiable.present?
 
     margin ||= occupiable.settings&.booking_margin || 0
-    occupancy_types = CONFLICTING_OCCUPANCY_TYPES[assuming&.to_sym || occupancy_type.to_sym]
+    occupancy_statuses = STATUS_CONFLICTS[assuming&.to_sym || occupancy_status.to_sym]
 
     occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin)
               .where.not(id:).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
-              .where(occupancy_type: occupancy_types, ignore_conflicting: [false, nil])
+              .where(occupancy_status: occupancy_statuses, ignore_conflicting: [false, nil])
   end
 
   def color=(value)
@@ -88,23 +87,23 @@ class Occupancy < ApplicationRecord
 
   def color
     super.presence || booking&.occupancy_color || (organisation &&
-      organisation.settings.occupancy_colors[occupancy_type&.to_sym])
+      organisation.settings.occupancy_colors[occupancy_status&.to_sym])
   end
 
   def sync_booking
     return if !linked || booking.blank?
 
     assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,
-                      occupancy_type: booking.occupancy_type, ignore_conflicting: booking.ignore_conflicting)
+                      occupancy_status: booking.occupancy_status, ignore_conflicting: booking.ignore_conflicting)
   end
 
   def to_s
     booking_string = booking.present? ? "[#{booking.ref}] " : ''
     occupiable_string = "#{id || super}@#{occupiable}: "
     range_string = "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)} "
-    occupancy_type_string = occupancy_type
+    occupancy_status_string = occupancy_status
 
-    [booking_string, occupiable_string, range_string, occupancy_type_string].join
+    [booking_string, occupiable_string, range_string, occupancy_status_string].join
   rescue StandardError
     super
   end

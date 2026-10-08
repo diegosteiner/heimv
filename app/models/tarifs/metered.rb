@@ -11,10 +11,10 @@
 #  discarded_at                      :datetime
 #  enabling_conditions               :jsonb
 #  included_units                    :decimal(, )
-#  included_units_mode               :integer          default(0)
+#  included_units_mode               :integer          default("none")
 #  label_i18n                        :jsonb
 #  minimum                           :decimal(, )
-#  minimum_mode                      :integer          default(0)
+#  minimum_mode                      :integer          default("none")
 #  mode                              :integer
 #  ordinal                           :integer
 #  pin                               :boolean          default(TRUE)

@@ -18,9 +18,9 @@ module BookingStates
 
     after_transition do |booking|
       if occupied_booking_state?(booking)
-        booking.occupied!
-      elsif !booking.occupied?
-        booking.tentative!
+        booking.status_occupied!
+      elsif !booking.status_occupied?
+        booking.status_tentative!
       end
     end
 
@@ -31,7 +31,7 @@ module BookingStates
     end
 
     infer_transition(to: :overdue) do |booking|
-      booking.deadline&.exceeded?
+      booking.deadline&.expired?
     end
 
     infer_transition(to: :upcoming) do |booking|

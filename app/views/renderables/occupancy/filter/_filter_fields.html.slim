@@ -9,5 +9,5 @@
 
 .row
   .col
-    = f.select :occupancy_type, Occupancy.occupancy_types.keys.map { [Occupancy.human_enum(:occupancy_type, it), it] }, include_blank: true, multiple: true
+    = f.select :occupancy_status, Occupancy.occupancy_statuses.keys.map { [Occupancy.human_enum(:occupancy_status, it), it] }, include_blank: true, multiple: true
   .col

@@ -13,24 +13,27 @@ RSpec.describe OccupancyCalendar do
 
     let!(:occupancies) do
       {
-        visible_occupied: create(:occupancy, occupiable:, occupancy_type: :occupied, remarks: :visible_occupied,
+        visible_occupied: create(:occupancy, occupiable:, occupancy_status: :occupied, remarks: :visible_occupied,
                                              begins_at: 1.week.from_now, ends_at: 2.weeks.from_now),
-        visible_closed: create(:occupancy, occupiable:, occupancy_type: :closed, remarks: :visible_closed,
+        visible_closed: create(:occupancy, occupiable:, occupancy_status: :closed, remarks: :visible_closed,
                                            begins_at: 3.weeks.from_now, ends_at: 4.weeks.from_now),
-        visible_pending: create(:occupancy, occupiable:, occupancy_type: :pending, remarks: :visible_pending,
+        visible_pending: create(:occupancy, occupiable:, occupancy_status: :pending, remarks: :visible_pending,
                                             begins_at: 5.weeks.from_now, ends_at: 6.weeks.from_now),
-        visible_reserved: create(:occupancy, occupiable:, occupancy_type: :reserved, remarks: :visible_reserved,
-                                             begins_at: 7.weeks.from_now, ends_at: 8.weeks.from_now),
-        invisible_free: create(:occupancy, occupiable:, occupancy_type: :free, remarks: :visible_free,
-                                           begins_at: 9.weeks.from_now, ends_at: 10.weeks.from_now),
-        invisible_other_occupancy: create(:occupancy, occupiable: other_occupiable, occupancy_type: :occupied,
-                                                      begins_at: 11.weeks.from_now, ends_at: 12.weeks.from_now),
-        invisible_past: create(:occupancy, occupiable:, occupancy_type: :occupied, remarks: :invisible_past,
+        # visible_internal: create(:occupancy, occupiable:, occupancy_status: :internal, remarks: :visible_internal,
+        #                                      begins_at: 7.weeks.from_now, ends_at: 8.weeks.from_now),
+        visible_free: create(:occupancy, occupiable:, occupancy_status: :free, remarks: :visible_free,
+                                         begins_at: 9.weeks.from_now, ends_at: 10.weeks.from_now),
+        invisible_none: create(:occupancy, occupiable:, occupancy_status: :void, remarks: :invisible_none,
+                                           begins_at: 11.weeks.from_now, ends_at: 12.weeks.from_now),
+        invisible_other_occupancy: create(:occupancy, occupiable: other_occupiable, occupancy_status: :occupied,
+                                                      begins_at: 13.weeks.from_now, ends_at: 14.weeks.from_now),
+        invisible_past: create(:occupancy, occupiable:, occupancy_status: :occupied, remarks: :invisible_past,
                                            begins_at: 2.weeks.ago, ends_at: 1.week.ago),
-        invisible_future: create(:occupancy, occupiable:, occupancy_type: :occupied, remarks: :invisible_future,
+        invisible_future: create(:occupancy, occupiable:, occupancy_status: :occupied, remarks: :invisible_future,
                                              begins_at: 3.years.from_now, ends_at: (3.years + 1.week).from_now),
         invisible_concluded: create(:booking, home: occupiable, remarks: :invisible_concluded, organisation:,
-                                              occupancy_type: :free, concluded: true, initial_state: :declined_request,
+                                              occupancy_status: :void, concluded: true,
+                                              initial_state: :declined_request,
                                               begins_at: 13.weeks.from_now, ends_at: 14.weeks.from_now).occupancies[0]
       }
     end
@@ -50,7 +53,7 @@ RSpec.describe OccupancyCalendar do
 
       it 'returns all occupancy types in the selected window' do
         is_expected.to match_array(occupancies.except(:invisible_other_occupancy, :invisible_future,
-                                                      :invisible_concluded, :invisible_free).values)
+                                                      :invisible_concluded, :invisible_none).values)
       end
     end
   end

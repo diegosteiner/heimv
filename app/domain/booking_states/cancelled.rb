@@ -18,7 +18,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.free!
+      booking.status_void!
       booking.conclude
       MailTemplate.use(:cancelled_notification, booking, to: :tenant, &:autodeliver!)
       next if booking.agent_booking.blank?

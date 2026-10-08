@@ -11,7 +11,7 @@ describe BookingActions::Decline do
   let(:occupiable) { create(:home, organisation:) }
   let(:current_user) { create(:organisation_user, organisation:, role: :manager) }
   let(:existing_booking) do
-    create(:booking, initial_state: :upcoming, committed_request: true, occupancy_type: :occupied, organisation:,
+    create(:booking, initial_state: :upcoming, committed_request: true, occupancy_status: :occupied, organisation:,
                      begins_at: booking.begins_at, ends_at: booking.ends_at, home: occupiable)
   end
 
@@ -24,10 +24,10 @@ describe BookingActions::Decline do
     end
 
     it do
-      expect(booking).to be_pending
+      expect(booking).to be_status_pending
       expect(booking.conflicting(assuming: :any)).to include(existing_booking)
       expect(invoke.success).to be_truthy
-      expect(booking).to be_free
+      expect(booking).to be_status_void
     end
   end
 end

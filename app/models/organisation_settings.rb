@@ -39,18 +39,18 @@ class OrganisationSettings
       self.class.available_times.include?(it)
     end
     errors.add(:public_occupancy_visibility, :invalid) unless public_occupancy_visibility&.all? do
-      Occupancy.occupancy_types.except('free').key?(it.to_s)
+      Occupancy.occupancy_statuses.except('void').key?(it.to_s)
     end
   end
 
   def occupancy_colors
     {
       free: nil, # no color
+      none: nil, # no color
       pending: tentative_occupancy_color,
       tentative: tentative_occupancy_color,
       occupied: occupied_occupancy_color,
-      closed: closed_occupancy_color,
-      reserved: closed_occupancy_color
+      closed: closed_occupancy_color
     }.tap { |hash| hash.default = '#FFFFFF00' }
   end
 

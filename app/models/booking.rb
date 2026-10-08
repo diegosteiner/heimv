@@ -27,7 +27,7 @@
 #  invoice_cc                   :string
 #  locale                       :string
 #  occupancy_color              :string
-#  occupancy_type               :integer          default(0), not null
+#  occupancy_status             :integer          default("pending"), not null
 #  purpose_description          :string
 #  ref                          :string
 #  remarks                      :text
@@ -89,7 +89,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   attr_accessor :transition_to, :skip_infer_transitions, :applied_transitions
 
   timespan :begins_at, :ends_at
-  enum :occupancy_type, Occupancy::OCCUPANCY_TYPES
+  enum :occupancy_status, Occupancy::STATUSES, prefix: :status
   normalizes :email, :invoice_cc, with: ->(email) { email.presence && EmailAddress.normal(email) }
   attribute :invoice_address, Address.to_type
 
@@ -190,7 +190,11 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def sync_occupancies
-    occupancies.each(&:sync_booking)
+    if status_void?
+      occupancies.destroy
+    else
+      occupancies.each(&:sync_booking)
+    end
   end
 
   def email
@@ -216,7 +220,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def occupancy_color
-    super.presence || organisation&.settings&.occupancy_colors&.[](occupancy_type&.to_sym)
+    super.presence || organisation&.settings&.occupancy_colors&.[](occupancy_status&.to_sym)
   end
 
   def roles
@@ -257,7 +261,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def conflicting(**args)
-    return if organisation.blank? || sync_occupancies.empty?
+    return if organisation.blank? || sync_occupancies.blank?
 
     conflicting_occupancies = occupancies.reduce(Occupancy.none) do |relation, occupancy|
       relation.or(occupancy.conflicting(**args) || Occupancy.none)
@@ -266,7 +270,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def bump_conflicting
-    conflicting(assuming: :any).find_each(&:touch)
+    conflicting(assuming: :any)&.find_each(&:touch)
   end
 
   def booking_flow_class
