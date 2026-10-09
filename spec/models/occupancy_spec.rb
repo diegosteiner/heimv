@@ -71,7 +71,7 @@ RSpec.describe Occupancy do
       tentative: %w[✅ ✅ ⏳ ⏳ 🛑 🛑],
       occupied: %w[✅ ✅ ⏳ ⏳ 🛑 🛑],
       closed: %w[✅ ✅ 🛑 🛑 🛑 ✅],
-      none: %w[✅ ✅ ✅ ✅ ✅ ✅]
+      void: %w[✅ ✅ ✅ ✅ ✅ ✅]
     }
 
     matrix.each do |occupancy_status, expected_conflicts|

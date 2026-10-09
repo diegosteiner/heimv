@@ -103,10 +103,10 @@ fr:
         begins_at: De
         begins_at_after: Début de la location à partir du
         begins_at_before: Début de la location jusqu'au
-        occupancy_status: Type de location
         ends_at: Jusqu'à / jusqu'au
         ends_at_after: Fin de la location à partir du
         ends_at_before: Fin de la location jusqu'au
+        occupancy_status: Type de location
       occupiable_settings:
         accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
@@ -249,7 +249,6 @@ fr:
         cancellation_reason: Motif d'annulation
         category: Catégorie de location
         committed_request: Caractère obligatoire de la demande de location
-        occupancy_status: Type de locations
         created_at: Créé le
         deadline: Délai jusqu'au
         deliver_notifications: Envoyer des e-mails générés par l'application
@@ -264,6 +263,7 @@ fr:
         nights: Nuits
         occupancies: Locations
         occupancy_color: Couleur dans le calendrier
+        occupancy_status: Type de locations
         occupiable_ids: Objets de location
         occupiables: Objets de location
         purpose_description: Description de la raison de la location
@@ -398,12 +398,12 @@ fr:
         begins_at_date: Début de la location (date)
         begins_at_time: Début de la location (heure)
         color: Couleur dans le calendrier
-        occupancy_status: Type de location
         ends_at: Fin de la location
         ends_at_date: Fin de la location (date)
         ends_at_time: Fin de la location (heure)
         ignore_conflicting: Ignorer les conflits de dates
         linked: Lié à la réservation
+        occupancy_status: Type de location
         occupiable_id: Objet de location
         remarks: Remarques
       occupiable:

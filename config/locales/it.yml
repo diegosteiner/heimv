@@ -103,10 +103,10 @@ it:
         begins_at: Da
         begins_at_after: Inizio occupazione da
         begins_at_before: Inizio occupazione fino a
-        occupancy_status: Tipo di occupazione
         ends_at: Fino a
         ends_at_after: Fine occupazione da
         ends_at_before: Fine dell'occupazione fino a
+        occupancy_status: Tipo di occupazione
       occupiable_settings:
         accounting_cost_center_nr:
         booking_margin: Durata tra le prenotazioni
@@ -249,7 +249,6 @@ it:
         cancellation_reason: Motivo della cancellazione
         category: Categoria di affitto
         committed_request: Natura vincolante della richiesta di affitto
-        occupancy_status: Tipo di occupazione
         created_at: Creato il
         deadline: Scadenza fino a
         deliver_notifications: Inviare le e-mail generate dall'applicazione
@@ -264,6 +263,7 @@ it:
         nights: Notti
         occupancies: Occupazioni
         occupancy_color: Colore nel calendario
+        occupancy_status: Tipo di occupazione
         occupiable_ids: Proprietà in affitto
         occupiables: Proprietà in affitto
         purpose_description: Descrizione dello scopo del contratto di affitto
@@ -398,12 +398,12 @@ it:
         begins_at_date: Inizio dell'occupazione (data)
         begins_at_time: Inizio dell'occupazione (ora)
         color: Colore nel calendario
-        occupancy_status: Tipo di occupazione
         ends_at: Fine dell'occupazione
         ends_at_date: Fine dell'occupazione (data)
         ends_at_time: Fine dell'occupazione (ora)
         ignore_conflicting:
         linked: Legato alla prenotazione
+        occupancy_status: Tipo di occupazione
         occupiable_id: Proprietà in affitto
         remarks: Osservazioni
       occupiable:

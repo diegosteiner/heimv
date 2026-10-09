@@ -20,10 +20,10 @@
 
 class Occupancy < ApplicationRecord
   COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
-  STATUSES = { pending: 0, tentative: 1, occupied: 2, closed: 3, free: 4, internal: 5, none: 6 }.freeze
+  STATUSES = { pending: 0, tentative: 1, occupied: 2, closed: 3, free: 4, internal: 5, void: 6 }.freeze
   STATUS_CONFLICTS = {
     any: STATUSES.keys,
-    free: [], none: [],
+    free: [], void: [],
     pending: %i[closed],
     tentative: %i[tentative occupied closed],
     occupied: %i[tentative occupied closed],
