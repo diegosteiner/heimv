@@ -12,6 +12,12 @@ docker-compose up app
 
 or with VS Code: [Reopen in Container] with Remote Containers Extension
 
+## AI written code
+
+In this project, AI is seen as a tool to help developers improve the quality of HeimV. The responsibility for the code remains
+on the developers themselves. Therefore no AI-heavy pull requests will be accepted into this repository. Developers may
+use AI to review and improve code quality and automate boilerpate or write specs.
+
 ### Development servers
 
 Then inside the container you may run:

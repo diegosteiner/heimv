@@ -55,7 +55,7 @@ h1.my-0= Booking.model_name.human(count: 2)
 - else
   - grouped_bookings = @bookings.group_by { |booking| booking.booking_state_cache }
   - current_organisation.booking_flow_class.state_classes.values.each do |state|
-    - bookings = grouped_bookings[state.to_s]
+    - bookings = grouped_bookings.fetch(state.to_s, [])
     - collapse_id = "collapse-#{CGI.escape(state.to_s)}"
     - next if bookings.blank?
 
@@ -68,4 +68,4 @@ h1.my-0= Booking.model_name.human(count: 2)
         p.text-muted = state.t(:help)
 
         .collapse.show[id=collapse_id]
-          == render partial: 'table', locals: { bookings:  }
+          == render partial: 'table', locals: { bookings: }

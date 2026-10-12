@@ -1097,7 +1097,6 @@ fr:
       label: Demande de location (provisoire)
       relevant_time: Délai %{time}
     unconfirmed_request:
-      deadline_expired_cancellation_reason: Le locataire n'a pas encore confirmé son adresse e-mail, la demande n'est pas encore valable.
       description: Le locataire n'a pas encore confirmé son adresse e-mail, la demande n'est pas encore valable.
       label: Demande de location (non confirmée)
       public_info: Bienvenue à nouveau. Pour confirmer ta demande de location, merci de remplir également les champs restants.

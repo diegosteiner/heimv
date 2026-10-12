@@ -12,16 +12,12 @@ module BookingStates
       :unconfirmed_request
     end
 
-    infer_transition(to: :declined_request) do |booking|
+    infer_transition(to: :expired_request) do |booking|
       booking.deadline&.expired?
     end
 
     infer_transition(to: :open_request) do |booking|
       booking.valid?(:public_update) || booking.agent_booking.present?
-    end
-
-    before_transition(to: :declined_request) do |booking|
-      booking.cancellation_reason ||= translate(:deadline_expired_cancellation_reason) if booking.deadline&.expired?
     end
 
     after_transition do |booking|

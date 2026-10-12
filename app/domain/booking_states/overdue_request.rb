@@ -27,7 +27,7 @@ module BookingStates
       booking.committed_request && (booking&.tenant&.valid?(:public_update) || !booking.agent_booking)
     end
 
-    infer_transition(to: :declined_request) do |booking|
+    infer_transition(to: :expired_request) do |booking|
       booking.deadline&.expired? && !booking.agent_booking
     end
 

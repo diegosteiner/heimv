@@ -598,6 +598,58 @@ describe BookingFlows::Default do
       end
     end
 
+    describe 'to expired_request' do
+      context 'with booking from unconfirmed_request state' do
+        let(:booking) { prepare_booking(initial_state: :unconfirmed_request, occupancy_status: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:expired_request)
+          expect(booking).to be_status_void
+          expect(booking).to be_concluded
+          expect(booking.deadline).to be_blank
+          expect(booking).to notify(:expired_request_notification).to(:tenant)
+        end
+      end
+
+      context 'with booking from booking_agent_request state' do
+        let(:booking) { prepare_booking(initial_state: :booking_agent_request, occupancy_status: :tentative) }
+        let(:booking_agent) { create(:booking_agent, organisation:) }
+
+        before { booking.build_agent_booking.update(booking_agent_code: booking_agent.code, organisation:) }
+
+        it do
+          expect(booking_flow).to transition_to(:expired_request)
+          expect(booking).to notify(:expired_request_notification).to(:booking_agent)
+        end
+      end
+
+      context 'with booking from provisional_request state' do
+        let(:booking) { prepare_booking(initial_state: :provisional_request, occupancy_status: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:expired_request)
+        end
+      end
+
+      context 'with booking from overdue_request state' do
+        let(:booking) { prepare_booking(initial_state: :overdue_request, occupancy_status: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:expired_request)
+          expect(booking).to notify(:manage_expired_request_notification).to(:administration)
+        end
+      end
+
+      context 'with booking from awaiting_tenant state' do
+        let(:booking) { prepare_booking(initial_state: :awaiting_tenant, occupancy_status: :tentative) }
+
+        it do
+          expect(booking_flow).to transition_to(:expired_request)
+          expect(booking).to notify(:expired_request_notification).to(:tenant)
+        end
+      end
+    end
+
     # Occupancy lifecycle and closure paths
     describe 'to cancelation_pending' do
       context 'with booking from awaiting_contract and occupied' do

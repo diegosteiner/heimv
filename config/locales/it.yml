@@ -1092,7 +1092,6 @@ it:
       label: richiesta di affitto mediata (provvisoria)
       relevant_time: Termine %{time}
     unconfirmed_request:
-      deadline_expired_cancellation_reason: L'indirizzo e-mail non è stato confermato entro il termine previsto.
       description: L'inquilino non ha ancora confermato il suo indirizzo e-mail, la richiesta non è ancora valida.
       label: Richiesta di affitto (non confermata)
       public_info: Bentornati. Per confermare la vostra richiesta di affitto, compilare i campi rimanenti.

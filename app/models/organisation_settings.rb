@@ -45,8 +45,8 @@ class OrganisationSettings
 
   def occupancy_colors
     {
-      free: nil, # no color
-      none: nil, # no color
+      free: nil,
+      void: nil,
       pending: tentative_occupancy_color,
       tentative: tentative_occupancy_color,
       occupied: occupied_occupancy_color,

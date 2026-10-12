@@ -190,11 +190,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def sync_occupancies
-    if status_void?
-      occupancies.destroy
-    else
-      occupancies.each(&:sync_booking)
-    end
+    occupancies.each(&:sync_booking)
   end
 
   def email
