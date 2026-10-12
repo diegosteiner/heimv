@@ -46,7 +46,7 @@ function OccupancyLi({ occupancy }: { occupancy: Occupancy }) {
       <div>
         <span style={{ color: occupancy.color }}>⬤</span>&nbsp;
         <span>
-          {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancyType}`)}
+          {t(`activerecord.enums.occupancy.occupancy_status.${occupancy.occupancyStatus}`)}
           <br />
           {occupancy.ref || occupancy.remarks}
         </span>

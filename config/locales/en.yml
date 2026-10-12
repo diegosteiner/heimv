@@ -106,7 +106,7 @@ en:
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
-        occupancy_type: Belegungsart
+        occupancy_status: Belegungsart
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -267,7 +267,7 @@ en:
         nights: Nächte
         occupancies: Belegungen
         occupancy_color: Farbe im Kalender
-        occupancy_type: Art der Belegungen
+        occupancy_status: Art der Belegungen
         occupiable_ids: Heime
         occupiables: Mietobjekte
         purpose_description: Beschreibung des Mietzwecks
@@ -407,7 +407,7 @@ en:
         ends_at_time: Ende der Belegung (Zeit)
         ignore_conflicting: Terminkonflikte ignorieren
         linked: An Buchung gebunden
-        occupancy_type: Belegungsart
+        occupancy_status: Belegungsart
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
       occupiable:
@@ -669,13 +669,13 @@ en:
           home_return: Funktionär Hausrücknahme
           tenant: Mieter
       occupancy:
-        occupancy_type:
+        occupancy_status:
           closed: Geschlossen
           free: Frei
           occupied: definitiv Besetzt
           pending: angefragt
-          reserved: intern reserviert
           tentative: provisorisch Besetzt
+          void: not occupied
       operator_responsibility:
         responsibility:
           administration: Administration
@@ -949,7 +949,7 @@ en:
     commit_request:
       label: Anfrage definitv setzen
     decline:
-      deadline_exceeded: Frist abgelaufen
+      deadline_expired: Frist abgelaufen
       label: Ablehnen / Stornieren
       label_committed: Stornieren
       label_request: Anfrage ablehnen
@@ -1105,7 +1105,6 @@ en:
       label: Mietanfrage (provisorisch)
       relevant_time: Frist %{time}
     unconfirmed_request:
-      deadline_exceeded_cancellation_reason: Die E-Mail Adresse wurde nicht fristgerecht bestätigt.
       description: Der Mieter hat seine E-Mail Adresse noch nicht bestätigt, die Anfrage ist noch ungültig.
       label: Mietanfrage (unbestätigt)
       public_info: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
@@ -1373,7 +1372,7 @@ en:
       invalid: is invalid
       less_than: must be less than %{count}
       less_than_or_equal_to: must be less than or equal to %{count}
-      limit_max_exceeded:
+      limit_max_expired:
         one: One
         other: Other
         zero: Zero
@@ -1767,7 +1766,7 @@ en:
               <dt>Link für den Vermieter</dt>
               <dd><pre>{{ booking.links.manage }}</pre></dd>
               <dt>Belegungstyp</dt>
-              <dd><pre>{{ booking.occupancy_type }}</pre></dd>
+              <dd><pre>{{ booking.occupancy_status }}</pre></dd>
               <dt>Schlüssel der Mietkategorie</dt>
               <dd><pre>{{ booking.category.key }}</pre></dd>
               <dt>Bezeichnung der Mietkategorie</dt>

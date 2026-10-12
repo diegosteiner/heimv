@@ -12,7 +12,7 @@ module Import
 
       def self.supported_headers
         super + ['occupancy.begins_at', 'occupancy.begins_at_date', 'occupancy.begins_at_time', 'occupancy.ends_at',
-                 'occupancy.ends_at_date', 'occupancy.ends_at_time', 'occupancy.remarks', 'occupancy.occupancy_type',
+                 'occupancy.ends_at_date', 'occupancy.ends_at_time', 'occupancy.remarks', 'occupancy.occupancy_status',
                  'occupancy.occupiable_id']
       end
 
@@ -30,7 +30,7 @@ module Import
       end
 
       def skip_row?(row, _index)
-        super || %w[declined_request].include?(row['occupancy.occupancy_type']&.downcase)
+        super || %w[declined_request].include?(row['occupancy.occupancy_status']&.downcase)
       end
 
       def parse_datetime(value, formats: options[:datetime_format])
@@ -58,21 +58,21 @@ module Import
         occupancy.occupiable = organisation.occupiables.find_by(id: row['occupancy.occupiable_id'])
       end
 
-      actor :occupancy_type do |occupancy, row|
-        occupancy&.occupancy_type = case row['occupancy.occupancy_type']&.downcase
-                                    when 'closed', 'closedown', 'geschlossen'
-                                      :closed
-                                    when 'provisionally_reserved', 'request'
-                                      :tentative
-                                    when 'declined_request'
-                                      :free
-                                    else
-                                      :occupied
-                                    end
+      actor :occupancy_status do |occupancy, row|
+        occupancy&.occupancy_status = case row['occupancy.occupancy_status']&.downcase
+                                      when 'closed', 'closedown', 'geschlossen'
+                                        :closed
+                                      when 'provisionally_reserved', 'request'
+                                        :tentative
+                                      when 'declined_request'
+                                        :void
+                                      else
+                                        :occupied
+                                      end
       end
 
       # actor :booking do |occupancy, row|
-      #   next unless occupancy.tentative? || occupancy.occupied?
+      #   next unless occupancy.status_tentative? || occupancy.status_occupied?
 
       #   occupancy.assign_attributes(linked: true)
       #   booking = organisation.bookings.new(occupancies: [occupancy], home: home,

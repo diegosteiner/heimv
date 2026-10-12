@@ -106,7 +106,7 @@ it:
         ends_at: Fino a
         ends_at_after: Fine occupazione da
         ends_at_before: Fine dell'occupazione fino a
-        occupancy_type: Tipo di occupazione
+        occupancy_status: Tipo di occupazione
       occupiable_settings:
         accounting_cost_center_nr:
         booking_margin: Durata tra le prenotazioni
@@ -263,7 +263,7 @@ it:
         nights: Notti
         occupancies: Occupazioni
         occupancy_color: Colore nel calendario
-        occupancy_type: Tipo di occupazione
+        occupancy_status: Tipo di occupazione
         occupiable_ids: Proprietà in affitto
         occupiables: Proprietà in affitto
         purpose_description: Descrizione dello scopo del contratto di affitto
@@ -403,7 +403,7 @@ it:
         ends_at_time: Fine dell'occupazione (ora)
         ignore_conflicting:
         linked: Legato alla prenotazione
-        occupancy_type: Tipo di occupazione
+        occupancy_status: Tipo di occupazione
         occupiable_id: Proprietà in affitto
         remarks: Osservazioni
       occupiable:
@@ -666,13 +666,13 @@ it:
           home_return:
           tenant: Inquilino
       occupancy:
-        occupancy_type:
+        occupancy_status:
           closed: Chiuso
           free: Libero
-          occupied: sicuramente occupato
-          pending: richiesto
-          reserved: riservato internamente
-          tentative: provvisoriamente riservato
+          occupied: Sicuramente occupato
+          pending: Richiesto
+          tentative: Provvisoriamente riservato
+          void: Riservato
       operator_responsibility:
         responsibility:
           administration: Administration
@@ -939,7 +939,7 @@ it:
     commit_request:
       label: Impostare la richiesta come definitiva
     decline:
-      deadline_exceeded: Termine scaduto
+      deadline_expired: Termine scaduto
       label: Rifiuta / Annulla
       label_committed: Cancellare
       label_request: Rifiuta la richiesta
@@ -1092,7 +1092,6 @@ it:
       label: richiesta di affitto mediata (provvisoria)
       relevant_time: Termine %{time}
     unconfirmed_request:
-      deadline_exceeded_cancellation_reason: L'indirizzo e-mail non è stato confermato entro il termine previsto.
       description: L'inquilino non ha ancora confermato il suo indirizzo e-mail, la richiesta non è ancora valida.
       label: Richiesta di affitto (non confermata)
       public_info: Bentornati. Per confermare la vostra richiesta di affitto, compilare i campi rimanenti.
@@ -1376,7 +1375,7 @@ it:
       invalid: non è valido
       less_than: deve essere minore di %{count}
       less_than_or_equal_to: deve essere minore o uguale a %{count}
-      limit_max_exceeded:
+      limit_max_expired:
         one:
         other:
         zero:

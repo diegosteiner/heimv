@@ -14,7 +14,7 @@ class Booking
     attribute :ends_at_after, :datetime
     attribute :ends_at_before, :datetime
     attribute :at_date, :date
-    attribute :occupancy_type
+    attribute :occupancy_status
     attribute :concluded
 
     filter :at_date do |bookings|
@@ -28,8 +28,8 @@ class Booking
               .ends_at(after: ends_at_after, before: ends_at_before)
     end
 
-    filter :occupancy_type do |bookings|
-      bookings.where(occupancy_type:) if occupancy_type.present?
+    filter :occupancy_status do |bookings|
+      bookings.where(occupancy_status:) if occupancy_status.present?
     end
 
     filter :homes do |bookings|

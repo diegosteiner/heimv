@@ -7,7 +7,7 @@ describe 'Booking', :devise do
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
-  let(:booking) { create(:booking, organisation:, home:, skip_infer_transitions: false) }
+  let(:booking) { create(:booking, organisation:, home:, initial_state: :open_request) }
   let(:new_booking) { build(:booking) }
 
   before do

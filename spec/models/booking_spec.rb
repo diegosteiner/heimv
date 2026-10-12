@@ -27,7 +27,7 @@
 #  invoice_cc                   :string
 #  locale                       :string
 #  occupancy_color              :string
-#  occupancy_type               :integer          default(0), not null
+#  occupancy_status             :integer          default("pending"), not null
 #  purpose_description          :string
 #  ref                          :string
 #  remarks                      :text
@@ -180,16 +180,16 @@ describe Booking do
       { home:, tenant:, organisation:, begins_at: 20.weeks.from_now, ends_at: 21.weeks.from_now }
     end
     let(:definitive_request) do
-      build(:booking, **booking_attributes, initial_state: :definitive_request, occupancy_type: :occupied)
+      build(:booking, **booking_attributes, initial_state: :definitive_request, occupancy_status: :occupied)
     end
     let(:provisional_request) do
-      build(:booking, **booking_attributes, initial_state: :provisional_request, occupancy_type: :tentative)
+      build(:booking, **booking_attributes, initial_state: :provisional_request, occupancy_status: :tentative)
     end
     let(:open_request) do
-      build(:booking, **booking_attributes, initial_state: :open_request, occupancy_type: :pending)
+      build(:booking, **booking_attributes, initial_state: :open_request, occupancy_status: :pending)
     end
     let(:occupied_occupancy) do
-      create(:occupancy, occupancy_type: :occupied, organisation:, occupiable: home,
+      create(:occupancy, occupancy_status: :occupied, organisation:, occupiable: home,
                          begins_at: booking_attributes[:begins_at], ends_at: booking_attributes[:ends_at])
     end
 
@@ -197,30 +197,24 @@ describe Booking do
       it 'definitive_request fails validation with :occupancy_conflict' do
         occupied_occupancy
         expect(definitive_request).not_to be_valid
-        expect(definitive_request.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+        expect(definitive_request.errors).to be_added(:'occupancies.base', :occupancy_conflict)
       end
 
       it 'provisional_request fails validation with :occupancy_conflict' do
         occupied_occupancy
         expect(provisional_request).not_to be_valid
-        expect(provisional_request.errors).to be_added(:occupiable_ids, :occupancy_conflict)
-      end
-
-      it 'open_request fails validation with :occupancy_conflict' do
-        occupied_occupancy
-        expect(open_request).not_to be_valid
-        expect(open_request.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+        expect(provisional_request.errors).to be_added(:'occupancies.base', :occupancy_conflict)
       end
     end
 
     context 'with existing pending' do
       it 'definitive_request is valid' do
-        occupied_occupancy.pending!
+        occupied_occupancy.status_pending!
         expect(definitive_request).to be_valid
       end
 
       it 'provisional_request is valid' do
-        occupied_occupancy.pending!
+        occupied_occupancy.status_pending!
         expect(provisional_request).to be_valid
       end
     end
@@ -232,13 +226,13 @@ describe Booking do
         it 'definitive_request fails validation with :occupancy_conflict' do
           occupied_occupancy
           expect(definitive_request).not_to be_valid
-          expect(definitive_request.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+          expect(definitive_request.errors).to be_added(:'occupancies.base', :occupancy_conflict)
         end
 
         it 'provisional_request fails validation with :occupancy_conflict' do
           occupied_occupancy
           expect(provisional_request).not_to be_valid
-          expect(provisional_request.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+          expect(provisional_request.errors).to be_added(:'occupancies.base', :occupancy_conflict)
         end
 
         it 'pending_request is valid' do

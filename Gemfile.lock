@@ -131,7 +131,7 @@ GEM
     brakeman (8.1.0)
       racc
     builder (3.3.0)
-    bullet (8.2.0)
+    bullet (8.3.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     bundler-audit (0.9.3)
@@ -140,7 +140,7 @@ GEM
     camt_parser (2.18.0)
       bigdecimal
       nokogiri
-    cancancan (3.6.1)
+    cancancan (3.6.2)
     capybara (3.40.0)
       addressable
       matrix
@@ -171,7 +171,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0)
     database_cleaner-core (2.1.0)
-    date (3.5.1)
+    date (3.6.0)
     debug (1.11.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
@@ -252,7 +252,7 @@ GEM
     ffi (1.17.4-x86_64-linux-musl)
     fiddle (1.1.8)
     forwardable (1.4.0)
-    fugit (1.13.0)
+    fugit (1.14.0)
       et-orbi (~> 1.4)
       raabro (~> 1.4)
     gettext (3.4.9)
@@ -282,11 +282,10 @@ GEM
       ruby-progressbar (~> 1.8, >= 1.8.1)
       terminal-table (>= 1.5.1)
     iban-tools (1.2.1)
-    icalendar (2.12.5)
+    icalendar (2.13.0)
       base64
       ice_cube (~> 0.16)
       logger
-      ostruct
     ice_cube (0.17.0)
     interception (0.5)
     io-console (0.9.4)
@@ -296,8 +295,8 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.21.2)
-    jwt (3.2.0)
+    json (3.0.2)
+    jwt (3.3.0)
       base64
     kramdown (2.5.2)
       rexml (>= 3.4.4)
@@ -339,18 +338,19 @@ GEM
     mobility (1.3.2)
       i18n (>= 0.6.10, < 2)
       request_store (~> 1.0)
-    msgpack (1.8.4)
+    msgpack (1.8.5)
     multi_xml (0.9.1)
       bigdecimal (>= 3.1, < 5)
     mutex_m (0.3.0)
-    net-http (0.9.1)
+    net-http (0.10.0)
+      net-protocol (>= 0.3.0)
       uri (>= 0.11.1)
     net-imap (0.6.7)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.3.0)
+    net-protocol (0.4.0)
       timeout
     net-smtp (0.5.2)
       net-protocol
@@ -406,7 +406,7 @@ GEM
       prawn-table
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
-    prettyprint (0.2.0)
+    prettyprint (0.2.1)
     prime (0.1.4)
       forwardable
       singleton
@@ -428,7 +428,7 @@ GEM
     rack (3.2.7)
     rack-mini-profiler (5.0.0)
       rack (>= 1.2.0)
-    rack-proxy (2.0.0)
+    rack-proxy (2.0.1)
       rack (>= 2.0, < 4)
     rack-session (2.1.2)
       base64 (>= 0.1.0)
@@ -520,14 +520,14 @@ GEM
       rspec-mocks (>= 3.13.0, < 5.0.0)
       rspec-support (>= 3.13.0, < 5.0.0)
     rspec-support (3.13.7)
-    rubocop (1.91.0)
+    rubocop (1.92.0)
       json (>= 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
       parallel (>= 1.10)
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 2.9.3, < 3.0)
+      regexp_parser (>= 2.11.3, < 3.0)
       rubocop-ast (>= 1.49.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
@@ -567,7 +567,7 @@ GEM
     ruby-progressbar (1.13.0)
     rubyzip (3.7.0)
     securerandom (0.4.1)
-    selenium-webdriver (4.50.0)
+    selenium-webdriver (4.51.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rubyzip (>= 1.2.2, < 4.0)
@@ -579,7 +579,6 @@ GEM
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
       logger
-    simplecov (1.3.2)
     simpleidn (0.3.0)
     singleton (0.3.0)
     slim (5.2.2)
@@ -628,13 +627,13 @@ GEM
       unicode-emoji (~> 4.3)
     unicode-emoji (4.3.0)
     uniform_notifier (1.18.0)
-    uri (1.1.1)
+    uri (1.1.2)
     useragent (0.16.11)
     version_gem (1.1.15)
     vite_rails (3.11.1)
       railties (>= 5.1, < 9)
       vite_ruby (~> 3.0, >= 3.2.2)
-    vite_ruby (3.10.5)
+    vite_ruby (3.11.1)
       dry-cli (>= 0.7, < 2)
       logger (~> 1.6)
       mutex_m
@@ -736,7 +735,6 @@ DEPENDENCIES
   selenium-webdriver
   sentry-rails
   sentry-ruby
-  simplecov
   slim-rails
   solid_queue
   squasher
@@ -749,7 +747,7 @@ DEPENDENCIES
   vite_rails
 
 RUBY VERSION
-  ruby 4.0.6
+  ruby 4.0.7
 
 BUNDLED WITH
   4.0.5

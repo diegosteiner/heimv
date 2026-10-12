@@ -16,19 +16,11 @@ module BookingStates
     end
 
     guard_transition(from: :open_request) do |booking|
-      booking.occupancies.all? do |occupancy|
-        occupancy.conflicting(%i[occupied tentative])&.all? do
-          it.booking&.in_state?(:open_request, :waitlisted_request)
-        end
-      end
+      !booking.conflicting?(assuming: :occupied)
     end
 
     guard_transition(from: :waitlisted_request) do |booking|
-      booking.occupancies.all? do |occupancy|
-        occupancy.conflicting(%i[occupied tentative])&.all? do
-          it.booking&.in_state?(:open_request, :waitlisted_request)
-        end
-      end
+      !booking.conflicting?(assuming: :occupied)
     end
 
     guard_transition do |booking|
@@ -46,9 +38,9 @@ module BookingStates
     after_transition do |booking|
       OperatorResponsibility.assign(booking, :administration, :billing)
       if occupied_booking_state?(booking)
-        booking.occupied!
-      elsif !booking.occupied?
-        booking.tentative!
+        booking.status_occupied!
+      elsif !booking.status_occupied?
+        booking.status_tentative!
       end
     end
 

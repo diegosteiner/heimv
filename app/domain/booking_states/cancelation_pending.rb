@@ -18,7 +18,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.free!
+      booking.status_void!
       booking.deadline&.clear!
 
       Notification.dedup(booking, to: %i[billing home_handover home_return]) do |to|

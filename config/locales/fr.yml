@@ -106,7 +106,7 @@ fr:
         ends_at: Jusqu'à / jusqu'au
         ends_at_after: Fin de la location à partir du
         ends_at_before: Fin de la location jusqu'au
-        occupancy_type: Type de location
+        occupancy_status: Type de location
       occupiable_settings:
         accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
@@ -263,7 +263,7 @@ fr:
         nights: Nuits
         occupancies: Locations
         occupancy_color: Couleur dans le calendrier
-        occupancy_type: Type de locations
+        occupancy_status: Type de locations
         occupiable_ids: Objets de location
         occupiables: Objets de location
         purpose_description: Description de la raison de la location
@@ -403,7 +403,7 @@ fr:
         ends_at_time: Fin de la location (heure)
         ignore_conflicting: Ignorer les conflits de dates
         linked: Lié à la réservation
-        occupancy_type: Type de location
+        occupancy_status: Type de location
         occupiable_id: Objet de location
         remarks: Remarques
       occupiable:
@@ -666,13 +666,13 @@ fr:
           home_return: Gardien - Ouverture d’hébergement
           tenant: Locataire
       occupancy:
-        occupancy_type:
+        occupancy_status:
           closed: Fermé
           free: Libre
           occupied: Demande de location définitive
-          pending: sollicité
-          reserved: réservé en interne
+          pending: Sollicité
           tentative: Demande de location provisoire
+          void: Pas de location
       operator_responsibility:
         responsibility:
           administration: Administration
@@ -941,7 +941,7 @@ fr:
     commit_request:
       label: Confirmer la demande
     decline:
-      deadline_exceeded: Délai expiré
+      deadline_expired: Délai expiré
       label: Refuser / Annuler
       label_committed: Annuler
       label_request: Refuser une demande
@@ -1097,7 +1097,6 @@ fr:
       label: Demande de location (provisoire)
       relevant_time: Délai %{time}
     unconfirmed_request:
-      deadline_exceeded_cancellation_reason: Le locataire n'a pas encore confirmé son adresse e-mail, la demande n'est pas encore valable.
       description: Le locataire n'a pas encore confirmé son adresse e-mail, la demande n'est pas encore valable.
       label: Demande de location (non confirmée)
       public_info: Bienvenue à nouveau. Pour confirmer ta demande de location, merci de remplir également les champs restants.
@@ -1381,7 +1380,7 @@ fr:
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}
       less_than_or_equal_to: doit être inférieur ou égal à %{count}
-      limit_max_exceeded:
+      limit_max_expired:
         one:
         other:
         zero:

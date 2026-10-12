@@ -23,7 +23,7 @@ class OrganisationSettings
   attribute :predefined_salutation_form, :string
   attribute :available_begins_at_times, array: true, default: -> { available_times(hours: 8..22) }
   attribute :available_ends_at_times, array: true, default: -> { available_times(hours: 8..22) }
-  attribute :public_occupancy_visibility, array: true, default: -> { %i[tentative occupied closed reserved] }
+  attribute :public_occupancy_visibility, array: true, default: -> { %i[tentative occupied closed] }
 
   validates :tentative_occupancy_color, :occupied_occupancy_color,
             :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
@@ -39,18 +39,18 @@ class OrganisationSettings
       self.class.available_times.include?(it)
     end
     errors.add(:public_occupancy_visibility, :invalid) unless public_occupancy_visibility&.all? do
-      Occupancy.occupancy_types.except('free').key?(it.to_s)
+      Occupancy.occupancy_statuses.except('void').key?(it.to_s)
     end
   end
 
   def occupancy_colors
     {
-      free: nil, # no color
+      free: nil,
+      void: nil,
       pending: tentative_occupancy_color,
       tentative: tentative_occupancy_color,
       occupied: occupied_occupancy_color,
-      closed: closed_occupancy_color,
-      reserved: closed_occupancy_color
+      closed: closed_occupancy_color
     }.tap { |hash| hash.default = '#FFFFFF00' }
   end
 

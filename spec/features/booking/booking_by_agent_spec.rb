@@ -135,7 +135,7 @@ describe 'Booking by agent', :devise do
   describe 'check conflicting bookings' do
     before do
       create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
-                       occupancy_type: :tentative, initial_state: :provisional_request, remarks: 'conflicting')
+                       occupancy_status: :tentative, initial_state: :provisional_request, remarks: 'conflicting')
     end
 
     context 'without waitlist_enabled' do

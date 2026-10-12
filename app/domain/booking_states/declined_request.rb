@@ -14,7 +14,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.update!(occupancy_type: :free, concluded: true)
+      booking.update!(occupancy_status: :void, concluded: true)
       booking.deadline&.clear!
       MailTemplate.use(:manage_declined_request_notification, booking, to: :administration, &:autodeliver!)
       MailTemplate.use(:declined_request_notification, booking,

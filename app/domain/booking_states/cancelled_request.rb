@@ -14,7 +14,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.free!
+      booking.status_void!
       booking.deadline&.clear!
       booking.conclude
       MailTemplate.use(:manage_cancelled_request_notification, booking, to: :administration, &:autodeliver!)

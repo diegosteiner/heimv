@@ -45,6 +45,11 @@ class AgentBooking < ApplicationRecord
     errors.add(:tenant_email, :invalid) if tenant_email == booking_agent&.email
     errors.add(:tenant_email, :invalid) unless EmailAddress.valid?(tenant_email, host_validation: :syntax)
   end
+  validate do
+    next if booking.ignore_conflicting || validation_context == :ignore_conflicting
+
+    booking.errors.add(:occupiable_ids, :occupancy_conflict) if booking.conflicting?(assuming: :tentative)
+  end
 
   def tenant_email=(value)
     super
@@ -64,6 +69,7 @@ class AgentBooking < ApplicationRecord
     booking.tenant || booking.build_tenant
     booking.tenant.organisation ||= organisation
     booking.email ||= tenant_email
+    booking
   end
 
   def booking

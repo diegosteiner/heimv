@@ -92,6 +92,7 @@
       "home_id": 1,
       "name": "Pfadiheim Stolz",
       "occupiable": true,
+      "bookable": true,
       "ordinal": 0
     }
   ],

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-bundle exec rubocop -D -a -c .rubocop.yml || exit 1
+bundle exec rubocop -D -a || exit 1
 yarn run check:lint || exit 1
 yarn run check:types || exit 1
 bin/rspec ./spec --tag ~@type:feature || exit 1

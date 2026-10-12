@@ -40,7 +40,7 @@ class Deadline < ApplicationRecord
     self.armed = value.present? && !(value - now).negative? unless armed_changed?
   end
 
-  def exceeded?(other = Time.zone.now)
+  def expired?(other = Time.zone.now)
     reload
     at && armed? && other > at
   end
@@ -52,7 +52,7 @@ class Deadline < ApplicationRecord
   def postpone
     return unless postponable?
 
-    update(at: postponable_until, postponable_for: nil) && booking.touch # rubocop:disable Rails/SkipsModelValidations
+    update(at: postponable_until, postponable_for: nil) && booking.touch(:updated_at) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def postponable?

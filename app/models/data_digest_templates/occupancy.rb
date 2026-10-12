@@ -25,8 +25,8 @@ module DataDigestTemplates
         body: '{{ occupancy.occupiable.name }}'
       },
       {
-        header: ::Occupancy.human_attribute_name(:occupancy_type),
-        body: '{{ occupancy.occupancy_type }}'
+        header: ::Occupancy.human_attribute_name(:occupancy_status),
+        body: '{{ occupancy.occupancy_status }}'
       },
       {
         header: ::Occupancy.human_attribute_name(:begins_at),

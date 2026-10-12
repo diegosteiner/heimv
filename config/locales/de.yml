@@ -106,7 +106,7 @@ de:
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
-        occupancy_type: Belegungsart
+        occupancy_status: Belegungsart
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -252,7 +252,7 @@ de:
         booking_category_id: Mietkategorie
         cancellation_reason: Annulierungsgrund
         category: Mietkategorie
-        committed_request: Verbindlichkeit der Mietanfrage
+        committed_request: Verbindlichkeit der Reservationsanfrage
         created_at: Erstellt am
         deadline: Frist bis
         deliver_notifications: Aus der Applikation generierte Emails versenden
@@ -267,7 +267,7 @@ de:
         nights: Nächte
         occupancies: Belegungen
         occupancy_color: Farbe im Kalender
-        occupancy_type: Art der Belegungen
+        occupancy_status: Art der Belegungen
         occupiable_ids: Mietobjekte
         occupiables: Mietobjekte
         purpose_description: Beschreibung des Mietzwecks
@@ -407,7 +407,7 @@ de:
         ends_at_time: Ende der Belegung (Zeit)
         ignore_conflicting: Terminkonflikte ignorieren
         linked: An Buchung gebunden
-        occupancy_type: Belegungsart
+        occupancy_status: Belegungsart
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
       occupiable:
@@ -569,8 +569,8 @@ de:
     enums:
       booking:
         committed_request:
-          definitive_request: Definitive Mietanfrage
-          provisional_request: Provisorische Mietanfrage
+          definitive_request: Definitive Reservationsanfrage
+          provisional_request: Provisorische Reservationsanfrage
         editable:
           auto: Auto
           'false': Nicht durch Mieter bearbeitbar
@@ -670,13 +670,15 @@ de:
           home_return: Funktionär Hausrücknahme
           tenant: Mieter
       occupancy:
-        occupancy_type:
+        occupancy_status:
           closed: geschlossen
           free: frei
-          occupied: definitiv besetzt
+          internal: intern
+          occupied: definitiv belegt
           pending: angefragt
           reserved: intern reserviert
-          tentative: provisorisch besetzt
+          tentative: provisorisch belegt
+          void: archiviert
       operator_responsibility:
         responsibility:
           administration: Administration
@@ -950,7 +952,7 @@ de:
     commit_request:
       label: Anfrage definitv setzen
     decline:
-      deadline_exceeded: Frist abgelaufen
+      deadline_expired: Frist abgelaufen
       label: Ablehnen / Stornieren
       label_committed: Stornieren
       label_request: Anfrage ablehnen
@@ -1057,7 +1059,7 @@ de:
       label: Anfrage mit fehlenden Mieterangaben
       relevant_time: Frist %{time}
     booking_agent_request:
-      label: vermittelte Mietanfrage (provisorisch)
+      label: vermittelte Reservationsanfrage (provisorisch)
       relevant_time: Frist %{time}
     cancelation_pending:
       description: Die Belegung wurde storniert, es sind aber noch Rechnungen offen, die zuerst als bezahlt markiert werden müssen.
@@ -1067,29 +1069,33 @@ de:
       label: Storniert
     cancelled_request:
       description: Der Mieter hat die Anfrage zurückgezogen
-      label: Mietanfrage (zurückgezogen)
+      label: Reservationsanfrage (zurückgezogen)
     completed:
       label: Belegung (abgeschlossen)
     declined_request:
-      description: Die Verwaltung hat die Mietanfrage abgelehnt oder die Frist ist abglaufen
-      label: Mietanfrage (abgelehnt/abgelaufen)
+      description: Die Verwaltung hat die Reservationsanfrage abgelehnt
+      label: Reservationsanfrage (abgelehnt)
     definitive_request:
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
-      label: Mietanfrage (definitiv)
-      public_info: Die Mietanfrage ist definitiv und wird demnächst durch die Verwaltung geprüft und weiterbearbeitet.
+      label: Reservationsanfrage (definitiv)
+      public_info: Die Reservationsanfrage ist definitiv und wird demnächst durch die Verwaltung geprüft und weiterbearbeitet.
       relevant_time: Eingereicht %{time}
+    expired_request:
+      cancellation_reason: Die Frist ist abgelaufen.
+      description: Die Frist der Reservationsanfrage ist abglaufen
+      label: Reservationsanfrage (abgelaufen)
     initial:
       label: "-"
     open_request:
-      label: Mietanfrage (offen)
-      public_info: Die Mietanfrage ist eingereicht und wird demnächst durch die Verwaltung bearbeitet.
+      label: Reservationsanfrage (offen)
+      public_info: Die Reservationsanfrage ist eingereicht und wird demnächst durch die Verwaltung bearbeitet.
       relevant_time: Eingereicht %{time}
     overdue:
       label: Reservation (Vertrag/Akontorechnung überfällig)
       relevant_time: Frist %{time}
     overdue_request:
-      label: Mietanfrage (Antwort überfällig)
-      public_info: Die Mietanfrage ist überfällig. Bitte setzte sie entweder auf definitiv oder ziehe die Anfrage zurück.
+      label: Reservationsanfrage (Antwort überfällig)
+      public_info: Die Reservationsanfrage ist überfällig. Bitte setzte sie entweder auf definitiv oder ziehe die Anfrage zurück.
       relevant_time: Frist %{time}
     past:
       description: Die Belegung ist vorüber. Die Verwaltung kann jetzt den Verbrauch erfassen und die Schlussrechnung erstellen.
@@ -1103,13 +1109,12 @@ de:
       relevant_time: Frist %{time}
     provisional_request:
       description: Der Mieter hat die Anfrage als provisorisch markiert. Solange die Anfrage nicht definitiv ist, muss kein Vertrag ausgestellt werden.
-      label: Mietanfrage (provisorisch)
+      label: Reservationsanfrage (provisorisch)
       relevant_time: Frist %{time}
     unconfirmed_request:
-      deadline_exceeded_cancellation_reason: Die E-Mail Adresse wurde nicht fristgerecht bestätigt.
       description: Der Mieter hat seine E-Mail Adresse noch nicht bestätigt, die Anfrage ist noch ungültig.
-      label: Mietanfrage (unbestätigt)
-      public_info: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
+      label: Reservationsanfrage (unbestätigt)
+      public_info: Willkommen zurück. Um deine Reservationsanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
       relevant_time: Frist %{time}
     upcoming:
       description: Der Mieter hat den Vertrag unterzeichnet retourniert und die Akontorechnung (falls vorhanden) beglichen.
@@ -1121,8 +1126,8 @@ de:
       relevant_time: Beginn der Belegung %{time}
     waitlisted_request:
       description: Die Anfrage ist auf der Warteliste
-      label: Mietanfrage (Warteliste)
-      public_info: Die Mietanfrage ist aktuell auf der Warteliste. Die Verwaltung meldet sich, sobald das Reservationsdatum frei ist.
+      label: Reservationsanfrage (Warteliste)
+      public_info: Die Reservationsanfrage ist aktuell auf der Warteliste. Die Verwaltung meldet sich, sobald das Reservationsdatum frei ist.
       relevant_time: Eingereicht %{time}
   clone: Duplizieren
   confirm: Sind Sie sicher?
@@ -1391,7 +1396,7 @@ de:
       invalid: ist nicht gültig
       less_than: muss kleiner als %{count} sein
       less_than_or_equal_to: muss kleiner oder gleich %{count} sein
-      limit_max_exceeded:
+      limit_max_expired:
         one: zu viele angehängte Dateien (maximal %{max} Dateien, %{count})
         other: Zu viele angehängte Dateien (maximal %{max} Dateien, %{count})
         zero: Keine Dateien angehängt (maximal %{max} Dateien)
@@ -1759,7 +1764,7 @@ de:
               <dd><pre>{{ booking.approximate_headcount }}</pre></dd>
               <dt>Annulierungsgrund</dt>
               <dd><pre>{{ booking.cancellation_reason }}</pre></dd>
-              <dt>Verbindlichkeit der Mietanfrage</dt>
+              <dt>Verbindlichkeit der Reservationsanfrage</dt>
               <dd><pre>{{ booking.committed_request }}</pre></dd>
               <dt>ID des Hauptmietobjekts</dt>
               <dd><pre>{{ booking.home.id }}</pre></dd>
@@ -1784,7 +1789,7 @@ de:
               <dt>Link für den Vermieter</dt>
               <dd><pre>{{ booking.links.manage }}</pre></dd>
               <dt>Belegungstyp</dt>
-              <dd><pre>{{ booking.occupancy_type }}</pre></dd>
+              <dd><pre>{{ booking.occupancy_status }}</pre></dd>
               <dt>Schlüssel der Mietkategorie</dt>
               <dd><pre>{{ booking.category.key }}</pre></dd>
               <dt>Bezeichnung der Mietkategorie</dt>
@@ -2049,7 +2054,7 @@ de:
         terms_condition_html: stimme den <a href="%{url}" target="_blank">AGB</a> zu
         title: Reservation
       show:
-        uncommitted_request_warning: Die Mietanfrage ist provisorisch. Bitte markiere die Mietanfrage innerhalb der First als definitiv oder ziehe die Anfrage zurück.
+        uncommitted_request_warning: Die Reservationsanfrage ist provisorisch. Bitte markiere die Reservationsanfrage innerhalb der First als definitiv oder ziehe die Anfrage zurück.
     occupancies:
       span:
         nights:
@@ -2102,13 +2107,15 @@ de:
     declined_request_notification:
       description: Benachrichtigung für abgelehnte Reservationsanfrage (Mieter)
     definitive_request_notification:
-      description: Benachrichtigung für definitive Mietanfrage (Mieter)
+      description: Benachrichtigung für definitive Reservationsanfrage (Mieter)
     email_contract_notification:
       description: Benachrichtigung für Versand Vertrag/Akontorechnung (Mieter)
     email_invoice_notification:
       description: Benachrichtigung für Versand Rechnung (Mieter)
     email_offer_notification:
       description: Benachrichtigung für Versand Offerte (Mieter)
+    expired_request_notification:
+      description: Benachrichtigung für abgelaufene Reservationsanfrage (Mieter)
     foreign_payment_info_text:
       description: Text für Zahlunginformationen für ausländische Mieter
     invoices_deposit_text:
@@ -2128,15 +2135,17 @@ de:
     manage_declined_request_notification:
       description: Benachrichtigung für stornierte Reservationsanfrage (Verwaltung)
     manage_definitive_request_notification:
-      description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
+      description: Benachrichtigung für definitive Reservationsanfrage (Verwaltung)
+    manage_expired_request_notification:
+      description: Benachrichtigung für abgelaufene Reservationsanfrage (Verwaltung)
     manage_new_booking_notification:
-      description: Benachrichtigung für neue Mietanfrage (Verwaltung)
+      description: Benachrichtigung für neue Reservationsanfrage (Verwaltung)
     notification_footer:
       description: Fusszeile für Benachrichtigungen
     open_booking_agent_request_notification:
-      description: Benachrichtigung für offene Mietanfrage (Vermittler)
+      description: Benachrichtigung für offene Reservationsanfrage (Vermittler)
     open_request_notification:
-      description: Benachrichtigung für offene Mietanfrage (Mieter)
+      description: Benachrichtigung für offene Reservationsanfrage (Mieter)
     operator_cancelation_pending_notification:
       description: Benachrichtigung für abgesagte Belegung (Funktionär)
     operator_contract_signed_notification:
@@ -2162,19 +2171,19 @@ de:
     payment_overdue_notification:
       description: Benachrichtigung für überfällige Rechnung (Mieter)
     provisional_request_notification:
-      description: Benachrichtigung für provisorische Mietanfrage (Mieter)
+      description: Benachrichtigung für provisorische Reservationsanfrage (Mieter)
     refund_payment_info_text:
       description: Text für Zahlunginformationen für Gutschriften
     text_payment_info_text:
       description: Text für Zahlunginformationen
     unconfirmed_request_notification:
-      description: Benachrichtigung für unbestätigte Mietanfrage (Mieter)
+      description: Benachrichtigung für unbestätigte Reservationsanfrage (Mieter)
     upcoming_notification:
       description: Benachrichtigung für zukünftige Belegung (Mieter)
     upcoming_soon_notification:
       description: Benachrichtigung für baldige Belegung (Mieter)
     waitlisted_request_notification:
-      description: Benachrichtigung für Mietanfrage auf der Warteliste (Mieter)
+      description: Benachrichtigung für Reservationsanfrage auf der Warteliste (Mieter)
   show: Anzeigen
   support:
     array:

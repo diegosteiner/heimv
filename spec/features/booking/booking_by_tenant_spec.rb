@@ -8,7 +8,7 @@ describe 'Booking by tenant', :devise do
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
-  let(:tenant) { create(:tenant, organisation:) }
+  let(:tenant) { create(:tenant, organisation:, email: 'booking_by_tenant_spec@heimv.local') }
   let(:deposit_tarif) do
     create(:tarif, organisation:, tarif_group: 'Akontorechnung', label: 'Anzahlung',
                    associated_types: %i[deposit offer contract])
@@ -247,7 +247,7 @@ describe 'Booking by tenant', :devise do
   describe 'check conflicting bookings' do
     let(:conflicting_booking) do
       create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
-                       occupancy_type: :tentative, initial_state: :provisional_request)
+                       occupancy_status: :tentative, initial_state: :provisional_request)
     end
 
     context 'without waitlist_enabled' do
@@ -281,7 +281,7 @@ describe 'Booking by tenant', :devise do
       let(:tenant) { create(:tenant, organisation:) }
       let(:conflicting_booking) do
         create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
-                         occupancy_type: :occupied, initial_state: :upcoming)
+                         occupancy_status: :occupied, initial_state: :upcoming)
       end
 
       before { organisation.reload.update!(booking_state_settings: { enable_waitlist: false }) }

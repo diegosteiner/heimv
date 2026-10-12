@@ -77,7 +77,7 @@
           = sf.text_field :booking_window, value: settings.booking_window&.iso8601
           = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
           
-          - visibility_options = options_for_select(Occupancy.occupancy_types.keys.map { |key| [Occupancy.human_enum(:occupancy_type, key), key] }, selected: settings.public_occupancy_visibility , disabled: %w[free])
+          - visibility_options = options_for_select(Occupancy.occupancy_statuses.keys.map { |key| [Occupancy.human_enum(:occupancy_status, key), key] }, selected: settings.public_occupancy_visibility , disabled: %w[void])
           = sf.select :public_occupancy_visibility, visibility_options, {}, multiple: true
     
     fieldset

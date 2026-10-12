@@ -26,7 +26,7 @@ describe BookingStates::DefinitiveRequest do
     it { expect(transitioned_booking.deadline).to be_nil }
     it { expect(transitioned_booking).not_to be_editable }
     it { expect(transitioned_booking.committed_request).to be_truthy }
-    it { expect(transitioned_booking).to be_occupied }
+    it { expect(transitioned_booking).to be_status_occupied }
     it { expect(transitioned_booking).to notify(:manage_definitive_request_notification).to(:administration) }
     it { expect(transitioned_booking).to notify(:definitive_request_notification).to(:tenant) }
   end

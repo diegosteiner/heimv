@@ -1,5 +1,13 @@
 # Changelog
 
+## 26.10.1
+
+unreleased
+
+- Feature: Distinguish between expired and declined requests
+- Feature: Add occupancy labels
+- Fix: Rename and normalize occupancy type
+
 ## 26.9.2
 
 Released 09.09.2026

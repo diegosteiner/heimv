@@ -5,9 +5,12 @@ require 'icalendar/tzinfo'
 class IcalService
   STATUS_MAP = {
     free: nil,
+    pending: nil,
     tentative: 'TENTATIVE',
     occupied: 'CONFIRMED',
-    closed: 'CONFIRMED'
+    closed: 'CONFIRMED',
+    internal: nil,
+    void: nil
   }.freeze
 
   def occupancies_to_ical(occupancies, include_tenant_details: false)
@@ -15,7 +18,7 @@ class IcalService
     ical_events = occupancies.flat_map do |occupancy|
       include_tenant_details ? occupancy_to_ical_with_tenant_details(occupancy) : occupancy_to_ical(occupancy)
     end
-    ical_events.each { |occupancy| ical.add_event(occupancy) }
+    ical_events.each { |event| ical.add_event(event) }
     ical.to_ical
   end
 
@@ -31,12 +34,12 @@ class IcalService
       ical_event.uid =         occupancy.id
       ical_event.location =    occupancy.occupiable.to_s
       ical_event.location =    occupancy.occupiable&.to_s
-      ical_event.status =      STATUS_MAP.fetch(occupancy.occupancy_type, nil)
+      ical_event.status =      STATUS_MAP.fetch(occupancy.occupancy_status, nil)
       ical_event.color =       occupancy.color
       ical_event.description = occupancy.remarks.presence
       ical_event.summary =     occupancy.booking&.ref ||
                                occupancy.remarks.presence ||
-                               Occupancy.human_enum(:occupancy_type, occupancy.occupancy_type)
+                               Occupancy.human_enum(:occupancy_status, occupancy.occupancy_status)
     end
   end
 

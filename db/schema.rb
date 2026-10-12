@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_04_083919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -219,7 +219,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.string "invoice_cc"
     t.string "locale"
     t.string "occupancy_color"
-    t.integer "occupancy_type", default: 0, null: false
+    t.integer "occupancy_status", default: 0, null: false
     t.bigint "organisation_id", null: false
     t.string "purpose_description"
     t.string "ref"
@@ -235,6 +235,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.boolean "use_invoice_address", default: false, null: false
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["locale"], name: "index_bookings_on_locale"
+    t.index ["organisation_id", "concluded", "begins_at"], name: "index_bookings_on_organisation_id_and_concluded_and_begins_at"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
     t.index ["token"], name: "index_bookings_on_token", unique: true
@@ -444,13 +445,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.datetime "ends_at", precision: nil, null: false
     t.boolean "ignore_conflicting", default: false, null: false
     t.boolean "linked", default: true
-    t.integer "occupancy_type", default: 0, null: false
+    t.integer "occupancy_status", default: 0, null: false
     t.bigint "occupiable_id", null: false
     t.text "remarks"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
+    t.index ["booking_id", "occupancy_status"], name: "index_occupancies_on_booking_id_and_occupancy_status"
+    t.index ["booking_id"], name: "index_occupancies_on_booking_id"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
-    t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
+    t.index ["occupancy_status"], name: "index_occupancies_on_occupancy_status"
     t.index ["occupiable_id"], name: "index_occupancies_on_occupiable_id"
   end
 
@@ -774,6 +777,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.text "search_cache", null: false
     t.integer "sequence_number"
     t.string "street"
+    t.string "street_address"
     t.string "street_nr"
     t.datetime "updated_at", precision: nil, null: false
     t.string "zipcode"

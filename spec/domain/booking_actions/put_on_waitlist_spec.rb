@@ -19,10 +19,10 @@ describe BookingActions::PutOnWaitlist do
     end
 
     it do
-      expect(booking).to be_pending
+      expect(booking).to be_status_pending
       # expect(invoke.error).to eq(nil)
       expect(invoke.success).to be_truthy
-      expect(booking).to be_pending
+      expect(booking).to be_status_pending
       expect(booking.booking_flow.current_state.to_sym).to eq(:waitlisted_request)
     end
   end

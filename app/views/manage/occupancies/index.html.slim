@@ -17,7 +17,7 @@ h1.m-0= Occupancy.model_name.human(count: 2)
       tr
         th= Occupancy.human_attribute_name(:begins_at)
         th= Occupancy.human_attribute_name(:ends_at)
-        th= Occupancy.human_attribute_name(:occupancy_type)
+        th= Occupancy.human_attribute_name(:occupancy_status)
         th= Booking.model_name.human
         th= Occupancy.human_attribute_name(:remarks)
         th
@@ -30,7 +30,7 @@ h1.m-0= Occupancy.model_name.human(count: 2)
           td
             = l(occupancy.ends_at)
           td
-            = Occupancy.human_enum(:occupancy_type, occupancy.occupancy_type)
+            = Occupancy.human_enum(:occupancy_status, occupancy.occupancy_status)
           td
             = link_to occupancy.booking.ref, manage_booking_path(occupancy.booking) if occupancy.booking
           td
