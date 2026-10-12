@@ -669,10 +669,10 @@ fr:
         occupancy_status:
           closed: Fermé
           free: Libre
-          none: Pas de location
           occupied: Demande de location définitive
           pending: Sollicité
           tentative: Demande de location provisoire
+          void: Pas de location
       operator_responsibility:
         responsibility:
           administration: Administration

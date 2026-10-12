@@ -669,10 +669,10 @@ it:
         occupancy_status:
           closed: Chiuso
           free: Libero
-          none: Riservato
           occupied: Sicuramente occupato
           pending: Richiesto
           tentative: Provvisoriamente riservato
+          void: Riservato
       operator_responsibility:
         responsibility:
           administration: Administration

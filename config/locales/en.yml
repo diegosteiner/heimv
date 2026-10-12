@@ -672,10 +672,10 @@ en:
         occupancy_status:
           closed: Geschlossen
           free: Frei
-          none: not occupied
           occupied: definitiv Besetzt
           pending: angefragt
           tentative: provisorisch Besetzt
+          void: not occupied
       operator_responsibility:
         responsibility:
           administration: Administration

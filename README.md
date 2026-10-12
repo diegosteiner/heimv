@@ -203,7 +203,7 @@ Additionally you might need to run these commands:
 | tentative | ✅   | ✅      | ⏳        | ⏳       | 🛑     |
 | occupied  | ✅   | ✅      | ⏳        | ⏳       | 🛑     |
 | closed    | ✅   | ✅²     | 🛑        | 🛑       | 🛑     |
-| none      | ✅   | ✅      | ✅        | ✅       | ✅     |
+| void      | ✅   | ✅      | ✅        | ✅       | ✅     |
 
 ¹) Would make all existing records invalid
 ²) Will make all existing records invalid

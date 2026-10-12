@@ -673,10 +673,10 @@ de:
         occupancy_status:
           closed: geschlossen
           free: frei
-          none: nicht belegt
           occupied: definitiv belegt
           pending: angefragt
           tentative: provisorisch belegt
+          void: nicht belegt
       operator_responsibility:
         responsibility:
           administration: Administration
