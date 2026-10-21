@@ -287,3 +287,8 @@ input#invoice_payment_required:checked+label.form-check-label {
     }
   }
 }
+
+
+:focus-visible {
+  outline: 2px solid $primary;
+}

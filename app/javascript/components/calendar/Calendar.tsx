@@ -14,6 +14,7 @@ type CalendarProps = {
   dateElementFactory: DateElementFactory;
   defaultView?: ViewType;
   months?: number;
+  showLegend?: boolean;
 };
 
 export type ViewType = "months" | "year";
@@ -23,7 +24,7 @@ type CalendarViewContextType = {
 };
 export const CalendarViewContext = createContext<CalendarViewContextType>({ view: "months" });
 
-function Calendar({ initialFirstDate, defaultView, months, dateElementFactory }: CalendarProps) {
+function Calendar({ initialFirstDate, defaultView, months, dateElementFactory, showLegend = true }: CalendarProps) {
   const [view, setView] = useState<ViewType>(defaultView || "months");
   const [firstDate, setFirstDate] = useState<Date>(parseDate(initialFirstDate));
   const gotoNextMonth = () => setFirstDate((prevFirstDate) => addMonths(prevFirstDate, 1));
@@ -41,8 +42,8 @@ function Calendar({ initialFirstDate, defaultView, months, dateElementFactory }:
           months,
           dateElementFactory,
         })}
-        <CalendarLegend />
-        <CalendarNav onNext={gotoNextMonth} onPrev={gotoPrevMonth} onToday={gotoToday}>
+        {showLegend && <CalendarLegend />}
+        <CalendarNav onNext={gotoNextMonth} onPrev={gotoPrevMonth} showViews={false}>
           {getYear(firstDate)}
         </CalendarNav>
       </div>

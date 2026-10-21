@@ -1,60 +1,67 @@
-import { type PropsWithChildren, use } from "react";
+import { type PropsWithChildren, use, useTransition } from "react";
 import { CalendarViewContext } from "./Calendar";
+import { cx } from "@emotion/css";
+import { useTranslation } from "react-i18next";
 
 interface CalendarNavProps {
   onPrev(): void;
   onNext(): void;
-  onToday(): void;
+  onToday?(): void;
+  showViews?: boolean;
 }
 
-export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChildren<CalendarNavProps>) {
+export function CalendarNav({ onPrev, onNext, onToday, showViews = true, children }: PropsWithChildren<CalendarNavProps>) {
   const { view, setView } = use(CalendarViewContext);
+  const { t } = useTranslation();
 
   return (
     <nav className="calendar-nav">
-      <div className="actions">
         {(onToday && (
+      <div className="actions">
           <button type="button" className="today active" onClick={() => onToday()}>
-            <svg width="48" height="48" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
-              <rect width="40" height="8" x="4" y="4" rx="2" />
-              <rect width="40" height="36" x="4" y="4" rx="2" fill="none" stroke="currentColor" strokeWidth="3" />
-            </svg>
+            {t("calendar.actions.today")}
+            {/* <svg viewBox="0 0 24 24" width="24" height="24">
+              <rect fill="none" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" stroke="currentColor" x="3" y="5" width="18" height="16" rx="2" />
+              <path fill="none" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" stroke="currentColor" d="M8 3v4M16 3v4M3 10h18" />
+            </svg> */}
           </button>
-        )) || <div />}
-        <button type="button">
-          <span className="fa fa-question-circle" />
-        </button>
       </div>
+        )) || <div />}
       <div className="pages">
-        <button onClick={onPrev} className="prev" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
-            <path d="M30 36L18 24l12-12" stroke="currentColor" />
+        <button onClick={onPrev} className="prev" type="button" aria-label="Previous period">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path d="M14.5 6.5 8.5 12l6 5.5" fill="none" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" stroke="currentColor" />
           </svg>
         </button>
         <div className="label">{children}</div>
-        <button onClick={onNext} className="next" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
-            <path d="M18 36l12-12-12-12" stroke="currentColor" />
+        <button onClick={onNext} className="next" type="button" aria-label="Next period">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path d="M9.5 6.5 15.5 12l-6 5.5" fill="none" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" stroke="currentColor" />
           </svg>
         </button>
       </div>
-      <div className="views">
-        <button type="button" className={view === "months" ? "active" : ""} onClick={() => setView?.("months")}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
-            <rect width="12" height="12" x="6" y="6" />
-            <rect width="12" height="12" x="26" y="6" />
-            <rect width="12" height="12" x="6" y="26" />
-            <rect width="12" height="12" x="26" y="26" />
-          </svg>
+      {showViews && <div className="views">
+        <button
+          type="button"
+          name="view"
+          value="months"
+          className={cx({active: view === "months"})}
+          onClick={() => setView?.("months")}
+          aria-pressed={view === "months"}
+        >
+          {t("calendar.view.months")}
         </button>
-        <button type="button" className={view === "year" ? "active" : ""} onClick={() => setView?.("year")}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
-            <rect width="36" height="4" x="6" y="8" />
-            <rect width="36" height="4" x="6" y="20" />
-            <rect width="36" height="4" x="6" y="32" />
-          </svg>
+        <button
+          type="button"
+          name="view"
+          value="year"
+          className={cx({active: view === "year"})}
+          onClick={() => setView?.("year")}
+          aria-pressed={view === "year"}
+        >
+          {t("calendar.view.year")}
         </button>
-      </div>
+      </div> || <div />}
     </nav>
   );
 }

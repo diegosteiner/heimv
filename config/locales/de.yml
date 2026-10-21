@@ -1,5 +1,14 @@
 ---
 de:
+  calendar:
+    view:
+      year: Jahr 
+      months: Monate
+    actions:
+      today: Heute
+      help: Hilfe
+      next: später
+      prev: früher
   activemodel:
     attributes:
       accounting_settings:
