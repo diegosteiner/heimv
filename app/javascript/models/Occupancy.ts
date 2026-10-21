@@ -11,8 +11,8 @@ export type Occupancy = {
   deadline?: Date;
   remarks?: string;
   color?: string;
-  occupancyLabel?: OccpancyLabel | undefined;
-  defaultOccupancyLabel?: OccpancyLabel;
+  calendarLabel?: OccpancyLabel | undefined;
+  defaultCalendarLabel?: OccpancyLabel;
   occupiable?: Occupiable;
   occupiableId: number;
 };
@@ -33,8 +33,8 @@ export type OccupancyJson = {
   occupiable_id: number;
   occupiable: Occupiable;
   occupancy_status: Occupancy["occupancyStatus"];
-  occupancy_label: Occupancy["occupancyLabel"];
-  default_occupancy_label: Occupancy["defaultOccupancyLabel"];
+  calendar_label: Occupancy["calendarLabel"];
+  default_calendar_label: Occupancy["defaultCalendarLabel"];
 };
 
 export function parse(json: OccupancyJson): Partial<Occupancy> {
@@ -46,8 +46,8 @@ export function parse(json: OccupancyJson): Partial<Occupancy> {
     deadline,
     occupiable_id,
     occupancy_status,
-    occupancy_label,
-    default_occupancy_label,
+    calendar_label,
+    default_calendar_label,
     ...rest
   } = json;
 
@@ -60,8 +60,8 @@ export function parse(json: OccupancyJson): Partial<Occupancy> {
     deadline: parseISOorUndefined(deadline),
     occupiableId: occupiable_id,
     occupancyStatus: occupancy_status,
-    occupancyLabel: occupancy_label,
-    defaultOccupancyLabel: default_occupancy_label,
+    calendarLabel: calendar_label,
+    defaultCalendarLabel: default_calendar_label,
   };
 }
 

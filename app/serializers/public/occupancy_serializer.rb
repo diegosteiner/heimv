@@ -4,8 +4,8 @@ module Public
   class OccupancySerializer < ApplicationSerializer
     identifier :id
     association :occupiable, blueprint: Public::OccupiableSerializer
-    association :occupancy_label, blueprint: Public::OccupancyLabelSerializer
-    association :default_occupancy_label, blueprint: Public::OccupancyLabelSerializer
+    association :calendar_label, blueprint: Public::CalendarLabelSerializer
+    association :default_calendar_label, blueprint: Public::CalendarLabelSerializer
 
     fields :begins_at, :ends_at, :occupancy_status, :occupiable_id, :remarks, :nights, :color, :booking_id
 

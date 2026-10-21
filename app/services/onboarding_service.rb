@@ -45,7 +45,7 @@ class OnboardingService
   def setup_all
     setup_missing_rich_text_templates
     setup_booking_category
-    setup_occupancy_labels
+    setup_calendar_labels
   end
 
   def setup_home(**attributes)
@@ -53,8 +53,8 @@ class OnboardingService
     organisation.homes.create!(defaults.merge(attributes))
   end
 
-  def setup_occupancy_labels
-    OccupancyLabel.create_defaults(organisation)
+  def setup_calendar_labels
+    CalendarLabel.prepare_default(organisation).each(&:save!)
   end
 
   def setup_booking_category(**attributes)

@@ -201,6 +201,7 @@ describe 'Booking by tenant', :devise do
     first('input[inputmode="numeric"]')
     all('input[inputmode="numeric"]').each { it.fill_in with: 22 }
     submit_form
+    sleep 1
     expect(page).to have_text(I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human))
   end
 

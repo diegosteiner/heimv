@@ -11,7 +11,7 @@ export function CalendarLegend() {
   return (
     <div>
       <ul className="calendar-legend">
-        {organisation.occupancy_labels?.map((label) => (
+        {organisation.calendar_labels?.map((label) => (
           <li key={label.id}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill={label.color}>
               <rect width="48" height="48" />

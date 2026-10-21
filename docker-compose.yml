@@ -73,4 +73,6 @@ volumes:
 
 networks:
   selenium:
+    driver: bridge
   main:
+    driver: bridge

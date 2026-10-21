@@ -25,7 +25,7 @@ describe 'Bookings' do
       visit calendar_manage_bookings_path
       expect(page).to have_text(Time.zone.now.year)
       date_element = find("time.date[datetime='#{definitive_request.begins_at.to_date.iso8601}']")
-      svg_selector = "a.date-action .occupancy-calendar-date.has-occupancies svg .occupancy-slot[fill='#e85f5f']"
+      svg_selector = "a.date-action .occupancy-calendar-date.has-occupancies svg .occupancy-slot[fill='#{CalendarLabel::DEFAULT_COLORS[:occupied]}']"
       expect(date_element).to have_selector(svg_selector)
       date_element.click
       expect(page).to have_text(definitive_request.ref)

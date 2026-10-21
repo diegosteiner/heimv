@@ -9,7 +9,7 @@
     = f.text_area :remarks
     = f.check_box :linked, disabled: !@occupancy.linked
     = f.check_box :ignore_conflicting
-    = f.collection_select :occupancy_label, current_organisation.occupancy_labels, :id, :title, include_blank: true
+    = f.collection_select :calendar_label, current_organisation.calendar_labels, :id, :title, include_blank: true
     
 
   .form-actions.pt-4.mt-3

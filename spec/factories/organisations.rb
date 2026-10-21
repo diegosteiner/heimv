@@ -61,6 +61,7 @@ FactoryBot.define do
     after(:build) do |organisation, _evaluator|
       build(:booking_category, key: :camp, title: 'Lager', organisation:)
       build(:booking_category, key: :private, title: 'Fest', organisation:)
+      CalendarLabel.prepare_default(organisation)
     end
 
     trait :with_templates do

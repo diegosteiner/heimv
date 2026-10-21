@@ -19,8 +19,8 @@
     =<> time_tag booking.begins_at, format: :short_with_weekday
 
   .text-center
-    - if booking.occupancy_color.present?
-      span[style="color: #{booking.occupancy_color}"]
+    - if booking.color.present?
+      span[style="color: #{booking.color}" title=(booking.calendar_label || booking.default_calendar_label)&.title]
         | ⬤
   div
     = t(:until)

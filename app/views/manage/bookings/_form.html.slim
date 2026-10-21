@@ -24,7 +24,7 @@
       }) 
 
     = f.check_box :ignore_conflicting
-    = f.collection_select :occupancy_label, current_organisation.occupancy_labels, :id, :title, include_blank: true
+    = f.collection_select :calendar_label_id, current_organisation.calendar_labels, :id, :title, include_blank: true
 
   fieldset.mt-3
     h5.mt-0= Booking.human_attribute_name(:tenant)

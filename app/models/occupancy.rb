@@ -15,7 +15,7 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  booking_id         :uuid
-#  occupancy_label_id :bigint
+#  calendar_label_id  :bigint
 #  occupiable_id      :bigint           not null
 #
 
@@ -35,11 +35,11 @@ class Occupancy < ApplicationRecord
   timespan :begins_at, :ends_at
   belongs_to :occupiable, inverse_of: :occupancies
   belongs_to :booking, inverse_of: :occupancies, optional: true, touch: true
-  belongs_to :occupancy_label, optional: true
+  belongs_to :calendar_label, optional: true
 
   has_one :organisation, through: :occupiable
-  has_one :default_occupancy_label, class_name: 'OccupancyLabel', primary_key: :occupancy_status, # rubocop:disable Rails/HasManyOrHasOneDependent,Rails/InverseOf
-                                    foreign_key: :occupancy_status_default
+  has_one :default_calendar_label, class_name: 'CalendarLabel', primary_key: :occupancy_status, # rubocop:disable Rails/HasManyOrHasOneDependent,Rails/InverseOf
+                                   foreign_key: :occupancy_status_default
 
   enum :occupancy_status, STATUSES, prefix: :status
 
@@ -83,16 +83,17 @@ class Occupancy < ApplicationRecord
               .where(occupancy_status: occupancy_statuses, ignore_conflicting: [false, nil])
   end
 
-  def color # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+  def color
+    # legacy
     super.presence || booking&.occupancy_color ||
-      occupancy_label&.color || booking&.occupancy_label&.color ||
-      default_occupancy_label&.color
+      # not legacy
+      calendar_label&.color || default_calendar_label&.color
   end
 
   def sync_booking
     return if !linked || booking.blank?
 
-    assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,
+    assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at, calendar_label: booking.calendar_label,
                       occupancy_status: booking.occupancy_status, ignore_conflicting: booking.ignore_conflicting)
   end
 

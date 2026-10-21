@@ -2,7 +2,7 @@
 
 module Import
   module Hash
-    class OccupancyLabelImporter < Base
+    class CalendarLabelImporter < Base
       attr_reader :organisation
 
       use_attributes(*%w[color title title_i18n description description_i18n occupancy_status_default])
@@ -13,7 +13,7 @@ module Import
       end
 
       def initialize_record(hash)
-        organisation.occupancy_labels.find_or_initialize_by(hash.slice('color'))
+        organisation.calendar_labels.find_or_initialize_by(hash.slice('color'))
       end
     end
   end

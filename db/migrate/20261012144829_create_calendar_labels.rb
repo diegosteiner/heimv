@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class CreateOccupancyLabels < ActiveRecord::Migration[8.1]
+class CreateCalendarLabels < ActiveRecord::Migration[8.1]
   def change
-    create_table :occupancy_labels do |t|
+    create_table :calendar_labels do |t|
       t.belongs_to :organisation
       t.jsonb :title_i18n, default: {}, null: false
       t.jsonb :description_i18n, default: {}, null: false
@@ -12,9 +12,9 @@ class CreateOccupancyLabels < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :occupancy_labels, %i[organisation_id occupancy_status_default], unique: true
-    add_reference :occupancies, :occupancy_label, foreign_key: true
-    add_reference :bookings, :occupancy_label, foreign_key: true
+    add_index :calendar_labels, %i[organisation_id occupancy_status_default], unique: true
+    add_reference :occupancies, :calendar_label, foreign_key: true
+    add_reference :bookings, :calendar_label, foreign_key: true
 
     up_only do
       migrate_occupancy_status_default
@@ -25,7 +25,8 @@ class CreateOccupancyLabels < ActiveRecord::Migration[8.1]
 
   def migrate_occupancy_status_default
     Organisation.find_each do |organisation|
-      OccupancyLabel.create_defaults(organisation, defaults: organisation.settings.try(:occupancy_colors) || {})
+      colors = organisation.settings.try(:occupancy_colors) || {}
+      CalendarLabel.prepare_default(organisation, colors:).each(&:save!)
     end
   end
 
@@ -39,12 +40,12 @@ class CreateOccupancyLabels < ActiveRecord::Migration[8.1]
         .having(Occupancy.arel_table[:color].count.gt(1))
         .distinct
         .pluck(Occupancy.arel_table[:color])
-        .each { OccupancyLabel.find_or_create_by!(organisation:, color: it) if it.present? }
+        .each { CalendarLabel.find_or_create_by!(organisation:, color: it) if it.present? }
 
-      organisation.occupancy_labels.reload.find_each do |occupancy_label|
+      organisation.calendar_labels.reload.find_each do |calendar_label|
         Occupancy.joins(:occupiable)
-                 .where(occupiables: { organisation_id: organisation.id }, color: occupancy_label.color)
-                 .update_all(occupancy_label_id: occupancy_label.id, color: nil) # rubocop:disable Rails/SkipsModelValidations
+                 .where(occupiables: { organisation_id: organisation.id }, color: calendar_label.color)
+                 .update_all(calendar_label_id: calendar_label.id, color: nil) # rubocop:disable Rails/SkipsModelValidations
       end
     end
   end
@@ -58,11 +59,11 @@ class CreateOccupancyLabels < ActiveRecord::Migration[8.1]
                   .having(Booking.arel_table[:occupancy_color].count.gt(1))
                   .distinct
                   .pluck(Booking.arel_table[:occupancy_color])
-                  .each { OccupancyLabel.find_or_create_by(organisation:, color: it) if it.present? }
+                  .each { CalendarLabel.find_or_create_by(organisation:, color: it) if it.present? }
 
-      organisation.occupancy_labels.reload.find_each do |occupancy_label|
-        organisation.bookings.where(occupancy_color: occupancy_label.color)
-                    .update_all(occupancy_label_id: occupancy_label.id, occupancy_color: nil) # rubocop:disable Rails/SkipsModelValidations
+      organisation.calendar_labels.reload.find_each do |calendar_label|
+        organisation.bookings.where(occupancy_color: calendar_label.color)
+                    .update_all(calendar_label_id: calendar_label.id, occupancy_color: nil) # rubocop:disable Rails/SkipsModelValidations
       end
     end
   end

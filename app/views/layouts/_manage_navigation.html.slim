@@ -65,9 +65,9 @@ nav.px-3
                 = BookingCategory.model_name.human(count: 2) 
 
             li
-              = link_to manage_occupancy_labels_path, class: 'nav-link' do 
+              = link_to manage_calendar_labels_path, class: 'nav-link' do 
                 span.fa.fa-calendar.pe-2[style="width: 1.5rem;"]
-                = OccupancyLabel.model_name.human(count: 2) 
+                = CalendarLabel.model_name.human(count: 2) 
             li
               = link_to manage_rich_text_templates_path, class: 'nav-link' do 
                 span.fa.fa-file-text-o.pe-2[style="width: 1.5rem;"]

@@ -36,7 +36,7 @@ export const OccupancyPopover = React.memo(function OccupancyPopover({
 function OccupancyLi({ occupancy }: { occupancy: Occupancy }) {
   const deadline = occupancy.deadline;
   const { t, i18n } = useTranslation();
-  const occupancyLabel = occupancy.occupancyLabel ?? occupancy.defaultOccupancyLabel;
+  const calendarLabel = occupancy.calendarLabel ?? occupancy.defaultCalendarLabel;
 
   return (
     <li>
@@ -47,7 +47,7 @@ function OccupancyLi({ occupancy }: { occupancy: Occupancy }) {
       <div>
         <span style={{ color: occupancy.color }}>⬤</span>&nbsp;
         <span>
-          {translatedString(occupancyLabel?.title_i18n, i18n)}
+          {translatedString(calendarLabel?.title_i18n, i18n)}
           <br />
           {occupancy.ref || occupancy.remarks}
         </span>

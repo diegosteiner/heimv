@@ -74,10 +74,11 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
   config.include ActiveSupport::NumberHelper
 
-  # config.before type: :feature do
-  #   if page.driver.respond_to?(:invalid_element_errors) &&
-  #      page.driver.invalid_element_errors.exclude?(Selenium::WebDriver::Error::UnknownError)
-  #     page.driver.invalid_element_errors << Selenium::WebDriver::Error::UnknownError
-  #   end
-  # end
+  # capybara issue
+  config.before type: :feature do
+    if page.driver.respond_to?(:invalid_element_errors) &&
+       page.driver.invalid_element_errors.exclude?(Selenium::WebDriver::Error::UnknownError)
+      page.driver.invalid_element_errors << Selenium::WebDriver::Error::UnknownError
+    end
+  end
 end

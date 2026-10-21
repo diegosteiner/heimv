@@ -103,11 +103,11 @@ de:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
+        calendar_label_id: Anzeige im Kalender
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
         occupancy_status: Belegungsstatus
-        occupancy_label_id: Belegungsart
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -248,6 +248,7 @@ de:
         booking_agent_code: Vermittler-Code
         booking_agent_ref: Vermittler-Referenz
         booking_category_id: Mietkategorie
+        calendar_label_id: Anzeige im Kalender
         cancellation_reason: Annulierungsgrund
         category: Mietkategorie
         committed_request: Verbindlichkeit der Reservationsanfrage
@@ -265,7 +266,6 @@ de:
         nights: Nächte
         occupancies: Belegungen
         occupancy_status: Belegungsstatus
-        occupancy_label_id: Belegungsart
         occupiable_ids: Mietobjekte
         occupiables: Mietobjekte
         purpose_description: Beschreibung des Mietzwecks
@@ -312,6 +312,11 @@ de:
         error_message: Anzuzeigende Fehlermeldung
         ordinal_position: Ordnungsnummer
         validating_conditions: Gültigkeitskriterium
+      calendar_label:
+        color: Farbe
+        description: Beschreibung
+        occupancy_status_default: Standard für Belegungsart
+        title: Bezeichnung
       contract:
         confirmed_at: Retournierter Vertrag bestätigt am
         issuer: Vermieter
@@ -399,6 +404,7 @@ de:
         begins_at: Beginn der Belegung
         begins_at_date: Beginn der Belegung (Datum)
         begins_at_time: Beginn der Belegung (Zeit)
+        calendar_label_id: Anzeige im Kalender
         color: Farbe im Kalender
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
@@ -406,14 +412,8 @@ de:
         ignore_conflicting: Terminkonflikte ignorieren
         linked: An Buchung gebunden
         occupancy_status: Belegungsstatus
-        occupancy_label_id: Belegungsart
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
-      occupancy_label:
-        color: Farbe
-        occupancy_status_default: Standard für Belegungsart
-        title: Bezeichnung 
-        description: Beschreibung
       occupiable:
         bookable: Öffentlich buchbar
         description: Beschreibung
@@ -803,6 +803,9 @@ de:
       booking_validation:
         one: Gültigkeitsprüfung
         other: Gültigkeitsprüfungen
+      calendar_label:
+        one: Anzeige im Kalender
+        other: Kalenderlegende
       contract:
         one: Vertrag
         other: Verträge
@@ -875,9 +878,6 @@ de:
       occupancy:
         one: Belegung
         other: Belegungen
-      occupancy_label:
-        one: Belegungsart
-        other: Belegungsarten
       occupiable:
         one: Mietobjekt
         other: Mietobjekte

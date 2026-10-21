@@ -41,8 +41,8 @@
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
 #  booking_category_id          :integer
+#  calendar_label_id            :bigint
 #  home_id                      :integer          not null
-#  occupancy_label_id           :bigint
 #  organisation_id              :bigint           not null
 #  tenant_id                    :integer
 #
@@ -57,16 +57,16 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   LIMIT = ENV.fetch('RECORD_LIMIT', 250)
   DEFAULT_INCLUDES = [
     :organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent, :category, :logs, :home,
-    :occupancy_label, { tenant: :organisation, deadline: :booking,
-                        occupancies: %i[occupiable occupancy_label default_occupancy_label],
-                        agent_booking: %i[booking_agent organisation],
-                        booking_question_responses: :booking_question }
+    :calendar_label, { tenant: :organisation, deadline: :booking,
+                       occupancies: %i[occupiable calendar_label default_calendar_label],
+                       agent_booking: %i[booking_agent organisation],
+                       booking_question_responses: :booking_question }
   ].freeze
 
   belongs_to :home
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, autosave: true
-  belongs_to :occupancy_label, optional: true
+  belongs_to :calendar_label, optional: true
   belongs_to :category, inverse_of: :bookings, class_name: 'BookingCategory', optional: true,
                         foreign_key: :booking_category_id
 
@@ -87,6 +87,8 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_one :deadline, inverse_of: :booking, dependent: :destroy
   has_one :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one :booking_agent, through: :agent_booking
+  has_one :default_calendar_label, class_name: 'CalendarLabel', primary_key: :occupancy_status, # rubocop:disable Rails/HasManyOrHasOneDependent,Rails/InverseOf
+                                   foreign_key: :occupancy_status_default
 
   has_one_attached :home_return_report
   has_secure_token :token, length: 48
@@ -298,6 +300,13 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     super
   rescue ActiveRecord::RecordInvalid
     false
+  end
+
+  def color
+    # legacy
+    occupancy_color.presence ||
+      # not legacy
+      calendar_label&.color || default_calendar_label&.color
   end
 
   private
