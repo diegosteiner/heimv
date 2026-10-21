@@ -44,6 +44,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      min-width: 12rem;
 
       button {
         display: grid;
@@ -80,7 +81,7 @@
 
     .views,
     .actions {
-      width: 20%;
+      min-width: 12rem;
       font-size: 0.8rem;
       display: flex;
       align-items: center;
@@ -89,7 +90,6 @@
         padding: 0.5rem;
         background: none;
         border: none;
-        display: inline-flex;
         align-items: center;
         justify-content: center;
 
@@ -107,19 +107,20 @@
     }
 
     .views {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      width: max-content;
       padding: 0.2rem;
       border-radius: 3rem;
       background-color: rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
 
       button {
-        min-width: 5rem;
-        border-radius: 3rem;
         margin: 0;
+        flex: 1 1;
         padding: 0.3rem;
-        transition: background-color 150ms ease, color 150ms ease;
+        position: relative;
+        z-index: 1;
 
         &:hover, &:focus {
           text-decoration: none;
@@ -128,12 +129,32 @@
 
       button.active {
         font-weight: bold;
-        background-color: #fff;
+        background-color: transparent;
         color: #111;
       }
 
       button:not(.active) {
         color: #444;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0.2rem;
+        bottom: 0.2rem;
+        left: 0.2rem;
+        right: 0.2rem;
+        width: calc(50% - 0.2rem);
+        border-radius: 3rem;
+        background-color: white;
+        transform: translateX(0);
+        transition: transform 220ms ease;
+        z-index: 0;
+        box-shadow: 1px 1px 2px rgba(0,0,0, 0.1);
+      }
+
+      &:has(button:nth-child(2).active)::before {
+        transform: translateX(100%);
       }
     }
   }
@@ -270,6 +291,10 @@
       box-sizing: border-box;
       pointer-events: none;
     }
+  }
+
+  .date.weekend {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 
   .date-action {
