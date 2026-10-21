@@ -2,7 +2,7 @@
 
 module BookingStates
   class DefinitiveRequest < Base
-    use_mail_template(:definitive_request_notification, context: %i[booking])
+    use_mail_template(:definitive_request_notification, context: %i[booking], optional: true)
     use_mail_template(:manage_definitive_request_notification, context: %i[booking], optional: true)
     include Rails.application.routes.url_helpers
 

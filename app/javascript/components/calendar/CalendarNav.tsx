@@ -15,9 +15,9 @@ export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChil
       <div className="actions">
         {(onToday && (
           <button type="button" className="today active" onClick={() => onToday()}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-              <rect width="75" height="26" x="13" y="13" ry="3" />
-              <rect width="75" height="75" x="13" y="13" ry="3" fill="none" stroke="black" strokeWidth="10" />
+            <svg width="48" height="48" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+              <rect width="40" height="8" x="4" y="4" rx="2" />
+              <rect width="40" height="36" x="4" y="4" rx="2" fill="none" stroke="currentColor" strokeWidth="3" />
             </svg>
           </button>
         )) || <div />}
@@ -27,31 +27,31 @@ export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChil
       </div>
       <div className="pages">
         <button onClick={onPrev} className="prev" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <path d="M87 40H40V20L11 50l29 30V60h47l2-2V42Z" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+            <path d="M30 36L18 24l12-12" stroke="currentColor" />
           </svg>
         </button>
         <div className="label">{children}</div>
         <button onClick={onNext} className="next" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <path d="M13 40h47V20l29 30-29 30V60H13l-2-2V42Z" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+            <path d="M18 36l12-12-12-12" stroke="currentColor" />
           </svg>
         </button>
       </div>
       <div className="views">
         <button type="button" className={view === "months" ? "active" : ""} onClick={() => setView?.("months")}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <rect width="33" height="33" x="13" y="13" ry="3" />
-            <rect width="33" height="33" x="56" y="13" ry="3" />
-            <rect width="33" height="33" x="13" y="56" ry="3" />
-            <rect width="33" height="33" x="56" y="56" ry="3" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+            <rect width="12" height="12" x="6" y="6" />
+            <rect width="12" height="12" x="26" y="6" />
+            <rect width="12" height="12" x="6" y="26" />
+            <rect width="12" height="12" x="26" y="26" />
           </svg>
         </button>
         <button type="button" className={view === "year" ? "active" : ""} onClick={() => setView?.("year")}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <rect width="75" height="15" x="13" y="13" ry="2" />
-            <rect width="75" height="15" x="13" y="40" ry="2" />
-            <rect width="75" height="15" x="13" y="69" ry="2" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+            <rect width="36" height="4" x="6" y="8" />
+            <rect width="36" height="4" x="6" y="20" />
+            <rect width="36" height="4" x="6" y="32" />
           </svg>
         </button>
       </div>

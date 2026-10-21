@@ -14,6 +14,26 @@
   position: relative;
   container: calendar / inline-size;
 
+  .calendar-legend {
+    font-size: 0.8em;
+    display: flex;
+    gap: 1.5em;
+    list-style: none;
+    padding: 0;
+
+    &>li {
+      padding: 0.5em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    svg {
+      width: 1.5em;
+      display: block;
+    }
+  }
+
   .calendar-nav {
     display: flex;
     justify-content: space-between;
@@ -33,7 +53,7 @@
         line-height: 1em;
         height: 100%;
         padding: 0.75em;
-        width: 3em;
+        width: 50px;
 
         &>svg {
           max-height: 100%;
@@ -65,18 +85,14 @@
         padding: 0.5rem;
         background: none;
         border: none;
-        opacity: 0.25;
-        height: 100%;
-        width: 2.25em;
 
         &.active {
           opacity: 1;
         }
 
         &>svg {
-          height: 100%;
-          max-height: 100%;
-          max-width: 100%;
+          height: 24px;
+          // shape-rendering: crispEdges;
         }
       }
 

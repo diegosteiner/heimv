@@ -14,7 +14,10 @@ OccupancyCalendar = Data.define(:organisation, :occupiables, :public_visibility,
   def occupancies
     occupancies = Occupancy.where(occupiable: occupiables).at(from: window_from, to: window_to)
                            .where.not(occupancy_status: :void)
-                           .includes(occupiable: [:organisation], booking: %i[deadline organisation])
+                           .includes(:occupancy_label, :default_occupancy_label,
+                                     occupiable: [:organisation],
+                                     booking: %i[deadline organisation occupancy_label])
+
     return occupancies unless public_visibility
 
     occupancies.where(occupancy_status: organisation.settings.public_occupancy_visibility)

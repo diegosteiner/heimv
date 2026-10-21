@@ -11,5 +11,7 @@
 #     remove_table :bookable_extras
 #     remove_table :booked_extras
 #     remove_table :invoice_parts # sind glaube ich schon weg
+#     remove_column :bookings, :occupancy_color
+#     remove_column :occupancies, :color
 #   end
 # end

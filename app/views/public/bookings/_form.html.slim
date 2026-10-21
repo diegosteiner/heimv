@@ -67,7 +67,7 @@
 
       .row  
         .col
-          = tf.text_field :street, required: false, disabled: !@booking.editable?
+          = tf.text_field :street, required: true, disabled: !@booking.editable?
         .col-sm-3
           = tf.text_field :street_nr, required: false, disabled: !@booking.editable?
 

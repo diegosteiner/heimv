@@ -63,10 +63,6 @@
       h3.mt-5= Occupancy.model_name.human(count: 2)
       .card.shadow-sm 
         .card-body
-          = sf.color_field :tentative_occupancy_color, style: 'width: 5em;'
-          = sf.color_field :occupied_occupancy_color, style: 'width: 5em;'
-          = sf.color_field :closed_occupancy_color, style: 'width: 5em;'
-
           = sf.text_field :default_begins_at_time, value: settings.default_begins_at_time
           = sf.text_field :default_ends_at_time, value: settings.default_ends_at_time
 

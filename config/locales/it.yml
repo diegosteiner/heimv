@@ -114,18 +114,15 @@ it:
         available_begins_at_times:
         available_ends_at_times:
         booking_window: Finestra di prenotazione
-        closed_occupancy_color: Colore per le chiusure
         contract_sign_by_click_enabled:
         default_begins_at_time:
         default_ends_at_time:
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
         locales: Lingue
-        occupied_occupancy_color: Colore per le occupazioni definitive
         predefined_salutation_form:
         public_occupancy_visibility:
         qr_bill_creditor_address_as_invoice_address:
         tenant_birth_date_required: 'Data di nascita: inserimento obbligatorio'
-        tentative_occupancy_color: Colore per le occupazioni provvisorie
         upcoming_soon_window: Periodo per l'occupazione anticipata
       payment/filter:
         paid_at_after: Pagamento a partire da
@@ -262,7 +259,6 @@ it:
         locale: Lingua
         nights: Notti
         occupancies: Occupazioni
-        occupancy_color: Colore nel calendario
         occupancy_status: Tipo di occupazione
         occupiable_ids: Proprietà in affitto
         occupiables: Proprietà in affitto

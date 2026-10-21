@@ -24,10 +24,7 @@
       }) 
 
     = f.check_box :ignore_conflicting
-    = f.label :occupancy_color
-    = f.check_box :occupancy_color, { id: 'toggle_booking_occupancy_color', checked: @booking[:occupancy_color].present?, \
-                              data: { 'bs-toggle' => "disable", 'bs-target' => "#booking_occupancy_color" } }, "1", "" 
-      = f.color_field :occupancy_color, hide_label: true, style: 'min-width: 5em;'
+    = f.collection_select :occupancy_label, current_organisation.occupancy_labels, :id, :title, include_blank: true
 
   fieldset.mt-3
     h5.mt-0= Booking.human_attribute_name(:tenant)

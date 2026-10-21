@@ -45,11 +45,16 @@ class OnboardingService
   def setup_all
     setup_missing_rich_text_templates
     setup_booking_category
+    setup_occupancy_labels
   end
 
   def setup_home(**attributes)
     defaults = { occupiable: true }
     organisation.homes.create!(defaults.merge(attributes))
+  end
+
+  def setup_occupancy_labels
+    OccupancyLabel.create_defaults(organisation)
   end
 
   def setup_booking_category(**attributes)

@@ -15,11 +15,11 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  booking_id         :uuid
+#  occupancy_label_id :bigint
 #  occupiable_id      :bigint           not null
 #
 
 class Occupancy < ApplicationRecord
-  COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
   STATUSES = { pending: 0, tentative: 1, occupied: 2, closed: 3, free: 4, internal: 5, void: 6 }.freeze
   STATUS_CONFLICTS = {
     any: STATUSES.keys,
@@ -35,8 +35,11 @@ class Occupancy < ApplicationRecord
   timespan :begins_at, :ends_at
   belongs_to :occupiable, inverse_of: :occupancies
   belongs_to :booking, inverse_of: :occupancies, optional: true, touch: true
+  belongs_to :occupancy_label, optional: true
 
   has_one :organisation, through: :occupiable
+  has_one :default_occupancy_label, class_name: 'OccupancyLabel', primary_key: :occupancy_status, # rubocop:disable Rails/HasManyOrHasOneDependent,Rails/InverseOf
+                                    foreign_key: :occupancy_status_default
 
   enum :occupancy_status, STATUSES, prefix: :status
 
@@ -45,7 +48,6 @@ class Occupancy < ApplicationRecord
   before_validation :sync_booking
   validates :occupancy_status, presence: true
   validates :occupancy_status, inclusion: { in: (STATUSES.keys - %i[closed free]).map(&:to_s) }, if: :linked
-  validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate do
     next if ignore_conflicting || validation_context == :ignore_conflicting
 
@@ -81,13 +83,10 @@ class Occupancy < ApplicationRecord
               .where(occupancy_status: occupancy_statuses, ignore_conflicting: [false, nil])
   end
 
-  def color=(value)
-    super(value.presence) if value != color
-  end
-
-  def color
-    super.presence || booking&.occupancy_color || (organisation &&
-      organisation.settings.occupancy_colors[occupancy_status&.to_sym])
+  def color # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    super.presence || booking&.occupancy_color ||
+      occupancy_label&.color || booking&.occupancy_label&.color ||
+      default_occupancy_label&.color
   end
 
   def sync_booking

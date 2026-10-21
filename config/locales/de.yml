@@ -106,7 +106,8 @@ de:
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
-        occupancy_status: Belegungsart
+        occupancy_status: Belegungsstatus
+        occupancy_label_id: Belegungsart
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -114,18 +115,15 @@ de:
         available_begins_at_times: Beginn der Belegung auswählbare Zeiten
         available_ends_at_times: Ende der Belegung auswählbare Zeiten
         booking_window: Reservationsfenster
-        closed_occupancy_color: Farbe für Schliessungen
         contract_sign_by_click_enabled: Vertrag «per Klick» durch Mieter unterschreiben
         default_begins_at_time: Standardzeit für den Beginn der Belegung
         default_ends_at_time: Standardzeit für das Ende der Belegung
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
         locales: Sprachen
-        occupied_occupancy_color: Farbe für definitive Belegungen
         predefined_salutation_form: Vordefinierte Anredeform
         public_occupancy_visibility: Sichtbarkeit von Belegungen im öffentlichen Kalender
         qr_bill_creditor_address_as_invoice_address: "«Zahlbar an QR-Rechnungen» als Rechnungsadresse verwenden"
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
-        tentative_occupancy_color: Farbe für provisorischen Belegungen
         upcoming_soon_window: Frist für baldige Belegung
       payment/filter:
         paid_at_after: Zahlung ab
@@ -266,8 +264,8 @@ de:
         locale: Sprache
         nights: Nächte
         occupancies: Belegungen
-        occupancy_color: Farbe im Kalender
-        occupancy_status: Art der Belegungen
+        occupancy_status: Belegungsstatus
+        occupancy_label_id: Belegungsart
         occupiable_ids: Mietobjekte
         occupiables: Mietobjekte
         purpose_description: Beschreibung des Mietzwecks
@@ -407,9 +405,15 @@ de:
         ends_at_time: Ende der Belegung (Zeit)
         ignore_conflicting: Terminkonflikte ignorieren
         linked: An Buchung gebunden
-        occupancy_status: Belegungsart
+        occupancy_status: Belegungsstatus
+        occupancy_label_id: Belegungsart
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
+      occupancy_label:
+        color: Farbe
+        occupancy_status_default: Standard für Belegungsart
+        title: Bezeichnung 
+        description: Beschreibung
       occupiable:
         bookable: Öffentlich buchbar
         description: Beschreibung
@@ -871,6 +875,9 @@ de:
       occupancy:
         one: Belegung
         other: Belegungen
+      occupancy_label:
+        one: Belegungsart
+        other: Belegungsarten
       occupiable:
         one: Mietobjekt
         other: Mietobjekte

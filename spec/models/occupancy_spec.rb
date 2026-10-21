@@ -15,6 +15,7 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  booking_id         :uuid
+#  occupancy_label_id :bigint
 #  occupiable_id      :bigint           not null
 #
 

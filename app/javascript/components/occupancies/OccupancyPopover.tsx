@@ -36,6 +36,7 @@ export const OccupancyPopover = React.memo(function OccupancyPopover({
 function OccupancyLi({ occupancy }: { occupancy: Occupancy }) {
   const deadline = occupancy.deadline;
   const { t, i18n } = useTranslation();
+  const occupancyLabel = occupancy.occupancyLabel ?? occupancy.defaultOccupancyLabel;
 
   return (
     <li>
@@ -46,7 +47,7 @@ function OccupancyLi({ occupancy }: { occupancy: Occupancy }) {
       <div>
         <span style={{ color: occupancy.color }}>⬤</span>&nbsp;
         <span>
-          {t(`activerecord.enums.occupancy.occupancy_status.${occupancy.occupancyStatus}`)}
+          {translatedString(occupancyLabel?.title_i18n, i18n)}
           <br />
           {occupancy.ref || occupancy.remarks}
         </span>

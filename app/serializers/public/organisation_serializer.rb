@@ -5,6 +5,7 @@ module Public
     identifier :slug
 
     association :booking_categories, blueprint: Public::BookingCategorySerializer
+    association :occupancy_labels, blueprint: Public::OccupancyLabelSerializer
     association :homes, blueprint: Public::HomeSerializer do |organisation|
       organisation.homes.kept
     end

@@ -14,9 +14,6 @@ class OrganisationSettings
   attribute :booking_window, DurationType.new, default: -> { 30.months }
   attribute :last_minute_warning, DurationType.new, default: -> { 10.days }
   attribute :upcoming_soon_window, DurationType.new, default: -> { 14.days }
-  attribute :tentative_occupancy_color, :string, default: '#e8bc56'
-  attribute :occupied_occupancy_color, :string, default: '#e85f5f' || '#f2a2a2'
-  attribute :closed_occupancy_color, :string, default: '#929292'
   attribute :default_begins_at_time, :string, default: -> { '08:00' }
   attribute :default_ends_at_time, :string, default: -> { '16:00' }
   attribute :locales, array: true, default: -> { I18n.available_locales.map(&:to_s) }
@@ -25,8 +22,6 @@ class OrganisationSettings
   attribute :available_ends_at_times, array: true, default: -> { available_times(hours: 8..22) }
   attribute :public_occupancy_visibility, array: true, default: -> { %i[tentative occupied closed] }
 
-  validates :tentative_occupancy_color, :occupied_occupancy_color,
-            :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
   validates :default_begins_at_time, :default_ends_at_time, format: { with: /\A\d{2}:\d{2}\z/ }, allow_blank: true
   validates :booking_window, :last_minute_warning, :upcoming_soon_window,
             numericality: { less_than_or_equal: 5.years, greater_than_or_equal: 0 }
@@ -41,17 +36,6 @@ class OrganisationSettings
     errors.add(:public_occupancy_visibility, :invalid) unless public_occupancy_visibility&.all? do
       Occupancy.occupancy_statuses.except('void').key?(it.to_s)
     end
-  end
-
-  def occupancy_colors
-    {
-      free: nil,
-      void: nil,
-      pending: tentative_occupancy_color,
-      tentative: tentative_occupancy_color,
-      occupied: occupied_occupancy_color,
-      closed: closed_occupancy_color
-    }.tap { |hash| hash.default = '#FFFFFF00' }
   end
 
   def self.available_times(hours: 0..23, minutes: [0, 15, 30, 45])

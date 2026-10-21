@@ -5,7 +5,7 @@ module Import
     class BookingCategoryImporter < Base
       attr_reader :organisation
 
-      use_attributes(*%w[key title_i18n])
+      use_attributes(*%w[key title title_i18n description description_i18n])
 
       def initialize(organisation, **)
         super(**)

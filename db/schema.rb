@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_04_083919) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_12_144829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -233,8 +233,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_083919) do
     t.text "unstructured_invoice_address"
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "use_invoice_address", default: false, null: false
+    t.bigint "occupancy_label_id"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["locale"], name: "index_bookings_on_locale"
+    t.index ["occupancy_label_id"], name: "index_bookings_on_occupancy_label_id"
     t.index ["organisation_id", "concluded", "begins_at"], name: "index_bookings_on_organisation_id_and_concluded_and_begins_at"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
@@ -449,12 +451,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_083919) do
     t.bigint "occupiable_id", null: false
     t.text "remarks"
     t.datetime "updated_at", precision: nil, null: false
+    t.bigint "occupancy_label_id"
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
     t.index ["booking_id", "occupancy_status"], name: "index_occupancies_on_booking_id_and_occupancy_status"
     t.index ["booking_id"], name: "index_occupancies_on_booking_id"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
+    t.index ["occupancy_label_id"], name: "index_occupancies_on_occupancy_label_id"
     t.index ["occupancy_status"], name: "index_occupancies_on_occupancy_status"
     t.index ["occupiable_id"], name: "index_occupancies_on_occupiable_id"
+  end
+
+  create_table "occupancy_labels", force: :cascade do |t|
+    t.bigint "organisation_id"
+    t.jsonb "title_i18n", default: {}, null: false
+    t.jsonb "description_i18n", default: {}, null: false
+    t.string "color", null: false
+    t.integer "occupancy_status_default"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisation_id", "occupancy_status_default"], name: "idx_on_organisation_id_occupancy_status_default_12e4fe2b5a", unique: true
+    t.index ["organisation_id"], name: "index_occupancy_labels_on_organisation_id"
   end
 
   create_table "occupiables", force: :cascade do |t|
@@ -862,6 +878,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_083919) do
   add_foreign_key "booking_questions", "organisations"
   add_foreign_key "booking_state_transitions", "bookings"
   add_foreign_key "booking_validations", "organisations"
+  add_foreign_key "bookings", "occupancy_labels"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "contracts", "notifications", column: "sent_with_notification_id"
@@ -881,6 +898,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_04_083919) do
   add_foreign_key "notifications", "bookings"
   add_foreign_key "notifications", "rich_text_templates", column: "mail_template_id"
   add_foreign_key "oauth_tokens", "organisations"
+  add_foreign_key "occupancies", "occupancy_labels"
   add_foreign_key "occupancies", "occupiables"
   add_foreign_key "occupiables", "organisations"
   add_foreign_key "operator_responsibilities", "bookings"

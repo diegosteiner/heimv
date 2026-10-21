@@ -42,6 +42,7 @@
 #  updated_at                   :datetime         not null
 #  booking_category_id          :integer
 #  home_id                      :integer          not null
+#  occupancy_label_id           :bigint
 #  organisation_id              :bigint           not null
 #  tenant_id                    :integer
 #
@@ -54,14 +55,18 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   VALIDATION_CONTEXTS = %i[public_create public_update agent_create agent_update manage_create manage_update].freeze
   ROLES = (%i[organisation tenant booking_agent] + OperatorResponsibility::RESPONSIBILITIES.keys).freeze
   LIMIT = ENV.fetch('RECORD_LIMIT', 250)
-  DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      :category, :logs, :home, { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
-                                                 agent_booking: %i[booking_agent organisation],
-                                                 booking_question_responses: :booking_question }].freeze
+  DEFAULT_INCLUDES = [
+    :organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent, :category, :logs, :home,
+    :occupancy_label, { tenant: :organisation, deadline: :booking,
+                        occupancies: %i[occupiable occupancy_label default_occupancy_label],
+                        agent_booking: %i[booking_agent organisation],
+                        booking_question_responses: :booking_question }
+  ].freeze
 
   belongs_to :home
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, autosave: true
+  belongs_to :occupancy_label, optional: true
   belongs_to :category, inverse_of: :bookings, class_name: 'BookingCategory', optional: true,
                         foreign_key: :booking_category_id
 
@@ -95,7 +100,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
   validates :approximate_headcount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
-  validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
   validates :email, presence: true, on: %i[public_update public_create]
   validates :approximate_headcount, :purpose_description, presence: true, on: :public_update
   validates :category, presence: true, on: %i[public_update agent_update]
@@ -213,10 +217,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     tenant.organisation = organisation
     tenant.email = self[:email] if tenant.email.blank? || email_changed?
-  end
-
-  def occupancy_color
-    super.presence || organisation&.settings&.occupancy_colors&.[](occupancy_status&.to_sym)
   end
 
   def roles

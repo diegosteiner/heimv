@@ -1,5 +1,5 @@
 import { parseISOorUndefined } from "../services/date";
-import type { Occupiable } from "../types";
+import type { Occupiable, TranslatedString } from "../types";
 
 export type Occupancy = {
   id: string;
@@ -11,8 +11,17 @@ export type Occupancy = {
   deadline?: Date;
   remarks?: string;
   color?: string;
+  occupancyLabel?: OccpancyLabel | undefined;
+  defaultOccupancyLabel?: OccpancyLabel;
   occupiable?: Occupiable;
   occupiableId: number;
+};
+
+export type OccpancyLabel = {
+  description_i18n: TranslatedString;
+  title_i18n: TranslatedString;
+  id: string;
+  color: string;
 };
 
 export type OccupancyJson = {
@@ -24,10 +33,23 @@ export type OccupancyJson = {
   occupiable_id: number;
   occupiable: Occupiable;
   occupancy_status: Occupancy["occupancyStatus"];
+  occupancy_label: Occupancy["occupancyLabel"];
+  default_occupancy_label: Occupancy["defaultOccupancyLabel"];
 };
 
 export function parse(json: OccupancyJson): Partial<Occupancy> {
-  const { id, booking_id, begins_at, ends_at, deadline, occupiable_id, occupancy_status, ...rest } = json;
+  const {
+    id,
+    booking_id,
+    begins_at,
+    ends_at,
+    deadline,
+    occupiable_id,
+    occupancy_status,
+    occupancy_label,
+    default_occupancy_label,
+    ...rest
+  } = json;
 
   return {
     id,
@@ -38,6 +60,8 @@ export function parse(json: OccupancyJson): Partial<Occupancy> {
     deadline: parseISOorUndefined(deadline),
     occupiableId: occupiable_id,
     occupancyStatus: occupancy_status,
+    occupancyLabel: occupancy_label,
+    defaultOccupancyLabel: default_occupancy_label,
   };
 }
 

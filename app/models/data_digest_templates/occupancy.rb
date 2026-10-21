@@ -68,6 +68,7 @@ module DataDigestTemplates
 
     def base_scope
       @base_scope ||= ::Occupancy.where(occupiable: organisation.occupiables)
+                                 .includes(:occupancy_label, :default_occupancy_label, :booking, :occupiable)
     end
   end
 end

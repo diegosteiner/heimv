@@ -4,6 +4,7 @@ import { subMonths } from "date-fns/subMonths";
 import { createContext, type Dispatch, type SetStateAction, useState } from "react";
 import { parseDate } from "../../services/date";
 import type { DateElementFactory } from "./CalendarDate";
+import { CalendarLegend } from "./CalendarLegend";
 import { CalendarNav } from "./CalendarNav";
 import MonthsCalendar from "./MonthsCalendar";
 import YearCalendar from "./YearCalendar";
@@ -40,6 +41,7 @@ function Calendar({ initialFirstDate, defaultView, months, dateElementFactory }:
           months,
           dateElementFactory,
         })}
+        <CalendarLegend />
         <CalendarNav onNext={gotoNextMonth} onPrev={gotoPrevMonth} onToday={gotoToday}>
           {getYear(firstDate)}
         </CalendarNav>

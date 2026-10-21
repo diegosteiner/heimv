@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 describe 'Bookings' do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:organisation_user) { create(:organisation_user, :admin, organisation:) }
@@ -22,7 +24,6 @@ describe 'Bookings' do
     it do
       visit calendar_manage_bookings_path
       expect(page).to have_text(Time.zone.now.year)
-
       date_element = find("time.date[datetime='#{definitive_request.begins_at.to_date.iso8601}']")
       svg_selector = "a.date-action .occupancy-calendar-date.has-occupancies svg .occupancy-slot[fill='#e85f5f']"
       expect(date_element).to have_selector(svg_selector)

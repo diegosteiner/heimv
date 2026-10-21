@@ -42,6 +42,7 @@
 #  updated_at                   :datetime         not null
 #  booking_category_id          :integer
 #  home_id                      :integer          not null
+#  occupancy_label_id           :bigint
 #  organisation_id              :bigint           not null
 #  tenant_id                    :integer
 #
