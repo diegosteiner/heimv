@@ -12,7 +12,7 @@ export function CalendarLegend() {
     <div>
       <ul className="calendar-legend">
         {organisation.calendar_labels?.map((label) => (
-          <li key={label.id}>
+          <li key={label.id} title={translatedString(label.description_i18n, i18n)}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill={label.color}>
               <rect width="48" height="48" />
             </svg>

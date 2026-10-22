@@ -6,10 +6,10 @@
     = f.datetime_field :ends_at
     
     = f.select :occupancy_status, Occupancy.occupancy_statuses.keys.map { [Occupancy.human_enum(:occupancy_status, it), it] }, include_blank: true
+    = f.collection_select :calendar_label_id, current_organisation.calendar_labels, :id, :title, include_blank: true
+    = f.check_box :ignore_conflicting
     = f.text_area :remarks
     = f.check_box :linked, disabled: !@occupancy.linked
-    = f.check_box :ignore_conflicting
-    = f.collection_select :calendar_label, current_organisation.calendar_labels, :id, :title, include_blank: true
     
 
   .form-actions.pt-4.mt-3
