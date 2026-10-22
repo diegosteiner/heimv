@@ -1,14 +1,5 @@
 ---
 de:
-  calendar:
-    view:
-      year: Jahr 
-      months: Monate
-    actions:
-      today: Heute
-      help: Hilfe
-      next: später
-      prev: früher
   activemodel:
     attributes:
       accounting_settings:
@@ -322,8 +313,10 @@ de:
         ordinal_position: Ordnungsnummer
         validating_conditions: Gültigkeitskriterium
       calendar_label:
+        booking_category_default: Standard für Mietkategorie
         color: Farbe
         description: Beschreibung
+        legend: In Legende anzeigen
         occupancy_status_default: Standard für Belegungsart
         title: Bezeichnung
       contract:
@@ -1145,6 +1138,15 @@ de:
       label: Reservationsanfrage (Warteliste)
       public_info: Die Reservationsanfrage ist aktuell auf der Warteliste. Die Verwaltung meldet sich, sobald das Reservationsdatum frei ist.
       relevant_time: Eingereicht %{time}
+  calendar:
+    actions:
+      help: Hilfe
+      next: später
+      prev: früher
+      today: Heute
+    view:
+      months: Monate
+      year: Jahr
   clone: Duplizieren
   confirm: Sind Sie sicher?
   contracts:

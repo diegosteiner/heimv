@@ -8,11 +8,14 @@ class CreateCalendarLabels < ActiveRecord::Migration[8.1]
       t.jsonb :description_i18n, default: {}, null: false
       t.string :color, null: false
       t.integer :occupancy_status_default, null: true
+      t.belongs_to :booking_categories, :booking_category_default,
+                   foreign_key: { to_table: :booking_categories }, null: true
       t.datetime :discarded_at, null: true
+      t.boolean :legend, null: false, default: true
 
       t.timestamps
     end
-    add_index :calendar_labels, %i[organisation_id occupancy_status_default], unique: true
+    add_index :calendar_labels, %i[organisation_id occupancy_status_default booking_category_default_id], unique: true
     add_reference :occupancies, :calendar_label, foreign_key: true
     add_reference :bookings, :calendar_label, foreign_key: true
 

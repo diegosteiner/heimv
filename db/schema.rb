@@ -249,10 +249,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_12_144829) do
     t.jsonb "description_i18n", default: {}, null: false
     t.string "color", null: false
     t.integer "occupancy_status_default"
+    t.bigint "booking_categories_id"
+    t.bigint "booking_category_default_id"
     t.datetime "discarded_at"
+    t.boolean "legend", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["organisation_id", "occupancy_status_default"], name: "idx_on_organisation_id_occupancy_status_default_6c55b05f7e", unique: true
+    t.index ["booking_categories_id"], name: "index_calendar_labels_on_booking_categories_id"
+    t.index ["booking_category_default_id"], name: "index_calendar_labels_on_booking_category_default_id"
+    t.index ["organisation_id", "occupancy_status_default", "booking_category_default_id"], name: "idx_on_organisation_id_occupancy_status_default_boo_f1fca1b326", unique: true
     t.index ["organisation_id"], name: "index_calendar_labels_on_organisation_id"
   end
 
@@ -881,6 +886,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_12_144829) do
   add_foreign_key "booking_validations", "organisations"
   add_foreign_key "bookings", "calendar_labels"
   add_foreign_key "bookings", "organisations"
+  add_foreign_key "calendar_labels", "booking_categories", column: "booking_categories_id"
+  add_foreign_key "calendar_labels", "booking_categories", column: "booking_category_default_id"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "contracts", "notifications", column: "sent_with_notification_id"
   add_foreign_key "data_digest_templates", "organisations"

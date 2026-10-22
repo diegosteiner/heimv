@@ -93,7 +93,8 @@ class Occupancy < ApplicationRecord
   def sync_booking
     return if !linked || booking.blank?
 
-    assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at, calendar_label: booking.calendar_label,
+    assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,
+                      calendar_label: booking.calendar_label || booking.default_calendar_label,
                       occupancy_status: booking.occupancy_status, ignore_conflicting: booking.ignore_conflicting)
   end
 

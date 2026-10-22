@@ -87,8 +87,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_one :deadline, inverse_of: :booking, dependent: :destroy
   has_one :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one :booking_agent, through: :agent_booking
-  has_one :default_calendar_label, class_name: 'CalendarLabel', primary_key: :occupancy_status, # rubocop:disable Rails/HasManyOrHasOneDependent,Rails/InverseOf
-                                   foreign_key: :occupancy_status_default
 
   has_one_attached :home_return_report
   has_secure_token :token, length: 48
@@ -307,6 +305,14 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     occupancy_color.presence ||
       # not legacy
       calendar_label&.color || default_calendar_label&.color
+  end
+
+  def default_calendar_label
+    organisation.calendar_labels.find_by(booking_category_default_id: booking_category_id,
+                                         occupancy_status_default: occupancy_status) ||
+      organisation.calendar_labels.find_by(booking_category_default_id: booking_category_id,
+                                           occupancy_status_default: nil) ||
+      organisation.calendar_labels.find_by(booking_category_default_id: nil, occupancy_status_default: occupancy_status)
   end
 
   private

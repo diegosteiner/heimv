@@ -4,15 +4,18 @@
 #
 # Table name: calendar_labels
 #
-#  id                       :bigint           not null, primary key
-#  color                    :string           not null
-#  description_i18n         :jsonb            not null
-#  discarded_at             :datetime
-#  occupancy_status_default :integer
-#  title_i18n               :jsonb            not null
-#  created_at               :datetime         not null
-#  updated_at               :datetime         not null
-#  organisation_id          :bigint
+#  id                          :bigint           not null, primary key
+#  color                       :string           not null
+#  description_i18n            :jsonb            not null
+#  discarded_at                :datetime
+#  legend                      :boolean          default(TRUE), not null
+#  occupancy_status_default    :integer
+#  title_i18n                  :jsonb            not null
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  booking_categories_id       :bigint
+#  booking_category_default_id :bigint
+#  organisation_id             :bigint
 #
 class CalendarLabel < ApplicationRecord
   COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
@@ -30,6 +33,7 @@ class CalendarLabel < ApplicationRecord
   translates :title, :description, column_suffix: '_i18n', locale_accessors: true
 
   belongs_to :organisation, inverse_of: :calendar_labels
+  belongs_to :booking_category_default, class_name: 'BookingCategory', optional: true
   has_many :occupancies, inverse_of: :calendar_label, dependent: :nullify
 
   scope :ordered, -> { order(color: :ASC) }
@@ -37,7 +41,8 @@ class CalendarLabel < ApplicationRecord
 
   validates :color, presence: true, format: { with: COLOR_REGEX }
   validates :title, presence: true
-  validates :occupancy_status_default, uniqueness: { scope: :organisation_id, allow_blank: true },
+  validates :occupancy_status_default, uniqueness: { scope: %i[organisation_id booking_category_default_id],
+                                                     allow_blank: true },
                                        inclusion: { in: Occupancy::STATUSES.keys.map(&:to_s), allow_blank: true }
 
   def self.prepare_default(organisation, colors: {})

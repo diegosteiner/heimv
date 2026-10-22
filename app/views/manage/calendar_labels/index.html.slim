@@ -3,6 +3,14 @@ h1.mt-0.mb-5= CalendarLabel.model_name.human(count: 2)
 
 .table-responsive
   table.table.table-hover.align-middle
+    thead
+      tr
+        th
+        th= CalendarLabel.human_attribute_name(:title)
+        th= CalendarLabel.human_attribute_name(:occupancy_status_default)
+        th= CalendarLabel.human_attribute_name(:booking_category_default)
+        th= CalendarLabel.human_attribute_name(:description)
+        th
 
     tbody.shadow-sm
       - @calendar_labels.each do |calendar_label|
@@ -15,6 +23,8 @@ h1.mt-0.mb-5= CalendarLabel.model_name.human(count: 2)
           td
             - if calendar_label.occupancy_status_default.present?
               = Occupancy.human_enum(:occupancy_status, calendar_label.occupancy_status_default)
+          td
+            = calendar_label.booking_category_default&.title
           td
             small= calendar_label.description
           td.p-1.text-end 
@@ -29,4 +39,4 @@ br
 = link_to new_manage_calendar_label_path, class: 'btn btn-primary' do
   span.fa.fa-file-o
   '
-  = t(:add_record, model_name: BookingCategory.model_name.human)
+  = t(:add_record, model_name: CalendarLabel.model_name.human)

@@ -23,13 +23,18 @@ export default function OccupiableCalendar({
   defaultView,
   occupancyAtUrl,
   manage,
-  showLegend = true
+  showLegend = true,
 }: OccupiableCalendarProps) {
   return (
     <React.StrictMode>
       <OrganisationProvider organisation={organisation}>
         <OccupancyWindowProvider occupiableIds={occupiableIds} manage={manage}>
-          <OccupancyOverviewCalendar defaultView={defaultView} months={months} occupancyAtUrl={occupancyAtUrl} showLegend={showLegend} />
+          <OccupancyOverviewCalendar
+            defaultView={defaultView}
+            months={months}
+            occupancyAtUrl={occupancyAtUrl}
+            showLegend={showLegend}
+          />
         </OccupancyWindowProvider>
       </OrganisationProvider>
     </React.StrictMode>

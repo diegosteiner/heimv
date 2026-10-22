@@ -9,11 +9,11 @@ interface CalendarDateProps {
   children?: ReactElement;
 }
 export const CalendarDate = memo(function CalendarDate({ dateString, children }: CalendarDateProps) {
-  const date  = parseISO(dateString);
+  const date = parseISO(dateString);
   const isToday = isSameDay(date, new Date());
-  
+
   return (
-    <time className={cx({ date: true, today: isToday, weekend: isWeekend(date)})} dateTime={dateString}>
+    <time className={cx({ date: true, today: isToday, weekend: isWeekend(date) })} dateTime={dateString}>
       {children}
     </time>
   );

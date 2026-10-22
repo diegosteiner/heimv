@@ -18,6 +18,9 @@
 
     = f.color_field :color
     = f.select :occupancy_status_default, Occupancy.occupancy_statuses.keys.map { [Occupancy.human_enum(:occupancy_status, it), it] }, include_blank: true
+    = f.collection_select :booking_category_default_id, current_organisation.booking_categories.kept, :id, :title, include_blank: true, required: false
+
+    = f.check_box :legend
 
   .form-actions.pt-4.mt-3
     = f.submit class: 'btn btn-primary'

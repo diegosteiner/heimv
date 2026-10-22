@@ -103,10 +103,11 @@ fr:
         begins_at: De
         begins_at_after: Début de la location à partir du
         begins_at_before: Début de la location jusqu'au
+        calendar_label_id: Couleur dans le calendrier
         ends_at: Jusqu'à / jusqu'au
         ends_at_after: Fin de la location à partir du
         ends_at_before: Fin de la location jusqu'au
-        occupancy_status: Type de location
+        occupancy_status: Statut d'occupation
       occupiable_settings:
         accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
@@ -243,6 +244,7 @@ fr:
         booking_agent_code: Code de l'intermédiaire
         booking_agent_ref: Référence de l'intermédiaire
         booking_category_id: Catégorie de location
+        calendar_label_id: Couleur dans le calendrier
         cancellation_reason: Motif d'annulation
         category: Catégorie de location
         committed_request: Caractère obligatoire de la demande de location
@@ -259,7 +261,7 @@ fr:
         locale: Langue
         nights: Nuits
         occupancies: Locations
-        occupancy_status: Type de locations
+        occupancy_status:
         occupiable_ids: Objets de location
         occupiables: Objets de location
         purpose_description: Description de la raison de la location
@@ -306,6 +308,13 @@ fr:
         error_message: Message d'erreur à afficher
         ordinal_position: Position de l'affichage
         validating_conditions: Critère de validité
+      calendar_label:
+        booking_category_default:
+        color:
+        description: Description
+        legend:
+        occupancy_status_default:
+        title: Désignation
       contract:
         confirmed_at:
         issuer: Propriétaire
@@ -393,13 +402,14 @@ fr:
         begins_at: Début de la location
         begins_at_date: Début de la location (date)
         begins_at_time: Début de la location (heure)
+        calendar_label_id:
         color: Couleur dans le calendrier
         ends_at: Fin de la location
         ends_at_date: Fin de la location (date)
         ends_at_time: Fin de la location (heure)
         ignore_conflicting: Ignorer les conflits de dates
         linked: Lié à la réservation
-        occupancy_status: Type de location
+        occupancy_status:
         occupiable_id: Objet de location
         remarks: Remarques
       occupiable:
@@ -665,10 +675,12 @@ fr:
         occupancy_status:
           closed: Fermé
           free: Libre
-          occupied: Demande de location définitive
-          pending: Sollicité
-          tentative: Demande de location provisoire
-          void: Pas de location
+          internal: interne
+          occupied: définitive
+          pending: sollicité
+          reserved: réservé en interne
+          tentative: provisoire
+          void: archivé
       operator_responsibility:
         responsibility:
           administration: Administration
@@ -790,6 +802,9 @@ fr:
       booking_validation:
         one: Contrôle de validité
         other: Contrôles de validité
+      calendar_label:
+        one: Couleur dans le calendrier
+        other: Légende du calendrier
       contract:
         one: Contrat
         other: Contrats
@@ -1004,9 +1019,9 @@ fr:
     duration:
       attributes:
         begins_at_to_ends_at:
-        created_at_to_now:
-        now_to_begins_at:
-        now_to_ends_at:
+        created_at_to_now: État des réservations à ce jour
+        now_to_begins_at: Dès maintenant et jusqu'au début du cours
+        now_to_ends_at: Dès maintenant et jusqu'à la fin de la réservation
     occupiable:
       attributes:
         home: Principal objet de location
@@ -1065,6 +1080,10 @@ fr:
       label: Demande de location (définitive)
       public_info: La demande de location est définitive et sera prochainement examinée et traitée par l'administration.
       relevant_time: Déposé %{time}
+    expired_request:
+      cancellation_reason: Délai expiré
+      description: Le délai de la demande de réservation a expiré
+      label: Demande de réservation (expirée)
     initial:
       label: "-"
     open_request:
@@ -1110,6 +1129,15 @@ fr:
       label: Demande de location (liste d'attente)
       public_info: La demande de location est actuellement sur la liste d'attente. L'administration vous contactera dès que la date de réservation sera libre.
       relevant_time: Déposé %{time}
+  calendar:
+    actions:
+      help: Aide
+      next: plus tard
+      prev: autrefois
+      today: Aujourd'hui
+    view:
+      months: Mois
+      year: Année
   clone: Dupliquer
   confirm: Êtes-vous sûr ?
   contracts:
@@ -1803,7 +1831,7 @@ fr:
         terms_condition_html: 'J''accepte les <a href="%{url}" target="_blank">conditions générales</a> '
         title: Réservation
       show:
-        uncommitted_request_warning:
+        uncommitted_request_warning: La demande de réservation est provisoire. Merci de la marquer comme définitive dans First ou de la retirer.
     occupancies:
       span:
         nights:
@@ -1863,6 +1891,8 @@ fr:
       description: Notification d'envoi de facture (locataire)
     email_offer_notification:
       description: Notification pour l'envoi de l'offre (locataire)
+    expired_request_notification:
+      description: Notification concernant une demande de réservation expirée (locataire)
     foreign_payment_info_text:
       description: Texte pour les informations de paiement pour les locataires étrangers
     invoices_deposit_text:
@@ -1883,6 +1913,8 @@ fr:
       description: Notification de demande de réservation annulée (administration)
     manage_definitive_request_notification:
       description: Notification de demande de location définitive (administration)
+    manage_expired_request_notification:
+      description: Notification relative à une demande de réservation expirée (administration)
     manage_new_booking_notification:
       description: Notification de nouvelle demande de location (administration)
     notification_footer:

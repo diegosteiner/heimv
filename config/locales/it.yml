@@ -41,7 +41,7 @@ it:
         default_manage_transition_to_state:
         editable_booking_states:
         enable_provisional_request:
-        enable_waitlist:
+        enable_waitlist: Lista d'attesa attiva
         occupied_booking_states:
       deadline_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
@@ -103,10 +103,11 @@ it:
         begins_at: Da
         begins_at_after: Inizio occupazione da
         begins_at_before: Inizio occupazione fino a
+        calendar_label_id: Visualizzazione nel calendario
         ends_at: Fino a
         ends_at_after: Fine occupazione da
         ends_at_before: Fine dell'occupazione fino a
-        occupancy_status: Tipo di occupazione
+        occupancy_status: Stato di occupazione
       occupiable_settings:
         accounting_cost_center_nr:
         booking_margin: Durata tra le prenotazioni
@@ -114,7 +115,7 @@ it:
         available_begins_at_times:
         available_ends_at_times:
         booking_window: Finestra di prenotazione
-        contract_sign_by_click_enabled:
+        contract_sign_by_click_enabled: Firma del contratto «con un clic» da parte dell'inquilino
         default_begins_at_time:
         default_ends_at_time:
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
@@ -243,6 +244,7 @@ it:
         booking_agent_code: Codice del mediatore
         booking_agent_ref: Riferimento del mediatore
         booking_category_id: Categoria di affitto
+        calendar_label_id:
         cancellation_reason: Motivo della cancellazione
         category: Categoria di affitto
         committed_request: Natura vincolante della richiesta di affitto
@@ -259,7 +261,7 @@ it:
         locale: Lingua
         nights: Notti
         occupancies: Occupazioni
-        occupancy_status: Tipo di occupazione
+        occupancy_status:
         occupiable_ids: Proprietà in affitto
         occupiables: Proprietà in affitto
         purpose_description: Descrizione dello scopo del contratto di affitto
@@ -272,7 +274,7 @@ it:
         transition_to: Nuovo stato
         use_invoice_address:
       booking/booking_question_responses:
-        value:
+        value: Informazioni aggiuntive
       booking/occupancies:
         base: Proprietà in affitto
       booking_agent:
@@ -290,7 +292,7 @@ it:
       booking_question:
         applying_conditions: Condizioni
         booking_agent_mode:
-        default_value:
+        default_value: Valore predefinito
         description: Descrizione
         key: Chiava
         label: Nome
@@ -299,13 +301,20 @@ it:
         tenant_mode:
         type: Tipo
       booking_question_response:
-        value:
+        value: Risposta
       booking_validation:
         check_on:
         enabling_conditions:
         error_message:
         ordinal_position: Numero di serie
         validating_conditions:
+      calendar_label:
+        booking_category_default: Standard per categoria di affitto
+        color: Colore
+        description: Descrizione
+        legend: Visualizza nella legenda
+        occupancy_status_default: Standard per il tipo di occupazione
+        title: Nome
       contract:
         confirmed_at:
         issuer: Proprietario
@@ -369,7 +378,7 @@ it:
       journal_entry_batch:
         amount: Importo
         booking_id: Prenotazione
-        date:
+        date: Data
         invoice_id: Fattura
         payment_id: Pagamento
         processed_at:
@@ -393,17 +402,18 @@ it:
         begins_at: Inizio dell'occupazione
         begins_at_date: Inizio dell'occupazione (data)
         begins_at_time: Inizio dell'occupazione (ora)
+        calendar_label_id: Visualizzazione nel calendario
         color: Colore nel calendario
         ends_at: Fine dell'occupazione
         ends_at_date: Fine dell'occupazione (data)
         ends_at_time: Fine dell'occupazione (ora)
         ignore_conflicting:
         linked: Legato alla prenotazione
-        occupancy_status: Tipo di occupazione
+        occupancy_status: Stato di occupazione
         occupiable_id: Proprietà in affitto
         remarks: Osservazioni
       occupiable:
-        bookable:
+        bookable: Prenotabile pubblicamente
         description: Descrizione
         home_id: Oggetto principale di affitto
         name: Nome
@@ -564,14 +574,14 @@ it:
           definitive_request: Richiesta di affitto definitivo
           provisional_request: Richiesta di affitto provvisoria
         editable:
-          auto:
+          auto: Auto
           'false': Non modificabile dagli inquilini
           'true': Modificabile dagli inquilini
       booking/filter:
         concluded:
           all: completato e chiuso
           concluded: completato
-          inconcluded:
+          inconcluded: aperto
       booking_log:
         trigger:
           auto: System
@@ -631,7 +641,7 @@ it:
           outstanding: Aperto
           paid: Pagato
           refund:
-          void:
+          void: Sostituito
       journal_entry_batch:
         triggers:
           invoice_created:
@@ -665,10 +675,12 @@ it:
         occupancy_status:
           closed: Chiuso
           free: Libero
-          occupied: Sicuramente occupato
-          pending: Richiesto
-          tentative: Provvisoriamente riservato
-          void: Riservato
+          internal:
+          occupied: dimostrato in modo definitivo
+          pending: richiesto
+          reserved: riservato internamente
+          tentative: occupato in via provvisoria
+          void:
       operator_responsibility:
         responsibility:
           administration: Administration
@@ -786,6 +798,9 @@ it:
         one: Transizione di stato
         other: Transizioni di stato
       booking_validation:
+        one:
+        other:
+      calendar_label:
         one:
         other:
       contract:
@@ -1018,8 +1033,8 @@ it:
     deposit_created: Creare un acconto (opzionale)
     deposit_paid: Acconto versato
     invoice_created: Creare il conto finale
-    invoice_paid:
-    invoice_refunded:
+    invoice_paid: "%{invoice} pagato"
+    invoice_refunded: "%{invoice} rimborsato"
     invoice_sent: Inviare la fattura
     invoices_paid:
     offer_created: Offerte erstellen (optional)
@@ -1060,6 +1075,10 @@ it:
       label: Richiesta di affitto(definitiva)
       public_info: La richiesta di affitto è definitiva e verrà presto esaminata e gestita dall'amministrazione.
       relevant_time: Presentato %{time}
+    expired_request:
+      cancellation_reason: Il termine è scaduto.
+      description: Il termine per la richiesta di prenotazione è scaduto
+      label:
     initial:
       label: "-"
     open_request:
@@ -1105,6 +1124,15 @@ it:
       label: Richiesta di affitto (lista d'attesa)
       public_info: La richiesta di affitto è attualmente in lista d'attesa. L'amministrazione ti contatterà non appena la data di prenotazione sarà disponibile.
       relevant_time: Presentato %{time}
+  calendar:
+    actions:
+      help: Aiuto
+      next: più tardi
+      prev: in passato
+      today: Oggi
+    view:
+      months: Mesi
+      year: Anno
   clone:
   confirm: Sind sie sicher?
   contracts:
@@ -1805,6 +1833,8 @@ it:
       description:
     email_offer_notification:
       description:
+    expired_request_notification:
+      description:
     foreign_payment_info_text:
       description: Testo per le informazioni di pagamento per gli inquilini stranieri
     invoices_deposit_text:
@@ -1825,6 +1855,8 @@ it:
       description:
     manage_definitive_request_notification:
       description: Notifica per richiesta di affitto definitivo (amministrazione)
+    manage_expired_request_notification:
+      description:
     manage_new_booking_notification:
       description: Notifica di una nuova richiesta di affitto (amministrazione)
     notification_footer:
