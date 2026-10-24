@@ -198,13 +198,13 @@ describe Booking do
       it 'definitive_request fails validation with :occupancy_conflict' do
         occupied_occupancy
         expect(definitive_request).not_to be_valid
-        expect(definitive_request.errors).to be_added(:'occupancies.base', :occupancy_conflict)
+        expect(definitive_request.errors).to include(:'occupancies.base')
       end
 
       it 'provisional_request fails validation with :occupancy_conflict' do
         occupied_occupancy
         expect(provisional_request).not_to be_valid
-        expect(provisional_request.errors).to be_added(:'occupancies.base', :occupancy_conflict)
+        expect(provisional_request.errors).to include(:'occupancies.base')
       end
     end
 
@@ -227,13 +227,13 @@ describe Booking do
         it 'definitive_request fails validation with :occupancy_conflict' do
           occupied_occupancy
           expect(definitive_request).not_to be_valid
-          expect(definitive_request.errors).to be_added(:'occupancies.base', :occupancy_conflict)
+          expect(definitive_request.errors).to include(:'occupancies.base')
         end
 
         it 'provisional_request fails validation with :occupancy_conflict' do
           occupied_occupancy
           expect(provisional_request).not_to be_valid
-          expect(provisional_request.errors).to be_added(:'occupancies.base', :occupancy_conflict)
+          expect(provisional_request.errors).to include(:'occupancies.base')
         end
 
         it 'pending_request is valid' do

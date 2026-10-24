@@ -91,7 +91,8 @@ RSpec.describe Occupancy do
                 expect(occupancy).to be_valid
               else
                 expect(occupancy).not_to be_valid
-                expect(occupancy.errors).to be_added(:base, :occupancy_conflict)
+                expect(occupancy.errors.full_messages_for(:base))
+                  .to contain_exactly(I18n.t('activerecord.errors.messages.occupancy_conflict', occupiable: home.name))
               end
             end
           end

@@ -149,7 +149,7 @@ describe 'Booking by agent', :devise do
         fill_in 'agent_booking_booking_agent_ref', with: agent_ref
 
         submit_form
-        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict', occupiable: home.name))
       end
     end
 
@@ -159,7 +159,7 @@ describe 'Booking by agent', :devise do
         organisation.save!
       end
 
-      it 'returns no error' do
+      it 'returns no error' do # rubocop:disable RSpec/ExampleLength
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
@@ -172,7 +172,8 @@ describe 'Booking by agent', :devise do
         submit_form
 
         # Don't allow agent bookings onto the waitlist
-        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict',
+                                         occupiable: booking.home.name))
       end
     end
   end

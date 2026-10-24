@@ -46,19 +46,17 @@ class Occupancy < ApplicationRecord
   scope :ordered, -> { order(begins_at: :ASC) }
 
   before_validation :sync_booking
+
   validates :occupancy_status, presence: true
   validates :occupancy_status, inclusion: { in: (STATUSES.keys - %i[closed free]).map(&:to_s) }, if: :linked
-  validate do
-    next if ignore_conflicting || validation_context == :ignore_conflicting
+  validates_with OccupancyConflictValidator
 
-    errors.add(:base, :occupancy_conflict) if conflicting?
-  end
   validate on: %i[manage_create manage_update] do
     errors.add(:begins_at, :invalid) if linked && begins_at != booking&.begins_at
     errors.add(:ends_at, :invalid) if linked && ends_at != booking&.ends_at
   end
-  validate on: %i[public_create public_update] do
-    errors.add(:occupiable, :invalid) unless occupiable&.occupiable
+  validate on: %i[public_create public_update agent_create agent_update] do
+    errors.add(:occupiable, :invalid) unless occupiable&.occupiable && occupiable.bookable
   end
   validate do
     errors.add(:occupiable_id, :invalid) if !organisation || booking&.organisation&.!=(organisation)

@@ -257,13 +257,13 @@ export function OccupancyIntervalFormControl({
           value={formatISOorUndefined(endsAt.date)}
         />
         {invalidFeedback && <div className="invalid-feedback d-block">{invalidFeedback}</div>}
-        {conflict === "warn" && (
+        {!invalidFeedback && conflict === "error" && (
+          <div className="invalid-feedback d-block">{t("public.bookings.form.occupancy_conflict_error")}</div>
+        )}
+        {!invalidFeedback && conflict === "warn" && (
           <div className="invalid-feedback d-block text-warning">
             {t("public.bookings.form.occupancy_conflict_warning")}
           </div>
-        )}
-        {conflict === "error" && (
-          <div className="invalid-feedback d-block">{t("activerecord.errors.messages.occupancy_conflict")}</div>
         )}
       </div>
 

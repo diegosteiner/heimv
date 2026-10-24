@@ -79,7 +79,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :state_transitions, dependent: :delete_all
   has_many :operator_responsibilities, inverse_of: :booking, dependent: :destroy
   has_many :logs, inverse_of: :booking, dependent: :destroy
-  has_many :occupancies, inverse_of: :booking, dependent: :destroy, autosave: true
+  has_many :occupancies, inverse_of: :booking, dependent: :destroy, autosave: true, validate: true
   has_many :occupiables, through: :occupancies, validate: false
   has_many :booking_question_responses, -> { ordered }, dependent: :destroy, autosave: true, inverse_of: :booking
   has_many :booking_questions, through: :booking_question_responses
@@ -107,11 +107,9 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :sequence_number, uniqueness: { scope: %i[organisation_id sequence_year] } # rubocop:disable Rails/UniqueValidationWithoutIndex
   validates :ref, uniqueness: { scope: :organisation_id } # rubocop:disable Rails/UniqueValidationWithoutIndex
   validates :locale, inclusion: { in: ->(booking) { booking.organisation.locales } }, on: :public_update
-  validate do
-    organisation&.booking_validations&.each do |validation|
-      validation.booking_valid?(self, validation_context:) || errors.add(:base, validation.error_message)
-    end
-  end
+
+  validates_with BookingValidation::Validator
+  validates_with OccupancyConflictValidator
 
   validate on: :public_create do
     next if !Rails.env.production? || EmailAddress.valid?(email, host_validation: :mx, dns_lookup: :mx)
@@ -122,17 +120,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validate do
     errors.add(:email, :invalid) unless email.blank? || EmailAddress.valid?(email)
     errors.add(:invoice_cc, :invalid) unless invoice_cc.blank? || EmailAddress.valid?(invoice_cc)
-  end
-
-  validate on: %i[public_create agent_create] do
-    errors.add(:occupiable_ids, :invalid) unless home&.bookable && occupancies.all? { it.occupiable&.bookable }
-  end
-
-  validate do
-    errors.add(:occupiable_ids, :blank) if occupancies.none?
-    next if ignore_conflicting || validation_context == :ignore_conflicting
-
-    errors.add(:occupiable_ids, :occupancy_conflict) if conflicting?
   end
 
   validate on: %i[public_update agent_update manage_update] do
