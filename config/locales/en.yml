@@ -103,10 +103,10 @@ en:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
+        conflict_type: Belegungsart
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
-        conflict_type: Belegungsart
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -250,6 +250,7 @@ en:
         cancellation_reason: Annulierungsgrund
         category: Art der Miete
         committed_request: Verbindlichkeit der Mietanfrage
+        conflict_type: Art der Belegungen
         created_at: Erstellt am
         deadline: Frist bis
         deliver_notifications: Aus der Applikation generierte Emails versenden
@@ -263,7 +264,6 @@ en:
         locale: Sprache
         nights: Nächte
         occupancies: Belegungen
-        conflict_type: Art der Belegungen
         occupiable_ids: Heime
         occupiables: Mietobjekte
         purpose_description: Beschreibung des Mietzwecks
@@ -398,12 +398,12 @@ en:
         begins_at_date: Beginn der Belegung (Datum)
         begins_at_time: Beginn der Belegung (Zeit)
         color: Farbe im Kalender
+        conflict_type: Belegungsart
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
         ignore_conflicting: Terminkonflikte ignorieren
         linked: An Buchung gebunden
-        conflict_type: Belegungsart
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
       occupiable:

@@ -6,7 +6,7 @@ class OccupancyConflictValidator < ActiveModel::Validator
     return record.occupancies.all? { validate(it, assuming:) } if record.is_a?(Booking)
     return if record.ignore_conflicting || record.validation_context == :ignore_conflicting
 
-    return true unless record.conflicting?(assuming:)
+    return true unless record.conflict?(assuming:)
 
     record.errors.add(:base, :occupancy_conflict, occupiable: record.occupiable&.name)
     false

@@ -28,7 +28,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.organisation.booking_state_settings.enable_waitlist || !booking.conflicting?(assuming: :tentative)
+      booking.organisation.booking_state_settings.enable_waitlist || !booking.conflict?(assuming: :tentative)
     end
 
     def relevant_time

@@ -66,7 +66,7 @@ class Occupancy < ApplicationRecord
     errors.add(:occupiable_id, :invalid) if booking.present? && occupiable&.home_id != booking.home_id
   end
 
-  def conflicting?(...)
+  def conflict?(...)
     conflicting(...)&.exists?
   end
 

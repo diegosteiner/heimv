@@ -104,10 +104,10 @@ de:
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
         calendar_label_id: Anzeige im Kalender
+        conflict_type: Belegungsstatus
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
-        conflict_type: Belegungsstatus
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -252,6 +252,7 @@ de:
         cancellation_reason: Annulierungsgrund
         category: Mietkategorie
         committed_request: Verbindlichkeit der Reservationsanfrage
+        conflict_type: Belegungsstatus
         created_at: Erstellt am
         deadline: Frist bis
         deliver_notifications: Aus der Applikation generierte Emails versenden
@@ -265,7 +266,6 @@ de:
         locale: Sprache
         nights: Nächte
         occupancies: Belegungen
-        conflict_type: Belegungsstatus
         occupiable_ids: Mietobjekte
         occupiables: Mietobjekte
         purpose_description: Beschreibung des Mietzwecks
@@ -315,9 +315,9 @@ de:
       calendar_label:
         booking_category_default: Standard für Mietkategorie
         color: Farbe
+        conflict_type_default: Standard für Belegungsart
         description: Beschreibung
         legend: In Legende anzeigen
-        conflict_type_default: Standard für Belegungsart
         title: Bezeichnung
       contract:
         confirmed_at: Retournierter Vertrag bestätigt am
@@ -408,12 +408,12 @@ de:
         begins_at_time: Beginn der Belegung (Zeit)
         calendar_label_id: Anzeige im Kalender
         color: Farbe im Kalender
+        conflict_type: Belegungsstatus
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
         ignore_conflicting: Terminkonflikte ignorieren
         linked: An Buchung gebunden
-        conflict_type: Belegungsstatus
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
       occupiable:

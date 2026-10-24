@@ -176,7 +176,7 @@ describe Booking do
     end
   end
 
-  describe '#conflicting?' do
+  describe '#conflict?' do
     let(:booking_attributes) do
       { home:, tenant:, organisation:, begins_at: 20.weeks.from_now, ends_at: 21.weeks.from_now }
     end
@@ -244,108 +244,45 @@ describe Booking do
     end
   end
 
-  describe '#default_calendar_label', :skip do
+  describe '#default_calendar_label' do
+    subject { booking.default_calendar_label }
+
     let(:booking_category) { create(:booking_category, organisation:) }
-    let(:booking) do
-      build(:booking, tenant:, home:, organisation:,
-                      booking_category:, conflict_type: :occupied)
+    let!(:calendar_labels) do
+      {
+        conflict_type: organisation.calendar_labels.find_or_create_by(booking_category_default: nil,
+                                                                      conflict_type_default: :occupied),
+        booking_category: create(:calendar_label, organisation:, booking_category_default: booking_category,
+                                                  conflict_type_default: nil),
+        both: create(:calendar_label, organisation:, booking_category_default: booking_category,
+                                      conflict_type_default: :occupied)
+      }
     end
 
     context 'with exact match by booking_category and conflict_type' do
-      let(:label) do
-        create(:calendar_label, organisation:,
-                                booking_category_default: booking_category,
-                                conflict_type_default: :occupied)
+      before do
+        booking.update!(category: booking_category, conflict_type: :occupied)
       end
 
-      it 'returns the matching label' do
-        label
-        expect(booking.default_calendar_label).to eq(label)
-      end
+      it { is_expected.to eq(calendar_labels[:both]) }
     end
 
     context 'with match by booking_category only' do
-      let(:label) do
-        create(:calendar_label, organisation:,
-                                booking_category_default: booking_category,
-                                conflict_type_default: nil)
+      before do
+        booking.update!(category: booking_category, conflict_type: :tentative)
       end
 
-      it 'returns the label when no conflict_type specific label exists' do
-        label
-        expect(booking.default_calendar_label).to eq(label)
-      end
+      it { is_expected.to eq(calendar_labels[:booking_category]) }
     end
 
     context 'with match by conflict_type only' do
-      let(:label) do
-        create(:calendar_label, organisation:,
-                                booking_category_default: nil,
-                                conflict_type_default: :occupied)
+      let(:other_category) { create(:booking_category, organisation:) }
+
+      before do
+        booking.update!(category: other_category, conflict_type: :occupied)
       end
 
-      it 'returns the label when no booking_category specific label exists' do
-        label
-        expect(booking.default_calendar_label).to eq(label)
-      end
-    end
-
-    context 'with multiple matching labels' do
-      let(:exact_match) do
-        create(:calendar_label, organisation:,
-                                booking_category_default: booking_category,
-                                conflict_type_default: :occupied)
-      end
-      let(:category_only) do
-        create(:calendar_label, organisation:,
-                                booking_category_default: booking_category,
-                                conflict_type_default: nil)
-      end
-      let(:conflict_only) do
-        create(:calendar_label, organisation:,
-                                booking_category_default: nil,
-                                conflict_type_default: :occupied)
-      end
-
-      it 'prioritizes exact match over category-only match' do
-        category_only
-        exact_match
-        expect(booking.default_calendar_label).to eq(exact_match)
-      end
-
-      it 'prioritizes category-only match over conflict-only match' do
-        conflict_only
-        category_only
-        exact_match.destroy
-        expect(booking.default_calendar_label).to eq(category_only)
-      end
-
-      it 'falls back to conflict-only match when no category match exists' do
-        conflict_only
-        exact_match.destroy
-        category_only.destroy
-        expect(booking.default_calendar_label).to eq(conflict_only)
-      end
-    end
-
-    context 'without any matching label' do
-      it 'returns nil' do
-        expect(booking.default_calendar_label).to be_nil
-      end
-    end
-
-    context 'with different organisations' do
-      let(:other_organisation) { create(:organisation) }
-      let(:label) do
-        create(:calendar_label, organisation: other_organisation,
-                                booking_category_default: booking_category,
-                                conflict_type_default: :occupied)
-      end
-
-      it 'does not return label from different organisation' do
-        label
-        expect(booking.default_calendar_label).to be_nil
-      end
+      it { is_expected.to eq(calendar_labels[:conflict_type]) }
     end
   end
 end

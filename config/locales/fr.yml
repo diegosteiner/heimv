@@ -104,10 +104,10 @@ fr:
         begins_at_after: Début de la location à partir du
         begins_at_before: Début de la location jusqu'au
         calendar_label_id: Couleur dans le calendrier
+        conflict_type: Statut d'occupation
         ends_at: Jusqu'à / jusqu'au
         ends_at_after: Fin de la location à partir du
         ends_at_before: Fin de la location jusqu'au
-        conflict_type: Statut d'occupation
       occupiable_settings:
         accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
@@ -248,6 +248,7 @@ fr:
         cancellation_reason: Motif d'annulation
         category: Catégorie de location
         committed_request: Caractère obligatoire de la demande de location
+        conflict_type:
         created_at: Créé le
         deadline: Délai jusqu'au
         deliver_notifications: Envoyer des e-mails générés par l'application
@@ -261,7 +262,6 @@ fr:
         locale: Langue
         nights: Nuits
         occupancies: Locations
-        conflict_type:
         occupiable_ids: Objets de location
         occupiables: Objets de location
         purpose_description: Description de la raison de la location
@@ -311,9 +311,9 @@ fr:
       calendar_label:
         booking_category_default:
         color:
+        conflict_type_default:
         description: Description
         legend:
-        conflict_type_default:
         title: Désignation
       contract:
         confirmed_at:
@@ -404,12 +404,12 @@ fr:
         begins_at_time: Début de la location (heure)
         calendar_label_id:
         color: Couleur dans le calendrier
+        conflict_type:
         ends_at: Fin de la location
         ends_at_date: Fin de la location (date)
         ends_at_time: Fin de la location (heure)
         ignore_conflicting: Ignorer les conflits de dates
         linked: Lié à la réservation
-        conflict_type:
         occupiable_id: Objet de location
         remarks: Remarques
       occupiable:

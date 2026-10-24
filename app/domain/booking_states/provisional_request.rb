@@ -30,7 +30,7 @@ module BookingStates
 
     guard_transition do |booking|
       booking.organisation.booking_state_settings.enable_provisional_request &&
-        !booking.conflicting?(assuming: :tentative)
+        !booking.conflict?(assuming: :tentative)
     end
 
     infer_transition(to: :definitive_request) do |booking|

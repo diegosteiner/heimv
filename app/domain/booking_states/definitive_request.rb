@@ -16,15 +16,15 @@ module BookingStates
     end
 
     guard_transition(from: :open_request) do |booking|
-      !booking.conflicting?(assuming: :occupied)
+      !booking.conflict?(assuming: :occupied)
     end
 
     guard_transition(from: :waitlisted_request) do |booking|
-      !booking.conflicting?(assuming: :occupied)
+      !booking.conflict?(assuming: :occupied)
     end
 
     guard_transition do |booking|
-      booking.committed_request && booking.tenant&.valid? && !booking.conflicting?
+      booking.committed_request && booking.tenant&.valid? && !booking.conflict?
     end
 
     infer_transition(to: :upcoming) do |booking|

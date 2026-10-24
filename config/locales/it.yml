@@ -104,10 +104,10 @@ it:
         begins_at_after: Inizio occupazione da
         begins_at_before: Inizio occupazione fino a
         calendar_label_id: Visualizzazione nel calendario
+        conflict_type: Stato di occupazione
         ends_at: Fino a
         ends_at_after: Fine occupazione da
         ends_at_before: Fine dell'occupazione fino a
-        conflict_type: Stato di occupazione
       occupiable_settings:
         accounting_cost_center_nr:
         booking_margin: Durata tra le prenotazioni
@@ -248,6 +248,7 @@ it:
         cancellation_reason: Motivo della cancellazione
         category: Categoria di affitto
         committed_request: Natura vincolante della richiesta di affitto
+        conflict_type:
         created_at: Creato il
         deadline: Scadenza fino a
         deliver_notifications: Inviare le e-mail generate dall'applicazione
@@ -261,7 +262,6 @@ it:
         locale: Lingua
         nights: Notti
         occupancies: Occupazioni
-        conflict_type:
         occupiable_ids: Proprietà in affitto
         occupiables: Proprietà in affitto
         purpose_description: Descrizione dello scopo del contratto di affitto
@@ -311,9 +311,9 @@ it:
       calendar_label:
         booking_category_default: Standard per categoria di affitto
         color: Colore
+        conflict_type_default: Standard per il tipo di occupazione
         description: Descrizione
         legend: Visualizza nella legenda
-        conflict_type_default: Standard per il tipo di occupazione
         title: Nome
       contract:
         confirmed_at:
@@ -404,12 +404,12 @@ it:
         begins_at_time: Inizio dell'occupazione (ora)
         calendar_label_id: Visualizzazione nel calendario
         color: Colore nel calendario
+        conflict_type: Stato di occupazione
         ends_at: Fine dell'occupazione
         ends_at_date: Fine dell'occupazione (data)
         ends_at_time: Fine dell'occupazione (ora)
         ignore_conflicting:
         linked: Legato alla prenotazione
-        conflict_type: Stato di occupazione
         occupiable_id: Proprietà in affitto
         remarks: Osservazioni
       occupiable:

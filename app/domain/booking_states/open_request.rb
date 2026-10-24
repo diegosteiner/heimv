@@ -16,7 +16,7 @@ module BookingStates
 
     guard_transition do |booking|
       (booking.agent_booking.nil? && booking.organisation.booking_state_settings.enable_waitlist) ||
-        !booking.conflicting?(assuming: :tentative)
+        !booking.conflict?(assuming: :tentative)
     end
 
     after_transition do |booking|

@@ -239,7 +239,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     applied_transitions
   end
 
-  def conflicting?(...)
+  def conflict?(...)
     conflicting(...)&.exists?
   end
 
