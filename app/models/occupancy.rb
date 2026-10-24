@@ -7,10 +7,10 @@
 #  id                 :uuid             not null, primary key
 #  begins_at          :datetime         not null
 #  color              :string
+#  conflict_type      :integer          default("pending"), not null
 #  ends_at            :datetime         not null
 #  ignore_conflicting :boolean          default(FALSE), not null
 #  linked             :boolean          default(TRUE)
-#  occupancy_status   :integer          default("pending"), not null
 #  remarks            :text
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -20,9 +20,9 @@
 #
 
 class Occupancy < ApplicationRecord
-  STATUSES = { pending: 0, tentative: 1, occupied: 2, closed: 3, free: 4, internal: 5, void: 6 }.freeze
-  STATUS_CONFLICTS = {
-    any: STATUSES.keys,
+  CONFLICT_TYPES = { pending: 0, tentative: 1, occupied: 2, closed: 3, free: 4, void: 6 }.freeze # internal: 5 is deprec
+  CONFLICTS = {
+    any: CONFLICT_TYPES.keys,
     free: [], void: [],
     pending: %i[closed],
     tentative: %i[tentative occupied closed],
@@ -38,17 +38,17 @@ class Occupancy < ApplicationRecord
   belongs_to :calendar_label, optional: true
 
   has_one :organisation, through: :occupiable
-  has_one :default_calendar_label, class_name: 'CalendarLabel', primary_key: :occupancy_status, # rubocop:disable Rails/HasManyOrHasOneDependent,Rails/InverseOf
-                                   foreign_key: :occupancy_status_default
+  has_one :default_calendar_label, class_name: 'CalendarLabel', primary_key: :conflict_type, # rubocop:disable Rails/HasManyOrHasOneDependent,Rails/InverseOf
+                                   foreign_key: :conflict_type_default
 
-  enum :occupancy_status, STATUSES, prefix: :status
+  enum :conflict_type, CONFLICT_TYPES, prefix: true
 
   scope :ordered, -> { order(begins_at: :ASC) }
 
   before_validation :sync_booking
 
-  validates :occupancy_status, presence: true
-  validates :occupancy_status, inclusion: { in: (STATUSES.keys - %i[closed free]).map(&:to_s) }, if: :linked
+  validates :conflict_type, presence: true
+  validates :conflict_type, inclusion: { in: (CONFLICT_TYPES.keys - %i[closed free]).map(&:to_s) }, if: :linked
   validates_with OccupancyConflictValidator
 
   validate on: %i[manage_create manage_update] do
@@ -74,13 +74,14 @@ class Occupancy < ApplicationRecord
     return unless begins_at.present? && ends_at.present? && occupiable.present?
 
     margin ||= occupiable.settings&.booking_margin || 0
-    occupancy_statuses = STATUS_CONFLICTS[assuming&.to_sym || occupancy_status.to_sym]
+    conflict_types = CONFLICTS[assuming&.to_sym || conflict_type.to_sym]
 
     occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin)
               .where.not(id:).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
-              .where(occupancy_status: occupancy_statuses, ignore_conflicting: [false, nil])
+              .where(conflict_type: conflict_types, ignore_conflicting: [false, nil])
   end
 
+  # color is used in ical too!
   def color
     # legacy
     super.presence || booking&.occupancy_color ||
@@ -93,16 +94,16 @@ class Occupancy < ApplicationRecord
 
     assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,
                       calendar_label: booking.calendar_label || booking.default_calendar_label,
-                      occupancy_status: booking.occupancy_status, ignore_conflicting: booking.ignore_conflicting)
+                      conflict_type: booking.conflict_type, ignore_conflicting: booking.ignore_conflicting)
   end
 
   def to_s
     booking_string = booking.present? ? "[#{booking.ref}] " : ''
     occupiable_string = "#{id || super}@#{occupiable}: "
     range_string = "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)} "
-    occupancy_status_string = occupancy_status
+    conflict_type_string = conflict_type
 
-    [booking_string, occupiable_string, range_string, occupancy_status_string].join
+    [booking_string, occupiable_string, range_string, conflict_type_string].join
   rescue StandardError
     super
   end

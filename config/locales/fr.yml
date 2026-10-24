@@ -107,7 +107,7 @@ fr:
         ends_at: Jusqu'à / jusqu'au
         ends_at_after: Fin de la location à partir du
         ends_at_before: Fin de la location jusqu'au
-        occupancy_status: Statut d'occupation
+        conflict_type: Statut d'occupation
       occupiable_settings:
         accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
@@ -261,7 +261,7 @@ fr:
         locale: Langue
         nights: Nuits
         occupancies: Locations
-        occupancy_status:
+        conflict_type:
         occupiable_ids: Objets de location
         occupiables: Objets de location
         purpose_description: Description de la raison de la location
@@ -313,7 +313,7 @@ fr:
         color:
         description: Description
         legend:
-        occupancy_status_default:
+        conflict_type_default:
         title: Désignation
       contract:
         confirmed_at:
@@ -409,7 +409,7 @@ fr:
         ends_at_time: Fin de la location (heure)
         ignore_conflicting: Ignorer les conflits de dates
         linked: Lié à la réservation
-        occupancy_status:
+        conflict_type:
         occupiable_id: Objet de location
         remarks: Remarques
       occupiable:
@@ -672,10 +672,9 @@ fr:
           home_return: Gardien - Ouverture d’hébergement
           tenant: Locataire
       occupancy:
-        occupancy_status:
+        conflict_type:
           closed: Fermé
           free: Libre
-          internal: interne
           occupied: définitive
           pending: sollicité
           reserved: réservé en interne

@@ -3,7 +3,7 @@
 class Booking
   class Filter < ApplicationFilter
     attribute :q
-    attribute :categories
+    attribute :categories, default: -> { [] }
     attribute :homes, default: -> { [] }
     attribute :occupiables, default: -> { [] }
     attribute :current_booking_states, default: -> { [] }
@@ -14,7 +14,8 @@ class Booking
     attribute :ends_at_after, :datetime
     attribute :ends_at_before, :datetime
     attribute :at_date, :date
-    attribute :occupancy_status
+    attribute :conflict_type
+    attribute :calendar_labels, default: -> { [] }
     attribute :concluded
 
     filter :at_date do |bookings|
@@ -28,8 +29,13 @@ class Booking
               .ends_at(after: ends_at_after, before: ends_at_before)
     end
 
-    filter :occupancy_status do |bookings|
-      bookings.where(occupancy_status:) if occupancy_status.present?
+    filter :conflict_type do |bookings|
+      bookings.where(conflict_type:) if conflict_type.present?
+    end
+
+    filter :calendar_labels do |bookings|
+      calendar_labels = Array.wrap(self.calendar_labels).compact_blank
+      bookings.where(calendar_label_id: calendar_labels) if calendar_labels.present?
     end
 
     filter :homes do |bookings|

@@ -19,7 +19,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.status_tentative!
+      booking.conflict_type_tentative!
       booking.create_deadline(at: :provisional_request_deadline,
                               postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,
                               remarks: booking.booking_state.t(:label))

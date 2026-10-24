@@ -7,7 +7,7 @@ module Public
     association :calendar_label, blueprint: Public::CalendarLabelSerializer
     association :default_calendar_label, blueprint: Public::CalendarLabelSerializer
 
-    fields :begins_at, :ends_at, :occupancy_status, :occupiable_id, :remarks, :nights, :color, :booking_id
+    fields :begins_at, :ends_at, :conflict_type, :occupiable_id, :remarks, :nights, :color, :booking_id
 
     # field :color do |occupancy|
 

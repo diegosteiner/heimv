@@ -27,7 +27,7 @@ module Public
       @booking = preparation_service.prepare_create(create_params)
       @booking.assign_attributes(transition_to: :unconfirmed_request)
       unless @booking.organisation.booking_state_settings.enable_waitlist?
-        @booking.assign_attributes(occupancy_status: :tentative)
+        @booking.assign_attributes(conflict_type: :tentative)
       end
 
       respond_to do |format|

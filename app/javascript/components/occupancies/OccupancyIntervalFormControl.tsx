@@ -131,8 +131,8 @@ export function OccupancyIntervalFormControl({
           { inclusive: false },
         ),
     );
-    if (overlapping.some((occupancy) => ["closed"].includes(occupancy.occupancyStatus))) return "error";
-    if (overlapping.some((occupancy) => ["tentative", "occupied", "pending"].includes(occupancy.occupancyStatus)))
+    if (overlapping.some((occupancy) => ["closed"].includes(occupancy.conflictType))) return "error";
+    if (overlapping.some((occupancy) => ["tentative", "occupied", "pending"].includes(occupancy.conflictType)))
       return waitlistEnabled ? "warn" : "error";
     return false;
   }, [disabled, waitlistEnabled, bookingId, beginsAt, endsAt, occupancyWindow]);

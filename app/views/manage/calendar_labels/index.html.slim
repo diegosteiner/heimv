@@ -7,7 +7,7 @@ h1.mt-0.mb-5= CalendarLabel.model_name.human(count: 2)
       tr
         th
         th= CalendarLabel.human_attribute_name(:title)
-        th= CalendarLabel.human_attribute_name(:occupancy_status_default)
+        th= CalendarLabel.human_attribute_name(:conflict_type_default)
         th= CalendarLabel.human_attribute_name(:booking_category_default)
         th= CalendarLabel.human_attribute_name(:description)
         th
@@ -21,8 +21,8 @@ h1.mt-0.mb-5= CalendarLabel.model_name.human(count: 2)
           td
             = link_to calendar_label.title, edit_manage_calendar_label_path(calendar_label)
           td
-            - if calendar_label.occupancy_status_default.present?
-              = Occupancy.human_enum(:occupancy_status, calendar_label.occupancy_status_default)
+            - if calendar_label.conflict_type_default.present?
+              = Occupancy.human_enum(:conflict_type, calendar_label.conflict_type_default)
           td
             = calendar_label.booking_category_default&.title
           td

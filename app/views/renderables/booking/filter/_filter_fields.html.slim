@@ -4,6 +4,7 @@
     = f.text_field :q
   .col 
     = f.select :concluded, %i[all inconcluded concluded].map { [t(it, scope: 'activerecord.enums.booking/filter.concluded'), it] }
+
 .row
   .col
     = f.datetime_field :begins_at_after, include_blank: true
@@ -11,11 +12,13 @@
   .col
     = f.datetime_field :ends_at_after, include_blank: true
     = f.datetime_field :ends_at_before, include_blank: true
+
 .row
   .col
     = f.collection_select :homes, current_organisation.homes, :id, :name, { include_blank: true }, multiple: true, size: 3
   .col
     = f.collection_select :occupiables, current_organisation.occupiables.ordered, :id, :name, { include_blank: true }, multiple: true, size: 3
+
 .row
   - states = current_organisation.booking_flow_class.state_classes.map { |key, state| [state.t, key] }
   .col
@@ -24,7 +27,15 @@
     = f.select :previous_booking_states, states, { include_blank: true }, multiple: true, size: 6
 
 .row
-  - categories = current_organisation.booking_categories.all.map { |category| [category.title, category.id] }
+  .col
+    = f.select :conflict_type, Occupancy.conflict_types.keys.map { [Occupancy.human_enum(:conflict_type, it), it] }, include_blank: true
+
+  - calendar_labels = current_organisation.calendar_labels.all.map { |it| [it.title, it.id] }
+  .col
+    = f.select :calendar_labels, calendar_labels, { include_blank: true }, multiple: true, size: 4
+
+.row
+  - categories = current_organisation.booking_categories.all.map { |it| [it.title, it.id] }
   .col
     = f.select :categories, categories, { include_blank: true }, multiple: true, size: 4
   .col

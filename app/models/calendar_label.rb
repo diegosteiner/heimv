@@ -6,10 +6,10 @@
 #
 #  id                          :bigint           not null, primary key
 #  color                       :string           not null
+#  conflict_type_default       :integer
 #  description_i18n            :jsonb            not null
 #  discarded_at                :datetime
 #  legend                      :boolean          default(TRUE), not null
-#  occupancy_status_default    :integer
 #  title_i18n                  :jsonb            not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
@@ -37,22 +37,22 @@ class CalendarLabel < ApplicationRecord
   has_many :occupancies, inverse_of: :calendar_label, dependent: :nullify
 
   scope :ordered, -> { order(color: :ASC) }
-  enum :occupancy_status_default, Occupancy::STATUSES, prefix: true
+  enum :conflict_type_default, Occupancy::CONFLICT_TYPES, prefix: true
 
   validates :color, presence: true, format: { with: COLOR_REGEX }
   validates :title, presence: true
-  validates :occupancy_status_default, uniqueness: { scope: %i[organisation_id booking_category_default_id],
-                                                     allow_blank: true },
-                                       inclusion: { in: Occupancy::STATUSES.keys.map(&:to_s), allow_blank: true }
+  validates :conflict_type_default, uniqueness: { scope: %i[organisation_id booking_category_default_id],
+                                                  allow_blank: true },
+                                    inclusion: { in: Occupancy::CONFLICT_TYPES.keys.map(&:to_s), allow_blank: true }
 
   def self.prepare_default(organisation, colors: {})
-    CalendarLabel::DEFAULT_COLORS.merge(colors).filter_map do |occupancy_status_default, color|
+    CalendarLabel::DEFAULT_COLORS.merge(colors).filter_map do |conflict_type_default, color|
       next if color.nil?
 
       title_i18n = I18n.available_locales.index_with do |locale|
-        I18n.t(occupancy_status_default, scope: 'activerecord.enums.occupancy.occupancy_status', locale:)
+        I18n.t(conflict_type_default, scope: 'activerecord.enums.occupancy.conflict_type', locale:)
       end
-      CalendarLabel.build(organisation:, title_i18n:, color:, occupancy_status_default:)
+      CalendarLabel.build(organisation:, title_i18n:, color:, conflict_type_default:)
     end
   end
 end

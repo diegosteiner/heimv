@@ -106,7 +106,7 @@ en:
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
-        occupancy_status: Belegungsart
+        conflict_type: Belegungsart
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -263,7 +263,7 @@ en:
         locale: Sprache
         nights: Nächte
         occupancies: Belegungen
-        occupancy_status: Art der Belegungen
+        conflict_type: Art der Belegungen
         occupiable_ids: Heime
         occupiables: Mietobjekte
         purpose_description: Beschreibung des Mietzwecks
@@ -403,7 +403,7 @@ en:
         ends_at_time: Ende der Belegung (Zeit)
         ignore_conflicting: Terminkonflikte ignorieren
         linked: An Buchung gebunden
-        occupancy_status: Belegungsart
+        conflict_type: Belegungsart
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
       occupiable:
@@ -665,7 +665,7 @@ en:
           home_return: Funktionär Hausrücknahme
           tenant: Mieter
       occupancy:
-        occupancy_status:
+        conflict_type:
           closed: Geschlossen
           free: Frei
           occupied: definitiv Besetzt
@@ -1762,7 +1762,7 @@ en:
               <dt>Link für den Vermieter</dt>
               <dd><pre>{{ booking.links.manage }}</pre></dd>
               <dt>Belegungstyp</dt>
-              <dd><pre>{{ booking.occupancy_status }}</pre></dd>
+              <dd><pre>{{ booking.conflict_type }}</pre></dd>
               <dt>Schlüssel der Mietkategorie</dt>
               <dd><pre>{{ booking.category.key }}</pre></dd>
               <dt>Bezeichnung der Mietkategorie</dt>

@@ -3,7 +3,7 @@
 module Manage
   class OccupancyFilterParams < ApplicationParams
     def self.permitted_keys
-      %i[begins_at_before begins_at_after ends_at_before ends_at_after]
+      %i[begins_at_before begins_at_after ends_at_before ends_at_after] + { calendar_labels: [] }
     end
   end
 end

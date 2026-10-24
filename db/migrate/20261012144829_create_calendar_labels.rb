@@ -7,7 +7,7 @@ class CreateCalendarLabels < ActiveRecord::Migration[8.1]
       t.jsonb :title_i18n, default: {}, null: false
       t.jsonb :description_i18n, default: {}, null: false
       t.string :color, null: false
-      t.integer :occupancy_status_default, null: true
+      t.integer :conflict_type_default, null: true
       t.belongs_to :booking_categories, :booking_category_default,
                    foreign_key: { to_table: :booking_categories }, null: true
       t.datetime :discarded_at, null: true
@@ -15,18 +15,18 @@ class CreateCalendarLabels < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :calendar_labels, %i[organisation_id occupancy_status_default booking_category_default_id], unique: true
+    add_index :calendar_labels, %i[organisation_id conflict_type_default booking_category_default_id], unique: true
     add_reference :occupancies, :calendar_label, foreign_key: true
     add_reference :bookings, :calendar_label, foreign_key: true
 
     up_only do
-      migrate_occupancy_status_default
+      migrate_conflict_type_default
       migrate_occupancy_occupancy_colors
       migrate_booking_occupancy_colors
     end
   end
 
-  def migrate_occupancy_status_default
+  def migrate_conflict_type_default
     Organisation.find_each do |organisation|
       colors = organisation.settings.try(:occupancy_colors) || {}
       CalendarLabel.prepare_default(organisation, colors:).each(&:save!)

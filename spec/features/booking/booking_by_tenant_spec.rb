@@ -248,7 +248,7 @@ describe 'Booking by tenant', :devise do
   describe 'check conflicting bookings' do
     let(:conflicting_booking) do
       create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
-                       occupancy_status: :tentative, initial_state: :provisional_request)
+                       conflict_type: :tentative, initial_state: :provisional_request)
     end
 
     context 'without waitlist_enabled' do
@@ -284,7 +284,7 @@ describe 'Booking by tenant', :devise do
       let(:tenant) { create(:tenant, organisation:) }
       let(:conflicting_booking) do
         create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
-                         occupancy_status: :occupied, initial_state: :upcoming)
+                         conflict_type: :occupied, initial_state: :upcoming)
       end
 
       before { organisation.reload.update!(booking_state_settings: { enable_waitlist: false }) }

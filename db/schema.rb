@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_12_144829) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_24_170518) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -219,7 +219,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_12_144829) do
     t.string "locale"
     t.boolean "deliver_notifications", default: false
     t.string "occupancy_color"
-    t.integer "occupancy_status", default: 0, null: false
+    t.integer "conflict_type", default: 0, null: false
     t.bigint "organisation_id", null: false
     t.string "purpose_description"
     t.string "ref"
@@ -248,7 +248,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_12_144829) do
     t.jsonb "title_i18n", default: {}, null: false
     t.jsonb "description_i18n", default: {}, null: false
     t.string "color", null: false
-    t.integer "occupancy_status_default"
+    t.integer "conflict_type_default"
     t.bigint "booking_categories_id"
     t.bigint "booking_category_default_id"
     t.datetime "discarded_at"
@@ -257,7 +257,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_12_144829) do
     t.datetime "updated_at", null: false
     t.index ["booking_categories_id"], name: "index_calendar_labels_on_booking_categories_id"
     t.index ["booking_category_default_id"], name: "index_calendar_labels_on_booking_category_default_id"
-    t.index ["organisation_id", "occupancy_status_default", "booking_category_default_id"], name: "idx_on_organisation_id_occupancy_status_default_boo_f1fca1b326", unique: true
+    t.index ["organisation_id", "conflict_type_default", "booking_category_default_id"], name: "idx_on_organisation_id_conflict_type_default_bookin_2589cbc3e0", unique: true
     t.index ["organisation_id"], name: "index_calendar_labels_on_organisation_id"
   end
 
@@ -465,17 +465,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_12_144829) do
     t.datetime "ends_at", precision: nil, null: false
     t.boolean "ignore_conflicting", default: false, null: false
     t.boolean "linked", default: true
-    t.integer "occupancy_status", default: 0, null: false
+    t.integer "conflict_type", default: 0, null: false
     t.bigint "occupiable_id", null: false
     t.text "remarks"
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "calendar_label_id"
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
-    t.index ["booking_id", "occupancy_status"], name: "index_occupancies_on_booking_id_and_occupancy_status"
+    t.index ["booking_id", "conflict_type"], name: "index_occupancies_on_booking_id_and_conflict_type"
     t.index ["booking_id"], name: "index_occupancies_on_booking_id"
     t.index ["calendar_label_id"], name: "index_occupancies_on_calendar_label_id"
+    t.index ["conflict_type"], name: "index_occupancies_on_conflict_type"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
-    t.index ["occupancy_status"], name: "index_occupancies_on_occupancy_status"
     t.index ["occupiable_id"], name: "index_occupancies_on_occupiable_id"
   end
 

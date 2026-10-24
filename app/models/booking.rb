@@ -16,6 +16,7 @@
 #  committed_request            :boolean
 #  concluded                    :boolean          default(FALSE)
 #  conditions_accepted_at       :datetime
+#  conflict_type                :integer          default("pending"), not null
 #  deliver_notifications        :boolean          default(FALSE)
 #  editable                     :boolean
 #  email                        :string
@@ -27,7 +28,6 @@
 #  invoice_cc                   :string
 #  locale                       :string
 #  occupancy_color              :string
-#  occupancy_status             :integer          default("pending"), not null
 #  purpose_description          :string
 #  ref                          :string
 #  remarks                      :text
@@ -94,7 +94,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   attr_accessor :transition_to, :skip_infer_transitions, :applied_transitions
 
   timespan :begins_at, :ends_at
-  enum :occupancy_status, Occupancy::STATUSES, prefix: :status
+  enum :conflict_type, Occupancy::CONFLICT_TYPES, prefix: true
   normalizes :email, :invoice_cc, with: ->(email) { email.presence && EmailAddress.normal(email) }
   attribute :invoice_address, Address.to_type
 
@@ -296,10 +296,10 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def default_calendar_label
     organisation.calendar_labels.find_by(booking_category_default_id: booking_category_id,
-                                         occupancy_status_default: occupancy_status) ||
+                                         conflict_type_default: conflict_type) ||
       organisation.calendar_labels.find_by(booking_category_default_id: booking_category_id,
-                                           occupancy_status_default: nil) ||
-      organisation.calendar_labels.find_by(booking_category_default_id: nil, occupancy_status_default: occupancy_status)
+                                           conflict_type_default: nil) ||
+      organisation.calendar_labels.find_by(booking_category_default_id: nil, conflict_type_default: conflict_type)
   end
 
   private

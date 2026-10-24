@@ -16,6 +16,7 @@
 #  committed_request            :boolean
 #  concluded                    :boolean          default(FALSE)
 #  conditions_accepted_at       :datetime
+#  conflict_type                :integer          default("pending"), not null
 #  deliver_notifications        :boolean          default(FALSE)
 #  editable                     :boolean
 #  email                        :string
@@ -27,7 +28,6 @@
 #  invoice_cc                   :string
 #  locale                       :string
 #  occupancy_color              :string
-#  occupancy_status             :integer          default("pending"), not null
 #  purpose_description          :string
 #  ref                          :string
 #  remarks                      :text
@@ -53,7 +53,7 @@ FactoryBot.define do
     sequence(:email) { |n| "booking-#{n}@heimv.test" }
     sequence(:begins_at) { |i| (Time.zone.now + i.month).change(hour: 9, minute: 0) }
     ends_at { (begins_at + 1.week).change(hour: 14, minute: 0) }
-    occupancy_status { Booking.occupancy_statuses[:pending] }
+    conflict_type { Booking.conflict_types[:pending] }
     tenant_organisation { Faker::Company.name }
     committed_request { [true, false].sample }
     approximate_headcount { rand(1..30) }

@@ -6,7 +6,7 @@ export type Occupancy = {
   bookingId?: string;
   beginsAt: Date;
   endsAt: Date;
-  occupancyStatus: "pending" | "tentative" | "occupied" | "closed" | "internal" | "free" | "void";
+  conflictType: "pending" | "tentative" | "occupied" | "closed" | "free" | "void";
   ref?: string;
   deadline?: Date;
   remarks?: string;
@@ -32,7 +32,7 @@ export type OccupancyJson = {
   deadline?: string;
   occupiable_id: number;
   occupiable: Occupiable;
-  occupancy_status: Occupancy["occupancyStatus"];
+  conflict_type: Occupancy["conflictType"];
   calendar_label: Occupancy["calendarLabel"];
   default_calendar_label: Occupancy["defaultCalendarLabel"];
 };
@@ -45,7 +45,7 @@ export function parse(json: OccupancyJson): Partial<Occupancy> {
     ends_at,
     deadline,
     occupiable_id,
-    occupancy_status,
+    conflict_type,
     calendar_label,
     default_calendar_label,
     ...rest
@@ -59,20 +59,20 @@ export function parse(json: OccupancyJson): Partial<Occupancy> {
     endsAt: parseISOorUndefined(ends_at),
     deadline: parseISOorUndefined(deadline),
     occupiableId: occupiable_id,
-    occupancyStatus: occupancy_status,
+    conflictType: conflict_type,
     calendarLabel: calendar_label,
     defaultCalendarLabel: default_calendar_label,
   };
 }
 
-const occupancyStatusMapping = ["void", "pending", "free", "closed", "tentative", "occupied"];
+const conflictTypeMapping = ["void", "pending", "free", "closed", "tentative", "occupied"];
 
 export function findMostRelevantOccupancy(occupancies: Set<Occupancy>): Occupancy | undefined {
   let topCandidate: Occupancy | undefined;
   let topScore: number | undefined;
 
   for (const currentCandidate of Array.from(occupancies)) {
-    const currentScore = occupancyStatusMapping.indexOf(currentCandidate.occupancyStatus);
+    const currentScore = conflictTypeMapping.indexOf(currentCandidate.conflictType);
     if (topScore && topScore > currentScore) break;
 
     topScore = currentScore;

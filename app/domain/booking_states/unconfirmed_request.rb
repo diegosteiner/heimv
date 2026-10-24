@@ -21,7 +21,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.status_pending!
+      booking.conflict_type_pending!
       booking.create_deadline(at: :unconfirmed_request_deadline,
                               remarks: booking.booking_state.t(:label))
       MailTemplate.use(:unconfirmed_request_notification, booking, to: :tenant, &:autodeliver!)

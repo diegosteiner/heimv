@@ -4,7 +4,7 @@ module BookingActions
   class Decline < Base
     def invoke(cancellation_reason: nil, current_user: nil)
       cancellation_reason ||= booking.cancellation_reason
-      booking.update!(occupancy_status: :void, transition_to:, cancellation_reason: cancellation_reason.presence)
+      booking.update!(conflict_type: :void, transition_to:, cancellation_reason: cancellation_reason.presence)
       Result.success
     end
 

@@ -9,7 +9,6 @@ class IcalService
     tentative: 'TENTATIVE',
     occupied: 'CONFIRMED',
     closed: 'CONFIRMED',
-    internal: nil,
     void: nil
   }.freeze
 
@@ -34,12 +33,12 @@ class IcalService
       ical_event.uid =         occupancy.id
       ical_event.location =    occupancy.occupiable.to_s
       ical_event.location =    occupancy.occupiable&.to_s
-      ical_event.status =      STATUS_MAP.fetch(occupancy.occupancy_status, nil)
+      ical_event.status =      STATUS_MAP.fetch(occupancy.conflict_type, nil)
       ical_event.color =       occupancy.color
       ical_event.description = occupancy.remarks.presence
       ical_event.summary =     occupancy.booking&.ref ||
                                occupancy.remarks.presence ||
-                               Occupancy.human_enum(:occupancy_status, occupancy.occupancy_status)
+                               Occupancy.human_enum(:conflict_type, occupancy.conflict_type)
     end
   end
 

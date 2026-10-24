@@ -107,7 +107,7 @@ it:
         ends_at: Fino a
         ends_at_after: Fine occupazione da
         ends_at_before: Fine dell'occupazione fino a
-        occupancy_status: Stato di occupazione
+        conflict_type: Stato di occupazione
       occupiable_settings:
         accounting_cost_center_nr:
         booking_margin: Durata tra le prenotazioni
@@ -261,7 +261,7 @@ it:
         locale: Lingua
         nights: Notti
         occupancies: Occupazioni
-        occupancy_status:
+        conflict_type:
         occupiable_ids: Proprietà in affitto
         occupiables: Proprietà in affitto
         purpose_description: Descrizione dello scopo del contratto di affitto
@@ -313,7 +313,7 @@ it:
         color: Colore
         description: Descrizione
         legend: Visualizza nella legenda
-        occupancy_status_default: Standard per il tipo di occupazione
+        conflict_type_default: Standard per il tipo di occupazione
         title: Nome
       contract:
         confirmed_at:
@@ -409,7 +409,7 @@ it:
         ends_at_time: Fine dell'occupazione (ora)
         ignore_conflicting:
         linked: Legato alla prenotazione
-        occupancy_status: Stato di occupazione
+        conflict_type: Stato di occupazione
         occupiable_id: Proprietà in affitto
         remarks: Osservazioni
       occupiable:
@@ -672,10 +672,9 @@ it:
           home_return:
           tenant: Inquilino
       occupancy:
-        occupancy_status:
+        conflict_type:
           closed: Chiuso
           free: Libero
-          internal:
           occupied: dimostrato in modo definitivo
           pending: richiesto
           reserved: riservato internamente

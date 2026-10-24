@@ -15,7 +15,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.cancellation_reason ||= translate(:cancellation_reason) if booking.deadline&.expired?
-      booking.update!(occupancy_status: :void, concluded: true)
+      booking.update!(conflict_type: :void, concluded: true)
       booking.deadline&.clear!
       MailTemplate.use(:manage_expired_request_notification, booking, to: :administration, &:autodeliver!)
       MailTemplate.use(:expired_request_notification, booking,

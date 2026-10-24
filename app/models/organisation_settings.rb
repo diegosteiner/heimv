@@ -34,7 +34,7 @@ class OrganisationSettings
       self.class.available_times.include?(it)
     end
     errors.add(:public_occupancy_visibility, :invalid) unless public_occupancy_visibility&.all? do
-      Occupancy.occupancy_statuses.except('void').key?(it.to_s)
+      Occupancy.conflict_types.except('void').key?(it.to_s)
     end
   end
 

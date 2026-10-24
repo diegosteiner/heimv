@@ -8,10 +8,10 @@ require 'rails_helper'
 #
 #  id                          :bigint           not null, primary key
 #  color                       :string           not null
+#  conflict_type_default       :integer
 #  description_i18n            :jsonb            not null
 #  discarded_at                :datetime
 #  legend                      :boolean          default(TRUE), not null
-#  occupancy_status_default    :integer
 #  title_i18n                  :jsonb            not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
@@ -24,7 +24,7 @@ describe CalendarLabel do
   let(:booking) { create(:booking) }
 
   describe 'with specific calendar label set' do
-    let(:calendar_label) { create(:calendar_label, organisation:, occupancy_status_default: nil, title: 'Internal') }
+    let(:calendar_label) { create(:calendar_label, organisation:, conflict_type_default: nil, title: 'Internal') }
 
     it do
       booking.update!(calendar_label:)
@@ -35,17 +35,17 @@ describe CalendarLabel do
   describe 'with no calendar label set' do
     context 'with tentative status' do
       it do
-        default_calendar_label = organisation.calendar_labels.find_by!(occupancy_status_default: :tentative)
-        booking.update!(occupancy_status: :tentative)
+        default_calendar_label = organisation.calendar_labels.find_by!(conflict_type_default: :tentative)
+        booking.update!(conflict_type: :tentative)
         expect(booking.reload.occupancies).to all(have_attributes(calendar_label: default_calendar_label))
       end
     end
 
     context 'with occupied status' do
-      let(:calendar_label) { organisation.calendar_labels.find_by!(occupancy_status_default: :occupied) }
+      let(:calendar_label) { organisation.calendar_labels.find_by!(conflict_type_default: :occupied) }
 
       it do
-        booking.update!(occupancy_status: :occupied)
+        booking.update!(conflict_type: :occupied)
         expect(booking.reload.occupancies).to all(have_attributes(calendar_label:))
       end
     end

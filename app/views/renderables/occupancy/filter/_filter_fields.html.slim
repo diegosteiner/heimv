@@ -9,5 +9,11 @@
 
 .row
   .col
-    = f.select :occupancy_status, Occupancy.occupancy_statuses.keys.map { [Occupancy.human_enum(:occupancy_status, it), it] }, include_blank: true, multiple: true
+    = f.select :conflict_type, Occupancy.conflict_types.keys.map { [Occupancy.human_enum(:conflict_type, it), it] }, include_blank: true, multiple: true
+  .col
+    = f.select :calendar_labels, current_organisation.calendar_labels.all.map { |it| [it.title, it.id] }, { include_blank: true }, multiple: true, size: 4
+
+
+.row
+  .col
   .col

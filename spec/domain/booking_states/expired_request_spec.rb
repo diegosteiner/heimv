@@ -23,7 +23,7 @@ describe BookingStates::ExpiredRequest do
 
   describe 'transition' do
     it { expect(transitioned_booking.booking_state).to(be_a(described_class)) }
-    it { expect(transitioned_booking).to be_status_void }
+    it { expect(transitioned_booking).to be_conflict_type_void }
     it { expect(transitioned_booking).to be_concluded }
     it { expect(transitioned_booking).to notify(:expired_request_notification).to(:tenant) }
   end

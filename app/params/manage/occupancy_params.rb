@@ -3,7 +3,7 @@
 module Manage
   class OccupancyParams < ApplicationParams
     def self.permitted_keys
-      %i[begins_at ends_at occupancy_status remarks calendar_label_id linked occupiable_id ignore_conflicting]
+      %i[begins_at ends_at conflict_type remarks calendar_label_id linked occupiable_id ignore_conflicting]
     end
   end
 end
