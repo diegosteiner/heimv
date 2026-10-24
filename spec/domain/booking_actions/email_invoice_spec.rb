@@ -13,8 +13,11 @@ describe BookingActions::EmailInvoice do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:booking) { create(:booking, :invoiced, organisation:) }
   let(:invoice) { booking.invoices.last }
-
   let(:invoke) { action.invoke(invoice_ids: invoice.id) }
+
+  before do
+    invoice.update!(sent_at: nil)
+  end
 
   describe '#invokable?' do
     it { expect(action).to be_invokable(invoice_ids: invoice.id) }

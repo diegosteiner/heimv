@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_24_170518) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -207,7 +207,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.boolean "concluded", default: false
     t.datetime "conditions_accepted_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
-    t.boolean "deliver_notifications", default: false
     t.boolean "editable"
     t.string "email"
     t.datetime "ends_at"
@@ -218,8 +217,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.jsonb "invoice_address"
     t.string "invoice_cc"
     t.string "locale"
+    t.boolean "deliver_notifications", default: false
     t.string "occupancy_color"
-    t.integer "occupancy_type", default: 0, null: false
+    t.integer "conflict_type", default: 0, null: false
     t.bigint "organisation_id", null: false
     t.string "purpose_description"
     t.string "ref"
@@ -233,16 +233,36 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.text "unstructured_invoice_address"
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "use_invoice_address", default: false, null: false
+    t.bigint "calendar_label_id"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
+    t.index ["calendar_label_id"], name: "index_bookings_on_calendar_label_id"
     t.index ["locale"], name: "index_bookings_on_locale"
+    t.index ["organisation_id", "concluded", "begins_at"], name: "index_bookings_on_organisation_id_and_concluded_and_begins_at"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
     t.index ["token"], name: "index_bookings_on_token", unique: true
   end
 
+  create_table "calendar_labels", force: :cascade do |t|
+    t.bigint "organisation_id"
+    t.jsonb "title_i18n", default: {}, null: false
+    t.jsonb "description_i18n", default: {}, null: false
+    t.string "color", null: false
+    t.integer "conflict_type_default"
+    t.bigint "booking_categories_id"
+    t.bigint "booking_category_default_id"
+    t.datetime "discarded_at"
+    t.boolean "legend", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_categories_id"], name: "index_calendar_labels_on_booking_categories_id"
+    t.index ["booking_category_default_id"], name: "index_calendar_labels_on_booking_category_default_id"
+    t.index ["organisation_id", "conflict_type_default", "booking_category_default_id"], name: "idx_on_organisation_id_conflict_type_default_bookin_2589cbc3e0", unique: true
+    t.index ["organisation_id"], name: "index_calendar_labels_on_organisation_id"
+  end
+
   create_table "contracts", force: :cascade do |t|
     t.uuid "booking_id"
-    t.datetime "confirmed_at"
     t.datetime "created_at", precision: nil, null: false
     t.string "locale"
     t.date "sent_at"
@@ -252,6 +272,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.datetime "updated_at", precision: nil, null: false
     t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until", precision: nil
+    t.datetime "confirmed_at"
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
     t.index ["sent_with_notification_id"], name: "index_contracts_on_sent_with_notification_id"
   end
@@ -395,9 +416,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
   end
 
   create_table "notification_attached_designated_documents", primary_key: ["designated_document_id", "notification_id"], force: :cascade do |t|
-    t.datetime "created_at", null: false
     t.bigint "designated_document_id", null: false
     t.bigint "notification_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["designated_document_id"], name: "idx_on_designated_document_id_1515056c70"
     t.index ["notification_id"], name: "idx_on_notification_id_7150f43576"
@@ -406,9 +427,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
   create_table "notifications", force: :cascade do |t|
     t.text "body"
     t.uuid "booking_id"
-    t.string "cc"
     t.datetime "created_at", precision: nil, null: false
-    t.string "deliver_cc", default: [], array: true
     t.string "deliver_to", default: [], array: true
     t.datetime "delivered_at"
     t.bigint "mail_template_id"
@@ -416,6 +435,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.string "subject"
     t.string "to"
     t.datetime "updated_at", precision: nil, null: false
+    t.string "cc"
+    t.string "deliver_cc", default: [], array: true
     t.index ["booking_id"], name: "index_notifications_on_booking_id"
     t.index ["mail_template_id"], name: "index_notifications_on_mail_template_id"
   end
@@ -444,18 +465,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.datetime "ends_at", precision: nil, null: false
     t.boolean "ignore_conflicting", default: false, null: false
     t.boolean "linked", default: true
-    t.integer "occupancy_type", default: 0, null: false
+    t.integer "conflict_type", default: 0, null: false
     t.bigint "occupiable_id", null: false
     t.text "remarks"
     t.datetime "updated_at", precision: nil, null: false
+    t.bigint "calendar_label_id"
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
+    t.index ["booking_id", "conflict_type"], name: "index_occupancies_on_booking_id_and_conflict_type"
+    t.index ["booking_id"], name: "index_occupancies_on_booking_id"
+    t.index ["calendar_label_id"], name: "index_occupancies_on_calendar_label_id"
+    t.index ["conflict_type"], name: "index_occupancies_on_conflict_type"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
-    t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
     t.index ["occupiable_id"], name: "index_occupancies_on_occupiable_id"
   end
 
   create_table "occupiables", force: :cascade do |t|
-    t.boolean "bookable", default: false, null: false
     t.datetime "created_at", precision: nil, null: false
     t.jsonb "description_i18n", default: {}, null: false
     t.datetime "discarded_at"
@@ -469,6 +493,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.jsonb "settings"
     t.string "type"
     t.datetime "updated_at", precision: nil, null: false
+    t.boolean "bookable", default: false, null: false
     t.index ["discarded_at"], name: "index_occupiables_on_discarded_at"
     t.index ["home_id"], name: "index_occupiables_on_home_id"
     t.index ["organisation_id"], name: "index_occupiables_on_organisation_id"
@@ -529,7 +554,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.string "currency", default: "CHF"
     t.jsonb "deadline_settings", default: {}
     t.string "default_payment_info_type"
-    t.boolean "deliver_notifications", default: true
     t.string "email"
     t.string "esr_beneficiary_account"
     t.string "esr_ref_prefix"
@@ -542,6 +566,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.string "mail_from"
     t.string "name"
     t.jsonb "nickname_label_i18n", default: {}
+    t.boolean "deliver_notifications", default: true
     t.jsonb "qr_bill_creditor_address"
     t.string "representative_address"
     t.jsonb "settings", default: {}
@@ -722,12 +747,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "discarded_at"
     t.jsonb "enabling_conditions"
-    t.decimal "included_units"
-    t.integer "included_units_mode", default: 0
     t.jsonb "label_i18n", default: {}
-    t.decimal "minimum"
-    t.integer "minimum_mode", default: 0
-    t.integer "mode"
     t.integer "ordinal"
     t.bigint "organisation_id", null: false
     t.boolean "pin", default: true
@@ -742,6 +762,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until", precision: nil
     t.bigint "vat_category_id"
+    t.integer "mode"
+    t.decimal "included_units"
+    t.integer "included_units_mode", default: 0
+    t.decimal "minimum"
+    t.integer "minimum_mode", default: 0
     t.index ["discarded_at"], name: "index_tarifs_on_discarded_at"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
     t.index ["prefill_usage_booking_question_id"], name: "index_tarifs_on_prefill_usage_booking_question_id"
@@ -774,6 +799,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.text "search_cache", null: false
     t.integer "sequence_number"
     t.string "street"
+    t.string "street_address"
     t.string "street_nr"
     t.datetime "updated_at", precision: nil, null: false
     t.string "zipcode"
@@ -788,13 +814,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
     t.boolean "committed", default: false
     t.datetime "created_at", precision: nil, null: false
     t.jsonb "details"
-    t.decimal "price_per_unit"
     t.decimal "quoted_units"
+    t.decimal "price_per_unit"
     t.text "remarks"
     t.bigint "tarif_id"
-    t.string "type", null: false
     t.datetime "updated_at", precision: nil, null: false
     t.decimal "used_units"
+    t.string "type", null: false
     t.index ["booking_id"], name: "index_usages_on_booking_id"
     t.index ["tarif_id", "booking_id"], name: "index_usages_on_tarif_id_and_booking_id", unique: true
   end
@@ -858,7 +884,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
   add_foreign_key "booking_questions", "organisations"
   add_foreign_key "booking_state_transitions", "bookings"
   add_foreign_key "booking_validations", "organisations"
+  add_foreign_key "bookings", "calendar_labels"
   add_foreign_key "bookings", "organisations"
+  add_foreign_key "calendar_labels", "booking_categories", column: "booking_categories_id"
+  add_foreign_key "calendar_labels", "booking_categories", column: "booking_category_default_id"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "contracts", "notifications", column: "sent_with_notification_id"
   add_foreign_key "data_digest_templates", "organisations"
@@ -877,6 +906,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_153630) do
   add_foreign_key "notifications", "bookings"
   add_foreign_key "notifications", "rich_text_templates", column: "mail_template_id"
   add_foreign_key "oauth_tokens", "organisations"
+  add_foreign_key "occupancies", "calendar_labels"
   add_foreign_key "occupancies", "occupiables"
   add_foreign_key "occupiables", "organisations"
   add_foreign_key "operator_responsibilities", "bookings"

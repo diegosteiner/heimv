@@ -30,7 +30,6 @@
       "groupName": "connection_pool",
       "separateMajorMinor": true,
       "separateMinorPatch": true,
-      "rebaseWhen": "explicit",
       "automerge": false
     },
     {

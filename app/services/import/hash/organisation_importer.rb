@@ -5,7 +5,7 @@ module Import
     class OrganisationImporter < Base
       use_attributes(*%w[slug address booking_flow_type settings accounting_settings booking_state_settings
                          booking_ref_template country_code currency email esr_beneficiary_account iban
-                         invoice_payment_ref_template invoice_ref_template location deadline_settings
+                         invoice_payment_ref_template invoice_ref_template location deadline_settings calendar_labels
                          mail_from name nickname_label_i18n deliver_notifications tenant_ref_template])
 
       def initialize_record(_hash)
@@ -31,6 +31,14 @@ module Import
 
         importer = BookingCategoryImporter.new(organisation, **options)
         hash['booking_categories'].each { |category| organisation.booking_categories << importer.import(category) }
+      end
+
+      actor do |organisation, hash|
+        if hash['calendar_labels'].respond_to?(:each)
+          importer = CalendarLabelImporter.new(organisation, **options)
+          hash['calendar_labels'].each { |label| organisation.calendar_labels << importer.import(label) }
+        end
+        CalendarLabel.prepare_default(organisation).each(&:save!)
       end
 
       actor do |organisation, hash|

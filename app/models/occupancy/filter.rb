@@ -6,16 +6,21 @@ class Occupancy
     attribute :begins_at_before, :datetime
     attribute :ends_at_after, :datetime
     attribute :ends_at_before, :datetime
-    attribute :occupancy_type, default: -> { [] }
+    attribute :conflict_type
+    attribute :calendar_labels, default: -> { [] }
 
     filter :begins_at_ends_at do |occupancies|
       occupancies.begins_at(after: begins_at_after, before: begins_at_before)
                  .ends_at(after: ends_at_after, before: ends_at_before)
     end
 
-    filter :occupancy_type do |occupancies|
-      occupancy_types = Array.wrap(occupancy_type).compact_blank
-      occupancies.where(occupancy_type: occupancy_types) if occupancy_types.present?
+    filter :conflict_type do |occupancies|
+      occupancies.where(conflict_type:) if conflict_type.present?
+    end
+
+    filter :calendar_labels do |occupancies|
+      calendar_labels = Array.wrap(self.calendar_labels).compact_blank
+      occupancies.where(calendar_label: calendar_labels) if calendar_labels.present?
     end
   end
 end

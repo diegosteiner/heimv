@@ -16,6 +16,7 @@
 #  committed_request            :boolean
 #  concluded                    :boolean          default(FALSE)
 #  conditions_accepted_at       :datetime
+#  conflict_type                :integer          default("pending"), not null
 #  deliver_notifications        :boolean          default(FALSE)
 #  editable                     :boolean
 #  email                        :string
@@ -27,7 +28,6 @@
 #  invoice_cc                   :string
 #  locale                       :string
 #  occupancy_color              :string
-#  occupancy_type               :integer          default(0), not null
 #  purpose_description          :string
 #  ref                          :string
 #  remarks                      :text
@@ -41,6 +41,7 @@
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
 #  booking_category_id          :integer
+#  calendar_label_id            :bigint
 #  home_id                      :integer          not null
 #  organisation_id              :bigint           not null
 #  tenant_id                    :integer
@@ -52,7 +53,7 @@ FactoryBot.define do
     sequence(:email) { |n| "booking-#{n}@heimv.test" }
     sequence(:begins_at) { |i| (Time.zone.now + i.month).change(hour: 9, minute: 0) }
     ends_at { (begins_at + 1.week).change(hour: 14, minute: 0) }
-    occupancy_type { Booking.occupancy_types[:pending] }
+    conflict_type { Booking.conflict_types[:pending] }
     tenant_organisation { Faker::Company.name }
     committed_request { [true, false].sample }
     approximate_headcount { rand(1..30) }
@@ -73,12 +74,12 @@ FactoryBot.define do
     end
 
     after(:create) do |booking, evaluator|
-      next if evaluator.initial_state.blank?
+      next if evaluator.initial_state.blank? || evaluator.initial_state.to_sym == :initial
 
+      booking.skip_infer_transitions = true
       Booking::StateTransition.initial_for(booking, evaluator.initial_state)
-      booking.booking_flow.current_state(force_reload: true)
-      booking.skip_infer_transitions = false
-      booking.touch # rubocop:disable Rails/SkipsModelValidations
+      booking.save!
+      booking.skip_infer_transitions = evaluator.skip_infer_transitions
     end
 
     trait :invoiced do
@@ -96,7 +97,7 @@ FactoryBot.define do
           create(:payment, booking:, invoice: nil, amount: evaluator.prepaid_amount)
         end
 
-        invoice = Invoice::Factory.new(booking).build(issued_at: booking.ends_at)
+        invoice = Invoice::Factory.new(booking).build(issued_at: booking.ends_at, sent_at: booking.ends_at + 3.days)
         invoice.items = Invoice::ItemFactory.new(invoice).build
         invoice.recalculate
         invoice.save!

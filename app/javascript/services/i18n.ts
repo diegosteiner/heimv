@@ -33,7 +33,8 @@ i18n.use(initReactI18next).init({
 
 export default i18n;
 
-export function translatedString(translations: TranslatedString, i18n: I18nType) {
+export function translatedString(translations: TranslatedString | undefined, i18n: I18nType) {
+  if (!translations) return "";
   const translation = translations[i18n.language as keyof TranslatedString];
   return translation && translation.length >= 0 ? translation : translations.de;
 }

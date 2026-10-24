@@ -19,7 +19,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.tentative!
+      booking.conflict_type_tentative!
       booking.create_deadline(at: :provisional_request_deadline,
                               postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,
                               remarks: booking.booking_state.t(:label))
@@ -30,11 +30,7 @@ module BookingStates
 
     guard_transition do |booking|
       booking.organisation.booking_state_settings.enable_provisional_request &&
-        booking.occupancies.all? do |occupancy|
-          occupancy.conflicting(%i[occupied tentative])&.all? do
-            it.booking&.in_state?(:open_request, :waitlisted_request)
-          end
-        end
+        !booking.conflict?(assuming: :tentative)
     end
 
     infer_transition(to: :definitive_request) do |booking|
@@ -42,7 +38,7 @@ module BookingStates
     end
 
     infer_transition(to: :overdue_request) do |booking|
-      booking.deadline&.exceeded?
+      booking.deadline&.expired?
     end
 
     def relevant_time

@@ -28,13 +28,16 @@ class Booking
     scope :ordered, -> { order(sort_key: :ASC) }
 
     before_save :serialize_booking
+    after_create :update_booking_state_cache
     after_destroy :update_most_recent, if: :most_recent?
 
     def self.initial_for(booking, state)
       last_transition = booking.state_transitions.ordered.last
-      last_transition&.update(most_recent: false)
+      last_transition&.update!(most_recent: false)
       sort_key = (last_transition&.sort_key || 0) + 1
-      create(booking:, to_state: state, sort_key:, most_recent: true)
+      initial_transition = create!(booking:, to_state: state, sort_key:, most_recent: true)
+      booking.booking_flow.current_state(force_reload: true)
+      initial_transition
     end
 
     private
@@ -47,8 +50,16 @@ class Booking
       last_transition = booking.state_transitions.ordered.last
       return if last_transition.blank?
 
-      # rubocop:disable-next Rails/SkipsModelValidations
+      # rubocop:disable Rails/SkipsModelValidations
       last_transition.update_column(:most_recent, true)
+      last_transition.update_booking_state_cache
+      # rubocop:enable Rails/SkipsModelValidations
+    end
+
+    def update_booking_state_cache
+      return if booking.booking_state_cache == to_state
+
+      booking.update_columns(booking_state_cache: to_state, updated_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
     end
   end
 end

@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+module Public
+  class CalendarLabelSerializer < ApplicationSerializer
+    identifier :id
+    fields :color, :title_i18n, :title, :description_i18n, :legend
+  end
+end

@@ -172,8 +172,8 @@ jobs:
       - if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: "$VERSION"
-          name: "Release $VERSION"
+          tag_name: ${{ env.VERSION }}
+          name: "Release ${{ env.VERSION }}"
           draft: false
           prerelease: false
 
@@ -185,9 +185,7 @@ jobs:
           {
             echo "## Released images :rocket:"
             echo "- \`$REF_IMAGE\`"
-            if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-              echo "- \`ghcr.io/${{ github.repository }}:$VERSION\`"
-            fi
+            echo "- \`ghcr.io/${{ github.repository }}:$VERSION\`"
           } >> $GITHUB_STEP_SUMMARY
 
   cleanup:

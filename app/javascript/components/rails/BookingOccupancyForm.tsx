@@ -19,7 +19,7 @@ type BookingOccupancyFormProps = {
   | "endsAtTimes"
   | "occupiableInvalidFeedback"
   | "occupancyInvalidFeedback"
-  | "checkOverlaps"
+  | "waitlistEnabled"
 >;
 export default function BookingOccupancyForm(props: BookingOccupancyFormProps) {
   const booking = parse(props.booking);
@@ -32,7 +32,7 @@ export default function BookingOccupancyForm(props: BookingOccupancyFormProps) {
           namePrefix={props.namePrefix}
           required={props.required}
           disabled={props.disabled}
-          checkOverlaps={props.checkOverlaps}
+          waitlistEnabled={props.waitlistEnabled}
           defaultBeginsAtTime={props.defaultBeginsAtTime}
           defaultEndsAtTime={props.defaultEndsAtTime}
           beginsAtTimes={props.beginsAtTimes}

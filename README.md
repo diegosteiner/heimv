@@ -12,6 +12,12 @@ docker-compose up app
 
 or with VS Code: [Reopen in Container] with Remote Containers Extension
 
+## AI written code
+
+In this project, AI is seen as a tool to help developers improve the quality of HeimV. The responsibility for the code remains
+on the developers themselves. Therefore no AI-heavy pull requests will be accepted into this repository. Developers may
+use AI to review and improve code quality and automate boilerpate or write specs.
+
 ### Development servers
 
 Then inside the container you may run:
@@ -187,9 +193,30 @@ Additionally you might need to run these commands:
 1. Enable pgcrypt extension `heimv_development=#  CREATE EXTENSION pgcrypto WITH SCHEMA public;`
 1. Rerun `pgrestore` without `--create`
 
+## Occupancy conflict types
+
+- free: mark something in the calendar, but don't cause conflicts
+- pending: occupancy is unconfirmed or open, but does not yet cause conflicts, e.g. waitlist
+- tentative: occupancy is confirmed but not yet committed, causes conflicts
+- occupied: occupancy is confirmed and causes conflicts
+- closed: occupiable is closed and causes conflicts
+- none: occupancy is not relevant for calendar, e.g. declined, does not cause conflicts
+
+|           | free | pending | tentative | occupied | closed |
+| --------- | ---- | ------- | --------- | -------- | ------ |
+| free      | ✅   | ✅      | ✅        | ✅       | ✅     |
+| pending   | ✅   | ✅      | ✅        | ✅       | 🛑     |
+| tentative | ✅   | ✅      | ⏳        | ⏳       | 🛑     |
+| occupied  | ✅   | ✅      | ⏳        | ⏳       | 🛑     |
+| closed    | ✅   | ✅²     | 🛑        | 🛑       | 🛑     |
+| void      | ✅   | ✅      | ✅        | ✅       | ✅     |
+
+¹) Would make all existing records invalid
+²) Will make all existing records invalid
+
 ## Copyright & License
 
-Copyright 2017-2025 Diego P. Steiner & contributors
+Copyright 2017-2026 Diego P. Steiner & contributors
 
 If you want to use HeimV in a commercial setting, a commercial licence
 is required. For a commercial licence please get in touch: <license@heimv.ch>.

@@ -63,6 +63,11 @@ nav.px-3
               = link_to manage_booking_categories_path, class: 'nav-link' do 
                 span.fa.fa-bed.pe-2[style="width: 1.5rem;"]
                 = BookingCategory.model_name.human(count: 2) 
+
+            li
+              = link_to manage_calendar_labels_path, class: 'nav-link' do 
+                span.fa.fa-calendar.pe-2[style="width: 1.5rem;"]
+                = CalendarLabel.model_name.human(count: 2) 
             li
               = link_to manage_rich_text_templates_path, class: 'nav-link' do 
                 span.fa.fa-file-text-o.pe-2[style="width: 1.5rem;"]

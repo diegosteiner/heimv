@@ -13,7 +13,7 @@ module BookingActions
         end
 
         booking.booking_flow.current_state(force_reload: true) # flush cache of statemachine
-        booking.update!(occupancy_type: :occupied, concluded: false)
+        booking.update!(conflict_type: :occupied, concluded: false)
         error = 'Nothing reverted' if reverted.compact.none?
         raise ActiveRecord::Rollback if error.present?
       end
@@ -25,7 +25,7 @@ module BookingActions
     end
 
     def invokable_with(current_user: nil)
-      { variant: :danger, confirm: I18n.t(:confirm), disabled: booking.conflicting? } if invokable?(current_user:)
+      { variant: :danger, confirm: I18n.t(:confirm), disabled: booking.conflict? } if invokable?(current_user:)
     end
   end
 end

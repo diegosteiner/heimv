@@ -55,4 +55,11 @@ module ApplicationHelper
     end
     options_for_select(values, selected)
   end
+
+  def extract_full_error_messages(errors, only: nil, except: nil)
+    messages = errors&.to_hash(true) || {}
+    messages = messages.slice(*Array.wrap(only)) if only.present?
+    messages = messages.except(*Array.wrap(except)) if except.present?
+    messages.values.flatten
+  end
 end
