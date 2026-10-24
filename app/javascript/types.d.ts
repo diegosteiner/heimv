@@ -3,7 +3,7 @@ export type Organisation = {
   address: string;
   // booking_agents: boolean;
   booking_categories: BookingCategory[];
-  calendar_labels: OccpancyLabel[];
+  calendar_labels: CalendarLabel[];
   // booking_flow_type: string;
   currency: string;
   // designated_documents: TranslatedString;

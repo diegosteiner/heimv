@@ -11,13 +11,13 @@ export type Occupancy = {
   deadline?: Date;
   remarks?: string;
   color?: string;
-  calendarLabel?: OccpancyLabel | undefined;
-  defaultCalendarLabel?: OccpancyLabel;
+  calendarLabel?: CalendarLabel | undefined;
+  defaultCalendarLabel?: CalendarLabel;
   occupiable?: Occupiable;
   occupiableId: number;
 };
 
-export type OccpancyLabel = {
+export type CalendarLabel = {
   description_i18n: TranslatedString;
   title_i18n: TranslatedString;
   id: string;

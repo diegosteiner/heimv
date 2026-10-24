@@ -6,7 +6,7 @@ class Occupancy
     attribute :begins_at_before, :datetime
     attribute :ends_at_after, :datetime
     attribute :ends_at_before, :datetime
-    attribute :conflict_type, default: -> { [] }
+    attribute :conflict_type
     attribute :calendar_labels, default: -> { [] }
 
     filter :begins_at_ends_at do |occupancies|
@@ -15,8 +15,7 @@ class Occupancy
     end
 
     filter :conflict_type do |occupancies|
-      conflict_types = Array.wrap(conflict_type).compact_blank
-      occupancies.where(conflict_type: conflict_types) if conflict_types.present?
+      occupancies.where(conflict_type:) if conflict_type.present?
     end
 
     filter :calendar_labels do |occupancies|

@@ -22,7 +22,7 @@ class SharpenReservedOccupancyType < ActiveRecord::Migration[8.1]
   def migrate_internal_occupancy_type
     Organisation.find_each do |organisation|
       occupancies = Occupancy.where(conflict_type: 5, occupiable_id: organisation.occupiable_ids)
-      next if occupancies.exists?
+      next unless occupancies.exists?
 
       calendar_label = organisation.calendar_labels.create!(color: '#e85f5f', legend: true,
                                                             title: { de: 'intern', fr: 'interne',

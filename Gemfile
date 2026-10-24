@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '4.0.7'
+ruby '4.0.8'
 
 gem 'active_flag'
 gem 'active_storage_validations'
