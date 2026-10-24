@@ -23,9 +23,12 @@ module Public
       respond_with :public, @booking
     end
 
-    def create
+    def create # rubocop:disable Metrics/AbcSize
       @booking = preparation_service.prepare_create(create_params)
-      @booking.assign_attributes(transition_to: :unconfirmed_request, occupancy_status: :tentative)
+      @booking.assign_attributes(transition_to: :unconfirmed_request)
+      unless @booking.organisation.booking_state_settings.enable_waitlist?
+        @booking.assign_attributes(occupancy_status: :tentative)
+      end
 
       respond_to do |format|
         if @booking.save(context: :public_create)

@@ -257,9 +257,10 @@ describe 'Booking by tenant', :devise do
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
-        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('public.bookings.form.occupancy_conflict_error'))
         submit_form
-        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict',
+                                         occupiable: booking.home.name))
       end
     end
 
@@ -274,7 +275,8 @@ describe 'Booking by tenant', :devise do
 
         expect(page).to have_text(I18n.t('public.bookings.form.occupancy_conflict_warning'))
         submit_form
-        expect(page).to have_no_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_no_text(I18n.t('activerecord.errors.messages.occupancy_conflict',
+                                            occupiable: booking.home.name))
       end
     end
 
@@ -293,7 +295,7 @@ describe 'Booking by tenant', :devise do
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
         submit_form
-        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict', occupiable: home.name))
       end
     end
   end
