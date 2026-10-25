@@ -46,7 +46,8 @@ class CalendarLabel < ApplicationRecord
                                     inclusion: { in: Occupancy::CONFLICT_TYPES.keys.map(&:to_s), allow_blank: true }
 
   def self.prepare_default(organisation, colors: {})
-    CalendarLabel::DEFAULT_COLORS.merge(colors).filter_map do |conflict_type_default, color|
+    Occupancy::CONFLICT_TYPES.keys.filter_map do |conflict_type_default|
+      color = colors[conflict_type_default].presence || DEFAULT_COLORS[conflict_type_default]
       next if color.nil?
 
       title_i18n = I18n.available_locales.index_with do |locale|

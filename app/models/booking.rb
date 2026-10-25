@@ -58,7 +58,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   DEFAULT_INCLUDES = [
     :organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent, :category, :logs, :home,
     :calendar_label, { tenant: :organisation, deadline: :booking,
-                       occupancies: %i[occupiable calendar_label default_calendar_label],
+                       occupancies: [{ occupiable: :organisation }, :calendar_label],
                        agent_booking: %i[booking_agent organisation],
                        booking_question_responses: :booking_question }
   ].freeze

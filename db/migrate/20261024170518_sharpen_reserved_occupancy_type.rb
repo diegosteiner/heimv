@@ -25,8 +25,8 @@ class SharpenReservedOccupancyType < ActiveRecord::Migration[8.1]
       next unless occupancies.exists?
 
       calendar_label = organisation.calendar_labels.create!(color: '#e85f5f', legend: true,
-                                                            title: { de: 'intern', fr: 'interne',
-                                                                     it: 'interna', en: 'internal' })
+                                                            title_i18n: { de: 'intern', fr: 'interne',
+                                                                          it: 'interna', en: 'internal' })
       occupancies.update_all(conflict_type: :occupied, calendar_label_id: calendar_label.id) # rubocop:disable Rails/SkipsModelValidations
     end
   end

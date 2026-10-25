@@ -3,8 +3,7 @@
 module Public
   class BookingSerializer < ApplicationSerializer
     DEFAULT_INCLUDES = %w[occupancies occupancies.home occupancies.calendar_label occupancies.occupiable
-                          occupancies.default_calendar_label organisation agent_booking,deadlines
-                          tenant].join(',')
+                          organisation agent_booking deadlines calendar_label tenant].join(',')
 
     identifier :id
 

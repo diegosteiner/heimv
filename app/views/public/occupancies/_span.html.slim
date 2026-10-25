@@ -20,7 +20,7 @@
 
   .text-center
     - if booking.color.present?
-      span[style="color: #{booking.color}" title=(booking.calendar_label || booking.default_calendar_label)&.title]
+      span[style="color: #{booking.color || 'transparent'}" title=(booking.calendar_label || booking.default_calendar_label)&.title]
         | ⬤
   div
     = t(:until)

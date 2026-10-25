@@ -9,7 +9,8 @@ module Manage
       @bookings = @bookings.where(organisation: current_organisation).limit(Booking::LIMIT)
       @bookings = @filter.apply(@bookings, cached: 30.seconds).ordered.includes(
         :organisation, :category, :state_transitions, :calendar_label,
-        { occupancies: %i[occupiable calendar_label default_calendar_label], tenant: :organisation,
+        { occupancies: [{ occupiable: :organisation }, :calendar_label],
+          tenant: :organisation,
           agent_booking: %i[booking_agent organisation],
           booking_question_responses: :booking_question,
           operator_responsibilities: :operator }
@@ -26,7 +27,7 @@ module Manage
     end
 
     def calendar
-      @occupiables = current_organisation.occupiables.kept.ordered
+      @occupiables = current_organisation.occupiables.kept.occupiable.ordered
       respond_with :manage, @booking
     end
 

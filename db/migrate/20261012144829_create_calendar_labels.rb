@@ -19,6 +19,8 @@ class CreateCalendarLabels < ActiveRecord::Migration[8.1]
     add_reference :occupancies, :calendar_label, foreign_key: true
     add_reference :bookings, :calendar_label, foreign_key: true
 
+    change_column_null :bookings, :home_id, false
+
     up_only do
       migrate_conflict_type_default
       migrate_occupancy_occupancy_colors
@@ -28,7 +30,13 @@ class CreateCalendarLabels < ActiveRecord::Migration[8.1]
 
   def migrate_conflict_type_default
     Organisation.find_each do |organisation|
-      colors = organisation.settings.try(:occupancy_colors) || {}
+      settings = JSON.parse(organisation.settings_before_type_cast)
+      colors = {
+        pending: settings['tentative_occupancy_color'],
+        tentative: settings[''],
+        occupied: settings['occupied_occupancy_color'],
+        closed: settings['closed_occupancy_color']
+      }
       CalendarLabel.prepare_default(organisation, colors:).each(&:save!)
     end
   end
@@ -43,7 +51,11 @@ class CreateCalendarLabels < ActiveRecord::Migration[8.1]
         .having(Occupancy.arel_table[:color].count.gt(1))
         .distinct
         .pluck(Occupancy.arel_table[:color])
-        .each { CalendarLabel.find_or_create_by!(organisation:, color: it) if it.present? }
+        .each do
+        next if it.blank?
+
+        CalendarLabel.find_or_create_by!(organisation:, color: it, title_i18n: { de: 'Intern' }, legend: false)
+      end
 
       organisation.calendar_labels.reload.find_each do |calendar_label|
         Occupancy.joins(:occupiable)
@@ -62,7 +74,12 @@ class CreateCalendarLabels < ActiveRecord::Migration[8.1]
                   .having(Booking.arel_table[:occupancy_color].count.gt(1))
                   .distinct
                   .pluck(Booking.arel_table[:occupancy_color])
-                  .each { CalendarLabel.find_or_create_by(organisation:, color: it) if it.present? }
+                  .each do
+                    next if it.blank?
+
+                    CalendarLabel.find_or_create_by!(organisation:, color: it, title_i18n: { de: 'Intern' },
+                                                     legend: false)
+                  end
 
       organisation.calendar_labels.reload.find_each do |calendar_label|
         organisation.bookings.where(occupancy_color: calendar_label.color)

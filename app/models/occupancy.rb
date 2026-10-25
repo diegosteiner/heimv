@@ -38,14 +38,16 @@ class Occupancy < ApplicationRecord
   belongs_to :calendar_label, optional: true
 
   has_one :organisation, through: :occupiable
-  has_one :default_calendar_label, class_name: 'CalendarLabel', primary_key: :conflict_type, # rubocop:disable Rails/HasManyOrHasOneDependent,Rails/InverseOf
-                                   foreign_key: :conflict_type_default
 
   enum :conflict_type, CONFLICT_TYPES, prefix: true
 
   scope :ordered, -> { order(begins_at: :ASC) }
 
   before_validation :sync_booking
+
+  def default_calendar_label
+    organisation&.calendar_labels&.find_by(conflict_type_default: conflict_type)
+  end
 
   validates :conflict_type, presence: true
   validates :conflict_type, inclusion: { in: (CONFLICT_TYPES.keys - %i[closed free]).map(&:to_s) }, if: :linked
@@ -84,9 +86,9 @@ class Occupancy < ApplicationRecord
   # color is used in ical too!
   def color
     # legacy
-    super.presence || booking&.occupancy_color ||
+    super.presence || booking&.occupancy_color.presence ||
       # not legacy
-      calendar_label&.color || default_calendar_label&.color
+      calendar_label&.color.presence || default_calendar_label&.color.presence
   end
 
   def sync_booking

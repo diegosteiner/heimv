@@ -2,8 +2,8 @@
 
 module Manage
   class BookingSerializer < Public::BookingSerializer
-    DEFAULT_INCLUDES = %w[occupancies tenant occupancies.occupiable occupancies.calendar_label
-                          occupancies.default_calendar_label home].join(',')
+    DEFAULT_INCLUDES = %w[occupancies tenant occupancies.occupiable occupancies.occupiable.organisation
+                          occupancies.calendar_label home].join(',')
 
     association :home,        blueprint: Manage::HomeSerializer
     association :occupancies, blueprint: Manage::OccupancySerializer
