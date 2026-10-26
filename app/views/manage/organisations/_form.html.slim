@@ -63,10 +63,6 @@
       h3.mt-5= Occupancy.model_name.human(count: 2)
       .card.shadow-sm 
         .card-body
-          = sf.color_field :tentative_occupancy_color, style: 'width: 5em;'
-          = sf.color_field :occupied_occupancy_color, style: 'width: 5em;'
-          = sf.color_field :closed_occupancy_color, style: 'width: 5em;'
-
           = sf.text_field :default_begins_at_time, value: settings.default_begins_at_time
           = sf.text_field :default_ends_at_time, value: settings.default_ends_at_time
 
@@ -77,7 +73,7 @@
           = sf.text_field :booking_window, value: settings.booking_window&.iso8601
           = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
           
-          - visibility_options = options_for_select(Occupancy.occupancy_types.keys.map { |key| [Occupancy.human_enum(:occupancy_type, key), key] }, selected: settings.public_occupancy_visibility , disabled: %w[free])
+          - visibility_options = options_for_select(Occupancy.conflict_types.keys.map { |key| [Occupancy.human_enum(:conflict_type, key), key] }, selected: settings.public_occupancy_visibility , disabled: %w[void])
           = sf.select :public_occupancy_visibility, visibility_options, {}, multiple: true
     
     fieldset

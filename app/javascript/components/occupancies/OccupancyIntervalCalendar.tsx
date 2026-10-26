@@ -105,6 +105,7 @@ export default function OccupancyIntervalCalendar({
       months={months}
       defaultView={defaultView}
       dateElementFactory={dateElementFactory}
+      showLegend={false}
     />
   );
 }

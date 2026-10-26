@@ -27,6 +27,7 @@
 #  search_cache              :text             not null
 #  sequence_number           :integer
 #  street                    :string
+#  street_address            :string
 #  street_nr                 :string
 #  zipcode                   :string
 #  created_at                :datetime         not null

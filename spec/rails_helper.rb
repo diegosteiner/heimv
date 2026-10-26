@@ -13,10 +13,6 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'selenium/webdriver'
 require 'capybara-screenshot/rspec'
-require 'simplecov'
-
-SimpleCov.add_filter 'vendor'
-SimpleCov.start 'rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -78,11 +74,7 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
   config.include ActiveSupport::NumberHelper
 
-  config.after(:suite) do
-    SimpleCov.result.format!
-  end
-
-  # See https://github.com/teamcapybara/capybara/issues/2800
+  # capybara issue
   config.before type: :feature do
     if page.driver.respond_to?(:invalid_element_errors) &&
        page.driver.invalid_element_errors.exclude?(Selenium::WebDriver::Error::UnknownError)

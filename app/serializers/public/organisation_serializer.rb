@@ -5,6 +5,9 @@ module Public
     identifier :slug
 
     association :booking_categories, blueprint: Public::BookingCategorySerializer
+    association :calendar_labels, blueprint: Public::CalendarLabelSerializer do |organisation|
+      organisation.calendar_labels.kept
+    end
     association :homes, blueprint: Public::HomeSerializer do |organisation|
       organisation.homes.kept
     end

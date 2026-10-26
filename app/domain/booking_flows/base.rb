@@ -75,7 +75,7 @@ module BookingFlows
 
       # rubocop:disable-next Rails/SkipsModelValidations
       booking.state_transitions.where(Booking::StateTransition.arel_table[:created_at].gt(state.created_at))
-             .destroy_all && booking.touch
+             .destroy_all && booking.touch(:updated_at)
     end
 
     def manage_actions

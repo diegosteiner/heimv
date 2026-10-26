@@ -5,7 +5,8 @@ require 'rails_helper'
 RSpec.describe CamtService, type: :model do
   subject(:camt_service) { described_class.new(organisation) }
 
-  let(:invoice) { create(:invoice, organisation:) }
+  let(:invoice) { create(:invoice, booking:) }
+  let(:booking) { create(:booking, organisation:) }
   let(:organisation) { create(:organisation) }
   let(:scor_ref) { 'RF42 0100 0250 9000 0789 0' }
   let(:qrr_ref) { '00 00000 00001 23456 78903' }
@@ -31,16 +32,16 @@ RSpec.describe CamtService, type: :model do
 
     context 'without checksum in db' do
       let(:ref) { qrr_ref }
-      let!(:matching_invoice) { create(:invoice, organisation:, payment_ref: '1234567890') }
+      let!(:matching_invoice) { create(:invoice, booking:, payment_ref: '1234567890') }
 
-      before { create_list(:invoice, 2, organisation:) }
+      before { create_list(:invoice, 2, booking:) }
 
       it { is_expected.to eq(matching_invoice) }
     end
 
     context 'with checksum in db' do
       let(:ref) { qrr_ref }
-      let!(:matching_invoice) { create(:invoice, organisation:, payment_ref: '12345678903') }
+      let!(:matching_invoice) { create(:invoice, booking:, payment_ref: '12345678903') }
 
       before { create_list(:invoice, 2, organisation:) }
 
@@ -49,7 +50,7 @@ RSpec.describe CamtService, type: :model do
 
     context 'with scor_ref' do
       let(:ref) { scor_ref }
-      let!(:matching_invoice) { create(:invoice, organisation:, payment_ref: '1000250900007890') }
+      let!(:matching_invoice) { create(:invoice, booking:, payment_ref: '1000250900007890') }
 
       before { create_list(:invoice, 2, organisation:) }
 

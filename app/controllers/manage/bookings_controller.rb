@@ -7,7 +7,14 @@ module Manage
 
     def index
       @bookings = @bookings.where(organisation: current_organisation).limit(Booking::LIMIT)
-      @bookings = @filter.apply(@bookings.with_default_includes.ordered, cached: 30.seconds)
+      @bookings = @filter.apply(@bookings, cached: 30.seconds).ordered.includes(
+        :organisation, :category, :state_transitions, :calendar_label,
+        { occupancies: [{ occupiable: :organisation }, :calendar_label],
+          tenant: :organisation,
+          agent_booking: %i[booking_agent organisation],
+          booking_question_responses: :booking_question,
+          operator_responsibilities: :operator }
+      ).joins(Booking.most_recent_transition_join)
 
       respond_with :manage, @bookings
     end
@@ -20,7 +27,7 @@ module Manage
     end
 
     def calendar
-      @occupiables = current_organisation.occupiables.kept.ordered
+      @occupiables = current_organisation.occupiables.kept.occupiable.ordered
       respond_with :manage, @booking
     end
 

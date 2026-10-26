@@ -12,23 +12,23 @@ module BookingStates
       :unconfirmed_request
     end
 
-    infer_transition(to: :declined_request) do |booking|
-      booking.deadline&.exceeded?
+    infer_transition(to: :expired_request) do |booking|
+      booking.deadline&.expired?
     end
 
     infer_transition(to: :open_request) do |booking|
       booking.valid?(:public_update) || booking.agent_booking.present?
     end
 
-    before_transition(to: :declined_request) do |booking|
-      booking.cancellation_reason ||= translate(:deadline_exceeded_cancellation_reason) if booking.deadline&.exceeded?
-    end
-
     after_transition do |booking|
-      booking.pending!
+      booking.conflict_type_pending!
       booking.create_deadline(at: :unconfirmed_request_deadline,
                               remarks: booking.booking_state.t(:label))
       MailTemplate.use(:unconfirmed_request_notification, booking, to: :tenant, &:autodeliver!)
+    end
+
+    guard_transition do |booking|
+      booking.organisation.booking_state_settings.enable_waitlist || !booking.conflict?(assuming: :tentative)
     end
 
     def relevant_time

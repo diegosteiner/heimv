@@ -15,7 +15,7 @@ fieldset.occupiables-select
       .form-check.mt-2[data-home-id=occupiable.home_id data-occupiable-id=occupiable.id]
         = builder.check_box class: 'form-check-input', readonly: disabled
         = builder.label class: 'form-check-label' do
-          - if occupancy&.conflicting?
+          - if occupancy&.conflict?
             .text-danger
               = occupiable
               i.fa.fa-exclamation-triangle<>[data-bs-toggle="tooltip" title=occupancy.conflicting.map(&:to_s).join(', ')]

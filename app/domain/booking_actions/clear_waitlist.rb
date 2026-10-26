@@ -4,14 +4,14 @@ module BookingActions
   class ClearWaitlist < Base
     def invoke(current_user: nil)
       waitlisted_requests.all? do |booking|
-        booking.update!(occupancy_type: :free, transition_to: :declined_request,
+        booking.update!(conflict_type: :void, transition_to: :declined_request,
                         cancellation_reason: translate(:cancellation_reason))
       end
       Result.success
     end
 
     def invokable?(current_user: nil)
-      booking.occupied? && waitlisted_requests.any?
+      booking.conflict_type_occupied? && waitlisted_requests.any?
     end
 
     def invokable_with(current_user: nil)
@@ -19,7 +19,7 @@ module BookingActions
     end
 
     def waitlisted_requests
-      booking.occupancies.flat_map { it.conflicting(%i[occupied tentative])&.map(&:booking) }.uniq
+      booking.conflicting(assuming: :any).where(booking_state_cache: :waitlisted_request)
     end
   end
 end

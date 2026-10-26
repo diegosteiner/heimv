@@ -103,10 +103,10 @@ en:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
+        conflict_type: Belegungsart
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
-        occupancy_type: Belegungsart
       occupiable_settings:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
@@ -114,18 +114,15 @@ en:
         available_begins_at_times: Beginn der Belegung auswählbare Zeiten
         available_ends_at_times: Ende der Belegung auswählbare Zeiten
         booking_window: Reservationsfenster
-        closed_occupancy_color: Farbe für Schliessungen
         contract_sign_by_click_enabled: Vertrag «per Klick» durch Mieter unterschreiben
         default_begins_at_time: Standardzeit für den Beginn der Belegung
         default_ends_at_time: Standardzeit für das Ende der Belegung
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
         locales: Sprachen
-        occupied_occupancy_color: Farbe für definitive Belegungen
         predefined_salutation_form: Vordefinierte Anredeform
         public_occupancy_visibility: Sichtbarkeit von Belegungen im öffentlichen Kalender
         qr_bill_creditor_address_as_invoice_address: "«Zahlbar an QR-Rechnungen» als Rechnungsadresse verwenden"
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
-        tentative_occupancy_color: Farbe für provisorischen Belegungen
         upcoming_soon_window: Frist für baldige Belegung
       payment/filter:
         paid_at_after: Zahlung ab
@@ -253,6 +250,7 @@ en:
         cancellation_reason: Annulierungsgrund
         category: Art der Miete
         committed_request: Verbindlichkeit der Mietanfrage
+        conflict_type: Art der Belegungen
         created_at: Erstellt am
         deadline: Frist bis
         deliver_notifications: Aus der Applikation generierte Emails versenden
@@ -266,8 +264,6 @@ en:
         locale: Sprache
         nights: Nächte
         occupancies: Belegungen
-        occupancy_color: Farbe im Kalender
-        occupancy_type: Art der Belegungen
         occupiable_ids: Heime
         occupiables: Mietobjekte
         purpose_description: Beschreibung des Mietzwecks
@@ -402,12 +398,12 @@ en:
         begins_at_date: Beginn der Belegung (Datum)
         begins_at_time: Beginn der Belegung (Zeit)
         color: Farbe im Kalender
+        conflict_type: Belegungsart
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
         ignore_conflicting: Terminkonflikte ignorieren
         linked: An Buchung gebunden
-        occupancy_type: Belegungsart
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
       occupiable:
@@ -669,13 +665,13 @@ en:
           home_return: Funktionär Hausrücknahme
           tenant: Mieter
       occupancy:
-        occupancy_type:
+        conflict_type:
           closed: Geschlossen
           free: Frei
           occupied: definitiv Besetzt
           pending: angefragt
-          reserved: intern reserviert
           tentative: provisorisch Besetzt
+          void: not occupied
       operator_responsibility:
         responsibility:
           administration: Administration
@@ -949,7 +945,7 @@ en:
     commit_request:
       label: Anfrage definitv setzen
     decline:
-      deadline_exceeded: Frist abgelaufen
+      deadline_expired: Frist abgelaufen
       label: Ablehnen / Stornieren
       label_committed: Stornieren
       label_request: Anfrage ablehnen
@@ -1105,7 +1101,6 @@ en:
       label: Mietanfrage (provisorisch)
       relevant_time: Frist %{time}
     unconfirmed_request:
-      deadline_exceeded_cancellation_reason: Die E-Mail Adresse wurde nicht fristgerecht bestätigt.
       description: Der Mieter hat seine E-Mail Adresse noch nicht bestätigt, die Anfrage ist noch ungültig.
       label: Mietanfrage (unbestätigt)
       public_info: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
@@ -1373,7 +1368,7 @@ en:
       invalid: is invalid
       less_than: must be less than %{count}
       less_than_or_equal_to: must be less than or equal to %{count}
-      limit_max_exceeded:
+      limit_max_expired:
         one: One
         other: Other
         zero: Zero
@@ -1767,7 +1762,7 @@ en:
               <dt>Link für den Vermieter</dt>
               <dd><pre>{{ booking.links.manage }}</pre></dd>
               <dt>Belegungstyp</dt>
-              <dd><pre>{{ booking.occupancy_type }}</pre></dd>
+              <dd><pre>{{ booking.conflict_type }}</pre></dd>
               <dt>Schlüssel der Mietkategorie</dt>
               <dd><pre>{{ booking.category.key }}</pre></dd>
               <dt>Bezeichnung der Mietkategorie</dt>

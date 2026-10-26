@@ -3,14 +3,13 @@
 class OnboardingService
   attr_reader :organisation
 
-  def self.create(**attributes) # rubocop:disable Metrics/MethodLength
+  def self.create(**attributes)
     defaults = {
-      booking_flow_type: BookingFlows::Default,
+      booking_flow_type: BookingFlows::Default, mail_from: ENV.fetch('MAIL_FROM', nil),
       booking_ref_template: RefBuilders::Booking::DEFAULT_TEMPLATE,
       tenant_ref_template: RefBuilders::Tenant::DEFAULT_TEMPLATE,
       invoice_ref_template: RefBuilders::Invoice::DEFAULT_TEMPLATE,
       invoice_payment_ref_template: RefBuilders::InvoicePayment::DEFAULT_TEMPLATE,
-      mail_from: ENV.fetch('MAIL_FROM', nil),
       nickname_label_i18n: I18n.available_locales.index_with { Tenant.human_attribute_name(:nickname, locale: it) }
     }
     organisation = Organisation.create!(defaults.merge(attributes))
@@ -46,11 +45,16 @@ class OnboardingService
   def setup_all
     setup_missing_rich_text_templates
     setup_booking_category
+    setup_calendar_labels
   end
 
   def setup_home(**attributes)
     defaults = { occupiable: true }
     organisation.homes.create!(defaults.merge(attributes))
+  end
+
+  def setup_calendar_labels
+    CalendarLabel.prepare_default(organisation).each(&:save!)
   end
 
   def setup_booking_category(**attributes)

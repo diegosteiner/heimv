@@ -115,6 +115,7 @@ ignore_unused:
   - "locales.*"
   - "flash.*"
   - "titles.*"
+  - "calendar.*"
   - "{booking_flows,booking_states,booking_actions,booking_conditions}.*"
   - "faker.*"
   - "export.pdf.renderables.invoice.qr_bill.*"

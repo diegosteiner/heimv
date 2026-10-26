@@ -50,4 +50,14 @@ class BookingValidation < ApplicationRecord
   def valid_by_conditions?(booking)
     validating_conditions.presence&.all? { it.fullfills?(booking) }
   end
+
+  class Validator < ActiveModel::Validator
+    def validate(record)
+      record.organisation&.booking_validations&.each do |validation|
+        unless validation.booking_valid?(record, validation_context: record.validation_context)
+          record.errors.add(:base, validation.error_message)
+        end
+      end
+    end
+  end
 end
