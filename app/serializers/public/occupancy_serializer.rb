@@ -9,10 +9,6 @@ module Public
 
     fields :begins_at, :ends_at, :conflict_type, :occupiable_id, :remarks, :nights, :color, :booking_id
 
-    # field :color do |occupancy|
-
-    # end
-
     field :ref do |occupancy|
       occupancy.booking&.ref
     end

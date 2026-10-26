@@ -167,4 +167,18 @@ class Organisation < ApplicationRecord
                 filename: original.logo.filename,
                 content_type: original.logo.content_type)
   end
+
+  def default_calendar_label(conflict_type: nil, booking_category: nil) # rubocop:disable Metrics/CyclomaticComplexity
+    return if conflict_type.nil? && booking_category.nil?
+
+    calendar_labels.find do
+      it.conflict_type_default == conflict_type && it.booking_category_default == booking_category
+    end ||
+      calendar_labels.find do
+        it.conflict_type_default.nil? && it.booking_category_default == booking_category
+      end ||
+      calendar_labels.find do
+        it.conflict_type_default == conflict_type && it.booking_category_default.nil?
+      end
+  end
 end

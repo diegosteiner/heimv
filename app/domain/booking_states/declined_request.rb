@@ -4,6 +4,7 @@ module BookingStates
   class DeclinedRequest < Base
     use_mail_template(:declined_request_notification, context: %i[booking])
     use_mail_template(:manage_declined_request_notification, context: %i[booking])
+    use_mail_template(:booking_agent_declined_request_notification, context: %i[booking], optional: true)
 
     def checklist
       []

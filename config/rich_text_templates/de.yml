@@ -164,7 +164,7 @@ de:
     default_body: |
       <p>{{ booking.tenant.salutation }}</p>
 
-      <p>Deine Reservationsanfrage für {{booking.home.name}} wurde annulliert, weil du sie entweder nicht innerhalb der Frist definitiv gesetzt hast oder die Anfrage selbst zurückgezogen hast.</p>
+      <p>Deine Reservationsanfrage für {{booking.home.name}} wurde annulliert.</p>
 
       <p><strong>Reservationsdetails</strong></p>
 
@@ -179,7 +179,23 @@ de:
 
       <p>Du kannst auf unserem <a href="https://app.heimv.ch">Reservationssystem</a> jederzeit eine neue Reservation erstellen.</p>
 
-      <p>Für Fragen oder weitere Auskünfte wendest Du Dich an unseren Heimverwalter</p>
+      <p>Für Fragen oder weitere Auskünfte wendest Du Dich an unsere Heimverwaltung</p>
+  booking_agent_cancelled_request_notification:
+    default_title: Vermittlungsanfrage annulliert
+    default_body: |
+      <p>Lieber Vermittler</p>
+
+      <p>Die Vermittlungsanfrage für {{booking.home.name}} wurde annulliert.</p>
+
+      <ul>
+        <li>Unsere Referenz: {{ booking.ref }}</li>
+        <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
+        <li>Lagerhaus: {{booking.home.name}}</li>
+        <li>Belegung: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+        <li>Frist: {{ booking.deadline | datetime_format }}</li>
+      </ul>
+
+      <p>Für Fragen oder weitere Auskünfte wendest Du Dich an unsere Heimverwaltung</p>
   manage_cancelled_request_notification:
     default_title: Reservationsanfrage {{ booking.ref }} zurückgezogen
     default_body: |
@@ -218,6 +234,24 @@ de:
         <li>Mietzweck: {{ booking.category.title }}: {{ booking.purpose_description }}</li>
         <li>Bemerkungen: {{ booking.remarks }}</li>
       </ul>
+  booking_agent_declined_request_notification:
+    default_title: Vermittlungsanfrage abgelehnt
+    default_body: |
+      <p>Lieber Vermittler</p>
+
+      <p>Die Vermittlungsanfrage für {{booking.home.name}} wurde abgelehnt.</p>
+
+      <p>Ablehnungsgrund: {{ booking.cancellation_reason }}</p>
+
+      <ul>
+        <li>Unsere Referenz: {{ booking.ref }}</li>
+        <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
+        <li>Lagerhaus: {{booking.home.name}}</li>
+        <li>Belegung: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+        <li>Frist: {{ booking.deadline | datetime_format }}</li>
+      </ul>
+
+      <p>Für Fragen oder weitere Auskünfte wendest Du Dich an unsere Heimverwaltung</p>
   manage_declined_request_notification:
     default_title: Stornierung Reservationsanfrage {{ booking.ref }}
     default_body: |
@@ -254,6 +288,22 @@ de:
         <li>Mietzweck: {{ booking.category.title }}: {{ booking.purpose_description }}</li>
         <li>Bemerkungen: {{ booking.remarks }}</li>
       </ul>
+  booking_agent_expired_request_notification:
+    default_title: Vermittlungsanfrage abgelaufen
+    default_body: |
+      <p>Lieber Vermittler</p>
+
+      <p>Die Vermittlungsanfrage für {{booking.home.name}} ist abgelaufen und wurde storniert.</p>
+
+      <ul>
+        <li>Unsere Referenz: {{ booking.ref }}</li>
+        <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
+        <li>Lagerhaus: {{booking.home.name}}</li>
+        <li>Belegung: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+        <li>Frist: {{ booking.deadline | datetime_format }}</li>
+      </ul>
+
+      <p>Für Fragen oder weitere Auskünfte wendest Du Dich an unsere Heimverwaltung</p>
   manage_expired_request_notification:
     default_title: Reservationsanfrage {{ booking.ref }} abgelaufen
     default_body: |
@@ -334,7 +384,7 @@ de:
     default_body: |
       <p>Lieber Vermittler</p>
 
-      <p>Wir best&auml;tigen Dir die Stornierung Deiner Reservation:</p>
+      <p>Wir best&auml;tigen Dir die Stornierung der vermittelten Reservation:</p>
 
       <ul>
         <li>Unsere Referenz: {{ booking.ref }}</li>
@@ -453,7 +503,7 @@ de:
     default_body: |
       <p>Lieber Vermittler</p>
 
-      <p>Vielen Dank für Deine Reservation.</p>
+      <p>Vielen Dank für Deine Vermittlungsanfrage.</p>
 
       <ul>
         <li>Unsere Referenz: {{ booking.ref }}</li>
@@ -463,7 +513,7 @@ de:
         <li>Frist: {{ booking.deadline | datetime_format }}</li>
       </ul>
 
-      <p>Deine Anfrage wurde angenommen. Über den folgenden Link kann die Reservation verlängert, aufgehoben oder für definitiv erklärt werden. Die provisorische Reservation gilt f&uuml;r 10 Tage und kann weitere 3 Tage verl&auml;ngert werden. Wenn die Reservation l&auml;nger reserviert werden soll, bitten wir Dich dies per Email mit dem Datum anzufragen.</p>
+      <p>Deine Anfrage wurde angenommen. Über den folgenden Link kann die Vermittlungsanfrage verlängert, aufgehoben oder für definitiv erklärt werden. Die provisorische Vermittlungsanfrage gilt f&uuml;r 10 Tage und kann weitere 3 Tage verl&auml;ngert werden. Wenn die Reservation l&auml;nger reserviert werden soll, bitten wir Dich dies per Email mit dem Datum anzufragen.</p>
 
       <p><a href="{{booking.agent_booking.links.edit}}">{{booking.agent_booking.links.edit}}</a></p>
   provisional_request_notification:

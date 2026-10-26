@@ -8,12 +8,13 @@ class MigrateFreeConflictTypes < ActiveRecord::Migration[8.1]
       occupancies = Occupancy.where(conflict_type: :free).where.not(booking_id: nil)
       occupancies.update_all(conflict_type: :void) # rubocop:disable Rails/SkipsModelValidations
 
-      Occupancy.where.not(booking_id: nil).find_each do
-        next unless it.valid?
+      # Run manually!
+      # Occupancy.where.not(booking_id: nil).find_each do
+      #   next unless it.valid?
 
-        it.sync_booking
-        it.save!
-      end
+      #   it.sync_booking
+      #   it.save!
+      # end
     end
   end
 end

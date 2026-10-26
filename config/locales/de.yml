@@ -758,6 +758,8 @@ de:
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
           too_short: ist zu kurz
+        payment:
+          duplicate: Eine Zahlung in selber Höhe, am selben Tag, für diesselbe Buchung existiert bereits
         tenant:
           incomplete: Angaben unvollständig
     models:
@@ -2108,6 +2110,12 @@ de:
       description: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
     booking_agent_cancelled_notification:
       description: Benachrichtigung für annullierte Vermittlungsanfrage (Vermittler)
+    booking_agent_cancelled_request_notification:
+      description: Benachrichtigung für zurückgezogene Reservationsanfrage (Vermittler)
+    booking_agent_declined_request_notification:
+      description: Benachrichtigung für stornierte Reservationsanfrage (Vermittler)
+    booking_agent_expired_request_notification:
+      description: Benachrichtigung für abgelaufene Reservationsanfrage (Vermittler)
     booking_agent_request_accepted_notification:
       description: Benachrichtigung für bestätigte Vermittlungsanfrage (Vermittler)
     booking_agent_request_notification:

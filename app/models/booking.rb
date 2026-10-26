@@ -295,11 +295,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def default_calendar_label
-    organisation.calendar_labels.find_by(booking_category_default_id: booking_category_id,
-                                         conflict_type_default: conflict_type) ||
-      organisation.calendar_labels.find_by(booking_category_default_id: booking_category_id,
-                                           conflict_type_default: nil) ||
-      organisation.calendar_labels.find_by(booking_category_default_id: nil, conflict_type_default: conflict_type)
+    organisation&.default_calendar_label(conflict_type:, booking_category: category)
   end
 
   private

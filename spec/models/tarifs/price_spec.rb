@@ -40,39 +40,29 @@ RSpec.describe Tarifs::Price do
   let(:usage) { tarif.build_usage(booking:) }
   let(:tarif) { create(:tarif, :price, organisation: booking.organisation, price_per_unit: 42.0) }
 
-  describe 'Usage#prefill_units' do
-    subject(:prefill_units) { usage.prefill_units }
-
+  describe 'Usage#used_units' do
     it 'returns the price_per_unit' do
-      expect(prefill_units).to eq(42.0)
+      expect(usage.price_per_unit).to eq(42.0)
     end
   end
 
   describe 'Usage#price' do
-    subject(:price) { usage.price }
-
-    context 'with used_units set' do
-      before { usage.update(used_units: 5) }
-
+    context 'with price_per_unit set' do
       it 'calculates price from used_units and price_per_unit' do
-        expect(price).to eq(5.0)
+        usage.save
+        expect(usage.price).to eq(42.0)
+        usage.update!(price_per_unit: 5.0)
+        expect(usage.price).to eq(5.0)
       end
     end
 
-    context 'with no used_units' do
-      it 'returns 0' do
-        expect(price).to eq(0)
-      end
-    end
-
-    context 'with negative price_per_unit and minimum_price' do
+    context 'with minimum_price' do
       before do
-        tarif.update(price_per_unit: -10, minimum: 50, minimum_mode: :price_total)
-        usage.update(used_units: 20)
+        tarif.update(price_per_unit: 20, minimum: 50, minimum_mode: :price_total)
       end
 
       it 'applies minimum price logic' do
-        expect(price).to eq(50)
+        expect(usage.price).to eq(50)
       end
     end
   end
@@ -81,7 +71,7 @@ RSpec.describe Tarifs::Price do
     subject(:breakdown) { usage.breakdown }
 
     context 'with used_units' do
-      before { usage.update(used_units: 42.50) }
+      before { usage.update(price_per_unit: 42.50) }
 
       it 'returns currency formatted used_units' do
         expect(breakdown).to eq(number_to_currency(42.5, unit: booking.organisation.currency))
@@ -89,7 +79,7 @@ RSpec.describe Tarifs::Price do
     end
 
     context 'with zero used_units' do
-      before { usage.update(used_units: 0) }
+      before { usage.update(price_per_unit: 0) }
 
       it 'returns zero in currency format' do
         expect(breakdown).to eq(number_to_currency(0, unit: booking.organisation.currency))

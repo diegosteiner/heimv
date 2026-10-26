@@ -3,7 +3,7 @@
 module Public
   class OccupancyCalendarSerializer < ApplicationSerializer
     DEFAULT_INCLUDES = %w[occupancies.booking occupancies.booking.organisation occupancies.calendar_label
-                          occupancies.occupiable.organisation occupancies.organisation].join(',')
+                          occupancies.organisation].join(',')
 
     association :occupiables, blueprint: Public::OccupiableSerializer
     association :occupancies, blueprint: Public::OccupancySerializer

@@ -37,23 +37,39 @@ module Tarifs
   class Price < Tarif
     Tarif.register_subtype self
 
+    def pin
+      true
+    end
+
+    def pin=(_value)
+      true
+    end
+
     class Usage < ::Usage
       def prefill_units
-        tarif.price_per_unit.presence
+        1
       end
 
-      def price_per_unit
-        nil
+      def used_units
+        1
       end
 
-      def price(units: nil, minimum_price: self.minimum_price, price_per_unit: nil)
-        super(units: 1, minimum_price:, price_per_unit: billable_units)
+      def quoted_units
+        1
+      end
+
+      def used_units=(_value)
+        1
+      end
+
+      def quoted_units=(_value)
+        1
       end
 
       def breakdown
-        return if used_units.nil?
+        return if price_per_unit.nil?
 
-        format_price(billable_units)
+        format_price
       end
     end
   end

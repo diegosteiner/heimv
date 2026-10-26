@@ -45,10 +45,6 @@ class Occupancy < ApplicationRecord
 
   before_validation :sync_booking
 
-  def default_calendar_label
-    organisation&.calendar_labels&.find_by(conflict_type_default: conflict_type)
-  end
-
   validates :conflict_type, presence: true
   validates :conflict_type, inclusion: { in: (CONFLICT_TYPES.keys - %i[closed free]).map(&:to_s) }, if: :linked
   validates_with OccupancyConflictValidator
@@ -97,6 +93,10 @@ class Occupancy < ApplicationRecord
     assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,
                       calendar_label: booking.calendar_label || booking.default_calendar_label,
                       conflict_type: booking.conflict_type, ignore_conflicting: booking.ignore_conflicting)
+  end
+
+  def default_calendar_label
+    organisation&.default_calendar_label(conflict_type:)
   end
 
   def to_s
