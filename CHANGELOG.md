@@ -2,11 +2,14 @@
 
 ## 26.10.1
 
-unreleased
+Released 26.10.2026
 
 - Feature: Distinguish between expired and declined requests
-- Feature: Add occupancy labels
-- Fix: Rename and normalize occupancy type
+- Feature: Add calendar labels and legend
+- Fix: Cleanup calendar view
+- Fix: Rename and normalize occupancy_type to conflict_type
+- Fix: Show unconfirmed contracts pdf
+- Fix: Add cancelled notifications for booking agents
 
 ## 26.9.2
 
