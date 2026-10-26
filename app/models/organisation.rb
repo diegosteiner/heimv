@@ -68,6 +68,7 @@ class Organisation < ApplicationRecord
   has_many :vat_categories, dependent: :destroy, inverse_of: :organisation
   has_many :key_sequences, dependent: :destroy, inverse_of: :organisation
   has_many :oauth_tokens, dependent: :destroy, inverse_of: :organisation
+  has_many :calendar_labels, inverse_of: :organisation, dependent: :destroy
 
   has_one_attached :logo
   has_one_attached :contract_signature
@@ -156,21 +157,28 @@ class Organisation < ApplicationRecord
     nickname_label_i18n.present?
   end
 
-  # rubocop:disable-next Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
   def initialize_copy(original)
     super
-    self.rich_text_templates = original.rich_text_templates.map(&:dup)
-    self.booking_agents = original.booking_agents.map(&:dup)
-    self.booking_categories = original.booking_categories.map(&:dup)
-    self.tarifs = original.tarifs.map(&:dup)
-    self.booking_questions = original.booking_questions.map(&:dup)
-    self.designated_documents = original.designated_documents.map(&:dup)
-    self.data_digest_templates = original.data_digest_templates.map(&:dup)
-
+    %i[rich_text_templates booking_agents booking_categories tarifs booking_questions designated_documents
+       data_digest_templates].each { send("#{it}=", original.send(it).map(&:dup)) }
     return if original.logo.blank?
 
     logo.attach(io: StringIO.new(original.logo.download),
                 filename: original.logo.filename,
                 content_type: original.logo.content_type)
+  end
+
+  def default_calendar_label(conflict_type: nil, booking_category: nil) # rubocop:disable Metrics/CyclomaticComplexity
+    return if conflict_type.nil? && booking_category.nil?
+
+    calendar_labels.find do
+      it.conflict_type_default == conflict_type && it.booking_category_default == booking_category
+    end ||
+      calendar_labels.find do
+        it.conflict_type_default.nil? && it.booking_category_default == booking_category
+      end ||
+      calendar_labels.find do
+        it.conflict_type_default == conflict_type && it.booking_category_default.nil?
+      end
   end
 end

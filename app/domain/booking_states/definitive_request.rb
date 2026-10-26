@@ -2,7 +2,7 @@
 
 module BookingStates
   class DefinitiveRequest < Base
-    use_mail_template(:definitive_request_notification, context: %i[booking])
+    use_mail_template(:definitive_request_notification, context: %i[booking], optional: true)
     use_mail_template(:manage_definitive_request_notification, context: %i[booking], optional: true)
     include Rails.application.routes.url_helpers
 
@@ -16,23 +16,15 @@ module BookingStates
     end
 
     guard_transition(from: :open_request) do |booking|
-      booking.occupancies.all? do |occupancy|
-        occupancy.conflicting(%i[occupied tentative])&.all? do
-          it.booking&.in_state?(:open_request, :waitlisted_request)
-        end
-      end
+      !booking.conflict?(assuming: :occupied)
     end
 
     guard_transition(from: :waitlisted_request) do |booking|
-      booking.occupancies.all? do |occupancy|
-        occupancy.conflicting(%i[occupied tentative])&.all? do
-          it.booking&.in_state?(:open_request, :waitlisted_request)
-        end
-      end
+      !booking.conflict?(assuming: :occupied)
     end
 
     guard_transition do |booking|
-      booking.committed_request && booking.tenant&.valid? && !booking.conflicting?
+      booking.committed_request && booking.tenant&.valid? && !booking.conflict?
     end
 
     infer_transition(to: :upcoming) do |booking|
@@ -46,9 +38,9 @@ module BookingStates
     after_transition do |booking|
       OperatorResponsibility.assign(booking, :administration, :billing)
       if occupied_booking_state?(booking)
-        booking.occupied!
-      elsif !booking.occupied?
-        booking.tentative!
+        booking.conflict_type_occupied!
+      elsif !booking.conflict_type_occupied?
+        booking.conflict_type_tentative!
       end
     end
 

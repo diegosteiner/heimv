@@ -8,6 +8,7 @@ module Manage
     association :tarifs, blueprint: TarifSerializer
     association :booking_questions, blueprint: Public::BookingQuestionSerializer
     association :vat_categories, blueprint: Public::VatCategorySerializer
+    association :calendar_labels, blueprint: Public::CalendarLabelSerializer
 
     fields :esr_beneficiary_account, :iban, :mail_from, :booking_ref_template, :tenant_ref_template,
            :invoice_ref_template, :booking_flow_type, :invoice_payment_ref_template,

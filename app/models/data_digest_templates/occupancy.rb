@@ -25,8 +25,8 @@ module DataDigestTemplates
         body: '{{ occupancy.occupiable.name }}'
       },
       {
-        header: ::Occupancy.human_attribute_name(:occupancy_type),
-        body: '{{ occupancy.occupancy_type }}'
+        header: ::Occupancy.human_attribute_name(:conflict_type),
+        body: '{{ occupancy.conflict_type }}'
       },
       {
         header: ::Occupancy.human_attribute_name(:begins_at),
@@ -68,6 +68,9 @@ module DataDigestTemplates
 
     def base_scope
       @base_scope ||= ::Occupancy.where(occupiable: organisation.occupiables)
+                                 .includes(:calendar_label, :booking,
+                                           occupiable: :organisation,
+                                           organisation: :calendar_labels)
     end
   end
 end

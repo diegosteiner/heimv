@@ -21,7 +21,7 @@ h1.my-0= Booking.model_name.human(count: 2)
         = Booking.model_name.human
       = link_to(new_public_booking_path(booking: @filter&.derive_booking_attributes), class: 'dropdown-item')
         = t('.new_request')
-      = link_to(new_manage_occupancy_path(occupancy: { begins_at: @filter.at_date, occupancy_type: :closed }), class: 'dropdown-item')
+      = link_to(new_manage_occupancy_path(occupancy: { begins_at: @filter.at_date, conflict_type: :closed }), class: 'dropdown-item')
         = Occupancy.model_name.human
       = link_to(new_public_agent_booking_path(booking: @filter&.derive_booking_attributes), class: 'dropdown-item')
         = AgentBooking.model_name.human
@@ -55,16 +55,17 @@ h1.my-0= Booking.model_name.human(count: 2)
 - else
   - grouped_bookings = @bookings.group_by { |booking| booking.booking_state_cache }
   - current_organisation.booking_flow_class.state_classes.values.each do |state|
-    - bookings = grouped_bookings[state.to_s]
+    - bookings = grouped_bookings.fetch(state.to_s, [])
     - collapse_id = "collapse-#{CGI.escape(state.to_s)}"
     - next if bookings.blank?
 
-    section.mt-4
-      h3
-        = state.t(:label)
-        a.badge.rounded-pill.bg-danger.badge-small.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
-          = bookings.count
-      p.text-muted = state.t(:help)
+    - cache([state.to_s, bookings, I18n.locale, current_organisation_user&.role]) do
+      section.mt-4
+        h3
+          = state.t(:label)
+          a.badge.rounded-pill.bg-danger.badge-small.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
+            = bookings.count
+        p.text-muted = state.t(:help)
 
-      .collapse.show[id=collapse_id]
-        == render partial: 'table', locals: { bookings: bookings }
+        .collapse.show[id=collapse_id]
+          == render partial: 'table', locals: { bookings: }

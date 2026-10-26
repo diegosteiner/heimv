@@ -5,13 +5,12 @@
       .card-header.bg-warning-subtle.text-center
         = @agent_booking.booking.booking_state.translate(:label)
     .card-body
-      - errors = @agent_booking.errors.to_hash(true).except(%w[booking.tenant.bookings booking.agent_booking.tenant_email bookings.occupancies.base])
-      - if errors.any?
+      - extract_full_error_messages(@agent_booking.booking.errors, except: %i[booking.tenant.bookings bookings.occupancies.ends_at booking.agent_booking.tenant_email bookings.transition_to])&.presence&.tap do |errors|
         .alert.alert-danger.d-flex
           .me-3
-            i.fa.fa-exclamation-circle
-          ul.mb-0.ps-3
-            - errors.values.flatten.each do |error|
+            i.fa.fa-exclamation-circle               
+          ul.mb-0
+            - errors.each do |error|
               li= error
 
       = f.fields_for :booking, (@agent_booking.booking || @agent_booking.build_booking) do |bf|
@@ -30,13 +29,13 @@
               namePrefix: 'agent_booking[booking_attributes]', \ 
               required: true, \
               disabled: !@agent_booking.booking.editable?, \
-              checkOverlaps: current_organisation.booking_state_settings.enable_waitlist ? :warn : :error, \
+              waitlistEnabled: current_organisation.booking_state_settings.enable_waitlist, \
               defaultBeginsAtTime: current_organisation&.settings&.default_begins_at_time, \
               defaultEndsAtTime: current_organisation&.settings&.default_ends_at_time, \
               beginsAtTimes: current_organisation&.settings&.available_begins_at_times, \
               endsAtTimes: current_organisation&.settings&.available_ends_at_times, \
-              occupiableInvalidFeedback: @agent_booking.booking.errors.to_hash(true).slice(:occupiable_ids, :home_id).values.flatten.to_sentence, \
-              occupancyInvalidFeedback: @agent_booking.booking.errors.to_hash(true).slice(:begins_at, :begins_at_time, :ends_at, :ends_at_time).values.flatten.to_sentence, \
+              occupiableInvalidFeedback: extract_full_error_messages(@agent_booking.booking.errors, only: :home_id).to_sentence, \
+              occupancyInvalidFeedback: extract_full_error_messages(@agent_booking.booking.errors, only: %i[begins_at begins_at_time ends_at ends_at_time occupancies.base]).to_sentence, \
               defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
             }) 
 

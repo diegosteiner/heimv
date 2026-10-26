@@ -9,9 +9,15 @@ interface OccupancyOverviewCalendarProps {
   occupancyAtUrl?: string;
   months?: number;
   defaultView?: ViewType;
+  showLegend?: boolean;
 }
 
-function OccupancyOverviewCalendar({ occupancyAtUrl, months, defaultView }: OccupancyOverviewCalendarProps) {
+function OccupancyOverviewCalendar({
+  occupancyAtUrl,
+  months,
+  defaultView,
+  showLegend = true,
+}: OccupancyOverviewCalendarProps) {
   const occupancyWindow = use(OccupancyWindowContext);
 
   const disabledCallback = useCallback(
@@ -40,7 +46,14 @@ function OccupancyOverviewCalendar({ occupancyAtUrl, months, defaultView }: Occu
     [occupancyWindow, occupancyAtUrl, disabledCallback],
   );
 
-  return <Calendar defaultView={defaultView} months={months} dateElementFactory={dateElementFactory} />;
+  return (
+    <Calendar
+      defaultView={defaultView}
+      months={months}
+      dateElementFactory={dateElementFactory}
+      showLegend={showLegend}
+    />
+  );
 }
 
 export default OccupancyOverviewCalendar;

@@ -1,60 +1,85 @@
+import { cx } from "@emotion/css";
 import { type PropsWithChildren, use } from "react";
+import { useTranslation } from "react-i18next";
 import { CalendarViewContext } from "./Calendar";
 
 interface CalendarNavProps {
   onPrev(): void;
   onNext(): void;
-  onToday(): void;
+  onToday?(): void;
+  showViews?: boolean;
 }
 
-export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChildren<CalendarNavProps>) {
+export function CalendarNav({
+  onPrev,
+  onNext,
+  onToday,
+  showViews = true,
+  children,
+}: PropsWithChildren<CalendarNavProps>) {
   const { view, setView } = use(CalendarViewContext);
+  const { t } = useTranslation();
 
   return (
     <nav className="calendar-nav">
-      <div className="actions">
-        {(onToday && (
-          <button type="button" className="today active" onClick={() => onToday()}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-              <rect width="75" height="26" x="13" y="13" ry="3" />
-              <rect width="75" height="75" x="13" y="13" ry="3" fill="none" stroke="black" strokeWidth="10" />
-            </svg>
+      {(onToday && (
+        <div className="actions">
+          <button type="button" className="today active" onClick={() => onToday()} title={t("calendar.actions.today")}>
+            <span className="fa fa-calendar" />
           </button>
-        )) || <div />}
-        <button type="button">
-          <span className="fa fa-question-circle" />
-        </button>
-      </div>
+        </div>
+      )) || <div />}
       <div className="pages">
-        <button onClick={onPrev} className="prev" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <path d="M87 40H40V20L11 50l29 30V60h47l2-2V42Z" />
+        <button onClick={onPrev} className="prev" type="button" aria-label="Previous period">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path
+              d="M14.5 6.5 8.5 12l6 5.5"
+              fill="none"
+              strokeWidth={3}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              stroke="currentColor"
+            />
           </svg>
         </button>
         <div className="label">{children}</div>
-        <button onClick={onNext} className="next" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <path d="M13 40h47V20l29 30-29 30V60H13l-2-2V42Z" />
+        <button onClick={onNext} className="next" type="button" aria-label="Next period">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path
+              d="M9.5 6.5 15.5 12l-6 5.5"
+              fill="none"
+              strokeWidth={3}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              stroke="currentColor"
+            />
           </svg>
         </button>
       </div>
-      <div className="views">
-        <button type="button" className={view === "months" ? "active" : ""} onClick={() => setView?.("months")}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <rect width="33" height="33" x="13" y="13" ry="3" />
-            <rect width="33" height="33" x="56" y="13" ry="3" />
-            <rect width="33" height="33" x="13" y="56" ry="3" />
-            <rect width="33" height="33" x="56" y="56" ry="3" />
-          </svg>
-        </button>
-        <button type="button" className={view === "year" ? "active" : ""} onClick={() => setView?.("year")}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <rect width="75" height="15" x="13" y="13" ry="2" />
-            <rect width="75" height="15" x="13" y="40" ry="2" />
-            <rect width="75" height="15" x="13" y="69" ry="2" />
-          </svg>
-        </button>
-      </div>
+      {(showViews && (
+        <div className="views">
+          <button
+            type="button"
+            name="view"
+            value="months"
+            className={cx({ active: view === "months" })}
+            onClick={() => setView?.("months")}
+            aria-pressed={view === "months"}
+          >
+            {t("calendar.view.months")}
+          </button>
+          <button
+            type="button"
+            name="view"
+            value="year"
+            className={cx({ active: view === "year" })}
+            onClick={() => setView?.("year")}
+            aria-pressed={view === "year"}
+          >
+            {t("calendar.view.year")}
+          </button>
+        </div>
+      )) || <div />}
     </nav>
   );
 }

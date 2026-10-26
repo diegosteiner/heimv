@@ -4,6 +4,7 @@ module BookingStates
   class CancelledRequest < Base
     use_mail_template(:cancelled_request_notification, context: %i[booking])
     use_mail_template(:manage_cancelled_request_notification, context: %i[booking])
+    use_mail_template(:booking_agent_cancelled_request_notification, context: %i[booking], optional: true)
 
     def checklist
       []
@@ -14,7 +15,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.free!
+      booking.conflict_type_void!
       booking.deadline&.clear!
       booking.conclude
       MailTemplate.use(:manage_cancelled_request_notification, booking, to: :administration, &:autodeliver!)

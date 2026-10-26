@@ -16,6 +16,7 @@
 #  committed_request            :boolean
 #  concluded                    :boolean          default(FALSE)
 #  conditions_accepted_at       :datetime
+#  conflict_type                :integer          default("pending"), not null
 #  deliver_notifications        :boolean          default(FALSE)
 #  editable                     :boolean
 #  email                        :string
@@ -27,7 +28,6 @@
 #  invoice_cc                   :string
 #  locale                       :string
 #  occupancy_color              :string
-#  occupancy_type               :integer          default(0), not null
 #  purpose_description          :string
 #  ref                          :string
 #  remarks                      :text
@@ -41,6 +41,7 @@
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
 #  booking_category_id          :integer
+#  calendar_label_id            :bigint
 #  home_id                      :integer          not null
 #  organisation_id              :bigint           not null
 #  tenant_id                    :integer
@@ -175,21 +176,21 @@ describe Booking do
     end
   end
 
-  describe '#conflicting?' do
+  describe '#conflict?' do
     let(:booking_attributes) do
       { home:, tenant:, organisation:, begins_at: 20.weeks.from_now, ends_at: 21.weeks.from_now }
     end
     let(:definitive_request) do
-      build(:booking, **booking_attributes, initial_state: :definitive_request, occupancy_type: :occupied)
+      build(:booking, **booking_attributes, initial_state: :definitive_request, conflict_type: :occupied)
     end
     let(:provisional_request) do
-      build(:booking, **booking_attributes, initial_state: :provisional_request, occupancy_type: :tentative)
+      build(:booking, **booking_attributes, initial_state: :provisional_request, conflict_type: :tentative)
     end
     let(:open_request) do
-      build(:booking, **booking_attributes, initial_state: :open_request, occupancy_type: :pending)
+      build(:booking, **booking_attributes, initial_state: :open_request, conflict_type: :pending)
     end
     let(:occupied_occupancy) do
-      create(:occupancy, occupancy_type: :occupied, organisation:, occupiable: home,
+      create(:occupancy, conflict_type: :occupied, organisation:, occupiable: home,
                          begins_at: booking_attributes[:begins_at], ends_at: booking_attributes[:ends_at])
     end
 
@@ -197,30 +198,24 @@ describe Booking do
       it 'definitive_request fails validation with :occupancy_conflict' do
         occupied_occupancy
         expect(definitive_request).not_to be_valid
-        expect(definitive_request.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+        expect(definitive_request.errors).to include(:'occupancies.base')
       end
 
       it 'provisional_request fails validation with :occupancy_conflict' do
         occupied_occupancy
         expect(provisional_request).not_to be_valid
-        expect(provisional_request.errors).to be_added(:occupiable_ids, :occupancy_conflict)
-      end
-
-      it 'open_request fails validation with :occupancy_conflict' do
-        occupied_occupancy
-        expect(open_request).not_to be_valid
-        expect(open_request.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+        expect(provisional_request.errors).to include(:'occupancies.base')
       end
     end
 
     context 'with existing pending' do
       it 'definitive_request is valid' do
-        occupied_occupancy.pending!
+        occupied_occupancy.conflict_type_pending!
         expect(definitive_request).to be_valid
       end
 
       it 'provisional_request is valid' do
-        occupied_occupancy.pending!
+        occupied_occupancy.conflict_type_pending!
         expect(provisional_request).to be_valid
       end
     end
@@ -232,13 +227,13 @@ describe Booking do
         it 'definitive_request fails validation with :occupancy_conflict' do
           occupied_occupancy
           expect(definitive_request).not_to be_valid
-          expect(definitive_request.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+          expect(definitive_request.errors).to include(:'occupancies.base')
         end
 
         it 'provisional_request fails validation with :occupancy_conflict' do
           occupied_occupancy
           expect(provisional_request).not_to be_valid
-          expect(provisional_request.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+          expect(provisional_request.errors).to include(:'occupancies.base')
         end
 
         it 'pending_request is valid' do
@@ -246,6 +241,48 @@ describe Booking do
           expect(open_request).to be_valid
         end
       end
+    end
+  end
+
+  describe '#default_calendar_label' do
+    subject { booking.default_calendar_label }
+
+    let(:booking_category) { create(:booking_category, organisation:) }
+    let!(:calendar_labels) do
+      {
+        conflict_type: organisation.calendar_labels.find_or_create_by(booking_category_default: nil,
+                                                                      conflict_type_default: :occupied),
+        booking_category: create(:calendar_label, organisation:, booking_category_default: booking_category,
+                                                  conflict_type_default: nil),
+        both: create(:calendar_label, organisation:, booking_category_default: booking_category,
+                                      conflict_type_default: :occupied)
+      }
+    end
+
+    context 'with exact match by booking_category and conflict_type' do
+      before do
+        booking.update!(category: booking_category, conflict_type: :occupied)
+      end
+
+      it { is_expected.to eq(calendar_labels[:both]) }
+    end
+
+    context 'with match by booking_category only' do
+      before do
+        booking.update!(category: booking_category, conflict_type: :tentative)
+      end
+
+      it { is_expected.to eq(calendar_labels[:booking_category]) }
+    end
+
+    context 'with match by conflict_type only' do
+      let(:other_category) { create(:booking_category, organisation:) }
+
+      before do
+        booking.update!(category: other_category, conflict_type: :occupied)
+      end
+
+      it { is_expected.to eq(calendar_labels[:conflict_type]) }
     end
   end
 end

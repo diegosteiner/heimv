@@ -58,7 +58,7 @@ class Usage < ApplicationRecord
   end
 
   def pin_price_per_unit
-    self.price_per_unit = (tarif.pin? && tarif.price_per_unit) || nil
+    self.price_per_unit ||= (tarif.pin? && tarif.price_per_unit) || nil
   end
 
   def used?

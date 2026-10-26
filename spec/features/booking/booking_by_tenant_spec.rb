@@ -8,7 +8,7 @@ describe 'Booking by tenant', :devise do
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
-  let(:tenant) { create(:tenant, organisation:) }
+  let(:tenant) { create(:tenant, organisation:, email: 'booking_by_tenant_spec@heimv.local') }
   let(:deposit_tarif) do
     create(:tarif, organisation:, tarif_group: 'Akontorechnung', label: 'Anzahlung',
                    associated_types: %i[deposit offer contract])
@@ -201,6 +201,7 @@ describe 'Booking by tenant', :devise do
     first('input[inputmode="numeric"]')
     all('input[inputmode="numeric"]').each { it.fill_in with: 22 }
     submit_form
+    sleep 1
     expect(page).to have_text(I18n.t('flash.actions.update.notice', resource_name: Usage.model_name.human))
   end
 
@@ -247,7 +248,7 @@ describe 'Booking by tenant', :devise do
   describe 'check conflicting bookings' do
     let(:conflicting_booking) do
       create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
-                       occupancy_type: :tentative, initial_state: :provisional_request)
+                       conflict_type: :tentative, initial_state: :provisional_request)
     end
 
     context 'without waitlist_enabled' do
@@ -256,9 +257,10 @@ describe 'Booking by tenant', :devise do
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
-        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('public.bookings.form.occupancy_conflict_error'))
         submit_form
-        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict',
+                                         occupiable: booking.home.name))
       end
     end
 
@@ -273,7 +275,8 @@ describe 'Booking by tenant', :devise do
 
         expect(page).to have_text(I18n.t('public.bookings.form.occupancy_conflict_warning'))
         submit_form
-        expect(page).to have_no_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_no_text(I18n.t('activerecord.errors.messages.occupancy_conflict',
+                                            occupiable: booking.home.name))
       end
     end
 
@@ -281,7 +284,7 @@ describe 'Booking by tenant', :devise do
       let(:tenant) { create(:tenant, organisation:) }
       let(:conflicting_booking) do
         create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
-                         occupancy_type: :occupied, initial_state: :upcoming)
+                         conflict_type: :occupied, initial_state: :upcoming)
       end
 
       before { organisation.reload.update!(booking_state_settings: { enable_waitlist: false }) }
@@ -292,7 +295,7 @@ describe 'Booking by tenant', :devise do
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
         submit_form
-        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_text(I18n.t('activerecord.errors.messages.occupancy_conflict', occupiable: home.name))
       end
     end
   end

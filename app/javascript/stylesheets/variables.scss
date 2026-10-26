@@ -1,4 +1,4 @@
-@import 'bootstrap/scss/functions';
+@import "bootstrap/scss/functions";
 // Template: https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
 $primary: #333399;
 $secondary: #7575d1;
@@ -6,10 +6,10 @@ $body-bg: #fbfbfd;
 $input-bg: #ffffff;
 $breadcrumb-bg: none;
 
-$font-family-base: Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+$font-family-base: Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
 $font-size-base: 0.85rem;
 $headings-font-family: "Patua One", Georgia, "Times New Roman", serif;
-$fa-font-path: 'font-awesome/fonts';
+$fa-font-path: "font-awesome/fonts";
 
-@import 'font-awesome/scss/font-awesome';
-@import 'bootstrap/scss/_variables';
+@import "font-awesome/scss/font-awesome";
+@import "bootstrap/scss/_variables";

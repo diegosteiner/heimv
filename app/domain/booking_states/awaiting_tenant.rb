@@ -20,9 +20,9 @@ module BookingStates
     after_transition do |booking|
       booking.update(concluded: false) # in case it's reinstated from declined or cancelled
       if occupied_booking_state?(booking)
-        booking.occupied!
-      elsif !booking.occupied?
-        booking.tentative!
+        booking.conflict_type_occupied!
+      elsif !booking.conflict_type_occupied?
+        booking.conflict_type_tentative!
       end
     end
 
@@ -37,7 +37,7 @@ module BookingStates
     end
 
     infer_transition(to: :overdue_request) do |booking|
-      booking.deadline&.exceeded?
+      booking.deadline&.expired?
     end
 
     infer_transition(to: :definitive_request) do |booking|

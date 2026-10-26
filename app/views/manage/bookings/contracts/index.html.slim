@@ -23,6 +23,7 @@
         tr
           th= Contract.model_name.human
           th= Contract.human_attribute_name(:sent_at)
+          th= Contract.human_attribute_name(:signed_pdf)
           th= Contract.human_attribute_name(:confirmed_at)
           th
 
@@ -37,20 +38,23 @@
 
             td
               - if contract.sent? || contract.superseded?
-                = l(contract.sent_at) if contract.sent?
+                = l(contract.sent_at.to_datetime) if contract.sent?
               - else
                 | –
             td
-              - if contract.confirmed? || contract.superseded?
-                - if contract.signed_pdf.attached?
-                  = link_to url_for(contract.signed_pdf), target: '_blank' do 
-                  	= Contract.human_attribute_name(:confirmed_at)
-                    =<> l(contract.confirmed_at)
-                    span.ms-2.fa.fa-print
-                - elsif contract.confirmed?
-                  = l(contract.confirmed_at)
+              - if contract.signed_pdf.attached?
+                = link_to url_for(contract.signed_pdf), target: '_blank' do 
+                  = contract.filename
+                  span.ms-2.fa.fa-print
               - else
                 | –
+            td 
+              - if contract.confirmed?
+                =<> l(contract.confirmed_at)
+                span.ms-2.fa.fa-check.text-success
+              - else 
+                | –
+
             td.py-1.text-end
               .btn-group
                 - unless contract.superseded?

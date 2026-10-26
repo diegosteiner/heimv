@@ -3,14 +3,15 @@
 
 - else
   - bookings.each do |booking|
-    - cache([booking, I18n.locale, current_organisation_user&.role]) do
+    - cache([booking, I18n.locale, current_organisation_user&.role, booking.booking_state_cache]) do
       .row.m-0.bg-white.shadow-sm.border[data-href=manage_booking_path(booking) data-id=booking.to_param]
         .col-lg-2
           .d-flex.p-2.h-100[style="align-items: center;"]
             = link_to manage_booking_path(booking), class: 'd-block'
               h5.m-0.text-center= booking.ref
         .col-md-4.col-lg-3.py-3
-          = render partial: 'public/occupancies/span', locals: { booking: booking, show_conflicts: true }
+          - cache([booking, 'occupancies', I18n.locale]) do
+            = render partial: 'public/occupancies/span', locals: { booking: booking, show_conflicts: true }
 
           .d-flex.mt-2
             div.me-2
@@ -46,14 +47,16 @@
               i.fa.fa-sticky-note-o 
               =<> booking.internal_remarks
 
-          - if booking.organisation.operators.any? && booking.booking_state.roles.present?
-            - booking.operator_responsibilities.where(responsibility: booking.booking_state.roles).each do |operator_responsibility|
-              .d-block
-                i.fa.fa-key
-                =< OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
-                | :
-                =< link_to(operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator))
-          = render partial: 'manage/bookings/checklist', locals: { booking: booking }
+          - cache([booking, 'responsibilities', I18n.locale]) do
+            - if booking.booking_state.roles.present?
+              - booking.operator_responsibilities.where(responsibility: booking.booking_state.roles).each do |operator_responsibility|
+                .d-block
+                  i.fa.fa-key
+                  =< OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
+                  | :
+                  =< link_to(operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator))
+          - cache([booking, 'checklist', I18n.locale]) do
+            = render partial: 'manage/bookings/checklist', locals: { booking: }
 
         .col-md-1
           .dropdown.d-block.w-100.h-100

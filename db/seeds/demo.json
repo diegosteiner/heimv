@@ -92,6 +92,7 @@
       "home_id": 1,
       "name": "Pfadiheim Stolz",
       "occupiable": true,
+      "bookable": true,
       "ordinal": 0
     }
   ],
@@ -111,9 +112,6 @@
     "booking_window": "78892380",
     "last_minute_warning": "864000",
     "upcoming_soon_window": "1209600",
-    "tentative_occupancy_color": "#e8bc56",
-    "occupied_occupancy_color": "#e85f5f",
-    "closed_occupancy_color": "#929292",
     "default_begins_at_time": "08:00",
     "default_ends_at_time": "16:00",
     "locales": ["de", "fr", "it", "en"],

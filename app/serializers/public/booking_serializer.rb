@@ -2,7 +2,8 @@
 
 module Public
   class BookingSerializer < ApplicationSerializer
-    DEFAULT_INCLUDES = 'occupancies,occupancies.home,organisation,agent_booking,deadlines,tenant'
+    DEFAULT_INCLUDES = %w[occupancies occupancies.home occupancies.calendar_label occupancies.organisation
+                          organisation agent_booking deadlines calendar_label tenant].join(',')
 
     identifier :id
 
@@ -11,7 +12,7 @@ module Public
     association :organisation,  blueprint: Public::OrganisationSerializer
     association :agent_booking, blueprint: Public::AgentBookingSerializer
 
-    fields :begins_at, :ends_at, :occupancy_type, :nights, :occupancy_color, :home_id, :occupiable_ids
+    fields :begins_at, :ends_at, :conflict_type, :nights, :occupancy_color, :home_id, :occupiable_ids
     field :deadline do |booking|
       booking.deadline&.at
     end

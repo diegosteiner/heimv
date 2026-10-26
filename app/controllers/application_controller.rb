@@ -46,7 +46,9 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organisation
-    Organisation.find_by(slug: params[:org].presence)
+    return @current_organisation if defined?(@current_organisation)
+
+    @current_organisation = Organisation.find_by(slug: params[:org].presence)
   end
 
   def current_locale

@@ -15,9 +15,10 @@ h1.m-0= Occupancy.model_name.human(count: 2)
   table.table.table-hover.align-middle
     thead
       tr
+        th
         th= Occupancy.human_attribute_name(:begins_at)
         th= Occupancy.human_attribute_name(:ends_at)
-        th= Occupancy.human_attribute_name(:occupancy_type)
+        th= Occupancy.human_attribute_name(:conflict_type)
         th= Booking.model_name.human
         th= Occupancy.human_attribute_name(:remarks)
         th
@@ -26,11 +27,14 @@ h1.m-0= Occupancy.model_name.human(count: 2)
       - @occupancies.each do |occupancy|
         tr[data-bs-href=manage_occupancy_path(occupancy) data-id=occupancy.to_param]
           td
+            span[style="color: #{occupancy.color || 'transparent'}" title=(occupancy.calendar_label&.title || occupancy.default_calendar_label&.title)]
+              | ⬤
+          td
             = l(occupancy.begins_at)
           td
             = l(occupancy.ends_at)
           td
-            = Occupancy.human_enum(:occupancy_type, occupancy.occupancy_type)
+            = Occupancy.human_enum(:conflict_type, occupancy.conflict_type)
           td
             = link_to occupancy.booking.ref, manage_booking_path(occupancy.booking) if occupancy.booking
           td

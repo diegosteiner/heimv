@@ -14,9 +14,14 @@ module BookingStates
       :open_request
     end
 
+    guard_transition do |booking|
+      (booking.agent_booking.nil? && booking.organisation.booking_state_settings.enable_waitlist) ||
+        !booking.conflict?(assuming: :tentative)
+    end
+
     after_transition do |booking|
       booking.deadline&.clear!
-      booking.pending!
+      booking.conflict_type_pending!
       booking.update(concluded: false) # in case it's reinstated from declined or cancelled
 
       OperatorResponsibility.assign(booking, :administration, :billing)

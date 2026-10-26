@@ -25,6 +25,7 @@ module Public
 
     def create
       @agent_booking.assign_attributes(agent_booking_params.merge(organisation: current_organisation))
+      @agent_booking.booking&.assign_attributes(transition_to: :open_request, conflict_type: :tentative)
 
       if @agent_booking.save(context: :agent_create)
         write_booking_log

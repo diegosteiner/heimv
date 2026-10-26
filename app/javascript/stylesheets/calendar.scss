@@ -14,17 +14,47 @@
   position: relative;
   container: calendar / inline-size;
 
-  .calendar-nav {
+  .calendar-legend {
+    font-size: 0.8em;
     display: flex;
-    justify-content: space-between;
-    height: 3em;
+    gap: 1.5em;
+    list-style: none;
+    padding: 0;
+
+    & > li {
+      padding: 0.5em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    svg {
+      width: 1.5em;
+      display: block;
+    }
+  }
+
+  .calendar-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "actions views"
+      "pages pages";
+    align-items: center;
+    gap: 1rem;
+    height: auto;
 
     .pages {
+      grid-area: pages;
       display: flex;
       justify-content: center;
+      align-items: center;
+      min-width: 12rem;
+      width: 100%;
 
       button {
-        display: block;
+        display: grid;
+        place-items: center;
         flex-grow: 1;
         text-align: center;
         background: transparent;
@@ -33,11 +63,12 @@
         line-height: 1em;
         height: 100%;
         padding: 0.75em;
-        width: 3em;
+        width: 50px;
 
-        &>svg {
-          max-height: 100%;
-          max-width: 100%;
+        & > svg {
+          height: 100%;
+          width: auto;
+          display: block;
         }
       }
     }
@@ -47,17 +78,21 @@
     }
 
     .actions {
+      grid-area: actions;
       justify-content: flex-start;
+      min-width: 2rem;
     }
 
     .views {
+      grid-area: views;
       justify-content: flex-end;
+      justify-self: end;
+      min-width: 10rem;
     }
 
     .views,
     .actions {
-      width: 20%;
-      font-size: 1rem;
+      font-size: 0.8rem;
       display: flex;
       align-items: center;
 
@@ -65,21 +100,78 @@
         padding: 0.5rem;
         background: none;
         border: none;
-        opacity: 0.25;
-        height: 100%;
-        width: 2.25em;
+        align-items: center;
+        justify-content: center;
 
-        &.active {
-          opacity: 1;
+        &:hover,
+        &:focus {
+          text-decoration: underline;
         }
 
-        &>svg {
-          height: 100%;
-          max-height: 100%;
-          max-width: 100%;
+        & > svg {
+          width: 1.25rem;
+          height: 1.25rem;
+          display: block;
+        }
+      }
+    }
+
+    .views {
+      display: flex;
+      align-items: center;
+      padding: 0.2rem;
+      border-radius: 3rem;
+      background-color: rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+
+      button {
+        margin: 0;
+        flex: 1 1;
+        padding: 0.3rem;
+        color: #444;
+        position: relative;
+        z-index: 1;
+
+        &:hover,
+        &:focus {
+          text-decoration: none;
         }
       }
 
+      button.active {
+        font-weight: bold;
+        // background-color: transparent;
+        color: #111;
+        border-radius: 3rem;
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        background-color: white;
+      }
+
+      // &::before {
+      //   content: "";
+      //   position: absolute;
+      //   top: 0.2rem;
+      //   bottom: 0.2rem;
+      //   left: 0.2rem;
+      //   right: 0.2rem;
+      //   width: calc(50% - 0.2rem);
+      //   border-radius: 3rem;
+      //   background-color: white;
+      //   transform: translateX(0);
+      //   transition: transform 220ms ease;
+      //   z-index: 0;
+      //   box-shadow: 1px 1px 2px rgba(0,0,0, 0.1);
+      // }
+
+      // &:has(button:nth-child(2).active)::before {
+      //   transform: translateX(100%);
+      // }
+    }
+
+    @media (min-width: 48rem) {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas: "actions pages views";
     }
   }
 
@@ -154,7 +246,7 @@
     .month {
       box-sizing: border-box;
 
-      header>h3 {
+      header > h3 {
         font-weight: bold;
         font-size: 1.25em;
         text-align: center;
@@ -202,7 +294,7 @@
     &::after {
       display: block;
       border: 0.4em solid rgba(255, 0, 0, 0.65);
-      content: '';
+      content: "";
       width: 120%;
       top: 50%;
       left: 50%;
@@ -215,6 +307,10 @@
       box-sizing: border-box;
       pointer-events: none;
     }
+  }
+
+  .date.weekend {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 
   .date-action {
@@ -243,14 +339,13 @@
     }
 
     &:disabled,
-    &[aria-disabled='true'] {
+    &[aria-disabled="true"] {
       cursor: default;
 
       .label {
         color: #777;
       }
     }
-
   }
 
   .occupancy-calendar-date {
@@ -276,7 +371,6 @@
     }
 
     svg {
-
       cursor: inherit;
       overflow: clip;
 
@@ -287,7 +381,7 @@
 
       rect:not([fill]),
       polygon:not([fill]) {
-        fill: transparent
+        fill: transparent;
       }
     }
 
@@ -307,10 +401,9 @@
     padding: 0.5em;
 
     ul.occupancies {
-      &>li+li {
+      & > li + li {
         margin-top: 2em;
       }
     }
   }
-
 }
