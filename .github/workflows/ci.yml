@@ -70,7 +70,7 @@ jobs:
         run: |
           docker pull $TEST_IMAGE
           docker pull $TARGET_IMAGE
-          docker tag $TEST_IMAGE   heimv-e2e_test:latest
+          docker tag $TEST_IMAGE heimv-e2e_test:latest
           docker tag $TARGET_IMAGE heimv-e2e_target:latest
 
       - name: run unit specs
@@ -108,12 +108,14 @@ jobs:
         run: |
           docker pull $TEST_IMAGE
           docker pull $TARGET_IMAGE
-          docker tag $TEST_IMAGE   heimv-e2e_test:latest
+          docker tag $TEST_IMAGE heimv-e2e_test:latest
           docker tag $TARGET_IMAGE heimv-e2e_target:latest
 
       - name: run e2e specs
         run: |
           mkdir -p videos
+          docker compose down --remove-orphans
+          docker compose up --wait db
           docker compose run e2e_target bin/rails db:migrate
           docker compose up --wait e2e_target
           docker compose run e2e_test bin/rspec ./spec --tag @type:feature --fail-fast
@@ -169,23 +171,14 @@ jobs:
           docker tag $TARGET_IMAGE ghcr.io/${{ github.repository }}:$VERSION
           docker push ghcr.io/${{ github.repository }}:$VERSION
 
-      - if: github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v3
-        with:
-          tag_name: ${{ env.VERSION }}
-          name: "Release ${{ env.VERSION }}"
-          draft: false
-          prerelease: false
-
-      - if: github.ref == 'refs/heads/main'
-        run: git push origin $VERSION
-
       - name: summary
         run: |
           {
             echo "## Released images :rocket:"
             echo "- \`$REF_IMAGE\`"
-            echo "- \`ghcr.io/${{ github.repository }}:$VERSION\`"
+            if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+              echo "- \`ghcr.io/${{ github.repository }}:$VERSION\`"
+            fi
           } >> $GITHUB_STEP_SUMMARY
 
   cleanup:

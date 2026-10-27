@@ -248,7 +248,7 @@ it:
         cancellation_reason: Motivo della cancellazione
         category: Categoria di affitto
         committed_request: Natura vincolante della richiesta di affitto
-        conflict_type:
+        conflict_type: Stato di occupazione
         created_at: Creato il
         deadline: Scadenza fino a
         deliver_notifications: Inviare le e-mail generate dall'applicazione
@@ -747,11 +747,15 @@ it:
           attributes:
             deadline:
               not_postponable: non può essere prolongato
+            ends_at:
+              greater_than_or_equal_to:
             transition_to:
               invalid_transition: 'Transizione di stato non valida: %{transition}'
           too_far_in_future: è troppo lontano nel futuro
           too_far_in_past: è troppo lontano nel passato
           too_short: è troppo breve
+        payment:
+          duplicate:
         tenant:
           incomplete: Informazioni incomplete
     models:
@@ -1763,6 +1767,7 @@ it:
         committed_request_definitive_request_help: Impegno vincolante. Il contratto viene preparato e consegnato se l'amministrazione accetta la richiesta
         committed_request_provisional_request_help: Richiesta non vincolante. Accettazione o cancellazione entro il termine stabilito
         last_minute_warning: Attenzione! La data di prenotazione è a breve termine. Si prega di contattare l'amministrazione anche per telefono o per e-mail.
+        occupancy_conflict_error:
         occupancy_conflict_warning: Il periodo selezionato si sovrappone a una prenotazione esistente. La richiesta verrà inserita nella lista d'attesa.
       new:
         accept_conditions_html: Io %{conditions_html}.
@@ -1806,6 +1811,12 @@ it:
       description: Notifica per informazioni mancanti sull'inquilino di una richiesta di affitto (inquilino)
     booking_agent_cancelled_notification:
       description: Notifica per richiesta di collocamento annullata (mediatore)
+    booking_agent_cancelled_request_notification:
+      description:
+    booking_agent_declined_request_notification:
+      description:
+    booking_agent_expired_request_notification:
+      description:
     booking_agent_request_accepted_notification:
       description: Notifica per richiesta di collocamento confermata (mediatore)
     booking_agent_request_notification:
