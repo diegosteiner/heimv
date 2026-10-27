@@ -70,7 +70,7 @@ jobs:
         run: |
           docker pull $TEST_IMAGE
           docker pull $TARGET_IMAGE
-          docker tag $TEST_IMAGE   heimv-e2e_test:latest
+          docker tag $TEST_IMAGE heimv-e2e_test:latest
           docker tag $TARGET_IMAGE heimv-e2e_target:latest
 
       - name: run unit specs
@@ -108,12 +108,14 @@ jobs:
         run: |
           docker pull $TEST_IMAGE
           docker pull $TARGET_IMAGE
-          docker tag $TEST_IMAGE   heimv-e2e_test:latest
+          docker tag $TEST_IMAGE heimv-e2e_test:latest
           docker tag $TARGET_IMAGE heimv-e2e_target:latest
 
       - name: run e2e specs
         run: |
           mkdir -p videos
+          docker compose down --remove-orhans
+          docker compose up --wait db
           docker compose run e2e_target bin/rails db:migrate
           docker compose up --wait e2e_target
           docker compose run e2e_test bin/rspec ./spec --tag @type:feature --fail-fast

@@ -248,7 +248,7 @@ fr:
         cancellation_reason: Motif d'annulation
         category: Catégorie de location
         committed_request: Caractère obligatoire de la demande de location
-        conflict_type:
+        conflict_type: Statut d'occupation
         created_at: Créé le
         deadline: Délai jusqu'au
         deliver_notifications: Envoyer des e-mails générés par l'application
@@ -404,7 +404,7 @@ fr:
         begins_at_time: Début de la location (heure)
         calendar_label_id:
         color: Couleur dans le calendrier
-        conflict_type:
+        conflict_type: Statut d'occupation
         ends_at: Fin de la location
         ends_at_date: Fin de la location (date)
         ends_at_time: Fin de la location (heure)
@@ -749,11 +749,15 @@ fr:
           attributes:
             deadline:
               not_postponable: ne peut pas être prolongé
+            ends_at:
+              greater_than_or_equal_to:
             transition_to:
               invalid_transition: 'Changement de statut non valide : %{transition}'
           too_far_in_future: est trop loin dans le futur
           too_far_in_past: est trop loin dans le passé
           too_short: est trop court
+        payment:
+          duplicate:
         tenant:
           incomplete: Données incomplètes
     models:
@@ -1821,6 +1825,7 @@ fr:
         committed_request_definitive_request_help: Engagement ferme et définitif. Le contrat est préparé et envoyé si l'administration accepte la demande
         committed_request_provisional_request_help: Demande sans engagement. Acceptation ou refus dans le délai indiqué
         last_minute_warning: Attention ! La date de réservation est proche. Merci de t'annoncer en plus par téléphone ou par e-mail auprès de l'administration
+        occupancy_conflict_error:
         occupancy_conflict_warning: La période choisie se chevauche avec une réservation existante. La demande est placée sur la liste d'attente.
       new:
         accept_conditions_html: Moi, %{conditions_html}.
@@ -1864,6 +1869,12 @@ fr:
       description: Notification d'informations manquantes sur le locataire ayant fait une demande de transmission (locataire)
     booking_agent_cancelled_notification:
       description: Notification de demande de transmission annulée (intermédiaire)
+    booking_agent_cancelled_request_notification:
+      description:
+    booking_agent_declined_request_notification:
+      description:
+    booking_agent_expired_request_notification:
+      description:
     booking_agent_request_accepted_notification:
       description: Notification de demande de transmission confirmée (intermédiaire)
     booking_agent_request_notification:
