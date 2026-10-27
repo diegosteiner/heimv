@@ -114,7 +114,7 @@ jobs:
       - name: run e2e specs
         run: |
           mkdir -p videos
-          docker compose down --remove-orhans
+          docker compose down --remove-orphans
           docker compose up --wait db
           docker compose run e2e_target bin/rails db:migrate
           docker compose up --wait e2e_target
