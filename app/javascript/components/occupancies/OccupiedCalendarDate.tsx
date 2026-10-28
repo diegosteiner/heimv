@@ -23,6 +23,7 @@ export function OccupiedCalendarDate({ dateString, occupancyWindow, label }: Occ
     () => (
       <div className={classNames} aria-haspopup="true">
         <OccupancyPopover dateString={dateString} occupancyWindow={occupancyWindow} />
+        {/* {occupancies.size > 1 && <span className="occupancy-count">{occupancies.size}</span>} */}
         <svg viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
           {Array.from(slots.allday).some(Boolean) && (
             <rect

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_25_123828) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_28_125116) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -256,6 +256,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_123828) do
     t.boolean "legend", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "ordinal"
     t.index ["booking_categories_id"], name: "index_calendar_labels_on_booking_categories_id"
     t.index ["booking_category_default_id"], name: "index_calendar_labels_on_booking_category_default_id"
     t.index ["organisation_id", "conflict_type_default", "booking_category_default_id"], name: "idx_on_organisation_id_conflict_type_default_bookin_2589cbc3e0", unique: true

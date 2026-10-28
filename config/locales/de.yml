@@ -318,6 +318,7 @@ de:
         conflict_type_default: Standard für Belegungsart
         description: Beschreibung
         legend: In Legende anzeigen
+        ordinal_position: Ordnungsnummer
         title: Bezeichnung
       contract:
         confirmed_at: Retournierter Vertrag bestätigt am

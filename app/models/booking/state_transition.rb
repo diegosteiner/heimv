@@ -40,6 +40,12 @@ class Booking
       initial_transition
     end
 
+    def update_booking_state_cache
+      return if booking.booking_state_cache == to_state
+
+      booking.update_columns(booking_state_cache: to_state, updated_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+    end
+
     private
 
     def serialize_booking
@@ -54,12 +60,6 @@ class Booking
       last_transition.update_column(:most_recent, true)
       last_transition.update_booking_state_cache
       # rubocop:enable Rails/SkipsModelValidations
-    end
-
-    def update_booking_state_cache
-      return if booking.booking_state_cache == to_state
-
-      booking.update_columns(booking_state_cache: to_state, updated_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
     end
   end
 end

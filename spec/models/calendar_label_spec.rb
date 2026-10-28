@@ -12,6 +12,7 @@ require 'rails_helper'
 #  description_i18n            :jsonb            not null
 #  discarded_at                :datetime
 #  legend                      :boolean          default(TRUE), not null
+#  ordinal                     :integer
 #  title_i18n                  :jsonb            not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null

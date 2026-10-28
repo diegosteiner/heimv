@@ -4,9 +4,12 @@ module Public
   class OrganisationSerializer < ApplicationSerializer
     identifier :slug
 
-    association :booking_categories, blueprint: Public::BookingCategorySerializer
+    association :booking_categories, blueprint: Public::BookingCategorySerializer do |organisation|
+      organisation.booking_categories.kept.ordered
+    end
+
     association :calendar_labels, blueprint: Public::CalendarLabelSerializer do |organisation|
-      organisation.calendar_labels.kept
+      organisation.calendar_labels.kept.ordered
     end
     association :homes, blueprint: Public::HomeSerializer do |organisation|
       organisation.homes.kept
