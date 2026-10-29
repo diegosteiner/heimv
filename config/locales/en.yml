@@ -1591,7 +1591,6 @@ en:
   invoice_items:
     breakdown:
       balance: Saldo aus Anzahlungen
-      default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       group_minimum:
         price_per_day: Differenz zum Mindestbetrag (%{minimum} / Tag)
