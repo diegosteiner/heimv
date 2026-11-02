@@ -22,8 +22,10 @@ it:
         begins_at: Da
         begins_at_after: Inizio occupazione da
         begins_at_before: Inizio occupazione fino a
+        calendar_labels: Visualizzazione nel calendario
         categories: Categorie di affitto
         concluded:
+        conflict_type: Stato di occupazione
         current_booking_states: Stato
         ends_at: Fino a
         ends_at_after: Fine occupazione da
@@ -314,6 +316,7 @@ it:
         conflict_type_default: Standard per il tipo di occupazione
         description: Descrizione
         legend: Visualizza nella legenda
+        ordinal_position: Posizione di visualizzazione
         title: Nome
       contract:
         confirmed_at:
@@ -1402,6 +1405,10 @@ it:
       invalid: non è valido
       less_than: deve essere minore di %{count}
       less_than_or_equal_to: deve essere minore o uguale a %{count}
+      limit_max_exceeded:
+        one:
+        other:
+        zero:
       limit_max_expired:
         one:
         other:

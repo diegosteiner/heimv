@@ -22,8 +22,10 @@ de:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
+        calendar_labels: Anzeige im Kalender
         categories: Mietkategorien
         concluded: Buchungsabschluss
+        conflict_type: Belegungsstatus
         current_booking_states: Status
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
@@ -1418,6 +1420,10 @@ de:
       invalid: ist nicht gültig
       less_than: muss kleiner als %{count} sein
       less_than_or_equal_to: muss kleiner oder gleich %{count} sein
+      limit_max_exceeded:
+        one: zu viele angehängte Dateien (maximal %{max} Dateien, %{count})
+        other: Zu viele angehängte Dateien (maximal %{max} Dateien, %{count})
+        zero: Keine Dateien angehängt (maximal %{max} Dateien)
       limit_max_expired:
         one: zu viele angehängte Dateien (maximal %{max} Dateien, %{count})
         other: Zu viele angehängte Dateien (maximal %{max} Dateien, %{count})

@@ -7,8 +7,8 @@ fr:
         enabled: Activé
         liable_for_vat: Assujetti à la TVA
         payment_account_nr: Compte Paiements
-        rental_yield_account_nr:
-        rental_yield_vat_category_id:
+        rental_yield_account_nr: Compte revenus locatifs
+        rental_yield_vat_category_id: Catégorie TVA – Revenus locatifs
         vat_account_nr: Compte TVA
       address:
         city: Lieu
@@ -22,8 +22,10 @@ fr:
         begins_at: à partir du / de
         begins_at_after: Début de la location
         begins_at_before: Location jusqu'au
+        calendar_labels: Couleur dans le calendrier
         categories: Catégories de location
         concluded: Clôture des écritures
+        conflict_type: Statut d'occupation
         current_booking_states: Statuts
         ends_at: Jusqu'au / jusqu'à
         ends_at_after: Fin de la location
@@ -80,11 +82,11 @@ fr:
       journal_entry_batch/entry:
         amount: Montant
         cost_center: Centre de coûts
-        haben_account:
-        invoice_item_id:
-        soll_account:
+        haben_account: Compte crédit
+        invoice_item_id: Position de facture
+        soll_account: Compte débit
         text: Texte
-        vat_amount:
+        vat_amount: Montant de la TVA (inclus)
       journal_entry_batch/filter:
         date_after: Date de réservation à partir du
         date_before: Date de réservation jusqu'au
@@ -131,14 +133,14 @@ fr:
         ref: Référence de paiement
         sort: Triage
       smtp_settings:
-        address:
-        authentication:
+        address: Adresse du serveur
+        authentication: Authentification
         enable_starttls:
         password: Mot de passe
-        port:
-        ssl:
-        tls:
-        user_name:
+        port: Port
+        ssl: SSL (ancienne version)
+        tls: TLS
+        user_name: Nom d'utilisateur
     model:
       invoice/items/add:
         one: Poste de facturation normal
@@ -150,11 +152,11 @@ fr:
         one: Poste de facture d'acompte
         other: Facture d'acompte Postes de facture
       invoice/items/text:
-        one:
-        other:
+        one: Texte du poste de facture
+        other: Texte des lignes de facture
       invoice/items/title:
-        one:
-        other:
+        one: Titre de la ligne de facture
+        other: Titre des postes de facture
     models:
       accounting_settings: Paramètres de comptabilité
       booking_condition:
@@ -205,7 +207,7 @@ fr:
         other: Postes de facturation
       journal_entry_batch/entry:
         one:
-        other:
+        other: Écritures comptables
       occupancy_calendar:
         one: Plan de locations
         other: Plans de locations
@@ -223,7 +225,7 @@ fr:
         one: Facture QR (expérimentale)
         other: Factures QR (expérimentales)
       payment_infos/refund:
-        one:
+        one: Note de crédit
         other:
       payment_infos/text_payment_info:
         one: Partie/zone de paiement sous forme de texte
@@ -310,13 +312,14 @@ fr:
         validating_conditions: Critère de validité
       calendar_label:
         booking_category_default:
-        color:
+        color: Couleur
         conflict_type_default:
         description: Description
-        legend:
+        legend: Afficher dans la légende
+        ordinal_position: Position de l'affichage
         title: Désignation
       contract:
-        confirmed_at:
+        confirmed_at: Contrat renvoyé, confirmé le
         issuer: Propriétaire
         locale: Langue
         pdf: PDF
@@ -382,7 +385,7 @@ fr:
         invoice_id: Facture
         payment_id: Paiement
         processed_at:
-        ref:
+        ref: justificatif
         text: Texte
         trigger: Déclencheur
       meter_reading_period:
@@ -402,7 +405,7 @@ fr:
         begins_at: Début de la location
         begins_at_date: Début de la location (date)
         begins_at_time: Début de la location (heure)
-        calendar_label_id:
+        calendar_label_id: Affichage dans le calendrier
         color: Couleur dans le calendrier
         conflict_type: Statut d'occupation
         ends_at: Fin de la location
@@ -413,7 +416,7 @@ fr:
         occupiable_id: Objet de location
         remarks: Remarques
       occupiable:
-        bookable:
+        bookable: Réservable par le public
         description: Description
         home_id: Principal objet de location
         name: Nom
@@ -493,7 +496,7 @@ fr:
         title: Titre
       tarif:
         accounting_account_nr: zugewiesenes Buchhaltungskonto
-        accounting_cost_center_nr:
+        accounting_cost_center_nr: Centre de coûts
         associated_types: Affiché dans les documents
         enabling_conditions: Conditions de sélection autorisée
         included_units: Unités inclusives
@@ -567,7 +570,7 @@ fr:
       vat_category:
         accounting_vat_code:
         label: Désignation
-        percentage:
+        percentage: phrase
     enums:
       booking:
         committed_request:
@@ -645,12 +648,12 @@ fr:
       journal_entry_batch:
         triggers:
           invoice_created:
-          invoice_discarded:
-          invoice_reverted:
-          invoice_updated:
-          payment_created:
-          payment_discarded:
-          payment_reverted:
+          invoice_discarded: Facture supprimée
+          invoice_reverted: Facture annulée
+          invoice_updated: Facture modifiée
+          payment_created: Paiement effectué
+          payment_discarded: Paiement supprimé
+          payment_reverted: Paiement annulé
           payment_updated:
       journal_entry_batch/filter:
         processed:
@@ -1407,6 +1410,10 @@ fr:
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}
       less_than_or_equal_to: doit être inférieur ou égal à %{count}
+      limit_max_exceeded:
+        one:
+        other:
+        zero:
       limit_max_expired:
         one:
         other:
@@ -1436,7 +1443,7 @@ fr:
       pages_not_greater_than_or_equal_to:
       pages_not_less_than:
       pages_not_less_than_or_equal_to:
-      password_too_long: est trop long
+      password_too_long: Mot de passe trop long ?!?
       present: doit être vide
       required: doit exister
       taken: est déjà utilisé(e)

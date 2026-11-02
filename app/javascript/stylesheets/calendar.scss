@@ -17,9 +17,15 @@
   .calendar-legend {
     font-size: 0.8em;
     display: flex;
-    gap: 1.5em;
+    flex-wrap: wrap;
+    gap: 0 1.5em;
     list-style: none;
     padding: 0;
+    grid-template-columns: repeat(auto-fit, 10rem);
+
+    @include media-breakpoint-down(md) {
+      display: grid;
+    }
 
     & > li {
       padding: 0.5em;
