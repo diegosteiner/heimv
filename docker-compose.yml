@@ -31,17 +31,17 @@ services:
     tty: true
     stdin_open: true
     networks:
-      main:
-      selenium:
+      main_network:
+      selenium_network:
         aliases:
           - "app.test"
 
+    # noVNC in browser with password «secret»
   selenium:
     image: ${SELENIUM_IMAGE:-selenium/standalone-chrome}
     shm_size: 2g
     networks:
-      selenium:
-    # noVNC in browser with password «secret»
+      selenium_network:
     ports:
       - "7900:7900"
 
@@ -53,26 +53,26 @@ services:
       POSTGRES_DB: heimv_e2e
       POSTGRES_PASSWORD: postgres
     networks:
-      main:
+      main_network:
 
   valkey:
     image: valkey/valkey
     networks:
-      main:
+      main_network:
 
   mail:
     image: sj26/mailcatcher
     ports:
       - "1080:1080"
     networks:
-      main:
+      main_network:
 
 volumes:
   db_data:
   bundle:
 
 networks:
-  selenium:
+  selenium_network:
     driver: bridge
-  main:
+  main_network:
     driver: bridge

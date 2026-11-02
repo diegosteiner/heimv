@@ -45,7 +45,7 @@ function OccupancyLi({ occupancy }: { occupancy: Occupancy }) {
         {formatDate(occupancy.beginsAt)} - {formatDate(occupancy.endsAt)}
       </strong>
       <div>
-        <span style={{ color: occupancy.color }}>⬤</span>&nbsp;
+        <span style={{ color: occupancy.color || "transparent" }}>⬤</span>&nbsp;
         <span>
           {translatedString(calendarLabel?.title_i18n, i18n)}
           <br />

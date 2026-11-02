@@ -27,15 +27,15 @@
     = f.select :previous_booking_states, states, { include_blank: true }, multiple: true, size: 6
 
 .row
+  / .col
+  /   = f.select :conflict_type, Occupancy.conflict_types.keys.map { [Occupancy.human_enum(:conflict_type, it), it] }, include_blank: true
+  - categories = current_organisation.booking_categories.all.map { |it| [it.title, it.id] }
   .col
-    = f.select :conflict_type, Occupancy.conflict_types.keys.map { [Occupancy.human_enum(:conflict_type, it), it] }, include_blank: true
+    = f.select :categories, categories, { include_blank: true }, multiple: true, size: 4
 
   - calendar_labels = current_organisation.calendar_labels.all.map { |it| [it.title, it.id] }
   .col
     = f.select :calendar_labels, calendar_labels, { include_blank: true }, multiple: true, size: 4
 
 .row
-  - categories = current_organisation.booking_categories.all.map { |it| [it.title, it.id] }
-  .col
-    = f.select :categories, categories, { include_blank: true }, multiple: true, size: 4
   .col

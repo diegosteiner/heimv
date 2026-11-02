@@ -20,6 +20,7 @@
     = f.select :conflict_type_default, Occupancy.conflict_types.keys.map { [Occupancy.human_enum(:conflict_type, it), it] }, include_blank: true
     = f.collection_select :booking_category_default_id, current_organisation.booking_categories.kept, :id, :title, include_blank: true, required: false, label: CalendarLabel.human_attribute_name(:booking_category_default)
 
+    = f.text_field :ordinal_position
     = f.check_box :legend
 
   .form-actions.pt-4.mt-3

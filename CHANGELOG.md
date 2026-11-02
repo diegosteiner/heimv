@@ -1,5 +1,11 @@
 # Changelog
 
+## 26.11.1
+
+Released 02.11.2026
+
+- Fix: Change order of legend and responsiveness
+
 ## 26.10.1
 
 Released 26.10.2026

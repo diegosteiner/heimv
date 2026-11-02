@@ -10,6 +10,7 @@
 #  description_i18n            :jsonb            not null
 #  discarded_at                :datetime
 #  legend                      :boolean          default(TRUE), not null
+#  ordinal                     :integer
 #  title_i18n                  :jsonb            not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
@@ -29,6 +30,10 @@ class CalendarLabel < ApplicationRecord
 
   extend Mobility
   include Discard::Model
+  include RankedModel
+
+  scope :ordered, -> { rank(:ordinal) }
+  ranks :ordinal, with_same: :organisation_id
 
   translates :title, :description, column_suffix: '_i18n', locale_accessors: true
 
@@ -36,7 +41,6 @@ class CalendarLabel < ApplicationRecord
   belongs_to :booking_category_default, class_name: 'BookingCategory', optional: true
   has_many :occupancies, inverse_of: :calendar_label, dependent: :nullify
 
-  scope :ordered, -> { order(color: :ASC) }
   enum :conflict_type_default, Occupancy::CONFLICT_TYPES, prefix: true
 
   validates :color, presence: true, format: { with: COLOR_REGEX }

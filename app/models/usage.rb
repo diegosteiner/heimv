@@ -116,7 +116,7 @@ class Usage < ApplicationRecord
 
     I18n.t(key, scope: 'invoice_items.breakdown', unit:, included_units:,
                 minimum: (minimum_price && format_price(minimum_price)) || nil,
-                billable_units: format_units(billable_units), # used_units: format_units(used_units),
+                billable_units: format_units(billable_units), used_units: format_units(used_units),
                 price_per_unit: format_price(price_per_unit))
   end
 

@@ -34,7 +34,7 @@ module Manage
     def calendar_label_params
       locale_params = I18n.available_locales.map { |locale| ["title_#{locale}", "description_#{locale}"] }
       params.expect(calendar_label: [:color, :conflict_type_default, :booking_category_default_id, :legend,
-                                     locale_params.flatten])
+                                     :ordinal_position, locale_params.flatten])
     end
   end
 end

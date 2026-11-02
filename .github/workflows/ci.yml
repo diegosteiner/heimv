@@ -181,18 +181,18 @@ jobs:
             fi
           } >> $GITHUB_STEP_SUMMARY
 
-  # cleanup:
-  #   runs-on: ubuntu-latest
-  #   if: always()
-  #   needs: [build, e2e, release]
-  #   permissions:
-  #     packages: write
-  #   steps:
-  #     - name: Delete build images
-  #       uses: vlaurin/action-ghcr-prune@v0.6.0
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         user: ${{ github.repository_owner }}
-  #         container: ${{ github.event.repository.name }}
-  #         prune-tags-regexes: |
-  #           ^${{ github.sha }}(-test)?$
+  cleanup:
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [build, e2e, release]
+    permissions:
+      packages: write
+    steps:
+      - name: Delete old untagged images
+        uses: vlaurin/action-ghcr-prune@v0.6.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          user: ${{ github.repository_owner }}
+          container: ${{ github.event.repository.name }}
+          keep-last: 5
+          untagged-only: true

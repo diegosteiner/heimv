@@ -17,9 +17,15 @@
   .calendar-legend {
     font-size: 0.8em;
     display: flex;
-    gap: 1.5em;
+    flex-wrap: wrap;
+    gap: 0 1.5em;
     list-style: none;
     padding: 0;
+    grid-template-columns: repeat(auto-fit, 10rem);
+
+    @include media-breakpoint-down(md) {
+      display: grid;
+    }
 
     & > li {
       padding: 0.5em;
@@ -301,7 +307,7 @@
       position: absolute;
       aspect-ratio: 1;
       border-radius: 100%;
-      z-index: 3;
+      z-index: 5;
       margin-top: calc(-50% + -0.25em);
       margin-left: calc(-50% + -0.25em);
       box-sizing: border-box;
@@ -310,7 +316,7 @@
   }
 
   .date.weekend {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.03);
   }
 
   .date-action {
@@ -349,6 +355,8 @@
   }
 
   .occupancy-calendar-date {
+    position: relative;
+
     &:hover svg {
       opacity: 0.8;
     }
@@ -388,6 +396,23 @@
     &:focus-visible .occupancy-popover,
     &:hover .occupancy-popover {
       display: block;
+    }
+    .occupancy-count {
+      top: 0;
+      right: 0;
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.8);
+      color: black;
+      font-size: 0.4rem;
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+      height: 30%;
+      width: 30%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 0 2px;
+      z-index: 3;
+      // box-sizing: border-box;
     }
   }
 
