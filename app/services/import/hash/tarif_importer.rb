@@ -7,7 +7,7 @@ module Import
 
       use_attributes(*%w[associated_types label_i18n ordinal prefill_usage_method price_per_unit tarif_group
                          pin type unit_i18n vat_category_id valid_from valid_until mode
-                         accounting_account_nr accounting_cost_center_nr
+                         accounting_account_nr accounting_cost_center_nr label_de unit_de
                          minimum minimum_mode included_units included_units_mode])
 
       def initialize(organisation, **)
