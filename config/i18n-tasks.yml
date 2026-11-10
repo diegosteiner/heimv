@@ -122,6 +122,7 @@ ignore_unused:
   - "occupancy_calendar.*"
   - "booking_states.*"
   - "manage.rich_text_templates.index.group_*"
+  - "manage.rich_text_templates.form.template_context.*"
   - "public.bookings.new.*"
   - "public.bookings.form.committed_request_definitive_request_help"
   - "public.bookings.form.committed_request_provisional_request_help"

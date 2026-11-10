@@ -75,7 +75,7 @@ class Occupancy < ApplicationRecord
     conflict_types = CONFLICTS[assuming&.to_sym || conflict_type.to_sym]
 
     occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin)
-              .where.not(id:).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
+              .where.not(id:).where.not(begins_at: ends_at + margin).where.not(ends_at: begins_at - margin)
               .where(conflict_type: conflict_types, ignore_conflicting: [false, nil])
   end
 

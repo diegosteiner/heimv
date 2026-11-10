@@ -100,4 +100,69 @@ RSpec.describe Occupancy do
       end
     end
   end
+
+  describe 'conflict margins' do
+    subject(:conflicting) { occupancy.conflicting(margin:) }
+
+    let(:home) { create(:home) }
+    let(:organisation) { home.organisation }
+    let(:begins_at) { 1.week.from_now }
+    let(:occupancy) do
+      build(:occupancy, organisation:, occupiable: home, conflict_type: :pending, begins_at:,
+                        ends_at: begins_at + 3.days)
+    end
+
+    def create_other(begins_at:, ends_at:, ignore_conflicting: false)
+      create(:occupancy, organisation:, occupiable: home, conflict_type: :closed,
+                         begins_at:, ends_at:, ignore_conflicting:)
+    end
+
+    context 'with margin: 0' do
+      let(:margin) { 0 }
+
+      it 'includes overlapping occupancies' do
+        other = create_other(begins_at:, ends_at: begins_at + 1.day)
+        expect(conflicting).to include(other)
+      end
+
+      it 'excludes non-overlapping occupancies' do
+        other = create_other(begins_at: begins_at + 10.days, ends_at: begins_at + 11.days)
+        expect(conflicting).not_to include(other)
+      end
+
+      it 'excludes occupancies adjacent at start' do
+        other = create_other(begins_at: begins_at - 2.days, ends_at: begins_at)
+        expect(conflicting).not_to include(other)
+      end
+
+      it 'excludes occupancies adjacent at end' do
+        other = create_other(begins_at: begins_at + 3.days, ends_at: begins_at + 5.days)
+        expect(conflicting).not_to include(other)
+      end
+    end
+
+    context 'with margin: 2.days' do
+      let(:margin) { 2.days }
+
+      it 'includes overlapping occupancies' do
+        other = create_other(begins_at:, ends_at: begins_at + 1.day)
+        expect(conflicting).to include(other)
+      end
+
+      it 'excludes non-overlapping occupancies' do
+        other = create_other(begins_at: begins_at + 10.days, ends_at: begins_at + 11.days)
+        expect(conflicting).not_to include(other)
+      end
+
+      it 'includes occupancies adjacent at start (within margin)' do
+        other = create_other(begins_at: begins_at - 2.days, ends_at: begins_at)
+        expect(conflicting).to include(other)
+      end
+
+      it 'includes occupancies adjacent at end (within margin)' do
+        other = create_other(begins_at: begins_at + 3.days, ends_at: begins_at + 5.days)
+        expect(conflicting).to include(other)
+      end
+    end
+  end
 end
