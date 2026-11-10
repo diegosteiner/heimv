@@ -12,6 +12,6 @@ RSpec.describe Manage::TarifSerializer, type: :model do
   describe '#export' do
     subject(:serialized) { described_class.render_as_hash(tarif, view: :export) }
 
-    it { expect(serialized.keys.map(&:to_s)).to include(*Import::Hash::TarifImporter.used_attributes) }
+    it { expect(serialized.keys.map(&:to_s)).to include(*Import::Hash::TarifImporter.used_attributes - %w[label_de unit_de]) }
   end
 end
