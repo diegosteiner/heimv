@@ -2,6 +2,12 @@
 
 ## 26.11.1
 
+Released 19.11.2026
+
+- Fix: Update dependecies
+
+## 26.11.1
+
 Released 02.11.2026
 
 - Fix: Change order of legend and responsiveness
